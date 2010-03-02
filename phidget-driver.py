@@ -10,38 +10,104 @@ import dbus
 import dbus.service
 import dbus.glib
 
-class MyDBUSService(dbus.service.Object):
+BASE_PATH = '/org/openplacos/drivers/phidgets'
+BASE_IFACE = 'org.openplacos.drivers.phidgets'
 
-    def __init__(self):
+class PhidgetSlot(dbus.service.Object):
+
+    def __init__(self, serial, index, path):
+        
+        self.serial = serial
+        self.index = index
+        
         bus_name = dbus.service.BusName('org.openplacos.server', bus = dbus.SessionBus())
-        dbus.service.Object.__init__(self, bus_name, '/org/openplacos/server/phidgets')
+        dbus.service.Object.__init__(self, bus_name, '%s/%s' %(BASE_PATH, path) )
 
-    @dbus.service.method('org.openplacos.server.phidgets.hello', 's')
-    def hello(self, sender):
-        """
-            Test du service avec un Hello World!
-        """
-        return "Hello World, %s !" % sender
 
-    @dbus.service.method('org.openplacos.server.phidgets.digital.read', 'ii')
-    def digital_read(self, index, serial=None):
+class PhidgetDigitalOutput(PhidgetSlot):
+    """
+        Cette classe représente une sortie digitale d'une carte phidget
+    """
+    
+    def __init__(self, serial, index):
+        PhidgetSlot.__init__(self, serial, index, '%s/outputs/digital/%s' % (serial, index) )
+
+    
+    @dbus.service.method('%s.output.digital' % BASE_IFACE )
+    def read(self):
         """
             Lecture d'un entrée digitale 
         """
         return True
 
-    @dbus.service.method('org.openplacos.server.phidgets.digital.write', 'iii')
-    def digital_write(self, index, value, serial=None):
+    @dbus.service.method('%s.output.digital' % BASE_IFACE, 'i')
+    def write(self, value):
         """
             Ecriture d'une sortie digitale
         """
         return True
 
 
+
+class PhidgetDigitalInput(PhidgetSlot):
+    """
+        Cette classe représente une entrée digitale d'une carte phidget
+    """
+    
+    def __init__(self, serial, index):
+        PhidgetSlot.__init__(self, serial, index, '%s/inputs/digital/%s' % (serial, index) )
+
+    
+    @dbus.service.method('%s.input.digital' % BASE_IFACE )
+    def read(self):
+        """
+            Lecture d'une entrée digitale 
+        """
+        return True
+
+    @dbus.service.method('%s.input.digital' % BASE_IFACE, 'i')
+    def write(self, value):
+        """
+            Ecriture d'une entrée digitale ??
+        """
+        return False
+
+
+class PhidgetAnalogInput(PhidgetSlot):
+    """
+        Cette classe représente une entrée analogique d'une carte phidget
+    """
+
+    def __init__(self, serial, index):
+        PhidgetSlot.__init__(self, serial, index, '%s/inputs/analog/%s' % (serial, index) )
+
+
+    @dbus.service.method('%s.input.analog' % BASE_IFACE)
+    def read(self):
+        """
+            Lecture d'une entrée analogique 
+        """
+        return True
+
+    @dbus.service.method('%s.input.analog' % BASE_IFACE, 'i')
+    def write(self, value):
+        """
+            Ecriture d'une entrée analogique ??
+        """
+        return False
+
+
 ## En live..
 if __name__ == "__main__":
 
-    obj = MyDBUSService()
+    slots = []
+    for i in range(0,8):
+        slots.append(PhidgetDigitalOutput(123456, i))
+    for i in range(0,8):
+        slots.append(PhidgetDigitalInput(123456, i))
+    for i in range(0,8):
+        slots.append(PhidgetAnalogInput(123456, i))
+        
     loop = gobject.MainLoop()
     print 'Listening'
     loop.run()
