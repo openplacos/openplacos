@@ -97,13 +97,13 @@ class PhidgetsDBUSDriver(dbus.service.Object):
         if attached.getDeviceType() == "PhidgetInterfaceKit" :
             for i in range(0, attached.getOutputCount() ):
                 print "Output %s " % i
-                self.slots.append(PhidgetDigitalOutput(attached.getSerialNum(), i ))
+                self.slots.append(PhidgetDigitalOutput(attached, i ))
             for i in range(0, attached.getInputCount() ):
                 print "Input %s " % i
-                self.slots.append(PhidgetDigitalInput(attached.getSerialNum(), i ))
+                self.slots.append(PhidgetDigitalInput(attached, i ))
             for i in range(0, attached.getSensorCount() ):
                 print "Sensor %s " % i
-                self.slots.append(PhidgetAnalogInput(attached.getSerialNum(), i ))
+                self.slots.append(PhidgetAnalogInput(attached, i ))
     
     def phidget_detach_handler(self, e): 
         """ Handler de phidget détaché """
@@ -113,62 +113,71 @@ class PhidgetsDBUSDriver(dbus.service.Object):
 
 
 
-class PhidgetSlot(dbus.service.Object):
-
-    def __init__(self, serial, index, path):
-        
-        self.serial = serial
-        self.index = index
-        
-        bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
-        dbus.service.Object.__init__(self, bus_name, '%s/%s' %(CONF_BASE_PATH, path) )
-
-
-class PhidgetDigitalOutput(PhidgetSlot):
+class PhidgetDigitalOutput(dbus.service.Object):
     """
         Cette classe représente une sortie digitale d'une carte phidget
     """
-    def __init__(self, serial, index):
-        PhidgetSlot.__init__(self, serial, index, '%s/outputs/digital/%s' % (serial, index) )
+    def __init__(self, interface, index):
+        
+        self.interface = interface
+        self.index = index
+        
+        bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
+        path = '/org/openplacos/drivers/phidget/%s/digital/output/%s' % (self.interface.getSerialNum(), index)
+        dbus.service.Object.__init__(self, bus_name, path)
 
-    @dbus.service.method('%s.output.digital' % CONF_BASE_IFACE )
+    @dbus.service.method('org.openplacos.drivers.digital.output')
     def read(self):
         return True
 
-    @dbus.service.method('%s.output.digital' % CONF_BASE_IFACE, 'i')
+    @dbus.service.method('org.openplacos.drivers.digital.output', 'i')
     def write(self, value):
         return True
 
 
 
-class PhidgetDigitalInput(PhidgetSlot):
+class PhidgetDigitalInput(dbus.service.Object):
     """
         Cette classe représente une entrée digitale d'une carte phidget
     """
-    def __init__(self, serial, index):
-        PhidgetSlot.__init__(self, serial, index, '%s/inputs/digital/%s' % (serial, index) )
 
-    @dbus.service.method('%s.input.digital' % CONF_BASE_IFACE )
+    def __init__(self, interface, index):
+        
+        self.interface = interface
+        self.index = index
+        
+        bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
+        path = '/org/openplacos/drivers/phidget/%s/digital/input/%s' % (self.interface.getSerialNum(), index)
+        dbus.service.Object.__init__(self, bus_name, path)
+
+
+    @dbus.service.method('org.openplacos.drivers.digital.input' )
     def read(self):
         return True
 
-    @dbus.service.method('%s.input.digital' % CONF_BASE_IFACE, 'i')
+    @dbus.service.method('org.openplacos.drivers.digital.input', 'i')
     def write(self, value):
         return False
 
 
-class PhidgetAnalogInput(PhidgetSlot):
+class PhidgetAnalogInput(dbus.service.Object):
     """
         Cette classe représente une entrée analogique d'une carte phidget
     """
-    def __init__(self, serial, index):
-        PhidgetSlot.__init__(self, serial, index, '%s/inputs/analog/%s' % (serial, index) )
+    def __init__(self, interface, index):
+        
+        self.interface = interface
+        self.index = index
+        
+        bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
+        path = '/org/openplacos/drivers/phidget/%s/analog/input/%s' % (self.interface.getSerialNum(), index)
+        dbus.service.Object.__init__(self, bus_name, path)
 
-    @dbus.service.method('%s.input.analog' % CONF_BASE_IFACE)
+    @dbus.service.method('org.openplacos.drivers.analog.input')
     def read(self):
         return True
 
-    @dbus.service.method('%s.input.analog' % CONF_BASE_IFACE, 'i')
+    @dbus.service.method('org.openplacos.drivers.analog.input', 'i')
     def write(self, value):
         return False
 
