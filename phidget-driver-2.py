@@ -47,24 +47,44 @@ class PhidgetsDBUSDriver(dbus.service.Object):
         self.devices = []
         self.slots = []
         
+        try:
+            self.load_interfaces()
+        except:
+            logging.info("Erreur au chargement des intefaces Phidgets")
+        else:
+             logging.info("Inteface(s) Phidgets chargée(s)")
+    
+    def load_interfaces(self):
+        """
+            Charge les interfaces définies dans le fichier de conf
+        """
         # On charge la conf depuis un fichier YAML
         filename = "driver-conf.yml"
-        if not os.path.exists(filename):
-            raise NameError, "La config %s n'existe pas !" % filename
-        f = open(filename, 'r')
-        config = yaml.load(f.read())
-        f.close()
+        try:
+            f = open(filename, 'r')
+            config = yaml.load(f.read())
+            f.close()
+        except:
+            logging.debug("Erreur de lecture de la conf %s" % filename)
+            raise NameError, "Load Config"
+        
         for obj in config :
             # on instancie le type définit dans le yaml
-            exec ("device = %s()" % (obj['type']) )
-            device.enableLogging(PhidgetLogLevel.PHIDGET_LOG_VERBOSE, self.logfile)
-            device.setOnAttachHandler(self.phidget_attach_handler)
-            device.setOnDetachHandler(self.phidget_detach_handler)
-            device.openPhidget( obj['serial'])
+            try:
+                exec ("device = %s()" % (obj['type']) )
+                device.enableLogging(PhidgetLogLevel.PHIDGET_LOG_VERBOSE, self.logfile)
+                device.setOnAttachHandler(self.phidget_attach_handler)
+                device.setOnDetachHandler(self.phidget_detach_handler)
+                device.openPhidget( obj['serial'])
+            except:
+                logging.debug("Erreur de création de l'interface %s" % obj['type'])
+                raise NameError, "Create Config"
+                
             # TODO : enlever les refs a waitForAttach()
-            device.waitForAttach(2000)
+            #device.waitForAttach(2000)
         self.devices.append(device)
-
+        return True
+    
     
     def close(self):
         """
@@ -76,13 +96,16 @@ class PhidgetsDBUSDriver(dbus.service.Object):
                 try:
                     phidget.closePhidget()
                 except PhidgetException as e:
-                    print("Phidget Exception %i: %s" % (e.code, e.details))
+                    logging.debug ("Phidget Exception %i: %s" % (e.code, e.details))
                     print("Exiting....")
                     exit(1)
 
     ##
     ## Méthodes DBUS
     ##
+    @dbus.service.signal(dbus_interface='org.openplacos.drivers.phidgets')
+    def InputChange(self, slot):
+        print "Changement sur %s" % (slot.index)
 
         
     ##
@@ -104,6 +127,8 @@ class PhidgetsDBUSDriver(dbus.service.Object):
             for i in range(0, attached.getSensorCount() ):
                 print "Sensor %s " % i
                 self.slots.append(PhidgetAnalogInput(attached, i ))
+        elif attached.getDeviceType() == "PhidgetTextLCD" :
+            # TODO : définir un objet TextLCD et l'instancier
     
     def phidget_detach_handler(self, e): 
         """ Handler de phidget détaché """
@@ -126,15 +151,23 @@ class PhidgetDigitalOutput(dbus.service.Object):
         path = '/org/openplacos/drivers/phidget/%s/digital/output/%s' % (self.interface.getSerialNum(), index)
         dbus.service.Object.__init__(self, bus_name, path)
 
-    @dbus.service.method('org.openplacos.drivers.digital.output')
+    @dbus.service.method('org.openplacos.drivers')
     def read(self):
-        return True
+        try: 
+            value = self.interface.getOutputState(self.index)
+        except PhidgetException as e:
+            logging.debug("Phidget Exception %i: %s" % (e.code, e.details))
+            return False
+        return value
 
-    @dbus.service.method('org.openplacos.drivers.digital.output', 'i')
+    @dbus.service.method('org.openplacos.drivers', 'i')
     def write(self, value):
+        try: 
+            self.interface.setOutputState(self.index, value)
+        except PhidgetException as e:
+            logging.debug("Phidget Exception %i: %s" % (e.code, e.details))
+            return False
         return True
-
-
 
 class PhidgetDigitalInput(dbus.service.Object):
     """
@@ -151,11 +184,16 @@ class PhidgetDigitalInput(dbus.service.Object):
         dbus.service.Object.__init__(self, bus_name, path)
 
 
-    @dbus.service.method('org.openplacos.drivers.digital.input' )
+    @dbus.service.method('org.openplacos.drivers')
     def read(self):
-        return True
+        try: 
+            value = self.interface.getInputState(self.index)
+        except PhidgetException as e:
+            logging.debug("Phidget Exception %i: %s" % (e.code, e.details))
+            return False
+        return value
 
-    @dbus.service.method('org.openplacos.drivers.digital.input', 'i')
+    @dbus.service.method('org.openplacos.drivers', 'i')
     def write(self, value):
         return False
 
@@ -170,17 +208,34 @@ class PhidgetAnalogInput(dbus.service.Object):
         self.index = index
         
         bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
-        path = '/org/openplacos/drivers/phidget/%s/analog/input/%s' % (self.interface.getSerialNum(), index)
+        path = '/org/openplacos/drivers/phidget/%sanalog/input/%s' % (self.interface.getSerialNum(), index)
         dbus.service.Object.__init__(self, bus_name, path)
 
-    @dbus.service.method('org.openplacos.drivers.analog.input')
+    @dbus.service.method('org.openplacos.drivers')
     def read(self):
-        return True
+        try: 
+            value = self.interface.getSensorValue(self.index)
+        except PhidgetException as e:
+            logging.debug("Phidget Exception %i: %s" % (e.code, e.details))
+            return False
+        return value
 
-    @dbus.service.method('org.openplacos.drivers.analog.input', 'i')
+    @dbus.service.method('org.openplacos.drivers', 'i')
     def write(self, value):
         return False
 
+class PhidgetTextLCD(dbus.service.Object):
+    """
+        Cette classe permet d'accéder à un phidget TextLCD via DBus
+    """
+    def __init__(self, interface):
+        
+        self.interface = interface
+        
+        bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
+        path = '/org/openplacos/drivers/phidget/%s/TextLCD' % self.interface.getSerialNum()
+        dbus.service.Object.__init__(self, bus_name, path)
+    
 
 
 ## En live..
