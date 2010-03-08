@@ -1,22 +1,20 @@
-# This file is part of Openplacos.
+# 	This file is part of Openplacos.
 #
 #   Openplacos is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation, either version 3 of the License, or
 #   (at your option) any later version.
 #
-#   Foobar is distributed in the hope that it will be useful,
+#   Openplacos is distributed in the hope that it will be useful,
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License
-#   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#   along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 require 'rubygems'
 
-
-class MCP2515
 CANCTRL = "1111".to_i(2)
 CANSTAT = "1110".to_i(2)
 
@@ -40,6 +38,14 @@ TXB1CTRL = "1000000".to_i(2)
 TXB2CTRL = "1010000".to_i(2)
 RXB0CTRL = "1100000".to_i(2)
 RXB1CTRL = "1110000".to_i(2)
+
+TXB0DLC = "110101".to_i(2)
+TXB1DLC = "1000101".to_i(2)
+TXB2DLC = "1010101".to_i(2)
+RXB0DLC = "1100101".to_i(2)
+RXB1DLC = "1110101".to_i(2)
+
+class MCP2515
 
 
 

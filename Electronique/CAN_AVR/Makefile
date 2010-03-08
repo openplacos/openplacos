@@ -1,24 +1,24 @@
-# This file is part of Openplacos.
+# 	This file is part of Openplacos.
 #
 #   Openplacos is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
 #   the Free Software Foundation, either version 3 of the License, or
 #   (at your option) any later version.
 #
-#   Foobar is distributed in the hope that it will be useful,
+#   Openplacos is distributed in the hope that it will be useful,
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of
 #   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License
-#   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+#   along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
 MCU = atmega88
 FORMAT = ihex
 TARGET = main
-SRC = $(TARGET).c  ../../CAN/CAN_AVR/mcp2515.c ../../CAN/CAN_AVR/spi.c
+SRC = $(TARGET).c  mcp2515.c spi.c
 ASRC = 
 OPT = s
 
@@ -152,7 +152,7 @@ sym: $(TARGET).sym
 
 # Program the device.  
 program: $(TARGET).hex $(TARGET).eep
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM) -F 
 
 
 
