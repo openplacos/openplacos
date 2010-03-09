@@ -221,7 +221,7 @@ class PhidgetDigitalOutput(dbus.service.Object):
         self.index = index
         
         bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
-        path = '%s/phidgets/%s/digital/output/%s' % (CONF_BASE_PATH, self.interface.getSerialNum(), index)
+        path = '%s/%s/digital/output/%s' % (CONF_BASE_PATH, self.interface.getSerialNum(), index)
         dbus.service.Object.__init__(self, bus_name, path)
 
     @dbus.service.method('org.openplacos.api.digital', out_signature='b')
@@ -254,7 +254,7 @@ class PhidgetDigitalInput(dbus.service.Object):
         self.index = index
         
         bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
-        path = '%s/phidgets/%s/digital/input/%s' % (CONF_BASE_PATH, self.interface.getSerialNum(), index)
+        path = '%s/%s/digital/input/%s' % (CONF_BASE_PATH, self.interface.getSerialNum(), index)
         dbus.service.Object.__init__(self, bus_name, path)
 
 
@@ -282,7 +282,7 @@ class PhidgetAnalogInput(dbus.service.Object):
         self.index = index
         
         bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
-        path = '%s/phidgets/%s/analog/input/%s' % (CONF_BASE_PATH, self.interface.getSerialNum(), index)
+        path = '%s/%s/analog/input/%s' % (CONF_BASE_PATH, self.interface.getSerialNum(), index)
         dbus.service.Object.__init__(self, bus_name, path)
 
     #
