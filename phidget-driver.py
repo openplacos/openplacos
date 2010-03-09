@@ -153,7 +153,7 @@ class PhidgetsDBUSDriver(dbus.service.Object):
     def __InputChange(self, e):
             self.InputChange( e.device.getSerialNum(), e.index, e.value )
     
-    @dbus.service.signal(dbus_interface='org.openplacos.drivers.phidgets', signature='iii')
+    @dbus.service.signal(dbus_interface=CONF_BASE_IFACE, signature='iii')
     def InputChange(self, serial, index, value):
         logging.debug("InterfaceKit %i: Input %i: %s" % (serial, index, state))
         
@@ -162,7 +162,7 @@ class PhidgetsDBUSDriver(dbus.service.Object):
     def __OutputChange(self, e):
             self.OutputChange( e.device.getSerialNum(), e.index, e.state )
 
-    @dbus.service.signal(dbus_interface='org.openplacos.drivers.phidgets', signature='iii')
+    @dbus.service.signal(dbus_interface=CONF_BASE_IFACE, signature='iii')
     def OutputChange(self, serial, index, state):
             logging.debug("InterfaceKit %i: Output %i: %i" % (serial, index, state))
             
@@ -171,7 +171,7 @@ class PhidgetsDBUSDriver(dbus.service.Object):
     def __SensorChange(self, e):
             self.SensorChange( e.device.getSerialNum(), e.index, e.value )
                 
-    @dbus.service.signal(dbus_interface='org.openplacos.drivers.phidgets', signature='iii')
+    @dbus.service.signal(dbus_interface=CONF_BASE_IFACE, signature='iii')
     def SensorChange(self, serial, index, value):
             logging.debug("InterfaceKit %i: Sensor %i: %i" % (serial, index, value))
             
