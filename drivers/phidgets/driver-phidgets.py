@@ -219,6 +219,7 @@ class PhidgetDigitalOutput(dbus.service.Object):
         
         self.interface = interface
         self.index = index
+        self.state = None
         
         bus_name = dbus.service.BusName(CONF_BASE_IFACE, bus = dbus.SessionBus())
         path = '%s/%s/digital/output/%s' % (CONF_BASE_PATH, self.interface.getSerialNum(), index)
@@ -226,13 +227,14 @@ class PhidgetDigitalOutput(dbus.service.Object):
 
     @dbus.service.method('org.openplacos.api.digital', out_signature='b')
     def read(self):
-        try: 
-            value = self.interface.getOutputState(self.index)
-        except PhidgetException as e:
-            logging.debug("Phidget Exception %i: %s" % (e.code, e.details))
-            # TODO : Exceptions D-Bus
-            return False
-        return value
+        if not self.state:
+            try: 
+                self.state = self.interface.getOutputState(self.index)
+            except PhidgetException as e:
+                logging.debug("Phidget Exception %i: %s" % (e.code, e.details))
+                # TODO : Exceptions D-Bus
+                return False
+        return self.state
 
     @dbus.service.method('org.openplacos.api.digital', 'b')
     def write(self, value):
@@ -241,6 +243,7 @@ class PhidgetDigitalOutput(dbus.service.Object):
         except PhidgetException as e:
             logging.debug("Phidget Exception %i: %s" % (e.code, e.details))
             return False
+        self.state = value
         return True
 
 class PhidgetDigitalInput(dbus.service.Object):
