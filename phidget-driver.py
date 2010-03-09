@@ -17,6 +17,17 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+#    Un driver phidgets pour Openplacos
+#
+
+
+__version__   = "0.0.1"
+__author__    = "lsdark, lsdark73@gmail.com"
+__url__       = "http://openplacos.sourceforge.net/"
+__copyright__ = "(c) 2010 lsdark"
+__license__   = "GPL v3"
+
+
 # Generic
 import logging
 import time
@@ -34,9 +45,9 @@ from Phidgets.Phidget import PhidgetLogLevel
 from Phidgets.PhidgetException import *
 from Phidgets.Events.Events import *
 from Phidgets.Manager import *
+
 from Phidgets.Devices.InterfaceKit import *
 from Phidgets.Devices.TextLCD import *
-from Phidgets.Devices.Encoder import *
 
 # Constantes
 CONF_BASE_PATH = '/org/openplacos/drivers/phidgets'
