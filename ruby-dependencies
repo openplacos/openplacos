@@ -1,0 +1,46 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% serialport %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+--- Description
+
+Ruby/SerialPort is a Ruby library that provides a class for using 
+RS-232 serial ports. This class also contains low-level functions to 
+check and set the current state of the signals on the line.
+
+--- Installation
+
+$ gem install ruby-serialport
+
+--- Project
+
+rubyforge.org/projects/ruby-serialport/
+
+--- In files
+
+/Electronique/CAN_µCham
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% ruby-dbus %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+--- Description
+
+Ruby implementation of D-Bus. 
+
+--- Installation
+
+$ git clone git://github.com/mvidner/ruby-dbus.git
+$ ruby setup.rb config
+$ ruby setup.rb setup
+$ sudo ruby setup.rb install
+
+--- Project
+
+https://trac.luon.net/ruby-dbus/
+
+--- In files
+
+/divers/phidget-temperature/
+/divers/phidget-output/
+
+
