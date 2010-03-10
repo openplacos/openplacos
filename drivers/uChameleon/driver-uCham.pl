@@ -26,7 +26,7 @@ dbus_method("HelloWorld", ["string"], [["array", "string"]]);
 sub HelloWorld {
     my $self = shift;
     my $message = shift;
-    print "Do hello world\n";
+    print "Do hello world, dbus rox\n";
     print $message, "\n";
     return ["Hello", " from driver_uCham"];
 }
