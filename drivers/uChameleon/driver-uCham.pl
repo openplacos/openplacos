@@ -95,7 +95,10 @@ package main;
 my $bus = Net::DBus->session();
 my $service = $bus->export_service("org.openplacos.drivers.uChameleon");
 my $object = Driver_uCham->new($service);
+my @pin = ();
 
-my $pin = pin_uCham->new($service, 3);
+for (my $i = 0; $i<8 ; $i++){
+    $pin[$i] = pin_uCham->new($service, $i);
+}
 
 Net::DBus::Reactor->main->run();
