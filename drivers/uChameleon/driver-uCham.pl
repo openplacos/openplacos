@@ -23,6 +23,46 @@ use Net::DBus;
 use Net::DBus::Service;
 use Net::DBus::Reactor;
 
+package pin_uCham;
+
+use base qw(Net::DBus::Object);
+use Net::DBus::Exporter qw(org.openplacos.driver.uChamInterface);
+
+sub new {
+    my $class = shift;
+    my $service = shift;
+    my $Dbus_pin = shift;
+    my $self = $class->SUPER::new($service, "/pin_$Dbus_pin");
+    bless $self, $class;
+    
+    return $self;
+}
+
+dbus_method("Init", ["bool", "string"], ["bool"]); 
+sub Init {
+    my $self = shift;
+    my $In_out = shift; # Arg1 : is read (=0) or outputwrite (=1)
+    my $pin_type = shift; # Arg2 :"analog" "digital" "pwm"
+    
+    if ($In_out ==0){
+	dbus_method("Read", [], ["int"]); 
+    }else{
+	dbus_method("Write", ["int"], []); 	
+    }
+    
+    return ["1"];
+}
+
+sub Read {
+    my $self = shift;
+    return["2"];
+}
+
+sub Write {
+    my $self = shift;
+    my $arg =shift;
+}
+
 package Driver_uCham;
 
 use base qw(Net::DBus::Object);
@@ -55,5 +95,7 @@ package main;
 my $bus = Net::DBus->session();
 my $service = $bus->export_service("org.openplacos.drivers.uChameleon");
 my $object = Driver_uCham->new($service);
+
+my $pin = pin_uCham->new($service, 3);
 
 Net::DBus::Reactor->main->run();
