@@ -4,7 +4,7 @@
 #
 #    Openplacos is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
-#   the Free Software Foundation, either version 3 of the License, or
+#    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
 #
 #    Openplacos is distributed in the hope that it will be useful,
@@ -40,16 +40,26 @@ __PACKAGE__->mk_accessors(
 sub new {
     my $class = shift;
     my $service = shift;
-    my $Dbus_pin = shift;
+    my $pin_number = shift;
     my $card = shift;
+    my $is_analog_in = shift;
+    my $is_pwm_out = shift;
+    my $is_spi = shift; 
+    my $is_UART = shift;
+    
     my $self = $class->SUPER::new($service, "/pin_$Dbus_pin");
-    bless $self, $class;    
+    bless $self, $class; 
+    
+    my $pin_name = "pin $pin_number";
+    if ($pin_number == 0) {
+	$pin_name = "led";
+    }
 
     $self->{ref_io_pin} = 1;
-    $self->{Dbus_pin} = $Dbus_pin;
+    $self->{pin_name} = $pin_name;
+    $self->{pin_num} = $pin_number;
     $self->{card} =  $card;
- 
-    
+     
     return $self;
 }
 
@@ -57,14 +67,14 @@ dbus_method("Read", [], ["string"]);
 sub Read {
     my $self = shift;
     my $io_pin = $self->{ref_io_pin};
-    my $pin =  $self->{Dbus_pin};
+    my $pin_name =  $self->{pin_name};
     my $card = $self->{card};
 
     if ($io_pin == 1){
-	$card->send_message("pin $pin input ")  || die "Failed to set pin $pin input";
+	$card->send_message("$pin_name input ")  || die "Failed to set $pin_name input";
 	$io_pin = 0;
     }
-    return $card->send_message("pin $pin state")  || die "Failed to read on boolean pin $pin in";
+    return $card->send_message("$pin_name state")  || die "Failed to read on boolean $pin_name in";
     
 }
 
@@ -73,24 +83,25 @@ dbus_method("Read_b", [], ["bool"]);
 sub Read_b {
     my $self = shift;
     my $io_pin = $self->{ref_io_pin};
-    my $pin =  $self->{Dbus_pin};
+    my $pin_number =  $self->{pin_number};
+    my $pin_name =  $self->{pin_name};
     my $card = $self->{card};
 
     if ($io_pin == 1){ # Change to input
-	$card->send_message("pin $pin input ")  || die "Failed to set analog pin $pin input";
+	$card->send_message("$pin_name input ")  || die "Failed to set analog $pin_name input";
 	$io_pin = 0;
     }
-    return $card->send_message("adc $pin")  || die "Failed to read on pin $pin in";
+    return $card->send_message("adc $pin_number")  || die "Failed to read on $pin_name in";
     
 }
 
 
-dbus_method("Write", ["string"], []); 	
+dbus_method("Write_pwm", ["string"], []); 	
 sub Write {
     my $self = shift;
     my $arg =shift;
     my $io_pin = $self->{ref_io_pin};
-    my $pin =  $self->{Dbus_pin};
+    my $pin_name =  $self->{pin_name};
     
     if ($io_pin == 0){ # Change to output
 	$self->{card}->send_message("pin $pin output");
@@ -168,8 +179,22 @@ my @pin = ();
 
 $object->send_message("led off");
 
-for (my $i = 0; $i<8 ; $i++){
-    $pin[$i] = pin_uCham->new($service, $i, $object );
+for (my $i = 1; $i<8 ; $i++){
+    # Dbus service, pin_number, RS232 connection, is_analog_in, is_pwm_out, is_spi, is_UART
+    $pin[$i] = pin_uCham->new($service, $i, $object, 1, 0, 0, 0);
 }
+
+for (my $i = 9; $i<12 ; $i++){
+    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 1, 0, 0);
+}
+
+for (my $i = 13; $i<16 ; $i++){
+    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 0, 1, 0);
+}
+
+for (my $i = 17; $i<18 ; $i++){
+    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 0, 0, 1);
+}
+
 
 Net::DBus::Reactor->main->run();
