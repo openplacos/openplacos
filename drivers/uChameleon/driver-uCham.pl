@@ -57,11 +57,16 @@ sub new {
     }else{
 	$pin_name = "pin $pin_number";
 	$self = $class->SUPER::new($service, "/pin_$pin_number");
+
+	# Pin input by default
+	$card->send_message("$pin_name input ")  || die "Failed to set analog $pin_name input";
     }
 
     bless $self, $class; 
-    
+
+
     $self->{ref_io_pin} = 0;
+
     $self->{pin_name} = $pin_name;
     $self->{pin_number} = $pin_number;
     $self->{card} =  $card;
