@@ -181,7 +181,7 @@ sub Write_b {
     return $card->send_message("$pin_name $pwm_arg")  || die "Failed to set $pwm_arg $pin_name output";
 }
 
-dbus_method("Write_pwm", ["bool"], []); 	
+dbus_method("Write_pwm", ["string"], []); 	
 sub Write_pwm {
     my $self = shift;
     my $arg =shift;
