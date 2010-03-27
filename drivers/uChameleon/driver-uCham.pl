@@ -61,7 +61,7 @@ sub new {
 
     bless $self, $class; 
     
-    $self->{ref_io_pin} = 1;
+    $self->{ref_io_pin} = 0;
     $self->{pin_name} = $pin_name;
     $self->{pin_number} = $pin_number;
     $self->{card} =  $card;
@@ -111,7 +111,7 @@ sub Read_b {
     my $self = shift;
     my $io_pin = $self->{ref_io_pin};
     my $pin_name =  $self->{pin_name};
-    my $pin_number =  $self->{pin_num};
+    my $pin_number =  $self->{pin_number};
     my $card = $self->{card};
 
     # Led cannot read
@@ -132,7 +132,7 @@ sub Read_b {
     }
 
     # Read access
-    return $card->send_message("adc $pin_number")  || die "Failed to read on $pin_name in";
+    return $card->send_message("pin $pin_number state")  || die "Failed to read on $pin_name in";
 }
 
 dbus_method("Write_b", ["bool"], []); 	
@@ -149,15 +149,15 @@ sub Write_b {
     if ($arg){
 	if ($pin_number == 0){
 	    $pwm_arg = "on"; 
-	    }else{
-		$pwm_arg = "high"; 
-	    }
+	}else{
+	    $pwm_arg = "high"; 
+	}
     }else{
 	if ($pin_number == 0){
 	    $pwm_arg = "off"; 
 	}else{
 	    $pwm_arg = "low"; 
-	    }
+	}
     }
 
     # Change pin IO to output
