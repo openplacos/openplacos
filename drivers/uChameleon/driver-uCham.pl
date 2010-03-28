@@ -80,7 +80,7 @@ sub new {
     return $self;
 }
 
-dbus_method("Read", [], ["string"]);
+dbus_method("Read_analog", [], ["string"]);
 sub Read_analog {
     my $self = shift;
     my $io_pin = $self->{ref_io_pin};
@@ -105,9 +105,19 @@ sub Read_analog {
 	$self->{is_pwm_init} = 0;
     }
 
-    # Read access
-    return $card->send_message("$pin_name state")  || die "Failed to read on boolean $pin_name in";
-    
+    # Command read access
+    $card->send_message("adc $pin_number")  || die "Failed to read on analog $pin_name";
+
+    # Get access
+    my $result = $card->read_message(255);
+
+    # Processing result
+    if ( $result =~ m/adc $pin_number\s*(\d+)/){
+	$result = $1;
+	$result = (5 * $result)/255 
+    }
+
+   return $result;
 }
 
 
@@ -136,8 +146,18 @@ sub Read_b {
 	$self->{is_pwm_init} = 0;
     }
 
-    # Read access
-    return $card->send_message("pin $pin_number state")  || die "Failed to read on $pin_name in";
+    # Command read access
+    $card->send_message("pin $pin_number state")  || die "Failed to read on $pin_name in";
+ 
+    # Get access
+    my $result = $card->read_message(255);
+
+   # Processing result
+    if ( $result =~ m/$pin_name\s*(\d)/){
+	$result = $1;
+    }
+
+    return $result;
 }
 
 dbus_method("Write_b", ["bool"], []); 	
@@ -252,7 +272,8 @@ sub new {
 
     $ob->error_msg(1);		# use built-in error messages
     $ob->user_msg(1);
-
+    $ob->read_char_time(0);     # don't wait for each character
+    $ob->read_const_time(100);  # 100 milliseconds per unfulfilled "read" call
 
     my $self =  $class->SUPER::new($service, "/Driver_uCham");
     $self->{rs232_file} =  $file;
@@ -272,6 +293,14 @@ sub send_message {
    return  $ob->write("$message\n");
 } 
 
+sub read_message {
+    my $self = shift;
+    my $length = shift;
+
+    my $ob =  $self->{Serialport};
+
+   return  $ob->read($length);
+} 
 
 
 
@@ -292,19 +321,19 @@ $pin[0]=pin_uCham->new($service, 0, $object, 0, 0, 0, 0);
 
 for (my $i = 1; $i<=8 ; $i++){
     # Dbus service, pin_number, RS232 connection, is_analog_in, is_pwm_out, is_spi, is_UART
-    $pin[$i] = pin_uCham->new($service, $i, $object, 1, 0, 0, 0);
+    $pin[$i] = pin_uCham->new($service, $i, $object, 1, 0, 0, 0); # analog
 }
 
 for (my $i = 9; $i<=12 ; $i++){
-    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 1, 0, 0);
+    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 1, 0, 0); # pwm
 }
 
 for (my $i = 13; $i<=16 ; $i++){
-    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 0, 1, 0);
+    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 0, 1, 0); # spi
 }
 
 for (my $i = 17; $i<=18 ; $i++){
-    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 0, 0, 1);
+    $pin[$i] = pin_uCham->new($service, $i, $object, 0, 0, 0, 1); # UART
 }
 
 
