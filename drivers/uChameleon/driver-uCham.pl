@@ -59,7 +59,7 @@ sub new {
 	$self = $class->SUPER::new($service, "/pin_$pin_number");
 
 	# Pin input by default
-	$card->send_message("$pin_name input ")  || die "Failed to set analog $pin_name input";
+	$card->send_message("$pin_name input")  || die "Failed to set analog $pin_name input";
     }
 
     bless $self, $class; 
@@ -101,7 +101,7 @@ sub Read_analog {
 
     # Turn off PWM
     if ($self->{is_pwm_init} == 1 && $self->{is_pwm_out} == 1){
-        $card->send_message("pwn $pin_number off")           || die "Failed to set PWM OFF on $pin_name";
+        $card->send_message("pwm $pin_number off")           || die "Failed to set PWM OFF on $pin_name";
 	$self->{is_pwm_init} = 0;
     }
 
@@ -142,7 +142,7 @@ sub Read_b {
 
     # Turn off PWM
     if ($self->{is_pwm_init} == 1 && $self->{is_pwm_out} == 1){
-        $card->send_message("pwn $pin_number off")           || die "Failed to set PWM OFF on $pin_name";
+        $card->send_message("pwm $pin_number off")           || die "Failed to set PWM OFF on $pin_name";
 	$self->{is_pwm_init} = 0;
     }
 
@@ -170,18 +170,18 @@ sub Write_b {
     my $card = $self->{card};
 
     # Convert to an affordable value
-    my $pwm_arg;
+    my $bool_arg;
     if ($arg){
 	if ($pin_number == 0){
-	    $pwm_arg = "on"; 
+	    $bool_arg = "on"; 
 	}else{
-	    $pwm_arg = "high"; 
+	    $bool_arg = "high"; 
 	}
     }else{
 	if ($pin_number == 0){
-	    $pwm_arg = "off"; 
+	    $bool_arg = "off"; 
 	}else{
-	    $pwm_arg = "low"; 
+	    $bool_arg = "low"; 
 	}
     }
 
@@ -193,12 +193,12 @@ sub Write_b {
 
     # Turn off PWM
     if ($self->{is_pwm_init} == 1 && $self->{is_pwm_out} == 1){
-        $card->send_message("pwn $pin_number off")           || die "Failed to set PWM OFF on $pin_name";
+        $card->send_message("pwm $pin_number off")           || die "Failed to set PWM OFF on $pin_name";
 	$self->{is_pwm_init} = 0;
     }
     
     # Write access
-    return $card->send_message("$pin_name $pwm_arg")  || die "Failed to set $pwm_arg $pin_name output";
+    return $card->send_message("$pin_name $bool_arg")  || die "Failed to set $bool_arg $pin_name output";
 }
 
 dbus_method("Write_pwm", ["string"], []); 	
@@ -211,11 +211,8 @@ sub Write_pwm {
     my $is_pwm_init =  $self->{is_pwm_init};
     my $card = $self->{card};
 
-    # This is a wild world
-    my $int_arg = int($arg || 0);
-
     # Convert to an affordable value
-    my $pwm_arg = int( (1000/5) * $int_arg); 
+    my $pwm_arg =  (1000/5) * $arg; 
 
     # Not an analogic output
     if ($self->{is_pwm_out} != 1){
@@ -230,14 +227,14 @@ sub Write_pwm {
 
     # Init PWM
     if ($is_pwm_init == 0){
-	$card->send_message("pwn $pin_number period 1000")  || die "Failed to set PWM frequency on $pin_name";
-	$card->send_message("pwn $pin_number polarity 0")   || die "Failed to set PWM polarity on $pin_name";
-        $card->send_message("pwn $pin_number on")           || die "Failed to set PWM ON on $pin_name";
+	$card->send_message("pwm $pin_number period 1000")  || die "Failed to set PWM frequency on $pin_name";
+	$card->send_message("pwm $pin_number polarity 0")   || die "Failed to set PWM polarity on $pin_name";
+        $card->send_message("pwm $pin_number on")           || die "Failed to set PWM ON on $pin_name";
 	$self->{is_pwm_init} = 1;
     }
     
     # Write access
-    return $card->send_message("pwm $pin_number $pwm_arg")  || die "Failed to set $pwm_arg PWM on $pin_name";
+    return $card->send_message("pwm $pin_number width $pwm_arg")  || die "Failed to set $pwm_arg PWM on $pin_name";
 }
 
 
