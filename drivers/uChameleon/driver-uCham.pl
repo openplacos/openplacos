@@ -96,7 +96,7 @@ sub Read_analog {
     # Change pin IO to input
     if ($io_pin == 1){
 	$card->send_message("$pin_name input ")  || die "Failed to set $pin_name input";
-	$io_pin = 0;
+	 $self->{ref_io_pin} = 0;
     }
 
     # Turn off PWM
@@ -137,7 +137,7 @@ sub Read_b {
     # Change pin IO to input   
     if ($io_pin == 1){ 
 	$card->send_message("$pin_name input ")  || die "Failed to set analog $pin_name input";
-	$io_pin = 0;
+	$self->{ref_io_pin} = 0;
     }
 
     # Turn off PWM
@@ -188,7 +188,7 @@ sub Write_b {
     # Change pin IO to output
     if ($io_pin == 0){ 
 	$self->{card}->send_message("$pin_name output");
-	$io_pin = 1;
+	$self->{ref_io_pin} = 1;
     }
 
     # Turn off PWM
@@ -225,7 +225,7 @@ sub Write_pwm {
     # Change pin IO to output
     if ($io_pin == 0){ 
 	$self->{card}->send_message("$pin_name output");
-	$io_pin = 1;
+	$self->{ref_io_pin} = 1;
     }
 
     # Init PWM
@@ -233,7 +233,7 @@ sub Write_pwm {
 	$card->send_message("pwn $pin_number period 1000")  || die "Failed to set PWM frequency on $pin_name";
 	$card->send_message("pwn $pin_number polarity 0")   || die "Failed to set PWM polarity on $pin_name";
         $card->send_message("pwn $pin_number on")           || die "Failed to set PWM ON on $pin_name";
-	$is_pwm_init = 1;
+	$self->{is_pwm_init} = 1;
     }
     
     # Write access
