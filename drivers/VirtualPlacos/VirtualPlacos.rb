@@ -19,8 +19,6 @@
 #	 Virtual placos for tests
 
 require 'dbus'
-require 'Qt4'
-
 
 class Virtualplacos < DBus::Object
 
