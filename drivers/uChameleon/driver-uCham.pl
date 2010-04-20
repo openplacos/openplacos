@@ -114,7 +114,7 @@ sub Read_analog {
     # Processing result
     if ( $result =~ m/adc $pin_number\s*(\d+)/){
 	$result = $1;
-	$result = (5 * $result)/255 
+	$result = ($result)/255 
     }
 
    return $result;

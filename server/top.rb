@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 #    This file is part of Openplacos.
 #
@@ -17,4 +17,83 @@
 #
 # top : lauch driver and configure ressources
 
-require 
+
+
+require 'dbus'
+
+# Ressource object
+# une ressource est un capteur ou un effecteur
+
+class Ressource 
+
+	def initialize(driver,object,interface,method)
+		bus = DBus::SessionBus.instance
+		@driver = bus.service(driver)
+		@object = @driver.object(object)
+		@object.introspect
+		@interface = @object[interface]
+		@method = @interface.method(method)
+		
+	end
+	
+
+end
+
+
+class Effecteur < Ressource
+
+	def on
+		@method.call(true)
+		@value = true
+	end
+	
+	def off
+		@method.call(false)
+		@value = false
+	end
+	
+	def getValue
+		[@value]
+	end
+	
+end
+
+class Capteur < Ressource
+	
+	def getValue
+		@value = @method.call
+		[@value]
+	end
+
+end
+
+
+
+#Configuration 
+#On par du principe que l'utilisateur a l'etape de configuration fourni ces informations
+
+DRIVER = "org.openplacos.drivers.uChameleon"
+OBJECT = "/pin_14"
+INTERFACE = "org.openplacos.driver.uChamInterface"
+METHODE = "Write_b"
+
+# on creer ensuite une objet Ressource completement générique avec des méthodes la aussi génériques 
+# on a donc une ressoure auquelle on peut acceder avec une abstraction complete vis a vis du matos
+# a priori cette ressource est publique et les methodes sont accessibles par d'autre truc générique style régulation
+# les methodes générique sont a définir
+# il faudra surement definir deux objet , mesure et effecteur qui erritent de ressoure car certaines methodes sont spécifique au capteurs et d'autres aux mesures
+
+
+#bon la c plus générique vue que c pour l'exemple
+
+led = Effecteur.new(DRIVER,OBJECT,INTERFACE,METHODE)
+capteur = Capteur.new(DRIVER,"/pin_2",INTERFACE,"Read_analog")
+
+loop do 
+	temperature = (capteur.getValue[0][0].to_f)*4.58
+	puts "La temprérature est de " + ((temperature-2.73)*100).to_s[0..3] + "°C"
+	led.on
+	sleep(10)
+	led.off
+	sleep(10)
+end
