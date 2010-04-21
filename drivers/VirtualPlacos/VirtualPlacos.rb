@@ -19,6 +19,10 @@
 #	 Virtual placos for tests
 
 require 'dbus'
+require 'thread'
+
+Thread.abort_on_exception = true
+
 
 class Virtualplacos < DBus::Object
 
@@ -131,9 +135,6 @@ class DriverVirtualPlacos < DBus::Object
 	end 
 
 end
-
-
-
 
 $placos = Virtualplacos.new(22,40,100,20)
 
