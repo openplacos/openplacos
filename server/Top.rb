@@ -34,4 +34,3 @@ INTERFACE = "org.openplacos.driver.uChamInterface"
 
 
 driver = Driver_object.new "uCham", DRIVER, OBJECT, INTERFACE
- 
