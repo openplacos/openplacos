@@ -42,12 +42,12 @@ class Regulation #simple regulation
 				valeur_capteur = $capteurs[@capteur_index].getValue
 				etat_effecteur = $effecteurs[@effecteur_index].getValue
 				
-				if ((valeur_capteur >= (@seuil + @hysteresis/2)) and (etat_effecteur==false)) # si le seuil est dépassé par le haut et que l'effecteur n'est pas allumé
+				if ((valeur_capteur!=nil) and (valeur_capteur >= (@seuil + @hysteresis/2)) and (etat_effecteur==false)) # si le seuil est dépassé par le haut et que l'effecteur n'est pas allumé
 					$effecteurs[@effecteur_index].on
 					puts "Allume l'effecteur n°" + @effecteur_index.to_s
 				end
 				
-				if ((valeur_capteur <= (@seuil - @hysteresis/2)) and (etat_effecteur==true)) # si le seuil est dépassé par le bas et que l'effecteur est allumé
+				if ((valeur_capteur!=nil) and (valeur_capteur <= (@seuil - @hysteresis/2)) and (etat_effecteur==true)) # si le seuil est dépassé par le bas et que l'effecteur est allumé
 					$effecteurs[@effecteur_index].off
 					puts "Etteind l'effecteur n°" + @effecteur_index.to_s
 				end

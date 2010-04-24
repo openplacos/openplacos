@@ -66,8 +66,19 @@ end
 
 class Capteur < Ressource
 	
+	def initialize(driver,object,interface,method,ttl)
+		super(driver,object,interface,method)
+		@ttl = ttl
+		@last_mesure = Time.new.to_f
+	end
+	
 	def getValue
-		@value = (@method.call)[0]
+		
+		if (Time.new.to_f - @last_mesure) > @ttl
+			@last_mesure = Time.new.to_f
+			@value = (@method.call)[0]
+		end
+		
 		return @value
 	end
 
@@ -87,7 +98,7 @@ $capteurs = Array.new
 doc.root.elements['List_of_capteur'].each_element{ |capteur|
 	
 	ressource = doc.root.elements['List_of_ressources'].elements["Ressource[@name='" + capteur.elements['ressource'].text + "']"]
-	$capteurs[$capteurs.length] = Capteur.new(ressource.elements['driver'].text,ressource.elements['object'].text,ressource.elements['interface'].text,ressource.elements['method'].text)
+	$capteurs[$capteurs.length] = Capteur.new(ressource.elements['driver'].text,ressource.elements['object'].text,ressource.elements['interface'].text,ressource.elements['method'].text,capteur.elements['TTL'].text.to_f)
 }
 
 #creation des objet effecteurs
