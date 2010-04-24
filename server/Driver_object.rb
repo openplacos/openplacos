@@ -60,11 +60,12 @@ class Driver_object
       doc.root.each_element('//method name'){|interface|
 
       # Identify services by pattern matching
-        y =  interface.attributes
-
-        # /!\                         This is dirty                     /!\ 
-        # /!\ After parsing introspect, services name begin by "name".../!\ 
-        service_name =  y.to_s.gsub(/^name/, "") # remove "name"
+      #  y =  interface.attributes
+      
+      # patch : get the value of attributes 'name' 
+        y =  interface.attributes['name']
+        
+        service_name =  y.to_s
         puts service_name
         if service_name.match(/Write_b/)
           @pins[pin].add_service("write_boolean",  service_name)
