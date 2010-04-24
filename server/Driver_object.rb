@@ -38,19 +38,21 @@ class Driver_object
   #1 
   #2 To find driver on dbus
   #3 To know if it is a card or a sensor
-  def initialize(name_, path_dbus_, driver_type_) # Constructor
+  def initialize(name_, path_dbus_, object_list_, interface_) # Constructor
 
     # Class variables
     @name = name_
     @path_dbus = path_dbus_
-    @driver_type = driver_type_
+    @object_list = object_list_
+    @interface = interface_
+    
 
     # Open a Dbus socket
-    @driver = Bus.service(DRIVER)
+    @driver = Bus.service(@path_dbus)
     
     # Recognize standards objects
     @pins = Hash.new
-    OBJECT.each do |pin|
+    @object_list.each do |pin|
 #      puts pin.methods
       pin_obj = Pin_object.new(pin, @driver.object(pin))
       @pins[pin]=pin_obj
@@ -58,15 +60,12 @@ class Driver_object
       # Introspect
       doc = Document.new( @driver.object(pin).introspect)
       doc.root.each_element('//method name'){|interface|
-
-      # Identify services by pattern matching
-      #  y =  interface.attributes
-      
-      # patch : get the value of attributes 'name' 
+        
+        # Identify services by pattern matching
+        # Get the value of attributes 'name' 
         y =  interface.attributes['name']
         
         service_name =  y.to_s
-        puts service_name
         if service_name.match(/Write_b/)
           @pins[pin].add_service("write_boolean",  service_name)
         end
@@ -87,16 +86,6 @@ class Driver_object
     end
   end
 end
-
-#Configuration 
-
-DRIVER = "org.openplacos.drivers.uChameleon"
-OBJECT = ["/pin_1", "/pin_2","/pin_3", "/pin_4", "/pin_5", "/pin_6",  "/pin_7", "/pin_8", "/pin_9", "/pin_10",  "/pin_11", "/pin_12", "/pin_13", "/pin_14", "/pin_15", "/pin_16", "/pin_17"]
-INTERFACE = "org.openplacos.driver.uChamInterface"
-#METHODE = "Write_b"
-
-
-driver = Driver_object.new "truc", "bidule", "chouette"
 
 
 

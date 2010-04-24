@@ -18,19 +18,20 @@
 
 
 # List of local include
-require Driver_object.rb
+require 'Driver_object.rb'
 
 
 # List of library include
 
 
-# User config
-Config = {
-  "uCham" => "/org/openplacos/drivers/uChameleon"
- }
 
-# Init driver
+#Configuration 
+
+DRIVER = "org.openplacos.drivers.uChameleon"
+OBJECT = ["/pin_1", "/pin_2","/pin_3", "/pin_4", "/pin_5", "/pin_6",  "/pin_7", "/pin_8", "/pin_9", "/pin_10",  "/pin_11", "/pin_12", "/pin_13", "/pin_14", "/pin_15", "/pin_16", "/pin_17"]
+INTERFACE = "org.openplacos.driver.uChamInterface"
+#METHODE = "Write_b"
 
 
-# 
-
+driver = Driver_object.new "uCham", DRIVER, OBJECT, INTERFACE
+ 
