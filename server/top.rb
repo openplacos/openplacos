@@ -18,8 +18,10 @@
 # top : lauch driver and configure ressources
 
 
-
+require 'rubygems'
+require 'gnuplot'
 require 'dbus'
+require 'rexml/document'
 # Ressource object
 # une ressource est un capteur ou un effecteur
 
@@ -98,7 +100,7 @@ end
 #end
 
 
-require 'rexml/document'
+
 include REXML
 doc = Document.new(File.new("config.xml"))
 
@@ -119,8 +121,6 @@ doc.root.elements['List_of_effecteur'].each_element{ |capteur|
 	ressource = doc.root.elements['List_of_ressources'].elements["Ressource[@name='" + capteur.elements['ressource'].text + "']"]
 	$effecteurs[$effecteurs.length] = Effecteur.new(ressource.elements['driver'].text,ressource.elements['object'].text,ressource.elements['interface'].text,ressource.elements['method'].text)
 }
-
-
 
 
 #truc plus générique
@@ -144,9 +144,8 @@ $effecteurs[1].on
 sleep(60)
 $effecteurs[0].on
 sleep(60)
-
-require 'rubygems'
-require 'gnuplot'
+$effecteurs[1].off
+$effecteurs[0].off
 
 Gnuplot.open do |gp|
   Gnuplot::Plot.new( gp ) do |plot|
@@ -165,6 +164,5 @@ Gnuplot.open do |gp|
   end
 end
 
-$effecteurs[1].off
-$effecteurs[0].off
+
 
