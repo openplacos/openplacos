@@ -21,11 +21,15 @@ Bus = DBus::SessionBus.instance
 
 
 class Pin_object
-  def initialize(id_, pin_obj)
+  def initialize(id_, pin_obj_)
     
     # Class variables
     @id = id_
-    @generical_services = Array.new()
+    @generical_services = Hash.new()
+    @proxy = pin_obj_
+  end
+  def add_service(key_, value_)
+    @generical_services.store(key_, value_)
   end
 end
 
@@ -45,13 +49,14 @@ class Driver_object
     @driver = Bus.service(DRIVER)
     
     # Recognize standards objects
-    @pins = Array.new
+    @pins = Hash.new
     OBJECT.each do |pin|
-      puts pin.methods
+#      puts pin.methods
       pin_obj = Pin_object.new(pin, @driver.object(pin))
+      @pins[pin]=pin_obj
 
       # Introspect
-      doc = Document.new(pin_obj.introspect)
+      doc = Document.new( @driver.object(pin).introspect)
       doc.root.each_element('//method name'){|interface|
 
       # Identify services by pattern matching
@@ -62,19 +67,19 @@ class Driver_object
         service_name =  y.to_s.gsub(/^name/, "") # remove "name"
         puts service_name
         if service_name.match(/Write_b/)
-          @pins[pin].generical_services['write_boolean'] = service_name
+          @pins[pin].add_service("write_boolean",  service_name)
         end
         
         if  service_name.match(/read_b/)
-          @pins[pin].generical_services['read_boolean'] =  service_name
+          @pins[pin].add_service("read_boolean",  service_name)
         end
         
         if  service_name.match(/Read_analog/)
-          @pins[pin].generical_services['read_analog'] =  service_name
+          @pins[pin].add_service("read_analog",  service_name)
         end
         
         if  service_name.match(/Write_pwm/)
-          @pins[pin].generical_services['write_pwm'] =  service_name
+          @pins[pin].add_service("write_pwm",  service_name)
         end
         }
       
