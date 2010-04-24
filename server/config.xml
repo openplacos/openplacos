@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<config>
+	<List_of_capteur>
+		
+		<capteur name="Temperature_Interieure">
+				<ressource>temperature_Interieure</ressource>
+				<TTL>0.1</TTL>
+		</capteur>
+		
+		<capteur name="Temperature_Exterieure">
+				<ressource>temperature_Exterieure</ressource>
+				<TTL>0.1</TTL>
+		</capteur>
+
+	</List_of_capteur>
+	
+	<List_of_effecteur>
+		
+		<effecteur name="Ventillation">
+				<ressource>Ventillation</ressource>
+		</effecteur>
+		
+		<effecteur name="Eclairage">
+				<ressource>Eclairage</ressource>
+		</effecteur>
+
+	</List_of_effecteur>
+
+	<List_of_ressources>
+		<Ressource name="temperature_Interieure">
+
+			<driver>org.openplacos.drivers.DriverVirtualPlacos</driver>
+			<object>/VirtualPlacos</object>
+			<interface>org.openplacos.drivers.DriverVirtualPlacos.InTemperature</interface>		
+			<method>Read</method>
+		
+		</Ressource>
+		
+		<Ressource name="temperature_Exterieure">
+
+			<driver>org.openplacos.drivers.DriverVirtualPlacos</driver>
+			<object>/VirtualPlacos</object>
+			<interface>org.openplacos.drivers.DriverVirtualPlacos.OutTemperature</interface>		
+			<method>Read</method>
+		
+		</Ressource>
+
+		<Ressource name="Eclairage">
+
+			<driver>org.openplacos.drivers.DriverVirtualPlacos</driver>
+			<object>/VirtualPlacos</object>
+			<interface>org.openplacos.drivers.DriverVirtualPlacos.Eclairage</interface>		
+			<method>Write</method>
+		
+		</Ressource>
+
+		<Ressource name="Ventillation">
+
+			<driver>org.openplacos.drivers.DriverVirtualPlacos</driver>
+			<object>/VirtualPlacos</object>
+			<interface>org.openplacos.drivers.DriverVirtualPlacos.Ventilation</interface>		
+			<method>Write</method>
+		
+		</Ressource>
+		
+	</List_of_ressources>
+	
+	<List_of_regulations>
+		
+	</List_of_regulations>
+</config>
