@@ -1,0 +1,3 @@
+sudo apt-get install gnuplot
+sudo apt-get install rubygems
+sudo gem install gnuplot 
