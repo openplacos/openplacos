@@ -121,18 +121,50 @@ doc.root.elements['List_of_effecteur'].each_element{ |capteur|
 }
 
 
+
+
 #truc plus générique
 #affichage de la température
+
+$mesure_temperature = Array.new
+$mesure_eclairage = Array.new
+$mesure_ventilation = Array.new
+
 Thread.new do
+i=0;
 	loop do
-		puts $capteurs[0].getValue 
-		sleep(1)
+		$mesure_temperature[i] = $capteurs[0].getValue
+		sleep(0.25)
+		i=i+1
 	end
 end
-sleep(5)
-$effecteurs[1].on
-sleep(10)
-$effecteurs[0].on
-sleep(10)
 
+sleep(2)
+$effecteurs[1].on
+sleep(60)
+$effecteurs[0].on
+sleep(60)
+
+require 'rubygems'
+require 'gnuplot'
+
+Gnuplot.open do |gp|
+  Gnuplot::Plot.new( gp ) do |plot|
+  
+    plot.title  "Array Plot Example"
+    plot.ylabel "x"
+    plot.xlabel "x^2"
+    N = $mesure_temperature.length
+	y = $mesure_temperature
+    x = (1..N).collect { |v| v.to_f }
+
+    plot.data << Gnuplot::DataSet.new( [x, y] ) do |ds|
+      ds.with = "linespoints"
+      ds.notitle
+    end
+  end
+end
+
+$effecteurs[1].off
+$effecteurs[0].off
 
