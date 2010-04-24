@@ -4,12 +4,12 @@
 		
 		<capteur name="Temperature_Interieure">
 				<ressource>temperature_Interieure</ressource>
-				<TTL>0.1</TTL>
+				<TTL>0.2</TTL>
 		</capteur>
 		
 		<capteur name="Temperature_Exterieure">
 				<ressource>temperature_Exterieure</ressource>
-				<TTL>0.1</TTL>
+				<TTL>0.2</TTL>
 		</capteur>
 
 	</List_of_capteur>
