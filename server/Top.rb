@@ -25,11 +25,6 @@ require 'Driver_object.rb'
 require 'yaml' # Assumed in future examples
 
 
-#Configuration 
-
-
-
-
 # Here is a way to generate yaml properly
 
 #DRIVER = "org.openplacos.drivers.uChameleon"
@@ -55,3 +50,10 @@ config.each { |card|
 }
 
 
+#driver["uCham"].pins["/pin_14"].proxy.method(driver["uCham"].pins["/pin_14"].generical_services["write_boolean"]).call(false)
+10.times {
+  driver["uCham"].pins["/pin_14"].exec("write_boolean", true)
+  sleep 2
+  driver["uCham"].pins["/pin_14"].exec("write_boolean", false)
+  sleep 2
+}

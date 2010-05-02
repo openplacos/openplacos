@@ -21,19 +21,30 @@ Bus = DBus::SessionBus.instance
 
 
 class Pin_object
-  def initialize(id_, pin_obj_)
+  attr_reader :generical_services
+  attr_reader :proxy
+  def initialize(id_, pin_obj_, interface_)
     
     # Class variables
     @id = id_
     @generical_services = Hash.new()
-    @proxy = pin_obj_
+    pin_obj_.introspect 
+    @proxy = pin_obj_[interface_]
   end
+
   def add_service(key_, value_)
     @generical_services.store(key_, value_)
   end
+
+  def exec(key_, params_)
+    return @proxy.method(@generical_services[key_]).call(params_)
+  end
+
 end
 
 class Driver_object
+  attr_reader :pins
+  attr_reader :interface
 
   #1 
   #2 To find driver on dbus
@@ -53,8 +64,7 @@ class Driver_object
     # Recognize standards objects
     @pins = Hash.new
     @object_list.each do |pin|
-#      puts pin.methods
-      pin_obj = Pin_object.new(pin, @driver.object(pin))
+      pin_obj = Pin_object.new(pin, @driver.object(pin), @interface)
       @pins[pin]=pin_obj
 
       # Introspect
