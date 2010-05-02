@@ -21,8 +21,6 @@ Bus = DBus::SessionBus.instance
 
 
 class Pin_object
-  attr_reader :generical_services
-  attr_reader :proxy
   def initialize(id_, pin_obj_, interface_)
     
     # Class variables
@@ -44,7 +42,6 @@ end
 
 class Driver_object
   attr_reader :pins
-  attr_reader :interface
 
   #1 
   #2 To find driver on dbus
