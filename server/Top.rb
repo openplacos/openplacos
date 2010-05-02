@@ -49,11 +49,11 @@ config.each { |card|
   driver.store(card["name"], Driver_object.new( card["name"], card["driver"], card["interface"], card["object"]))
 }
 
+puts  driver["uCham"].pins["/pin_14"].get_service("read_analog").call()
 
-#driver["uCham"].pins["/pin_14"].proxy.method(driver["uCham"].pins["/pin_14"].generical_services["write_boolean"]).call(false)
 10.times {
-  driver["uCham"].pins["/pin_14"].exec("write_boolean", true)
+  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(true)
   sleep 2
-  driver["uCham"].pins["/pin_14"].exec("write_boolean", false)
+  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(false)
   sleep 2
 }

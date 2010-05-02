@@ -34,8 +34,8 @@ class Pin_object
     @generical_services.store(key_, value_)
   end
 
-  def exec(key_, params_)
-    return @proxy.method(@generical_services[key_]).call(params_)
+  def get_service(key_)
+    return @proxy.method(@generical_services[key_])
   end
 
 end
