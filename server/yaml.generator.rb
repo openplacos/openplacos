@@ -16,36 +16,39 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
-# List of local include
-require 'Driver_object.rb'
-
-
 # List of library include
 require 'yaml' 
 
-# Parse yaml
-driver = Hash.new
-config =  YAML::load(File.read('config.yaml'))
+# Here is a way to generate yaml properly
 
-# Configure all the driver
-config.each { |card|
+DRIVER = "org.openplacos.drivers.uchameleon"
+OBJECT = {
+  "/pin_1" => "device 1",
+  "/pin_2" => "device 2",
+  "/pin_3" => "device 3",
+  "/pin_4" => "device 4",
+  "/pin_5" => "device 5",
+  "/pin_6" => "device 6",
+  "/pin_7" => "device 7",
+  "/pin_8" => "device 8",
+  "/pin_9" => "device 9",
+  "/pin_10" =>"device 10",
+  "/pin_11" =>"device 11",
+  "/pin_12" =>"device 12",
+  "/pin_13" =>"device 13",
+  "/pin_14" =>"device 14",
+  "/pin_15" =>"device 15",
+  "/pin_16" =>"device 16",
+  "/pin_17" =>"device 17"}
+INTERFACE = "org.openplacos.driver.uChamInterface"
 
-  # Get object list
-  object_list = Array.new
-  card["object"].each_value{ |obj|
-    object_list.push("/" + obj)
-  }
-  driver.store(card["name"], Driver_object.new( card["name"], card["driver"], card["interface"], object_list))
+
+card = {
+  "driver"    => DRIVER,
+  "interface" => INTERFACE,
+  "object"    =>OBJECT
 }
 
-
-# Tests functions
-puts  driver["uCham"].pins["/pin_14"].get_service("read_analog").call()
-
-10.times {
-  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(true)
-  sleep 2
-  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(false)
-  sleep 2
-}
+config = Array.new
+config.push(card)
+puts config.to_yaml
