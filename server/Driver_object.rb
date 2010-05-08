@@ -77,7 +77,7 @@ class Driver_object
           @pins[pin].add_service("write_boolean",  service_name)
         end
         
-        if  service_name.match(/read_b/)
+        if  service_name.match(/Read_b/)
           @pins[pin].add_service("read_boolean",  service_name)
         end
         
