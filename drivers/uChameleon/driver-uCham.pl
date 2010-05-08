@@ -212,7 +212,7 @@ sub Write_pwm {
     my $card = $self->{card};
 
     # Convert to an affordable value
-    my $pwm_arg =  (1000/5) * $arg; 
+    my $pwm_arg =  (1000/5) * $arg;
 
     # Not an analogic output
     if ($self->{is_pwm_out} != 1){
