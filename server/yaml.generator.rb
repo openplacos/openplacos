@@ -42,7 +42,6 @@ OBJECT = {
   "/pin_17" =>"device 17"}
 INTERFACE = "org.openplacos.driver.uChamInterface"
 
-
 card = {
   "driver"    => DRIVER,
   "interface" => INTERFACE,

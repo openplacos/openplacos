@@ -19,10 +19,14 @@
 
 # List of local include
 require 'Driver_object.rb'
-
+require 'Request.rb'
 
 # List of library include
 require 'yaml' 
+
+#DBus
+sessionBus = DBus::session_bus
+service = sessionBus.request_service("org.openplacos.server")
 
 # Parse yaml
 driver = Hash.new
@@ -37,15 +41,28 @@ config.each { |card|
     object_list.push("/" + obj)
   }
   driver.store(card["name"], Driver_object.new( card["name"], card["driver"], card["interface"], object_list))
+ 
+
+  # DBus server config
+  card["object"].each_pair{ |device, pin|
+  exported_obj = Request.new(device, driver[card["name"]].pins["/"+pin])
+  service.export(exported_obj)
+  }
 }
+
+
+
+main = DBus::Main.new
+main << sessionBus
+main.run
 
 
 # Tests functions
-puts  driver["uCham"].pins["/pin_14"].get_service("read_analog").call()
+#puts  driver["uCham"].pins["/pin_14"].get_service("read_analog").call()
 
-10.times {
-  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(true)
-  sleep 2
-  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(false)
-  sleep 2
-}
+#10.times {
+#  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(true)
+#  sleep 2
+#  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(false)
+#  sleep 2
+#}
