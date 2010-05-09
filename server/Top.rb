@@ -33,9 +33,11 @@ class Top
   attr_reader :measure
   attr_reader :driver
 
-  def initialize (config_)
+  def initialize (config_, service_)
     # Parse yaml
     @config =  YAML::load(File.read(config_))
+    
+    @service = service_
 
     # Config 
     @driver = Hash.new
@@ -47,6 +49,9 @@ class Top
     }
 
     # Check dependencies
+    @measure.each_value{ |meas|
+      meas.sanity_check()
+    }
 
     # Configure all the driver
     @config["card"].each { |card|
@@ -61,26 +66,17 @@ class Top
       # DBus server config
       card["object"].each_pair{ |device, pin|
         exported_obj = Request.new(device, driver[card["name"]].pins["/"+pin])
-        service.export(exported_obj)
+        @service.export(exported_obj)
       }
     }
 
   end
 end
 
-top = Top.new('config.yaml')
+top = Top.new('config.yaml', service)
 
 main = DBus::Main.new
 main << sessionBus
 main.run
 
 
-# Tests functions
-#puts  driver["uCham"].pins["/pin_14"].get_service("read_analog").call()
-
-#10.times {
-#  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(true)
-#  sleep 2
-#  driver["uCham"].pins["/pin_14"].get_service("write_boolean").call(false)
-#  sleep 2
-#}

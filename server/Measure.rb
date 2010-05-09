@@ -39,12 +39,6 @@ class Measure
     end
   end
 
-  def sanity_check()
-    @check_lock = 1
-    # Check overpass for first time
-    check(1, @top.measure.length())
-  end
-
   def check(overpass_, ttl_)
     if (@lock==1 && overpass==0)
       puts "Dependencies loop for @name measure"
@@ -53,9 +47,18 @@ class Measure
     if (ttl_ == 0)
       return
     end
-    @dependencies.each { |dep|
-     @top.measure["dep"].check(0, ttl_ - 1)
-    }
+    if (@dependencies != nil)
+        @dependencies.each { |dep|
+          @top.measure["dep"].check(0, ttl_ - 1)
+        }
+      end
     return 
   end
+
+  def sanity_check()
+    @check_lock = 1
+    # Check overpass for first time
+    self.check(1, @top.measure.length())
+  end
+
 end

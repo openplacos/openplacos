@@ -81,7 +81,7 @@ class Driver_object
           @pins[pin].add_service("read_boolean",  service_name)
         end
         
-        if  service_name.match(/Read_analog/)
+        if  service_name.match(/Read_a(nalogu){0,1}/)
           @pins[pin].add_service("read_analog",  service_name)
         end
         
