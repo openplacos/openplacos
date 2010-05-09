@@ -1,3 +1,4 @@
+card:
 - name: uCham
   interface: org.openplacos.driver.uChamInterface
   driver: org.openplacos.drivers.uChameleon
@@ -19,3 +20,11 @@
     device_15: pin_15
     device_16: pin_16
     device_17: pin_17
+
+measure:
+- name: device_1
+  interface: org.openplacos.drivers.level1.convert
+  driver: org.openplacos.drivers.level1.convert
+  object: 
+    - org/openplacos/drivers/level1/Convert
+ 

@@ -20,6 +20,7 @@
 # List of local include
 require 'Driver_object.rb'
 require 'Request.rb'
+require 'Measure.rb'
 
 # List of library include
 require 'yaml' 
@@ -28,29 +29,46 @@ require 'yaml'
 sessionBus = DBus::session_bus
 service = sessionBus.request_service("org.openplacos.server")
 
-# Parse yaml
-driver = Hash.new
-config =  YAML::load(File.read('config.yaml'))
+class Top
+  attr_reader :measure
+  attr_reader :driver
 
-# Configure all the driver
-config.each { |card|
+  def initialize (config_)
+    # Parse yaml
+    @config =  YAML::load(File.read(config_))
 
-  # Get object list
-  object_list = Array.new
-  card["object"].each_value{ |obj|
-    object_list.push("/" + obj)
-  }
-  driver.store(card["name"], Driver_object.new( card["name"], card["driver"], card["interface"], object_list))
- 
+    # Config 
+    @driver = Hash.new
+    @measure = Hash.new
 
-  # DBus server config
-  card["object"].each_pair{ |device, pin|
-  exported_obj = Request.new(device, driver[card["name"]].pins["/"+pin])
-  service.export(exported_obj)
-  }
-}
+    # Create measure
+    @config["measure"].each { |meas|
+      @measure.store(meas["name"], Measure.new(meas["name"], self, meas["driver"], meas["interface"], meas["object"],  meas["dep_list"]))
+    }
 
+    # Check dependencies
 
+    # Configure all the driver
+    @config["card"].each { |card|
+
+      # Get object list
+      object_list = Array.new
+      card["object"].each_value{ |obj|
+        object_list.push("/" + obj)
+      }
+      @driver.store(card["name"], Driver_object.new( card["name"], card["driver"], card["interface"], object_list))
+      
+      # DBus server config
+      card["object"].each_pair{ |device, pin|
+        exported_obj = Request.new(device, driver[card["name"]].pins["/"+pin])
+        service.export(exported_obj)
+      }
+    }
+
+  end
+end
+
+top = Top.new('config.yaml')
 
 main = DBus::Main.new
 main << sessionBus

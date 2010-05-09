@@ -80,7 +80,7 @@ sub new {
     return $self;
 }
 
-dbus_method("Read_analog", [], ["string"]);
+dbus_method("Read_analog", [], ["double"]);
 sub Read_analog {
     my $self = shift;
     my $io_pin = $self->{ref_io_pin};
@@ -201,7 +201,7 @@ sub Write_b {
     return $card->send_message("$pin_name $bool_arg")  || die "Failed to set $bool_arg $pin_name output";
 }
 
-dbus_method("Write_pwm", ["string"], []); 	
+dbus_method("Write_pwm", ["double"], []); 	
 sub Write_pwm {
     my $self = shift;
     my $arg =shift;
@@ -234,7 +234,7 @@ sub Write_pwm {
     }
     
     # Write access
-    return $card->send_message("pwm $pin_number width $pwm_arg")  || die "Failed to set $pwm_arg PWM on $pin_name";
+    return double($card->send_message("pwm $pin_number width $pwm_arg"))  || die "Failed to set $pwm_arg PWM on $pin_name";
 }
 
 

@@ -31,10 +31,10 @@ class Request < DBus::Object
     dbus_method :read_boolean, "out arg:b" do 
       return @pin_obj.get_service("read_boolean").call()
     end
-    dbus_method :read_analog, "out arg:s" do 
+    dbus_method :read_analog, "out arg:d" do 
       return @pin_obj.get_service("read_analog").call()
     end      
-    dbus_method :write_pwm, "in arg:s" do |arg|
+    dbus_method :write_pwm, "in arg:d" do |arg|
       return @pin_obj.get_service("write_pwm").call(arg)
     end 
     def initialize (path_, pin_obj_)
