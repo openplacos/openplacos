@@ -59,6 +59,7 @@ class Measure
     @check_lock = 1
     # Check overpass for first time
     self.check(1, @top.measure.length())
+     @check_lock = 0
   end
 
 end
