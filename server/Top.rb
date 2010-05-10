@@ -61,7 +61,7 @@ class Top
       card["object"].each_value{ |obj|
         object_list.push("/" + obj)
       }
-      @driver.store(card["name"], Driver_object.new( card["name"], card["driver"], card["interface"], object_list))
+      @driver.store(card["name"], Driver_object.new( card, object_list))
       
       # DBus server config
       card["object"].each_pair{ |device, pin|

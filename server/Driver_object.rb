@@ -46,13 +46,14 @@ class Driver_object
   #1 
   #2 To find driver on dbus
   #3 To know if it is a card or a sensor
-  def initialize(name_, path_dbus_, interface_, object_list_) # Constructor
+  def initialize(card_, object_list_) # Constructor
 
     # Class variables
-    @name = name_
-    @path_dbus = path_dbus_
+    @name = card_["name"]
+    @path_dbus = card_["path_dbus"]
+    @interface = card_["interface"]
     @object_list = object_list_
-    @interface = interface_
+ 
     
 
     # Open a Dbus socket
