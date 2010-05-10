@@ -27,4 +27,12 @@ measure:
   driver: org.openplacos.drivers.level1.convert
   object: 
     - org/openplacos/drivers/level1/Convert
- 
+
+    
+- name: device_2
+  interface: org.openplacos.drivers.level1.convert
+  driver: org.openplacos.drivers.level1.convert
+  object: 
+    - org/openplacos/drivers/level1/Convert
+  dep_list:
+    - device_1

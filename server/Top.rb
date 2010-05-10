@@ -45,7 +45,7 @@ class Top
 
     # Create measure
     @config["measure"].each { |meas|
-      @measure.store(meas["name"], Measure.new(meas["name"], self, meas["driver"], meas["interface"], meas["object"],  meas["dep_list"]))
+      @measure.store(meas["name"], Measure.new(meas, self))
     }
 
     # Check dependencies
@@ -73,7 +73,25 @@ class Top
   end
 end
 
-top = Top.new('config.yaml', service)
+if (ARGV[0] == nil)
+  puts "Please specify a config file"
+  puts "Usage: openplacos-server <config-file>"
+  Process.exit
+end
+
+if (! File.exist?(ARGV[0]))
+  puts "Config file " +ARGV[0]+" doesn't exist"
+  Process.exit
+end
+
+
+if (! File.readable?(ARGV[0]))
+  puts "Config file " +ARGV[0]+" not readable"
+  Process.exit
+end
+
+
+top = Top.new(ARGV[0], service)
 
 main = DBus::Main.new
 main << sessionBus

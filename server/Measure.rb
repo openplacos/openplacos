@@ -22,14 +22,14 @@ include REXML
 class Measure
 
 
-  def initialize(name_, top_, path_dbus_, interface_, object_list_, dependencies_) # Constructor
+  def initialize(meas_, top_) # Constructor
 
     # Class variables
-    @name = name_
-    @path_dbus = path_dbus_
-    @object_list = object_list_
-    @interface = interface_
-    @dependencies = dependencies_
+    @name = meas_["name"]
+    @path_dbus = meas_["driver"]
+    @object_list = meas_["object"]
+    @interface = meas_["interface"]
+    @dependencies = meas_["dep_list"]
     @top = top_
 
     # Open a Dbus socket
@@ -40,16 +40,17 @@ class Measure
   end
 
   def check(overpass_, ttl_)
-    if (@lock==1 && overpass==0)
-      puts "Dependencies loop for @name measure"
-      assert 0
+    if (@check_lock==1 && overpass_==0)
+      puts "\nDependencies loop detected for " + @name + " measure !"
+      puts "Please check dependencies for this measure"
+      Process.exit
     end
     if (ttl_ == 0)
       return
     end
     if (@dependencies != nil)
         @dependencies.each { |dep|
-          @top.measure["dep"].check(0, ttl_ - 1)
+          @top.measure[dep].check(0, ttl_ - 1)
         }
       end
     return 
