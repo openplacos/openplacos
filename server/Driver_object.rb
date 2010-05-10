@@ -50,13 +50,11 @@ class Driver_object
 
     # Class variables
     @name = card_["name"]
-    @path_dbus = card_["path_dbus"]
+    @path_dbus = card_["driver"]
     @interface = card_["interface"]
     @object_list = object_list_
- 
-    
 
-    # Open a Dbus socket
+     # Open a Dbus socket
     @driver = Bus.service(@path_dbus)
     
     # Recognize standards objects

@@ -234,7 +234,7 @@ sub Write_pwm {
     }
     
     # Write access
-    return double($card->send_message("pwm $pin_number width $pwm_arg"))  || die "Failed to set $pwm_arg PWM on $pin_name";
+    return $card->send_message("pwm $pin_number width $pwm_arg") || die "Failed to set $pwm_arg PWM on $pin_name";
 }
 
 
