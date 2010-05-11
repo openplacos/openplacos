@@ -33,9 +33,11 @@ class Measure
     @top = top_
 
     # Open a Dbus socket
-    @driver = Bus.service(@path_dbus)
-    @object_list.each do |obj|
-      @object = @driver.object(obj)
+    if (@path_dbus != nil)
+      @driver = Bus.service(@path_dbus)
+      @object_list.each do |obj|
+        @object = @driver.object(obj)
+      end
     end
   end
 
