@@ -1,0 +1,27 @@
+card:
+- name: VirtualPlacos
+  interface: org.openplacos.drivers.DriverVirtualPlacos.methods
+  driver: org.openplacos.drivers.DriverVirtualPlacos
+  object: 
+    Temperature_indoor:  org/openplacos/drivers/DriverVirtualPlacos/Pin_1
+    Temperature_outdoor:  org/openplacos/drivers/DriverVirtualPlacos/Pin_2
+    light:  org/openplacos/drivers/DriverVirtualPlacos/Pin_3
+    fan:  org/openplacos/drivers/DriverVirtualPlacos/Pin_4
+    Hygro_out:  org/openplacos/drivers/DriverVirtualPlacos/Pin_5
+    Hygro_in: org/openplacos/drivers/DriverVirtualPlacos/Pin_6
+    
+    
+measure:
+- name: Temperature_indoor
+  interface: org.openplacos.drivers.level1.convert
+  driver: org.openplacos.drivers.level1.Hygro
+  object: 
+    - org/openplacos/drivers/level1/Convert
+  
+- name: Hygro_in
+  interface: org.openplacos.drivers.level1.convert
+  driver: org.openplacos.drivers.level1.Hygro
+  object: 
+    - org/openplacos/drivers/level1/Convert
+  dep_list:
+    - Temperature_indoor

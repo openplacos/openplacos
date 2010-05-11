@@ -1,0 +1,41 @@
+placos:
+  Outdoor Temperature: 22
+  Outdoor Hygro: 35
+  Max Indoor Temperature: 40
+  Light Time Constant: 100
+  Ventillation Time Constant: 10
+  Thread Refresh Rate: 0.1
+
+pins:
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Pin_1
+    variable: inTemp
+    method: dummy
+    
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Pin_2
+    variable: outTemp
+    method: dummy    
+    
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Pin_3
+    variable: eclairage
+    method: setEclairage
+
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Pin_4
+    variable: ventilation
+    method: setVentilation
+
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Pin_5
+    variable: outHygroSensor
+    method: dummy    
+
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Pin_6
+    variable: inHygroSensor
+    method: dummy
+
+interupts:
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Interupt_1
+    variable: inTemp
+    threshold: 26
+    
+  - dbusname: org/openplacos/drivers/DriverVirtualPlacos/Interupt_1
+    variable: inHygroSensor
+    threshold: 70
