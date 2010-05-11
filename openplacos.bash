@@ -23,5 +23,6 @@ ruby compensation_hygro.rb &
 
 # launch openplacos
 cd ../../server
+sleep 1
 ruby Top.rb config_with_VirtualPlacos.yaml
 
