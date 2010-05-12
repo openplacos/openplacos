@@ -76,9 +76,11 @@ class Virtualplacos
 	def setVentilation(state)
 		if state == true
 			@ventilation = true
+			$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Allumage de la ventillation",[], {}, -1)
 		else
 			if state == false
 				@ventilation = false
+				$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Extinction de la ventillation",[], {}, -1)
 			end
 		end
 	end
@@ -86,9 +88,11 @@ class Virtualplacos
 	def setEclairage(state)
 		if state == true
 			@eclairage = true
+			$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Allumage de l'eclairage",[], {}, -1)
 		else
 			if state == false
 				@eclairage = false
+				$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Extinction de l'eclairage",[], {}, -1)
 			end
 		end
 	end
@@ -112,24 +116,27 @@ class Pin < DBus::Object
 		@method = method
 	end
 	
-	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.methods" do
+	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.analog" do
 	
-		dbus_method :Read_a, "out sortie:d" do  
+		dbus_method :Read, "out sortie:d" do  
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
-		dbus_method :Read_b, "out sortie:b" do  
+		dbus_method :Write, "in etat:d" do |etat|
+			$placos.method(@method).call etat
+		end 
+	end
+	
+	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.digital" do
+	
+		dbus_method :Read, "out sortie:b" do  
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
-		dbus_method :Write_b, "in etat:b" do |etat|
+		dbus_method :Write, "in etat:b" do |etat|
 			$placos.method(@method).call etat
 		end 
-		
-		dbus_method :Write_pwm, "in etat:d" do |etat|
-			$placos.method(@method).call etat
-		end 
-		
+	
 	end 
 
 end
@@ -175,9 +182,26 @@ class Interupt < DBus::Object
 
 end
 
+if (ARGV[0] == nil)
+  puts "Please specify a config file"
+  puts "Usage: openplacos-server <config-file>"
+  Process.exit
+end
+
+if (! File.exist?(ARGV[0]))
+  puts "Config file " +ARGV[0]+" doesn't exist"
+  Process.exit
+end
+
+
+if (! File.readable?(ARGV[0]))
+  puts "Config file " +ARGV[0]+" not readable"
+  Process.exit
+end
+
 
 #Load and parse config file
-config =  YAML::load(File.read('config.yaml'))
+config =  YAML::load(File.read(ARGV[0]))
 
 config_placos = config['placos']
 
@@ -185,8 +209,17 @@ config_placos = config['placos']
 $placos = Virtualplacos.new(config_placos["Outdoor Temperature"].to_f,config_placos["Max Indoor Temperature"].to_f,config_placos["Outdoor Hygro"].to_f,config_placos["Light Time Constant"].to_f,config_placos["Ventillation Time Constant"].to_f,config_placos["Thread Refresh Rate"].to_f)
 
 
-#publish methods on dbus
 bus = DBus.session_bus
+
+# Start notification systeme
+notifyService = bus.service("org.freedesktop.Notifications")
+notifyObject = notifyService.object('/org/freedesktop/Notifications')
+notifyObject.introspect
+$notifyIface = notifyObject['org.freedesktop.Notifications']
+
+
+#publish methods on dbus
+
 service = bus.request_service("org.openplacos.drivers.DriverVirtualPlacos")
 
 #create pin objects
@@ -208,6 +241,8 @@ config_interupts.each_with_index { |cfg_interupt , index|
 	$interupt[index] = Interupt.new(cfg_interupt['dbusname'],cfg_interupt['variable'],cfg_interupt['threshold'])
 	service.export($interupt[index])
 }
+
+
 
 
 main = DBus::Main.new

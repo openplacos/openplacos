@@ -13,10 +13,6 @@ card:
     
 measure:
 - name: Temperature_indoor
-  interface: org.openplacos.drivers.level1.convert
-  driver: org.openplacos.drivers.level1.Hygro
-  object: 
-    - org/openplacos/drivers/level1/Convert
   
 - name: Hygro_in
   interface: org.openplacos.drivers.level1.convert
