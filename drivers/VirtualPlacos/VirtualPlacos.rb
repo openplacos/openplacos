@@ -21,6 +21,7 @@
 require 'dbus'
 require 'thread'
 require 'yaml' # Assumed in future examples
+require 'pathname'
 
 Thread.abort_on_exception = true
 
@@ -76,11 +77,11 @@ class Virtualplacos
 	def setVentilation(state)
 		if state == true
 			@ventilation = true
-			$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Allumage de la ventillation",[], {}, -1)
+			$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de la ventillation",[], {}, -1)
 		else
 			if state == false
 				@ventilation = false
-				$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Extinction de la ventillation",[], {}, -1)
+				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de la ventillation",[], {}, -1)
 			end
 		end
 	end
@@ -88,11 +89,11 @@ class Virtualplacos
 	def setEclairage(state)
 		if state == true
 			@eclairage = true
-			$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Allumage de l'eclairage",[], {}, -1)
+			$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de l'eclairage",[], {}, -1)
 		else
 			if state == false
 				@eclairage = false
-				$notifyIface.Notify('VirtualPlacos', 0,"","VirtualPlacos","Extinction de l'eclairage",[], {}, -1)
+				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de l'eclairage",[], {}, -1)
 			end
 		end
 	end
@@ -118,7 +119,7 @@ class Pin < DBus::Object
 	
 	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.analog" do
 	
-		dbus_method :Read, "out sortie:d" do  
+		dbus_method :Read, "out sortie:v" do  
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
