@@ -117,24 +117,21 @@ class Pin < DBus::Object
 		@method = method
 	end
 	
-	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.analog" do
+	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.methods" do
 	
-		dbus_method :Read, "out sortie:v" do  
+		dbus_method :Read_a, "out sortie:v" do  
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
-		dbus_method :Write, "in etat:d" do |etat|
+		dbus_method :Write_a, "in etat:d" do |etat|
 			$placos.method(@method).call etat
 		end 
-	end
-	
-	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.digital" do
-	
-		dbus_method :Read, "out sortie:b" do  
+		
+		dbus_method :Read_b, "out sortie:b" do  
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
-		dbus_method :Write, "in etat:b" do |etat|
+		dbus_method :Write_b, "in etat:b" do |etat|
 			$placos.method(@method).call etat
 		end 
 	
@@ -242,9 +239,6 @@ config_interupts.each_with_index { |cfg_interupt , index|
 	$interupt[index] = Interupt.new(cfg_interupt['dbusname'],cfg_interupt['variable'],cfg_interupt['threshold'])
 	service.export($interupt[index])
 }
-
-
-
 
 main = DBus::Main.new
 main << bus
