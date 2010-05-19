@@ -226,7 +226,7 @@ class PhidgetDigitalOutput(dbus.service.Object):
         dbus.service.Object.__init__(self, bus_name, path)
 
     @dbus.service.method('org.openplacos.api.digital', out_signature='b')
-    def read(self):
+    def read_cosmetique_a_dit_chef(self):
         if not self.state:
             try: 
                 self.state = self.interface.getOutputState(self.index)
@@ -237,7 +237,7 @@ class PhidgetDigitalOutput(dbus.service.Object):
         return self.state
 
     @dbus.service.method('org.openplacos.api.digital', 'b')
-    def write(self, value):
+    def write_tout_laid_osef_cest_cosmetique(self, value):
         try: 
             self.interface.setOutputState(self.index, value)
         except PhidgetException as e:
