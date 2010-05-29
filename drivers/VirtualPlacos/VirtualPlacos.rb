@@ -109,6 +109,7 @@ end
 #	- have a read method which return the attribute accessor of $placos defined by the name "variable"
 #	- have a write method which execute the methode of $placos named "method"
 
+
 class Pin < DBus::Object
 		
 	def initialize(dbusName,variable,method)
@@ -117,32 +118,60 @@ class Pin < DBus::Object
 		@method = method
 	end
 	
-	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.methods" do
+	dbus_interface "org.openplacos.driver.analog" do
 	
-		dbus_method :Read_a, "out sortie:v" do  
+		dbus_method :read, "out return:v, in option:a{sv}" do |option|
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
-		dbus_method :Write_a, "in etat:d" do |etat|
-			$placos.method(@method).call etat
+		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+			$placos.method(@method).call value
+			return "-1"
 		end 
-		
-		dbus_method :Read_b, "out sortie:b" do  
+	
+	end
+	
+	dbus_interface "org.openplacos.driver.digital" do
+
+		dbus_method :read, "out return:v, in option:a{sv}" do |option|
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
-		dbus_method :Write_b, "in etat:b" do |etat|
-			$placos.method(@method).call etat
+		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+			if (value.class==TrueClass) or (value.class==FalseClass)
+				$placos.method(@method).call value
+				return true
+			else
+				if (value==1)
+					$placos.method(@method).call true
+					return true				
+				end
+				if (value==0)
+					$placos.method(@method).call false
+					return true				
+				end
+				return false				
+			end
 		end 
+			
+	end 
 	
+	dbus_interface "org.openplacos.driver.signal" do
+	
+		dbus_signal :signal, "handle:i"
+		
+		dbus_method :activate, "out return:v, in activate:b,  in handler:i, in option:a{sv}" do |value, option|
+			$placos.method(@method).call value
+		end 
+		
 	end 
 
 end
 
+
 class Interupt < DBus::Object
 		
-	def initialize(dbusName,variable,threshold)
-		super(dbusName)
+	def initialize(variable,threshold)
 		@variable = variable
 		@threshold = threshold
 		@state = false
@@ -171,12 +200,6 @@ class Interupt < DBus::Object
 		}
 		
 	end
-	
-	dbus_interface "org.openplacos.drivers.DriverVirtualPlacos.signals" do
-	
-		dbus_signal :Signal, "state:b"
-		
-	end 
 
 end
 
@@ -218,7 +241,7 @@ $notifyIface = notifyObject['org.freedesktop.Notifications']
 
 #publish methods on dbus
 
-service = bus.request_service("org.openplacos.drivers.DriverVirtualPlacos")
+service = bus.request_service("org.openplacos.drivers.virtualplacos")
 
 #create pin objects
 config_pins = config['pins']
@@ -236,8 +259,7 @@ config_interupts = config['interupts']
 $interupt = Array.new
 
 config_interupts.each_with_index { |cfg_interupt , index|
-	$interupt[index] = Interupt.new(cfg_interupt['dbusname'],cfg_interupt['variable'],cfg_interupt['threshold'])
-	service.export($interupt[index])
+	$interupt[index] = Interupt.new(cfg_interupt['variable'],cfg_interupt['threshold'])
 }
 
 main = DBus::Main.new

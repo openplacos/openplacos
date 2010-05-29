@@ -1,14 +1,14 @@
 card:
 - name: VirtualPlacos
-  interface: org.openplacos.drivers.DriverVirtualPlacos.methods
-  driver: org.openplacos.drivers.DriverVirtualPlacos
+  interface: org.openplacos.driver.analog
+  driver: org.openplacos.drivers.virtualplacos
   object: 
-    Temperature_indoor:  org/openplacos/drivers/DriverVirtualPlacos/Pin_1
-    Temperature_outdoor:  org/openplacos/drivers/DriverVirtualPlacos/Pin_2
-    light:  org/openplacos/drivers/DriverVirtualPlacos/Pin_3
-    fan:  org/openplacos/drivers/DriverVirtualPlacos/Pin_4
-    Hygro_out:  org/openplacos/drivers/DriverVirtualPlacos/Pin_5
-    Hygro_in: org/openplacos/drivers/DriverVirtualPlacos/Pin_6
+    Temperature_indoor:  Pin_1
+    Temperature_outdoor:  Pin_2
+    light:  Pin_3
+    fan:  Pin_4
+    Hygro_out:  Pin_5
+    Hygro_in: Pin_6
     
     
 measure:
