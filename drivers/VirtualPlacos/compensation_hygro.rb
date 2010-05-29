@@ -17,10 +17,15 @@
 #
 #
 #	conversion driver for the hygro sensor of virtualplacos
-# 	conversion are done througth te read(option) method
+# 	conversion are done through the read(option) method
 #	option ==> Hash
 #	"temp" ==> value of temperature
 #	"hygro" ==> value of raw hygromety sensor 
+#
+#	reverse convertion can be done through the write(value,option) method
+#	value = the already converted hygrometry value
+#	option ==> Hash
+#	"temp" ==> value of temperature
 
 require 'dbus'
 
@@ -29,11 +34,21 @@ class Conversion < DBus::Object
 	dbus_interface "org.openplacos.driver.convert" do
 		
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-			return option["hygro"] - 0.1*option["temp"]
+			if (option["hygro"]==nil) or (option["temp"]==nil)
+				return "hash needed {'temp' : temperature value , 'hygro' : hygrometry value}"
+			else 
+				return option["hygro"] - 0.1*option["temp"]
+			end
 		end  
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-			return "empty write method"
+			
+			if (option["temp"]==nil)
+				return "hash needed {'temp' : temperature value}"
+			else 
+				return value + 0.1*option["temp"]
+			end
+			
 		end 
 		
 	end 
