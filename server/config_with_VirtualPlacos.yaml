@@ -15,9 +15,12 @@ measure:
 - name: Temperature_indoor
   
 - name: Hygro_in
-  interface: org.openplacos.drivers.level1.convert
-  driver: org.openplacos.drivers.level1.Hygro
+  interface: org.openplacos.driver.convert
+  driver: org.openplacos.drivers.virtualplacos_hygrosensor
   object: 
-    - org/openplacos/drivers/level1/Convert
+    - convert
   dep_list:
     - Temperature_indoor
+  option: #hash option needed for convertion driver, see compensation_hygro.rb
+    temp: Temperature_indoor
+    hygro: Hygro_in

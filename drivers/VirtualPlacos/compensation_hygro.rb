@@ -16,26 +16,34 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-#	convert int value from µCham ADC's to voltage level
+#	conversion driver for the hygro sensor of virtualplacos
+# 	conversion are done througth te read(option) method
+#	option ==> Hash
+#	"temp" ==> value of temperature
+#	"hygro" ==> value of raw hygromety sensor 
 
 require 'dbus'
 
 class Conversion < DBus::Object
 
-	dbus_interface "org.openplacos.drivers.level1.convert" do
-    
-    	dbus_method :convert, "in temperature:d, in hygroSensor:d, out hygro:d" do |temperature, hygroSensor| 
-			return hygroSensor - 0.1*temperature
+	dbus_interface "org.openplacos.driver.convert" do
+		
+		dbus_method :read, "out return:v, in option:a{sv}" do |option|
+			return option["hygro"] - 0.1*option["temp"]
 		end  
-    
+		
+		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+			return "empty write method"
+		end 
+		
 	end 
 end
 
 
 bus = DBus.session_bus
-service = bus.request_service("org.openplacos.drivers.level1.Hygro")
+service = bus.request_service("org.openplacos.drivers.virtualplacos_hygrosensor")
 
-driver = Conversion.new("org/openplacos/drivers/level1/Convert")
+driver = Conversion.new("convert")
 service.export(driver)
 
 main = DBus::Main.new
