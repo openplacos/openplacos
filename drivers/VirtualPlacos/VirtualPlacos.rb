@@ -77,15 +77,11 @@ class Virtualplacos
 	def setVentilation(state)
 		if state == true
 			@ventilation = true
-			if $notify==true 
-				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de la ventillation",[], {}, -1)
-			end
+			my_notify("Allumage de la ventillation")		
 		else
 			if state == false
 				@ventilation = false
-				if $notify==true 
-					$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de la ventillation",[], {}, -1)
-				end
+				my_notify("Extinction de la ventillation")		
 			end
 		end
 	end
@@ -93,15 +89,11 @@ class Virtualplacos
 	def setEclairage(state)
 		if state == true
 			@eclairage = true
-			if $notify==true 
-				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de l'eclairage",[], {}, -1)
-			end
+			my_notify("Allumage de l'eclairage")
 		else
 			if state == false
 				@eclairage = false
-				if $notify==true 
-					$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de l'eclairage",[], {}, -1)
-				end
+				my_notify("Extinction de l'eclairage")
 			end
 		end
 	end
@@ -209,6 +201,13 @@ class Interupt < DBus::Object
 		
 	end
 
+end
+
+def my_notify(message)
+	if $notify==true 
+		$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos",message,[], {}, -1)
+	end
+	puts message
 end
 
 if (ARGV[0] == nil)
