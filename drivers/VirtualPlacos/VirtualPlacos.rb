@@ -77,11 +77,15 @@ class Virtualplacos
 	def setVentilation(state)
 		if state == true
 			@ventilation = true
-			$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de la ventillation",[], {}, -1)
+			if $notify==true 
+				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de la ventillation",[], {}, -1)
+			end
 		else
 			if state == false
 				@ventilation = false
-				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de la ventillation",[], {}, -1)
+				if $notify==true 
+					$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de la ventillation",[], {}, -1)
+				end
 			end
 		end
 	end
@@ -89,11 +93,15 @@ class Virtualplacos
 	def setEclairage(state)
 		if state == true
 			@eclairage = true
-			$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de l'eclairage",[], {}, -1)
+			if $notify==true 
+				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de l'eclairage",[], {}, -1)
+			end
 		else
 			if state == false
 				@eclairage = false
-				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de l'eclairage",[], {}, -1)
+				if $notify==true 
+					$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de l'eclairage",[], {}, -1)
+				end
 			end
 		end
 	end
@@ -226,18 +234,23 @@ config =  YAML::load(File.read(ARGV[0]))
 
 config_placos = config['placos']
 
+
 #create placos
 $placos = Virtualplacos.new(config_placos["Outdoor Temperature"].to_f,config_placos["Max Indoor Temperature"].to_f,config_placos["Outdoor Hygro"].to_f,config_placos["Light Time Constant"].to_f,config_placos["Ventillation Time Constant"].to_f,config_placos["Thread Refresh Rate"].to_f)
 
 
 bus = DBus.session_bus
 
-# Start notification systeme
-notifyService = bus.service("org.freedesktop.Notifications")
-notifyObject = notifyService.object('/org/freedesktop/Notifications')
-notifyObject.introspect
-$notifyIface = notifyObject['org.freedesktop.Notifications']
+#check notification system
+$notify = config['allow notify']
 
+# Start notification systeme
+if $notify==true
+	notifyService = bus.service("org.freedesktop.Notifications")
+	notifyObject = notifyService.object('/org/freedesktop/Notifications')
+	notifyObject.introspect
+	$notifyIface = notifyObject['org.freedesktop.Notifications']
+end
 
 #publish methods on dbus
 
