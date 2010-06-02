@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+#
 #    This file is part of Openplacos.
 #
 #    Openplacos is free software: you can redistribute it and/or modify
