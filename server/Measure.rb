@@ -21,7 +21,8 @@ include REXML
 
 class Measure
 
-
+  #1 Measure definition in yaml config
+  #2 Top reference
   def initialize(meas_, top_) # Constructor
 
     # Class variables
@@ -31,6 +32,7 @@ class Measure
     @interface = meas_["interface"]
     @dependencies = meas_["dep_list"]
     @top = top_
+    @check_lock = 0
 
     # Open a Dbus socket
     if (@path_dbus != nil)

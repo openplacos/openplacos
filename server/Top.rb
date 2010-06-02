@@ -1,4 +1,4 @@
-#/usr/bin/ruby -w
+#!/usr/bin/ruby -w
 
 #    This file is part of Openplacos.
 #
@@ -18,8 +18,9 @@
 
 
 # List of local include
-require 'Driver_object.rb'
-require 'Request.rb'
+require 'Driver.rb'
+require 'Dbus-interfaces_acquisition_card.rb'
+require 'Dbus_debug.rb'
 require 'Measure.rb'
 
 # List of library include
@@ -32,18 +33,19 @@ service = sessionBus.request_service("org.openplacos.server")
 class Top
   attr_reader :measure
   attr_reader :driver
-
+  
+  #1 Config file path
+  #2 Dbus session reference
   def initialize (config_, service_)
     # Parse yaml
     @config =  YAML::load(File.read(config_))
-    
     @service = service_
 
     # Config 
     @driver = Hash.new
     @measure = Hash.new
 
-    # Create measure
+    # Create measures
     @config["measure"].each { |meas|
       @measure.store(meas["name"], Measure.new(meas, self))
     }
@@ -53,26 +55,29 @@ class Top
       meas.sanity_check()
     }
 
-    # Configure all the driver
+    # For each acquisition driver
     @config["card"].each { |card|
 
-      # Get object list
+      # Get object list mapped in array
       object_list = Array.new
       card["object"].each_value{ |obj|
         object_list.push("/" + obj)
       }
-      @driver.store(card["name"], Driver_object.new( card, object_list))
+      # Create driver proxy with standard acquisition card iface
+      @driver.store(card["name"], Driver.new( card, object_list, $card_ifaces))
       
-      # DBus server config
+      # Push driver in DBus server config
+      # Stand for debug
       card["object"].each_pair{ |device, pin|
-        exported_obj = Request.new(device, driver[card["name"]].pins["/"+pin])
+        exported_obj = Dbus_debug.new(device, driver[card["name"]].objects["/"+pin])
         @service.export(exported_obj)
       }
     }
 
-  end
-end
+  end # End of init
+end # End of Top
 
+# Config file basic verification
 if (ARGV[0] == nil)
   puts "Please specify a config file"
   puts "Usage: openplacos-server <config-file>"
@@ -90,9 +95,10 @@ if (! File.readable?(ARGV[0]))
   Process.exit
 end
 
-
+# Construct Top
 top = Top.new(ARGV[0], service)
 
+# Let's Dbus have execution control
 main = DBus::Main.new
 main << sessionBus
 main.run
