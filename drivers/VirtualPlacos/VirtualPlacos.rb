@@ -77,11 +77,11 @@ class Virtualplacos
 	def setVentilation(state)
 		if state == true
 			@ventilation = true
-			$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de la ventillation",[], {}, -1)
+			my_notify("Allumage de la ventillation")		
 		else
 			if state == false
 				@ventilation = false
-				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de la ventillation",[], {}, -1)
+				my_notify("Extinction de la ventillation")		
 			end
 		end
 	end
@@ -89,11 +89,11 @@ class Virtualplacos
 	def setEclairage(state)
 		if state == true
 			@eclairage = true
-			$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Allumage de l'eclairage",[], {}, -1)
+			my_notify("Allumage de l'eclairage")
 		else
 			if state == false
 				@eclairage = false
-				$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos","Extinction de l'eclairage",[], {}, -1)
+				my_notify("Extinction de l'eclairage")
 			end
 		end
 	end
@@ -203,6 +203,13 @@ class Interupt < DBus::Object
 
 end
 
+def my_notify(message)
+	if $notify==true 
+		$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos",message,[], {}, -1)
+	end
+	puts message
+end
+
 if (ARGV[0] == nil)
   puts "Please specify a config file"
   puts "Usage: openplacos-server <config-file>"
@@ -226,18 +233,23 @@ config =  YAML::load(File.read(ARGV[0]))
 
 config_placos = config['placos']
 
+
 #create placos
 $placos = Virtualplacos.new(config_placos["Outdoor Temperature"].to_f,config_placos["Max Indoor Temperature"].to_f,config_placos["Outdoor Hygro"].to_f,config_placos["Light Time Constant"].to_f,config_placos["Ventillation Time Constant"].to_f,config_placos["Thread Refresh Rate"].to_f)
 
 
 bus = DBus.session_bus
 
-# Start notification systeme
-notifyService = bus.service("org.freedesktop.Notifications")
-notifyObject = notifyService.object('/org/freedesktop/Notifications')
-notifyObject.introspect
-$notifyIface = notifyObject['org.freedesktop.Notifications']
+#check notification system
+$notify = config['allow notify']
 
+# Start notification systeme
+if $notify==true
+	notifyService = bus.service("org.freedesktop.Notifications")
+	notifyObject = notifyService.object('/org/freedesktop/Notifications')
+	notifyObject.introspect
+	$notifyIface = notifyObject['org.freedesktop.Notifications']
+end
 
 #publish methods on dbus
 

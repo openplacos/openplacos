@@ -37,3 +37,5 @@ interupts:
     
   - variable: inHygroSensor
     threshold: 70
+
+allow notify: yes
