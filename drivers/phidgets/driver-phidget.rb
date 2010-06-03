@@ -16,6 +16,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+
 require 'dbus'
 require 'rubygems'
 require 'phidgets'

@@ -42,7 +42,7 @@ end
 
 class PhidgetLightSensor < DBus::Object
 
-    dbus_interface "org.openplacos.driver.humidity" do
+    dbus_interface "org.openplacos.driver.light" do
 
 		dbus_method :read, "out return:v, in rawvalue:i, in option:a{sv}" do |rawvalue,option|
     	    (rawvalue)
@@ -56,9 +56,9 @@ bus = DBus.session_bus
 service = bus.request_service("org.openplacos.drivers.phidgets.sensors")
 
 drivers = Array.new
-drivers.push PhidgetTemperatureSensor.new( "/phidget/sensor/temperature" )
-drivers.push PhidgetHumiditySensor.new( "/phidget/sensor/humidity" )
-drivers.push PhidgetLightSensor.new( "/phidget/sensor/light" )
+drivers << PhidgetTemperatureSensor.new( "/phidget/sensor/temperature" )
+drivers << PhidgetHumiditySensor.new( "/phidget/sensor/humidity" )
+drivers << PhidgetLightSensor.new( "/phidget/sensor/light" )
 
 drivers.each do |driver|
     service.export(driver)
