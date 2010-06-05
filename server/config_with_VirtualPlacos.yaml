@@ -1,17 +1,26 @@
 measure:
 - name: Temperature_indoor
+  model: Generic_Celsius_Temperature
    
 - name: Temperature_outdoor
- 
-- name: Light
-
-- name: Fan
+  model: Generic_Celsius_Temperature
 
 - name: Hygro_out
- 
+  model: VirtualPlacos_Hygro
+  depends:
+    temp: Temperature_outdoor
+     
 - name: Hygro_in
+  model: VirtualPlacos_Hygro
   depends:
     temp: Temperature_indoor
+
+actuator:
+- name: Light
+  model: Generic_relay_NO
+
+- name: Fan
+  model: Generic_relay_NO
 
 card:
 - name: VirtualPlacos

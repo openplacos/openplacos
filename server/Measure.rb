@@ -16,10 +16,12 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'dbus'
-include REXML
+
+$PATH_SENSOR = "../components/sensors/"
 
 class Measure
+
+  attr_reader :name , :proxy_iface, :value
 
   #1 Measure definition in yaml config
   #2 Top reference
@@ -27,9 +29,34 @@ class Measure
 
     # Class variables
     @name = meas_["name"]
+    
     @path_dbus = meas_["driver"]
     @object_list = meas_["object"]
-    @dependencies = meas_["plug"]
+    
+    @dependencies = meas_["depends"]
+    @interface=nil
+    # Parse Yaml correponding to the model of sensor
+    if meas_["model"]
+		#parse yaml
+		#---
+		# FIXME : model's yaml will be change, maybe
+		#+++
+		model = YAML::load(File.read( $PATH_SENSOR + meas_["model"] + ".yaml"))[meas_["model"]]
+		# create the defined interface
+		@interface = Dbus_interface.new(model["driver"]["interface"]).dup
+		if model["driver"]["option"]
+			@option = model["driver"]["option"].dup
+		else
+			@option = Hash.new
+		end
+		
+		@ttl = model["driver"]["ttl"]
+	
+	end
+
+	@last_mesure = 0
+	@value = nil     
+
     @top = top_
     @check_lock = 0
 
@@ -52,7 +79,7 @@ class Measure
       return
     end
     if (@dependencies != nil)
-        @dependencies.each { |dep|
+        @dependencies.each_value { |dep|
           @top.measure[dep].check(0, ttl_ - 1)
         }
       end
@@ -65,5 +92,19 @@ class Measure
     self.check(1, @top.measure.length())
      @check_lock = 0
   end
+
+  # Plug the measure to the proxy with defined interface 
+	def plug(proxy) 
+		@proxy_iface = proxy[@interface.get_name]
+	end
+	
+	#measure from sensor
+	def get_value
+		if (Time.new.to_f - @last_mesure) > @ttl
+				@last_mesure = Time.new.to_f
+			    @value = @proxy_iface.read(@option)
+		end
+		return @value		
+	end
 
 end

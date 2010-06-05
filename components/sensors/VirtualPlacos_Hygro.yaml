@@ -1,0 +1,11 @@
+# The VirtualPlacos Hygro sensor
+VirtualPlacos_Hygro:
+  informations:
+    kind: Sensor
+    unit: %RH
+  driver:
+    interface: analog
+    ttl: 0.1   
+    option: # option to feed the read(hash option)
+  conversion:
+    results: self - 0.1 * temp 

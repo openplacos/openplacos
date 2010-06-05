@@ -22,6 +22,7 @@ require 'Driver.rb'
 require 'Dbus-interfaces_acquisition_card.rb'
 require 'Dbus_debug.rb'
 require 'Measure.rb'
+require 'Actuator.rb'
 
 # List of library include
 require 'yaml' 
@@ -31,7 +32,7 @@ sessionBus = DBus::session_bus
 service = sessionBus.request_service("org.openplacos.server")
 
 class Top
-  attr_reader :measure
+  attr_reader :measure, :actuator
   attr_reader :driver
   
   #1 Config file path
@@ -44,7 +45,8 @@ class Top
     # Config 
     @driver = Hash.new
     @measure = Hash.new
-
+	@actuator = Hash.new
+	
     # Create measures
     @config["measure"].each { |meas|
       @measure.store(meas["name"], Measure.new(meas, self))
@@ -53,6 +55,11 @@ class Top
     # Check dependencies
     @measure.each_value{ |meas|
       meas.sanity_check()
+    }
+    
+    #create actuators
+    @config["actuator"].each { |act|
+      @actuator.store(act["name"], Actuator.new(act, self))
     }
 
     # For each acquisition driver
@@ -70,9 +77,31 @@ class Top
       # Push driver in DBus server config
       # Stand for debug
       card["plug"].each_pair{ |obj, device|
+		# plug proxy with measure 
+		if @measure[device]
+			@measure[device].plug(@driver[card["name"]].objects["/"+obj])
+		end
+		# plug proxy with actuator
+		if @actuator[device]
+			@actuator[device].plug(@driver[card["name"]].objects["/"+obj])
+		end
+			
         exported_obj = Dbus_debug.new(device, driver[card["name"]].objects["/"+obj])
         @service.export(exported_obj)
       }
+    }
+    
+    
+    # Publish measures on Dbus
+    @measure.each_value{ |measure|
+		exported_obj = Dbus_debug_measure.new("measure/" + measure.name, measure)
+		@service.export(exported_obj)
+    }
+    
+	# Publish actuators on Dbus
+    @actuator.each_value{ |act|
+		exported_obj = Dbus_debug_actuator.new("actuator/" + act.name, act)
+		@service.export(exported_obj)
     }
 
   end # End of init

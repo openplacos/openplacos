@@ -1,0 +1,10 @@
+# a generic Normaly open relay
+Generic_relay_NO:
+  informations:
+    kind: Actuator
+  driver:
+    interface: digital   
+    option: # option to feed the write(variant value, hash option) 
+  methods:
+    on: true
+    off: false
