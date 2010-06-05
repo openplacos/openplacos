@@ -60,16 +60,17 @@ class Top
 
       # Get object list mapped in array
       object_list = Array.new
-      card["object"].each_value{ |obj|
+      card["plug"].each_key{ |obj|
         object_list.push("/" + obj)
       }
+
       # Create driver proxy with standard acquisition card iface
-      @driver.store(card["name"], Driver.new( card, object_list, $card_ifaces))
+      @driver.store(card["name"], Driver.new( card, object_list))
       
       # Push driver in DBus server config
       # Stand for debug
-      card["object"].each_pair{ |device, pin|
-        exported_obj = Dbus_debug.new(device, driver[card["name"]].objects["/"+pin])
+      card["plug"].each_pair{ |obj, device|
+        exported_obj = Dbus_debug.new(device, driver[card["name"]].objects["/"+obj])
         @service.export(exported_obj)
       }
     }

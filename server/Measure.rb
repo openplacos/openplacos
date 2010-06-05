@@ -29,8 +29,7 @@ class Measure
     @name = meas_["name"]
     @path_dbus = meas_["driver"]
     @object_list = meas_["object"]
-    @interface = meas_["interface"]
-    @dependencies = meas_["dep_list"]
+    @dependencies = meas_["plug"]
     @top = top_
     @check_lock = 0
 

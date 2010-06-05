@@ -25,26 +25,27 @@ require 'Dbus-interfaces_acquisition_card.rb'
 
 class Dbus_debug < DBus::Object
   # Create an interface.
-  dbus_interface "org.openplacos.server.Interface" do
+  dbus_interface "org.openplacos.server.analog" do
     # Create generic interface
-
     dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-      if (value.class==TrueClass) or (value.class==FalseClass)
-        return @proxy[$card_ifaces["digital"].get_name].write(value, option)
-      else
-        return @proxy[$card_ifaces["analog"].get_name].write(value, option)
-      end 
+      return @proxy["org.openplacos.driver.analog"].write(value, option)
     end # End of dbus_method :write
     
-    dbus_method :read_analog, "out return:v, in option:a{sv}" do  |option|
-      return @proxy[$card_ifaces["analog"].get_name].read(option)
+    dbus_method :read, "out return:v, in option:a{sv}" do  |option|
+      return @proxy["org.openplacos.driver.analog"].read(option)
     end  # End of dbus_method :read_analog
-    
-    dbus_method :read_digital, "out return:v, in option:a{sv}" do  |option|
-      return @proxy[$card_ifaces["digital"].get_name].read(option)
+
+  end # End of dbus_interface analog
+
+  dbus_interface "org.openplacos.server.digital" do  
+    dbus_method :read, "out return:v, in option:a{sv}" do  |option|
+      return @proxy["org.openplacos.driver.digital"].read(option)
     end # End of dbus_method :read_digital
-    
-  end # End of dbus_interface
+
+    dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+      return @proxy["org.openplacos.driver.digital"].write(value, option)
+    end
+  end # End of dbus_interface digital
   
   #1 Dbus serive path
   #2 proxy object to debug

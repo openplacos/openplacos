@@ -30,12 +30,12 @@ class Driver
   #1 Name of service
   #2 Object listed in config
   #3 Ifaces that can be supported by this driver
-  def initialize(card_, object_list_, ifaces_) # Constructor
+  def initialize(card_, object_list_) # Constructor
 
     # Class variables
     @name = card_["name"]
-    @path_dbus = card_["driver"]
-    @interface = card_["interface"]
+    @path_dbus = "org.openplacos.drivers." + card_["name"].downcase
+
     @objects = Hash.new
 
     # Recognize standards objects
@@ -44,23 +44,21 @@ class Driver
       # Get object proxy
       obj_proxy = Bus.introspect(@path_dbus, pin)
       @objects[pin]=obj_proxy
-      
-      
+ 
+
       # Welcome to Real Informatik
       # Here is a workaround to https://bugs.freedesktop.org/show_bug.cgi?id=25125
-      ifaces_.each_value { |iface|
-        if obj_proxy.has_iface?(iface.get_name) 
-          obj_proxy[iface.get_name].methods.keys.each { |method|
-            if (method == "read_"+ iface.get_name)
-              obj_proxy[iface.get_name].alias_method("read_"+ iface.get_name, "read")
+      obj_proxy.interfaces().each { |iface_name|
+          obj_proxy[iface_name].methods.keys.each { |method|
+            if (method == "read_"+ iface_name)
+              obj_proxy[iface_name].alias_method("read_"+ iface_name, "read")
             end
             
-            if (method == "write_"+ iface.get_name)
-              obj_proxy[iface.get_name].alias_method("write_"+ iface.get_name, "write")
+            if (method == "write_"+ iface_name)
+              obj_proxy[iface_name].alias_method("write_"+ iface_name, "write")
             end
           } 
-        end # if has_iface
-      }
+       }
     }
 
   end #  End of initialize

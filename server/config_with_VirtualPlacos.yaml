@@ -10,13 +10,11 @@ measure:
 - name: Hygro_out
  
 - name: Hygro_in
-  driver: org.openplacos.drivers.virtualplacos_hygrosensor
-    depends:
+  depends:
     temp: Temperature_indoor
 
 card:
 - name: VirtualPlacos
-  driver: org.openplacos.drivers.virtualplacos
   plug: 
     Pin_1: Temperature_indoor
     Pin_2: Temperature_outdoor
