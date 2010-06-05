@@ -1,26 +1,26 @@
-card:
-- name: VirtualPlacos
-  interface: org.openplacos.driver.analog
-  driver: org.openplacos.drivers.virtualplacos
-  object: 
-    Temperature_indoor:  Pin_1
-    Temperature_outdoor:  Pin_2
-    light:  Pin_3
-    fan:  Pin_4
-    Hygro_out:  Pin_5
-    Hygro_in: Pin_6
-    
-    
 measure:
 - name: Temperature_indoor
-  
+   
+- name: Temperature_outdoor
+ 
+- name: Light
+
+- name: Fan
+
+- name: Hygro_out
+ 
 - name: Hygro_in
-  interface: org.openplacos.driver.convert
   driver: org.openplacos.drivers.virtualplacos_hygrosensor
-  object: 
-    - convert
-  dep_list:
-    - Temperature_indoor
-  option: #hash option needed for convertion driver, see compensation_hygro.rb
+    depends:
     temp: Temperature_indoor
-    hygro: Hygro_in
+
+card:
+- name: VirtualPlacos
+  driver: org.openplacos.drivers.virtualplacos
+  plug: 
+    Pin_1: Temperature_indoor
+    Pin_2: Temperature_outdoor
+    Pin_3: Light
+    Pin_4: Fan
+    Pin_5: Hygro_out
+    Pin_6: Hygro_in
