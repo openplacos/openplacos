@@ -65,11 +65,6 @@ class Dbus_debug_measure < DBus::Object
     dbus_method :value, "out return:v" do 
       return @meas.get_value
     end  
-	#generic method
-    dbus_method :read, "out return:v, in option:a{sv}" do  |option|
-      return @meas.poxy_iface.read(option)
-    end 
-
   end 
 
 
@@ -86,10 +81,10 @@ class Dbus_debug_actuator < DBus::Object
   # Create an interface.
   dbus_interface "org.openplacos.server.actuator" do
     
-    dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+    dbus_method :write, 'out return:v, in value:v, in option:a{sv}' do |value, option|
       return @act.proxy_iface.write(value, option)
     end
-
+    
   end 
 
 
@@ -97,8 +92,8 @@ class Dbus_debug_actuator < DBus::Object
     # DBus constructor
     super(path_)
     
-    @act = act_   
-    
+    @act = act_ 
+
   end # End of initialize
 
 end # End of class Dbus_debug_measure 
