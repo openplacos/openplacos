@@ -102,7 +102,7 @@ class Top
     @actuator.each_value{ |act|
 		exported_obj = Dbus_debug_actuator.new("actuator/" + act.name, act)
 		@service.export(exported_obj)
-    }
+	}
 
   end # End of init
 end # End of Top
