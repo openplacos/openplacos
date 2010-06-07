@@ -47,7 +47,7 @@ class Dbus_debug < DBus::Object
     end
   end # End of dbus_interface digital
   
-  #1 Dbus serive path
+  #1 Dbus service path
   #2 proxy object to debug
   def initialize (path_, proxy_obj_)
     # DBus constructor
