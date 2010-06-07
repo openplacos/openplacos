@@ -98,7 +98,7 @@ class Top
 		@service.export(exported_obj)
     }
     
-	# Publish actuators on Dbus
+    # Publish actuators on Dbus
     @actuator.each_value{ |act|
 		exported_obj = Dbus_debug_actuator.new(act.name, act)
 		@service.export(exported_obj)
