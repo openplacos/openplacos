@@ -21,7 +21,7 @@ $PATH_ACTUATOR = "../components/actuators/"
 
 class Actuator
 
-  attr_reader :name , :proxy_iface
+  attr_reader :name , :proxy_iface, :methods
 
   #1 Measure definition in yaml config
   #2 Top reference
@@ -45,7 +45,17 @@ class Actuator
 		else
 			@option = Hash.new
 		end
-	
+		
+		#create shortcut methods
+		@methods = Hash.new
+		if model["methods"]
+			model["methods"].each{ |method|
+				methdef = "def " + method["name"] + " \n @proxy_iface.write( " + method["value"] + "," + "Hash.new) \n end"
+				self.instance_eval(methdef)
+				@methods[method["name"]] = method["name"]
+				
+			}
+		end
 	end
     @top = top_
 

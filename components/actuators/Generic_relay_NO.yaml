@@ -5,6 +5,8 @@ Generic_relay_NO:
   driver:
     interface: digital   
     option: # option to feed the write(variant value, hash option) 
-  methods:
-    on: true
-    off: false
+  methods: #shortcuts for command
+    - name: "on" 
+      value: "true"
+    - name: "off"
+      value : "false"

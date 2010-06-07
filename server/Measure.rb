@@ -35,23 +35,9 @@ class Measure
     
     @dependencies = meas_["depends"]
     @interface=nil
-    # Parse Yaml correponding to the model of sensor
+    # Parse and interpret Yaml correponding to the model of sensor
     if meas_["model"]
-		#parse yaml
-		#---
-		# FIXME : model's yaml will be change, maybe
-		#+++
-		model = YAML::load(File.read( $PATH_SENSOR + meas_["model"] + ".yaml"))[meas_["model"]]
-		# create the defined interface
-		@interface = Dbus_interface.new(model["driver"]["interface"]).dup
-		if model["driver"]["option"]
-			@option = model["driver"]["option"].dup
-		else
-			@option = Hash.new
-		end
-		
-		@ttl = model["driver"]["ttl"]
-	
+		model_interpreter(meas_["model"])	
 	end
 
 	@last_mesure = 0
@@ -102,9 +88,70 @@ class Measure
 	def get_value
 		if (Time.new.to_f - @last_mesure) > @ttl
 				@last_mesure = Time.new.to_f
-			    @value = @proxy_iface.read(@option)
+				
+				if self.methods.include?("convert") # if convert fonction exist ?
+					#build hash of dependencies
+					dep = @dependencies.dup
+					
+					#fill hash with values of dependencies
+					dep.each_pair{ |key, meas|
+					#--- 
+					#FIXME : I don't know why the result of get_value is an array, maybe VP or ruby-dbus variant
+					#+++
+						dep[key] = @top.measure[meas].get_value
+					}
+					
+					@value = self.convert(@proxy_iface.read(@option)[0],dep)
+				else
+					@value = @proxy_iface.read(@option)[0]
+				end
+			    			    
 		end
 		return @value		
+	end
+	
+	def model_interpreter(model_name)
+		#parse yaml
+		#---
+		# FIXME : model's yaml will be change, maybe
+		#+++
+		
+		model = YAML::load(File.read( $PATH_SENSOR + model_name + ".yaml"))[model_name]
+		
+		
+		# create the defined interface
+		@interface = Dbus_interface.new(model["driver"]["interface"]).dup
+		
+		# check if option for read(option) is defined
+		if model["driver"]["option"]
+			@option = model["driver"]["option"].dup
+		else
+			@option = Hash.new
+		end
+		
+		# create TTL from model
+		@ttl = model["driver"]["ttl"]
+		
+		#check for conversion fonction 
+		if model["conversion"]
+			
+			eq = model["conversion"].split
+			eq.each_with_index { |block, index|
+
+				if block.include? "%"
+					if block=="%self"
+						eq[index] = "raw_value"
+					else 
+						eq[index] = "depends['" + block.delete!("%")+ "']"
+					end
+				end 
+			}
+			# add conversion method
+			methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
+			self.instance_eval(methdef)		
+		
+		end
+		
 	end
 
 end

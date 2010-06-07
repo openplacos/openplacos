@@ -65,11 +65,6 @@ class Dbus_debug_measure < DBus::Object
     dbus_method :value, "out return:v" do 
       return @meas.get_value
     end  
-	#generic method
-    dbus_method :read, "out return:v, in option:a{sv}" do  |option|
-      return @meas.poxy_iface.read(option)
-    end 
-
   end 
 
 
@@ -83,23 +78,40 @@ class Dbus_debug_measure < DBus::Object
 end # End of class Dbus_debug_measure 
 
 class Dbus_debug_actuator < DBus::Object
-  # Create an interface.
-  dbus_interface "org.openplacos.server.actuator" do
-    
-    dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-      return @act.proxy_iface.write(value, option)
-    end
-
-  end 
-
+  
 
   def initialize (path_,act_)
     # DBus constructor
-    super(path_)
-    
-    @act = act_   
-    
+
+	@act = act_ 
+	
+	#generates string of dbus methods 
+	dbusmethods = define_dbus_methods(@act.methods)
+	
+	# add dbus methods to the class instance
+	#--- 
+	#FIXME : its works but all actuators will have the methods defined before
+	# could use singleton class but class returned by singleton class method has no name and ruby-dbus need name for class ( since kirsh's patch )
+	#+++ 
+	self.class.instance_eval(dbusmethods)
+	
+	super(path_)
+	
   end # End of initialize
+
+	def define_dbus_methods(methods)
+		methdef =    "dbus_interface 'org.openplacos.server.actuator' do \n"
+    
+		methods.each_value { |name|
+			methdef +=     "dbus_method :" + name + ", 'out return:v' do \n return @act." + name + " \n end \n "
+		}
+		methdef += "end"
+		
+	end
+	
+	def singleton_class
+      (class << self ; self ; end)
+    end
 
 end # End of class Dbus_debug_measure 
 
