@@ -51,7 +51,7 @@ class Dbus_debug < DBus::Object
   #2 proxy object to debug
   def initialize (path_, proxy_obj_)
     # DBus constructor
-    super(path_)
+    super("Debug/" + path_)
     
     @proxy = proxy_obj_
   end # End of initialize
@@ -70,9 +70,11 @@ class Dbus_debug_measure < DBus::Object
 
   def initialize (path_,meas_)
     # DBus constructor
-    super(path_)
-    
+   
     @meas = meas_
+    
+	super("Measure/" + path_)
+	
   end # End of initialize
 
 end # End of class Dbus_debug_measure 
@@ -95,7 +97,7 @@ class Dbus_debug_actuator < DBus::Object
 	#+++ 
 	self.class.instance_eval(dbusmethods)
 	
-	super(path_)
+	super("Actuator/" + path_)
 	
   end # End of initialize
 

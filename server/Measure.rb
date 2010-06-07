@@ -19,6 +19,7 @@
 
 $PATH_SENSOR = "../components/sensors/"
 
+
 class Measure
 
   attr_reader :name , :proxy_iface, :value
@@ -81,7 +82,11 @@ class Measure
 
   # Plug the measure to the proxy with defined interface 
 	def plug(proxy) 
-		@proxy_iface = proxy[@interface.get_name]
+		if proxy[@interface.get_name].methods["read"]
+			@proxy_iface = proxy[@interface.get_name]
+		else
+			puts "Error : No read method in interface " + @interface.get_name + "to plug with sensor" + self.name
+		end 
 	end
 	
 	#measure from sensor

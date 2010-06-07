@@ -104,18 +104,13 @@ class Virtualplacos
 
 end
 
+#sensor object
 
-# Pin object,
-#	- have a read method which return the attribute accessor of $placos defined by the name "variable"
-#	- have a write method which execute the methode of $placos named "method"
-
-
-class Pin < DBus::Object
+class Sensor < DBus::Object
 		
-	def initialize(dbusName,variable,method)
+	def initialize(dbusName,variable)
 		super(dbusName)
 		@variable = variable
-		@method = method
 	end
 	
 	dbus_interface "org.openplacos.driver.analog" do
@@ -124,6 +119,27 @@ class Pin < DBus::Object
 			return $placos.instance_variable_get("@"+@variable)
 		end  
 		
+	end
+	
+	dbus_interface "org.openplacos.driver.digital" do
+
+		dbus_method :read, "out return:v, in option:a{sv}" do |option|
+			return $placos.instance_variable_get("@"+@variable)
+		end  
+	end 
+end
+
+#actuator object
+
+class Actuator < DBus::Object
+		
+	def initialize(dbusName,method)
+		super(dbusName)
+		@method = method
+	end
+	
+	dbus_interface "org.openplacos.driver.analog" do
+	
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
 			$placos.method(@method).call value
 			return "-1"
@@ -133,10 +149,6 @@ class Pin < DBus::Object
 	
 	dbus_interface "org.openplacos.driver.digital" do
 
-		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-			return $placos.instance_variable_get("@"+@variable)
-		end  
-		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
 			if (value.class==TrueClass) or (value.class==FalseClass)
 				$placos.method(@method).call value
@@ -155,16 +167,26 @@ class Pin < DBus::Object
 		end 
 			
 	end 
-	
-	dbus_interface "org.openplacos.driver.signal" do
-	
-		dbus_signal :signal, "handle:i"
+end
+
+
+# Pin object,
+
+class Pin 
 		
-		dbus_method :activate, "out return:v, in activate:b,  in handler:i, in option:a{sv}" do |value, option|
-			$placos.method(@method).call value
-		end 
+	def initialize(service,name,config_device)
 		
-	end 
+		if config_device["kind"]=="sensor"
+			@device = Sensor.new(name, config_device["VPvariable"])
+		else
+			if config_device["kind"]=="actuator"
+				@device = Actuator.new(name,config_device["VPmethod"])
+			end
+		end
+		
+		service.export(@device)
+		
+	end
 
 end
 
@@ -257,22 +279,16 @@ service = bus.request_service("org.openplacos.drivers.virtualplacos")
 
 #create pin objects
 config_pins = config['pins']
+config_devices = config['devices']
 
-$pin = Array.new
 
-config_pins.each_with_index { |cfg_pin , index|
-	$pin[index] = Pin.new(cfg_pin['dbusname'],cfg_pin['variable'],cfg_pin['method'])
-	service.export($pin[index])
+$pin = Hash.new
+
+config_pins.each_pair { |pin_name , device_name|
+	puts "create " + pin_name + " with config : " + config_devices[device_name].inspect
+	$pin[pin_name] = Pin.new(service,pin_name,config_devices[device_name])
 }
 
-#create Interupt objects
-config_interupts = config['interupts']
-
-$interupt = Array.new
-
-config_interupts.each_with_index { |cfg_interupt , index|
-	$interupt[index] = Interupt.new(cfg_interupt['variable'],cfg_interupt['threshold'])
-}
 
 main = DBus::Main.new
 main << bus

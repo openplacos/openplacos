@@ -94,13 +94,13 @@ class Top
     
     # Publish measures on Dbus
     @measure.each_value{ |measure|
-		exported_obj = Dbus_debug_measure.new("measure/" + measure.name, measure)
+		exported_obj = Dbus_debug_measure.new(measure.name, measure)
 		@service.export(exported_obj)
     }
     
 	# Publish actuators on Dbus
     @actuator.each_value{ |act|
-		exported_obj = Dbus_debug_actuator.new("actuator/" + act.name, act)
+		exported_obj = Dbus_debug_actuator.new(act.name, act)
 		@service.export(exported_obj)
 	}
 
