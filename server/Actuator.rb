@@ -50,7 +50,26 @@ class Actuator
 		@methods = Hash.new
 		if model["methods"]
 			model["methods"].each{ |method|
-				methdef = "def " + method["name"] + " \n @proxy_iface.write( " + method["value"] + "," + "Hash.new) \n end"
+				
+				#Check if value is defined for the method
+				#value is required
+				if method["value"]
+					value = method["value"]
+				else
+					puts "Error in model " + act_["model"] + " : value is required for method " +  method["name"]
+
+				end
+
+				#Check if option is defined
+				if method["option"]
+					#Parse option define in yaml to a hash
+					option = method["option"].inspect
+				else
+					#if no option is defined, send an empty hash
+					option = "{}"
+				end
+
+				methdef = "def " + method["name"] + " \n @proxy_iface.write( " + value + "," + option + ") \n end"
 				self.instance_eval(methdef)
 				@methods[method["name"]] = method["name"]
 				
@@ -63,7 +82,11 @@ class Actuator
 
    # Plug the actuator to the proxy with defined interface 
 	def plug(proxy) 
-		@proxy_iface = proxy[@interface.get_name]
+		if proxy[@interface.get_name].methods["write"]
+			@proxy_iface = proxy[@interface.get_name]
+		else
+			puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.name
+		end 
 	end
 	
 

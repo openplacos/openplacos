@@ -50,14 +50,16 @@ class Driver
       # Here is a workaround to https://bugs.freedesktop.org/show_bug.cgi?id=25125
       obj_proxy.interfaces().each { |iface_name|
           obj_proxy[iface_name].methods.keys.each { |method|
-            if (method == "read_"+ iface_name)
-				aliasdef = "alias read" + "read_" + iface_name
+            if (method == "read_"+ iface_name.split(".").reverse[0])
+				aliasdef = "alias read " + "read_" + iface_name.split(".").reverse[0]
 				obj_proxy[iface_name].instance_eval(aliasdef)
+				obj_proxy[iface_name].methods["read"] =  obj_proxy[iface_name].methods["read_" + iface_name.split(".").reverse[0]]
             end
             
-            if (method == "write_"+ iface_name)
-				aliasdef = "alias write" + "write_" + iface_name
+            if (method == "write_"+ iface_name.split(".").reverse[0])
+				aliasdef = "alias write " + "write_" + iface_name.split(".").reverse[0]
 				obj_proxy[iface_name].instance_eval(aliasdef)
+				obj_proxy[iface_name].methods["write"] =  obj_proxy[iface_name].methods["write_" + iface_name.split(".").reverse[0]]
             end
           } 
        }
