@@ -19,6 +19,7 @@
 use strict;
 use warnings;
 
+require 'pin_uCham_generic.pl';
 
 package pin_uCham_analog;
 
@@ -32,7 +33,7 @@ __PACKAGE__->mk_accessors(
 	)
     );
 
-@pin_uCham_analog::ISA = (@pin_uCham_analog::ISA, qw(dbus_analog), qw(dbus_digital)) ;
+@pin_uCham_analog::ISA = (@pin_uCham_analog::ISA, qw(pin_uCham_generic), qw(dbus_analog), qw(dbus_digital)) ;
 sub new {
     my $class = shift;
     my $service = shift;
@@ -47,28 +48,16 @@ sub new {
     my $self ;
 
     if ($pin_number == 0) {
-	$self = $class->SUPER::new($service, "/led");
+	$self = $class->Net::DBus::Object::new($service, "/led");
 	$pin_name = "led";
     }else{
-	$self = $class->SUPER::new($service, "/pin_$pin_number");
+	$self = $class->Net::DBus::Object::new($service, "/pin_$pin_number");
 	$pin_name = "pin $pin_number";
     }
 
-    if ($pin_number != 0) {
-	# Pin input by default
-	$card->send_message("$pin_name input")  || die "Failed to set analog $pin_name input";
-    }
-
-    $self->{ref_io_pin} = 0;
-
     $self->{pin_name} = $pin_name;
-    $self->{pin_number} = $pin_number;
-    $self->{card} =  $card;
-    $self->{is_analog_in} =  $is_analog_in;	
-    $self->{is_pwm_out} =  $is_pwm_out;
-    $self->{is_pwm_init} = 0;
-    $self->{is_spi} =  $is_spi;
-    $self->{is_UART} =  $is_UART;
+
+    $self = $class->pin_uCham_generic::new($service, $pin_number, $card, $is_analog_in, $is_pwm_out, $is_spi, $is_UART, $pin_name);
 
     bless $self, $class; 
 
