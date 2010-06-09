@@ -27,55 +27,24 @@ class Actuator
   #2 Top reference
   def initialize(act_, top_) # Constructor
 
-    # Class variables
-    @name = act_["name"]
-    
-    @interface=nil
-    # Parse Yaml correponding to the model of sensor
+   
+	#detec model and merge with config
     if act_["model"]
 		#parse yaml
 		#---
 		# FIXME : model's yaml will be change, maybe
 		#+++
 		model = YAML::load(File.read( $PATH_ACTUATOR + act_["model"] + ".yaml"))[act_["model"]]
-		# create the defined interface
-		@interface = Dbus_interface.new(model["driver"]["interface"]).dup
-		if model["driver"]["option"]
-			@option = model["driver"]["option"].dup
-		else
-			@option = Hash.new
-		end
-		
-		#create shortcut methods
-		@methods = Hash.new
-		if model["methods"]
-			model["methods"].each{ |method|
-				
-				#Check if value is defined for the method
-				#value is required
-				if method["value"]
-					value = method["value"]
-				else
-					puts "Error in model " + act_["model"] + " : value is required for method " +  method["name"]
 
-				end
-
-				#Check if option is defined
-				if method["option"]
-					#Parse option define in yaml to a hash
-					option = method["option"].inspect
-				else
-					#if no option is defined, send an empty hash
-					option = "{}"
-				end
-
-				methdef = "def " + method["name"] + " \n @proxy_iface.write( " + value + "," + option + ") \n end"
-				self.instance_eval(methdef)
-				@methods[method["name"]] = method["name"]
-				
-			}
-		end
+		#---
+		# FIXME : merge delete similar keys, its not good for somes keys (like methods)
+		#+++		
+		act_ = model.merge(act_)
 	end
+	
+	# Parse Yaml correponding to the model of sensor
+	parse_config(act_)
+
     @top = top_
 
   end
@@ -88,6 +57,59 @@ class Actuator
 			puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.name
 		end 
 	end
+	
+	
+	def parse_config(model)
+		#parse config and add variable according to the config and the model
+		
+		#for each keys of config
+		model.each {|key, param| 
+		   
+			case key
+				when "name"
+					@name = model["name"]
+				when "driver"
+					if param["option"]
+						@option = value["option"].dup
+					else
+						@option = Hash.new
+					end
+					
+					if param["interface"]
+						@interface = Dbus_interface.new(param["interface"]).dup
+					else
+						abort "Error in model " + model["model"] + " : interface is required "
+					end
+					
+				when "methods"
+					@methods = Hash.new
+					param.each{ |method|
+						#Check if value is defined for the method
+						#value is required
+						if method["value"]
+							value = method["value"].inspect
+						else
+							abort "Error in model " + model["model"] + " : value is required for method " +  method["name"]
+						end
+
+						#Check if option is defined
+						if method["option"]
+							#Parse option define in yaml to a hash
+							option = method["option"].inspect
+						else
+							#if no option is defined, send an empty hash
+							option = "{}"
+						end
+
+						methdef = "def " + method["name"] + " \n @proxy_iface.write( " + value + "," + option + ") \n end"
+						self.instance_eval(methdef)
+						@methods[method["name"]] = method["name"]
+					}
+			end
+			
+		   }
+	end
+	
 	
 
 end

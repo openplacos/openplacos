@@ -28,18 +28,24 @@ class Measure
   #2 Top reference
   def initialize(meas_, top_) # Constructor
 
-    # Class variables
-    @name = meas_["name"]
-    
-    @path_dbus = meas_["driver"]
-    @object_list = meas_["object"]
-    
-    @dependencies = meas_["depends"]
-    @interface=nil
-    # Parse and interpret Yaml correponding to the model of sensor
+	@dependencies = nil
+	
+	#detec model and merge with config
     if meas_["model"]
-		model_interpreter(meas_["model"])	
+		#parse yaml
+		#---
+		# FIXME : model's yaml will be change, maybe
+		#+++
+		model = YAML::load(File.read( $PATH_SENSOR + meas_["model"] + ".yaml"))[meas_["model"]]
+		
+		
+		#---
+		# FIXME : merge delete similar keys, its not good for somes keys (like driver)
+		#+++
+		meas_ = model.merge(meas_)
 	end
+	# Parse Yaml correponding to the model of sensor
+	parse_config(meas_)
 
 	@last_mesure = 0
 	@value = nil     
@@ -47,13 +53,6 @@ class Measure
     @top = top_
     @check_lock = 0
 
-    # Open a Dbus socket
-    if (@path_dbus != nil)
-      @driver = Bus.service(@path_dbus)
-      @object_list.each do |obj|
-        @object = @driver.object(obj)
-      end
-    end
   end
 
   def check(overpass_, ttl_)
@@ -114,49 +113,56 @@ class Measure
 		end
 		return @value		
 	end
-	
-	def model_interpreter(model_name)
-		#parse yaml
-		#---
-		# FIXME : model's yaml will be change, maybe
-		#+++
-		
-		model = YAML::load(File.read( $PATH_SENSOR + model_name + ".yaml"))[model_name]
-		
-		
-		# create the defined interface
-		@interface = Dbus_interface.new(model["driver"]["interface"]).dup
-		
-		# check if option for read(option) is defined
-		if model["driver"]["option"]
-			@option = model["driver"]["option"].dup
-		else
-			@option = Hash.new
-		end
-		
-		# create TTL from model
-		@ttl = model["driver"]["ttl"]
-		
-		#check for conversion fonction 
-		if model["conversion"]
-			
-			eq = model["conversion"].split
-			eq.each_with_index { |block, index|
 
-				if block.include? "%"
-					if block=="%self"
-						eq[index] = "raw_value"
-					else 
-						eq[index] = "depends['" + block.delete!("%")+ "']"
+	def parse_config(model)
+		#parse config and add variable according to the config and the model
+		
+		#for each keys of config
+		model.each {|key, param| 
+		   
+			case key
+				when "name"
+					@name = model["name"]
+				when "driver"
+					if param["option"]
+						@option = value["option"].dup
+					else
+						@option = Hash.new
 					end
-				end 
-			}
-			# add conversion method
-			methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
-			self.instance_eval(methdef)		
-		
-		end
-		
-	end
+					
+					if param["interface"]
+						@interface = Dbus_interface.new(param["interface"]).dup
+					else
+						abort "Error in model " + model["model"] + " : interface is required "
+					end
+					
+					if param["ttl"]
+						@ttl = model["driver"]["ttl"]
+					else
+						@ttl = 0
+					end
+					
+				when "depends"
+				    @dependencies = param
+				    
+				when "conversion"
+					eq = model["conversion"].split
+					eq.each_with_index { |block, index|
 
+						if block.include? "%"
+							if block=="%self"
+								eq[index] = "raw_value"
+							else 
+								eq[index] = "depends['" + block.delete!("%")+ "']"
+							end
+						end 
+					}
+					# add conversion method
+					methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
+					self.instance_eval(methdef)		
+				
+			end
+			
+		   }
+	end
 end

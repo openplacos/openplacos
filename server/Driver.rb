@@ -51,12 +51,14 @@ class Driver
       obj_proxy.interfaces().each { |iface_name|
           obj_proxy[iface_name].methods.keys.each { |method|
             if (method == "read_"+ iface_name.split(".").reverse[0])
+				puts "redifine " + method + "() to read() for object " + pin
 				aliasdef = "alias read " + "read_" + iface_name.split(".").reverse[0]
 				obj_proxy[iface_name].instance_eval(aliasdef)
 				obj_proxy[iface_name].methods["read"] =  obj_proxy[iface_name].methods["read_" + iface_name.split(".").reverse[0]]
             end
             
             if (method == "write_"+ iface_name.split(".").reverse[0])
+				puts "redifine " + method + "() to write() for object " + pin
 				aliasdef = "alias write " + "write_" + iface_name.split(".").reverse[0]
 				obj_proxy[iface_name].instance_eval(aliasdef)
 				obj_proxy[iface_name].methods["write"] =  obj_proxy[iface_name].methods["write_" + iface_name.split(".").reverse[0]]
