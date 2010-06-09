@@ -87,7 +87,7 @@ class Actuator
 						#Check if value is defined for the method
 						#value is required
 						if method["value"]
-							value = method["value"].inspect
+							value = method["value"]
 						else
 							abort "Error in model " + model["model"] + " : value is required for method " +  method["name"]
 						end
