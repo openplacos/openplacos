@@ -21,14 +21,15 @@ $PATH_ACTUATOR = "../components/actuators/"
 
 class Actuator
 
-  attr_reader :name , :proxy_iface, :methods
+  attr_reader :name , :proxy_iface, :methods, :room ,:config
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(act_, top_) # Constructor
-
+	
+	@room = nil
    
-	#detec model and merge with config
+	#detect model and merge with config
     if act_["model"]
 		#parse yaml
 		#---
@@ -39,12 +40,12 @@ class Actuator
 		#---
 		# FIXME : merge delete similar keys, its not good for somes keys (like methods)
 		#+++		
-		act_ = model.merge(act_)
+		act_ = deep_merge(model,act_)
 	end
 	
 	# Parse Yaml correponding to the model of sensor
 	parse_config(act_)
-
+	@config = act_
     @top = top_
 
   end
@@ -66,8 +67,10 @@ class Actuator
 		model.each {|key, param| 
 		   
 			case key
+				when "room"
+					@room = param
 				when "name"
-					@name = model["name"]
+					@name = param
 				when "driver"
 					if param["option"]
 						@option = value["option"].dup
@@ -110,6 +113,17 @@ class Actuator
 		   }
 	end
 	
-	
+	def deep_merge(oldhash,newhash)
+		oldhash.merge(newhash) { |key, oldval ,newval|
+			case oldval.class.to_s
+				when "Hash"
+					deep_merge(oldval,newval)
+				when "Array"
+					oldval.concat(newval)
+				else
+					newval
+			end
+		}
+	end
 
 end

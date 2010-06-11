@@ -23,6 +23,7 @@ require 'Dbus-interfaces_acquisition_card.rb'
 require 'Dbus_debug.rb'
 require 'Measure.rb'
 require 'Actuator.rb'
+require 'Publish.rb'
 
 # List of library include
 require 'yaml' 
@@ -105,13 +106,13 @@ class Top
     
     # Publish measures on Dbus
     @measure.each_value{ |measure|
-		exported_obj = Dbus_debug_measure.new(measure.name, measure)
+		exported_obj = Dbus_measure.new(measure)
 		@service.export(exported_obj)
     }
     
     # Publish actuators on Dbus
     @actuator.each_value{ |act|
-		exported_obj = Dbus_debug_actuator.new(act.name, act)
+		exported_obj = Dbus_actuator.new(act)
 		@service.export(exported_obj)
 	}
 

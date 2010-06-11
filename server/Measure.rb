@@ -22,13 +22,14 @@ $PATH_SENSOR = "../components/sensors/"
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value
+  attr_reader :name , :proxy_iface, :value ,:room, :config
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(meas_, top_) # Constructor
 
 	@dependencies = nil
+	@room = nil
 	
 	#detec model and merge with config
     if meas_["model"]
@@ -42,11 +43,11 @@ class Measure
 		#---
 		# FIXME : merge delete similar keys, its not good for somes keys (like driver)
 		#+++
-		meas_ = model.merge(meas_)
+		meas_ = deep_merge(model,meas_)
 	end
 	# Parse Yaml correponding to the model of sensor
 	parse_config(meas_)
-
+	@config = meas_
 	@last_mesure = 0
 	@value = nil     
 
@@ -121,8 +122,10 @@ class Measure
 		model.each {|key, param| 
 		   
 			case key
+				when "room"
+					@room = param
 				when "name"
-					@name = model["name"]
+					@name = param
 				when "driver"
 					if param["option"]
 						@option = value["option"].dup
@@ -165,4 +168,18 @@ class Measure
 			
 		   }
 	end
+	
+		def deep_merge(oldhash,newhash)
+		oldhash.merge(newhash) { |key, oldval ,newval|
+			case oldval.class.to_s
+				when "Hash"
+					deep_merge(oldval,newval)
+				when "Array"
+					oldval.concat(newval)
+				else
+					newval
+			end
+		}
+	end
+	
 end
