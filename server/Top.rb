@@ -23,6 +23,7 @@ require 'Dbus-interfaces_acquisition_card.rb'
 require 'Dbus_debug.rb'
 require 'Measure.rb'
 require 'Actuator.rb'
+require 'Publish.rb'
 
 # List of library include
 require 'yaml' 
@@ -48,20 +49,27 @@ class Top
 	@actuator = Hash.new
 	
     # Create measures
-    @config["measure"].each { |meas|
-      @measure.store(meas["name"], Measure.new(meas, self))
-    }
+    if @config["measure"]
+		@config["measure"].each { |meas|
+			@measure.store(meas["name"], Measure.new(meas, self))
+		}
 
-    # Check dependencies
-    @measure.each_value{ |meas|
-      meas.sanity_check()
-    }
+		# Check dependencies
+		@measure.each_value{ |meas|
+		  meas.sanity_check()
+		}
+    
+    end
     
     #create actuators
-    @config["actuator"].each { |act|
-      @actuator.store(act["name"], Actuator.new(act, self))
-    }
-
+    if @config["actuator"]
+		@config["actuator"].each { |act|
+		  @actuator.store(act["name"], Actuator.new(act, self))
+		}
+	else
+		puts "No actuators where defined in config"
+	end
+	
     # For each acquisition driver
     @config["card"].each { |card|
 
@@ -74,19 +82,23 @@ class Top
       # Create driver proxy with standard acquisition card iface
       @driver.store(card["name"], Driver.new( card, object_list))
       
+
       # Push driver in DBus server config
       # Stand for debug
       card["plug"].each_pair{ |obj, device|
+
 		# plug proxy with measure 
 		if @measure[device]
 			@measure[device].plug(@driver[card["name"]].objects["/"+obj])
 		end
+
 		# plug proxy with actuator
 		if @actuator[device]
 			@actuator[device].plug(@driver[card["name"]].objects["/"+obj])
 		end
+
 			
-        exported_obj = Dbus_debug.new(device, driver[card["name"]].objects["/"+obj])
+        exported_obj = Dbus_debug.new(device,@driver[card["name"]].objects["/"+obj])
         @service.export(exported_obj)
       }
     }
@@ -94,13 +106,13 @@ class Top
     
     # Publish measures on Dbus
     @measure.each_value{ |measure|
-		exported_obj = Dbus_debug_measure.new(measure.name, measure)
+		exported_obj = Dbus_measure.new(measure)
 		@service.export(exported_obj)
     }
     
     # Publish actuators on Dbus
     @actuator.each_value{ |act|
-		exported_obj = Dbus_debug_actuator.new(act.name, act)
+		exported_obj = Dbus_actuator.new(act)
 		@service.export(exported_obj)
 	}
 

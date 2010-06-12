@@ -22,48 +22,17 @@ include REXML
 require 'Dbus-interfaces_acquisition_card.rb'
 
 
-
-class Dbus_debug < DBus::Object
-  # Create an interface.
-  dbus_interface "org.openplacos.server.analog" do
-    # Create generic interface
-    dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-      return @proxy["org.openplacos.driver.analog"].write(value, option)
-    end # End of dbus_method :write
-    
-    dbus_method :read, "out return:v, in option:a{sv}" do  |option|
-      return @proxy["org.openplacos.driver.analog"].read(option)
-    end  # End of dbus_method :read_analog
-
-  end # End of dbus_interface analog
-
-  dbus_interface "org.openplacos.server.digital" do  
-    dbus_method :read, "out return:v, in option:a{sv}" do  |option|
-      return @proxy["org.openplacos.driver.digital"].read(option)
-    end # End of dbus_method :read_digital
-
-    dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-      return @proxy["org.openplacos.driver.digital"].write(value, option)
-    end
-  end # End of dbus_interface digital
-  
-  #1 Dbus service path
-  #2 proxy object to debug
-  def initialize (path_, proxy_obj_)
-    # DBus constructor
-    super("Debug/" + path_)
-    
-    @proxy = proxy_obj_
-  end # End of initialize
-
-end # End of class Dbus_debug 
-
-
-class Dbus_debug_measure < DBus::Object
+class Dbus_measure < DBus::Object
   # Create an interface.
   dbus_interface "org.openplacos.server.measure" do
     dbus_method :value, "out return:v" do 
       return @meas.get_value
+    end  
+  end 
+  
+  dbus_interface "org.openplacos.server.config" do
+    dbus_method :getConfig, "out return:s" do 
+      return @meas.config.inspect
     end  
   end 
 
@@ -73,27 +42,43 @@ class Dbus_debug_measure < DBus::Object
    
     @meas = meas_
     
-	super("Measure/" + meas_.name)
+    if meas_.room.nil?
+		name = "UnknowRoom/Measure/" + meas_.name
+    else
+		name = meas_.room + "/Measure/" + meas_.name
+	end
+	
+	super(name)
 	
   end # End of initialize
 
 end # End of class Dbus_debug_measure 
 
-class Dbus_debug_actuator < DBus::Object
+class Dbus_actuator < DBus::Object
   
+  dbus_interface "org.openplacos.server.config" do
+    dbus_method :getConfig, "out return:s" do 
+		@act.config.inspect
+    end  
+  end 
 
   def initialize (act_)
     # DBus constructor
 
 	@act = act_ 
-	
 	#generates string of dbus methods 
 	dbusmethods = define_dbus_methods(@act.methods)
 	
 	# add dbus methods to the class instance
 	self.class.instance_eval(dbusmethods)
 	
-	super("Actuator/" + act_.name)
+	if act_.room.nil?
+		name = "UnknowRoom/Actuator/" + act_.name
+	else
+		name = act_.room + "/Actuator/" + act_.name
+	end
+	
+	super(name)
 	
   end # End of initialize
 
