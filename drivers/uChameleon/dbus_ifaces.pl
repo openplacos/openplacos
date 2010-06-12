@@ -38,7 +38,7 @@ __PACKAGE__->mk_accessors(
 	)
 );
 
-dbus_method("read_analog", [], ["double"], "org.openplacos.driver.analog");
+dbus_method("read_analog", [["dict", "string", ["variant"]]], [["variant"]], "org.openplacos.driver.analog");
 sub read_analog {
     my $self = shift;
     my $pin = $self->{pin};
@@ -82,7 +82,7 @@ sub read_analog {
 package dbus_digital;
 
 use base qw(Net::DBus::Object);
-use Net::DBus::Exporter qw(org.openplacos.driver.boolean);
+use Net::DBus::Exporter qw(org.openplacos.driver.digital);
 
 use base 'Class::Accessor';
 __PACKAGE__->mk_accessors(
@@ -91,8 +91,8 @@ __PACKAGE__->mk_accessors(
 	)
 );
 
-dbus_method("read_boolean", [], ["bool"]);
-sub read_boolean {
+dbus_method("read_digital", [["dict", "string", ["variant"]]], [["variant"]], ["bool"]);
+sub read_digital {
     my $self = shift;
     my $io_pin = $self->{ref_io_pin};
     my $pin_name =  $self->{pin_name};
@@ -130,8 +130,8 @@ sub read_boolean {
     return $result;
 }
 
-dbus_method("write_boolean", ["bool"], []); 	
-sub write_boolean {
+dbus_method("write_digital", ["bool", ["dict", "string", ["variant"]]], [["variant"]], []); 	
+sub write_digital {
     my $self = shift;
     my $arg =shift;
     my $io_pin = $self->{ref_io_pin};
@@ -183,7 +183,7 @@ __PACKAGE__->mk_accessors(
 	)
 );
 
-dbus_method("write_pwm", ["double"], []); 	
+dbus_method("write_pwm", ["double", ["dict", "string", ["variant"]]], [["variant"]], []); 	
 sub write_pwm {
     my $self = shift;
     my $arg =shift;

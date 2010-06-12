@@ -64,6 +64,7 @@ class Top
     #create actuators
     if @config["actuator"]
 		@config["actuator"].each { |act|
+                  puts "Actuator: " + act["name"]
 		  @actuator.store(act["name"], Actuator.new(act, self))
 		}
 	else

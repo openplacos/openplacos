@@ -98,7 +98,7 @@ package main;
 my $file = "/dev/ttyUSB0";
 
 my $bus = Net::DBus->session();
-my $service = $bus->export_service("org.openplacos.drivers.uChameleon");
+my $service = $bus->export_service("org.openplacos.drivers.uchameleon");
 my $object = Driver_uCham->new($service, $file);
 my @pin = ();
 
