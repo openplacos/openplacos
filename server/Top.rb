@@ -24,6 +24,7 @@ require 'Dbus_debug.rb'
 require 'Measure.rb'
 require 'Actuator.rb'
 require 'Publish.rb'
+require 'globals.rb'
 
 # List of library include
 require 'yaml' 
@@ -31,6 +32,10 @@ require 'yaml'
 #DBus
 sessionBus = DBus::session_bus
 service = sessionBus.request_service("org.openplacos.server")
+
+#Global functions
+$global = Global.new
+
 
 class Top
   attr_reader :measure, :actuator
@@ -46,31 +51,31 @@ class Top
     # Config 
     @driver = Hash.new
     @measure = Hash.new
-	@actuator = Hash.new
-	
+    @actuator = Hash.new
+    
     # Create measures
     if @config["measure"]
-		@config["measure"].each { |meas|
-			@measure.store(meas["name"], Measure.new(meas, self))
-		}
+      @config["measure"].each { |meas|
+        @measure.store(meas["name"], Measure.new(meas, self))
+      }
 
-		# Check dependencies
-		@measure.each_value{ |meas|
-		  meas.sanity_check()
-		}
-    
+      # Check dependencies
+      @measure.each_value{ |meas|
+        meas.sanity_check()
+      }
+      
     end
     
     #create actuators
     if @config["actuator"]
-		@config["actuator"].each { |act|
-                  puts "Actuator: " + act["name"]
-		  @actuator.store(act["name"], Actuator.new(act, self))
-		}
-	else
-		puts "No actuators where defined in config"
-	end
-	
+      @config["actuator"].each { |act|
+        $global.trace "Actuator: " + act["name"]
+        @actuator.store(act["name"], Actuator.new(act, self))
+      }
+    else
+      puts "No actuators where defined in config"
+    end
+    
     # For each acquisition driver
     @config["card"].each { |card|
 
@@ -88,17 +93,17 @@ class Top
       # Stand for debug
       card["plug"].each_pair{ |obj, device|
 
-		# plug proxy with measure 
-		if @measure[device]
-			@measure[device].plug(@driver[card["name"]].objects["/"+obj])
-		end
+        # plug proxy with measure 
+        if @measure[device]
+          @measure[device].plug(@driver[card["name"]].objects["/"+obj])
+        end
 
-		# plug proxy with actuator
-		if @actuator[device]
-			@actuator[device].plug(@driver[card["name"]].objects["/"+obj])
-		end
+        # plug proxy with actuator
+        if @actuator[device]
+          @actuator[device].plug(@driver[card["name"]].objects["/"+obj])
+        end
 
-			
+        
         exported_obj = Dbus_debug.new(device,@driver[card["name"]].objects["/"+obj])
         @service.export(exported_obj)
       }
@@ -107,15 +112,15 @@ class Top
     
     # Publish measures on Dbus
     @measure.each_value{ |measure|
-		exported_obj = Dbus_measure.new(measure)
-		@service.export(exported_obj)
+      exported_obj = Dbus_measure.new(measure)
+      @service.export(exported_obj)
     }
     
     # Publish actuators on Dbus
     @actuator.each_value{ |act|
-		exported_obj = Dbus_actuator.new(act)
-		@service.export(exported_obj)
-	}
+      exported_obj = Dbus_actuator.new(act)
+      @service.export(exported_obj)
+    }
 
   end # End of init
 end # End of Top
@@ -124,18 +129,18 @@ end # End of Top
 if (ARGV[0] == nil)
   puts "Please specify a config file"
   puts "Usage: openplacos-server <config-file>"
-  Process.exit
+  Process.exit 1
 end
 
 if (! File.exist?(ARGV[0]))
   puts "Config file " +ARGV[0]+" doesn't exist"
-  Process.exit
+  Process.exit 1
 end
 
 
 if (! File.readable?(ARGV[0]))
   puts "Config file " +ARGV[0]+" not readable"
-  Process.exit
+  Process.exit 1
 end
 
 # Construct Top
