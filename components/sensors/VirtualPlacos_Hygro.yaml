@@ -6,5 +6,4 @@ VirtualPlacos_Hygro:
   driver:
     interface: analog
     ttl: 0.1   
-    option: # option to feed the read(hash option)
   conversion: %self - 0.1 * %temp 

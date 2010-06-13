@@ -4,7 +4,6 @@ Generic_relay_NO:
     kind: Actuator
   driver:
     interface: digital   
-    option: # option to feed the write(variant value, hash option) 
   methods: #shortcuts for command
     - name: "on" 
       value: "true"

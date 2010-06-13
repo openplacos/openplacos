@@ -31,8 +31,8 @@ class Dbus_measure < DBus::Object
   end 
   
   dbus_interface "org.openplacos.server.config" do
-    dbus_method :getConfig, "out return:s" do 
-      return @meas.config.inspect
+    dbus_method :getConfig, "out return:a{sv}" do 
+      [@meas.config]
     end  
   end 
 
@@ -43,13 +43,13 @@ class Dbus_measure < DBus::Object
     @meas = meas_
     
     if meas_.room.nil?
-		name = "UnknowRoom/Measure/" + meas_.name
+    name = "UnknowRoom/Measure/" + meas_.name
     else
-		name = meas_.room + "/Measure/" + meas_.name
-	end
-	
-	super(name)
-	
+    name = meas_.room + "/Measure/" + meas_.name
+  end
+  
+  super(name)
+  
   end # End of initialize
 
 end # End of class Dbus_debug_measure 
@@ -57,40 +57,40 @@ end # End of class Dbus_debug_measure
 class Dbus_actuator < DBus::Object
   
   dbus_interface "org.openplacos.server.config" do
-    dbus_method :getConfig, "out return:s" do 
-		@act.config.inspect
+    dbus_method :getConfig, "out return:a{sv}" do 
+      [@act.config]
     end  
   end 
 
   def initialize (act_)
     # DBus constructor
 
-	@act = act_ 
-	#generates string of dbus methods 
-	dbusmethods = define_dbus_methods(@act.methods)
-	
-	# add dbus methods to the class instance
-	self.class.instance_eval(dbusmethods)
-	
-	if act_.room.nil?
-		name = "UnknowRoom/Actuator/" + act_.name
-	else
-		name = act_.room + "/Actuator/" + act_.name
-	end
-	
-	super(name)
-	
+  @act = act_ 
+  #generates string of dbus methods 
+  dbusmethods = define_dbus_methods(@act.methods)
+  
+  # add dbus methods to the class instance
+  self.class.instance_eval(dbusmethods)
+  
+  if act_.room.nil?
+    name = "UnknowRoom/Actuator/" + act_.name
+  else
+    name = act_.room + "/Actuator/" + act_.name
+  end
+  
+  super(name)
+  
   end # End of initialize
 
-	def define_dbus_methods(methods)
-		methdef =    "dbus_interface 'org.openplacos.server.actuator' do \n"
+  def define_dbus_methods(methods)
+    methdef =    "dbus_interface 'org.openplacos.server.actuator' do \n"
     
-		methods.each_value { |name|
-			methdef +=     "dbus_method :" + name + ", 'out return:v' do \n return @act." + name + " \n end \n "
-		}
-		methdef += "end"
-		
-	end
+    methods.each_value { |name|
+      methdef +=     "dbus_method :" + name + ", 'out return:v' do \n return @act." + name + " \n end \n "
+    }
+    methdef += "end"
+    
+  end
 
 
 end # End of class Dbus_debug_measure 

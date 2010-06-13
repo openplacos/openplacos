@@ -6,4 +6,3 @@ Generic_Celsius_Temperature:
   driver:
     interface: analog
     ttl: 0.1   
-    option: # option to feed the read(hash option) 

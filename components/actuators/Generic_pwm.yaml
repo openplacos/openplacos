@@ -1,0 +1,17 @@
+# a generic Normaly open relay
+Generic_pwm:
+  informations:
+    kind: Actuator
+  driver:
+    interface: pwm  
+  methods: #shortcuts for command
+    - name: level0 
+      value: "0"  
+    - name: level1 
+      value: "1.25"
+    - name: level2
+      value : "2.5"
+    - name: level3 
+      value: "3.75"
+    - name: level4
+      value : "5"

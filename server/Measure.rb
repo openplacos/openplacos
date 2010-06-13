@@ -113,7 +113,7 @@ class Measure
       end
       
     end
-    return @value		
+    return @value   
   end
 
   def parse_config(model)
@@ -163,7 +163,7 @@ class Measure
         }
         # add conversion method
         methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
-        self.instance_eval(methdef)		
+        self.instance_eval(methdef)   
         
       end
       
