@@ -58,8 +58,11 @@ class Measure < Gtk::Frame #Measure Widget
           if @meas_vect.length > 60*10
             @meas_vect.shift
           end
+          #puts "max : #{@meas_vect.sort.inspect}"
+          @curve.set_range(0, @meas_vect.length , (@meas_vect.sort[0].to_i - 2), (@meas_vect.sort.reverse[0].to_i + 2) )
+
           @curve.set_vector(@meas_vect.length,@meas_vect)
-          
+
         end
       }
         self.add_child(Gtk::Builder.new,@container,nil)
