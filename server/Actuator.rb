@@ -21,13 +21,14 @@ $PATH_ACTUATOR = "../components/actuators/"
 
 class Actuator
 
-  attr_reader :name , :proxy_iface, :methods, :room ,:config
+  attr_reader :name , :proxy_iface, :methods, :room ,:config ,:state
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(act_, top_) # Constructor
     
     @room = nil
+    @state = -1
     
     #detect model and merge with config
     if act_["model"]
@@ -39,7 +40,7 @@ class Actuator
 
       #---
       # FIXME : merge delete similar keys, its not good for somes keys (like methods)
-      #+++		
+      #+++    
       act_ = deep_merge(model,act_)
     end
     
@@ -105,7 +106,7 @@ class Actuator
             option = "{}"
           end
 
-          methdef = "def " + method["name"] + " \n @proxy_iface.write( " + value + "," + option + ") \n end"
+          methdef = "def " + method["name"] + " \n @proxy_iface.write( " + value + "," + option + ") \n @state = #{value} \n end"
           self.instance_eval(methdef)
           @methods[method["name"]] = method["name"]
         }

@@ -33,6 +33,12 @@ class Measure < Gtk::Frame #Measure Widget
       @label_unit = Gtk::Label.new(" " + cfg["informations"]["unit"])
       @curve = Gtk::Curve.new
       
+      @curve.max_y= 30
+      @curve.min_y= 20      
+      @curve.curve_type = Gtk::Curve::TYPE_SPLINE
+      @curve.modify_bg(Gtk::STATE_NORMAL,Gdk::Color.new(65535,65535,65535))
+      @curve.modify_fg(Gtk::STATE_NORMAL,Gdk::Color.new(65535,0,0))   
+        
       @container.attach(Gtk::Label.new(""),0,1,0,1,Gtk::EXPAND,Gtk::SHRINK)
       @container.attach(@label_value,1,2,0,1,Gtk::SHRINK,Gtk::SHRINK)
       @container.attach(@label_unit,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK)

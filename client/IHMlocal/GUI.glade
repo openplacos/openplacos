@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy project-wide -->
+  <widget class="GtkWindow" id="main">
+    <property name="default_width">640</property>
+    <property name="default_height">480</property>
+    <child>
+      <widget class="GtkVBox" id="vbox2">
+        <property name="visible">True</property>
+        <property name="spacing">2</property>
+        <child>
+          <widget class="GtkToolbar" id="toolbar1">
+            <property name="visible">True</property>
+            <child>
+              <widget class="GtkToolItem" id="ask_toolbutton">
+                <property name="visible">True</property>
+                <child>
+                  <widget class="GtkLinkButton" id="linkhelp">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="relief">none</property>
+                    <property name="uri">http://openplacos.sourceforge.net/</property>
+                    <child>
+                      <widget class="GtkImage" id="image2">
+                        <property name="visible">True</property>
+                        <property name="pixel_size">64</property>
+                        <property name="icon_name">dialog-question</property>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkHBox" id="hbox1">
+            <property name="visible">True</property>
+            <property name="spacing">1</property>
+            <child>
+              <widget class="GtkToolbar" id="toolbar2">
+                <property name="visible">True</property>
+                <property name="orientation">vertical</property>
+                <property name="toolbar_style">both</property>
+                <property name="icon_size">6</property>
+                <child>
+                  <widget class="GtkToolButton" id="room_button">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Rooms</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon">./icons/Home.png</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToolButton" id="device_button">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Devices</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon">./icons/Hardware.png</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToolButton" id="measure_button">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Measures</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon">./icons/leaf.png</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkViewport" id="viewport1">
+                <property name="visible">True</property>
+                <property name="resize_mode">queue</property>
+                <child>
+                  <widget class="GtkNotebook" id="notebook">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="show_tabs">False</property>
+                    <property name="show_border">False</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                      <packing>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                      <packing>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                      <packing>
+                        <property name="type">tab</property>
+                      </packing>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkStatusbar" id="statusbar1">
+            <property name="visible">True</property>
+            <property name="spacing">2</property>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>

@@ -61,6 +61,7 @@ class Dbus_actuator < DBus::Object
       [@act.config]
     end  
   end 
+  
 
   def initialize (act_)
     # DBus constructor
@@ -83,8 +84,8 @@ class Dbus_actuator < DBus::Object
   end # End of initialize
 
   def define_dbus_methods(methods)
-    methdef =    "dbus_interface 'org.openplacos.server.actuator' do \n"
-    
+    methdef =    "dbus_interface 'org.openplacos.server.actuator' do \n "
+    methdef +=   "dbus_method :state, 'out return:v' do \n  return @act.state \n end \n"
     methods.each_value { |name|
       methdef +=     "dbus_method :" + name + ", 'out return:v' do \n return @act." + name + " \n end \n "
     }

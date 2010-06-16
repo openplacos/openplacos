@@ -190,6 +190,27 @@ class Pin
 
 end
 
+class DebugState < DBus::Object
+
+    
+    dbus_interface "org.openplacos.driver.debug" do
+    
+        dbus_method :GetState, "out option:a{sv}" do |option|
+          var = $placos.instance_variables
+          ret = Hash.new
+          var.each { |v|
+            
+            val = $placos.instance_variable_get(v)
+            if val.kind_of?(String) or val.kind_of?(Float) or val.kind_of?(Fixnum) or val.kind_of?(TrueClass) or val.kind_of?(FalseClass)
+            ret[v] = val
+            end
+          }
+          [ret]           
+        end  
+        
+    end
+
+end
 
 class Interupt < DBus::Object
         
@@ -288,7 +309,8 @@ config_pins.each_pair { |pin_name , device_name|
     puts "create " + pin_name + " with config : " + config_devices[device_name].inspect
     $pin[pin_name] = Pin.new(service,pin_name,config_devices[device_name])
 }
-
+debug = DebugState.new("Debug")
+service.export(debug)
 
 main = DBus::Main.new
 main << bus
