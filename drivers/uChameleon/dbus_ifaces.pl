@@ -76,7 +76,7 @@ sub read_analog {
 	$result = ($result)/255 
     }
 
-   return $result;
+    return to_float($result);
 }
 
 package dbus_digital;
@@ -127,7 +127,7 @@ sub read_digital {
 	$result = $1;
     }
 
-    return $result;
+    return to_bool($result);
 }
 
 dbus_method("write_digital", ["bool", ["dict", "string", ["variant"]]], [["variant"]], []); 	
