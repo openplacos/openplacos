@@ -3,8 +3,8 @@
   <!-- interface-requires gtk+ 2.16 -->
   <!-- interface-naming-policy project-wide -->
   <widget class="GtkWindow" id="main">
-    <property name="default_width">640</property>
-    <property name="default_height">480</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
     <child>
       <widget class="GtkVBox" id="vbox2">
         <property name="visible">True</property>
@@ -12,26 +12,26 @@
         <child>
           <widget class="GtkToolbar" id="toolbar1">
             <property name="visible">True</property>
+            <property name="toolbar_style">both</property>
             <child>
-              <widget class="GtkToolItem" id="ask_toolbutton">
+              <widget class="GtkToolButton" id="connect_bt">
                 <property name="visible">True</property>
-                <child>
-                  <widget class="GtkLinkButton" id="linkhelp">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="relief">none</property>
-                    <property name="uri">http://openplacos.sourceforge.net/</property>
-                    <child>
-                      <widget class="GtkImage" id="image2">
-                        <property name="visible">True</property>
-                        <property name="pixel_size">64</property>
-                        <property name="icon_name">dialog-question</property>
-                      </widget>
-                    </child>
-                  </widget>
-                </child>
+                <property name="label" translatable="yes">Connect</property>
+                <property name="use_underline">True</property>
+                <property name="icon">./icons/Network Setting.png</property>
+                <signal name="clicked" handler="on_connect_bt_clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="param_bt">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Parameters</property>
+                <property name="use_underline">True</property>
+                <property name="icon">./icons/Control_Panel.png</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -55,9 +55,9 @@
                 <property name="toolbar_style">both</property>
                 <property name="icon_size">6</property>
                 <child>
-                  <widget class="GtkToolButton" id="room_button">
+                  <widget class="GtkToolButton" id="monitor_button">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Rooms</property>
+                    <property name="label" translatable="yes">Monitor</property>
                     <property name="use_underline">True</property>
                     <property name="icon">./icons/Home.png</property>
                   </widget>
@@ -90,6 +90,18 @@
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
+                <child>
+                  <widget class="GtkToolButton" id="Alarm_button">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Alarm</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon">./icons/Times and Dates.png</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -104,6 +116,7 @@
                   <widget class="GtkNotebook" id="notebook">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="tab_pos">bottom</property>
                     <property name="show_tabs">False</property>
                     <property name="show_border">False</property>
                     <child>

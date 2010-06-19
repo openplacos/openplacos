@@ -91,17 +91,22 @@ class Server #openplacos server
   def initialize
     
     @bus = DBus::SessionBus.instance
-    @service = @bus.service("org.openplacos.server")
-    @service.introspect
-  
-    #discover all objects of server
-    @objects = server_object_discover(@service)
+    if @bus.service("org.openplacos.server").exists?
+      @service = @bus.service("org.openplacos.server")
     
-    #get config from objects
-    @config = get_config_from_objects(@objects)
+      @service.introspect
     
-    @rooms = service.root.keys
-    @rooms.delete("Debug")
+      #discover all objects of server
+      @objects = server_object_discover(@service)
+      
+      #get config from objects
+      @config = get_config_from_objects(@objects)
+      
+      @rooms = service.root.keys
+      @rooms.delete("Debug")
+    else
+      puts "Can't find OpenplacOS server"
+    end
     
   
   end  
