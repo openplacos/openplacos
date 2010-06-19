@@ -33,6 +33,11 @@ class GuiGlade
     @glade["main"].signal_connect('destroy') { Gtk.main_quit }
   end
   
+  def on_connect_bt_clicked(widget)
+    puts "Connexion with OpenplacOS server"
+    @server = Server.new
+  end
+
 end
 
 
@@ -42,6 +47,6 @@ if __FILE__ == $0
   PROG_PATH = "GUI.glade"
   PROG_NAME = "YOUR_APPLICATION_NAME"
   gui = GuiGlade.new(PROG_PATH, nil, PROG_NAME)
-  server = Server.new
+  #server = Server.new
   Gtk.main
 end
