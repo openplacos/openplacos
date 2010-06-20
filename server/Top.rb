@@ -122,6 +122,7 @@ class Top
       @service.export(exported_obj)
     }
 
+    @service.export(Server.new)
   end # End of init
 end # End of Top
 

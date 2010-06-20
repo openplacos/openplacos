@@ -73,11 +73,13 @@ class Actuator < Gtk::Frame #actuator Widget
     @button = Hash.new
     
     @act.methods.each_key{ |key|
-      @button[key] = Gtk::Button.new(key)
-      @container.pack_start(@button[key],true)
-      @button[key].signal_connect('clicked'){
-        @mutex.synchronize{ @act.method(key).call }
-      }
+      if not key=="state"
+        @button[key] = Gtk::Button.new(key)
+        @container.pack_start(@button[key],true)
+        @button[key].signal_connect('clicked'){
+          @mutex.synchronize{ @act.method(key).call }
+        }
+      end
     }
     
     self.add_child(Gtk::Builder.new,@container,nil)
@@ -139,6 +141,20 @@ class Server #openplacos server
     cfg
   end
 
+
+
+end
+
+class Monitor < Gtk::Frame  #Minitor Widget
+
+  def initialize(notebook)
+    super('Monitor')
+    
+    @hbox = Gtk::HBox.new(true,6)
+    
+    notebook.append_page(self,nil)
+
+  end
 
 
 end

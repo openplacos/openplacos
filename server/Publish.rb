@@ -96,3 +96,28 @@ class Dbus_actuator < DBus::Object
 
 end # End of class Dbus_debug_measure 
 
+class Server < DBus::Object
+
+  dbus_interface "org.openplacos.server.information" do
+    dbus_method :usbDevices, "out return:a{sv}" do 
+      [self.getUsbDevices]
+    end  
+  end 
+
+  def initialize
+    super("server")
+  end
+
+  def getUsbDevices
+    devices = Hash.new
+    pid_file =  YAML::load(File.read("pid.yaml"))
+    lsusb =  `lsusb`
+    pid_file["lsusb"].each { |dev|
+      if lsusb.match(dev["pid"])
+        devices[dev["driver"]] = dev["pid"]
+      end
+    }
+    devices
+  end
+end
+
