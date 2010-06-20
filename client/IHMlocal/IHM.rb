@@ -71,7 +71,6 @@ class Measure < Gtk::Frame #Measure Widget
 end
 
 class Actuator < Gtk::Frame #actuator Widget
-
   def initialize(act,cfg,mutex)
     super(cfg["name"])
     
@@ -81,17 +80,17 @@ class Actuator < Gtk::Frame #actuator Widget
     @button = Hash.new
     
     @act.methods.each_key{ |key|
-      @button[key] = Gtk::Button.new(key)
-      @container.pack_start(@button[key],true)
-      @button[key].signal_connect('clicked'){
-        @mutex.synchronize{ @act.method(key).call }
-      }
+      if not key=="state"
+        @button[key] = Gtk::Button.new(key)
+        @container.pack_start(@button[key],true)
+        @button[key].signal_connect('clicked'){
+          @mutex.synchronize{ @act.method(key).call }
+        }
+      end
     }
     
     self.add_child(Gtk::Builder.new,@container,nil)
-    
   end
-
 end
 
 def get_objects(nod,obj) #get objects from a node, ignore Debug objects
