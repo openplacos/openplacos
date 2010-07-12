@@ -36,7 +36,7 @@ class K8055DigitalInput < DBus::Object
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
 			begin
-    			return value = @board.get_digital( @index )
+    			return @board.get_digital( @index )
 			rescue
 			    puts "K8055 Error (#{e.code}). #{e}"
 			    return -1
@@ -71,14 +71,9 @@ class K8055DigitalOutput < DBus::Object
             end
 		end  
 		
-		dbus_method :write, "out return:v, in value:v" do |value, option|
+		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
             begin
-    			value = @board.set_digital @index, value
-    			if value 
-    			    @state = true
-			    else
-			        @state = false
-		        end
+    			test = @board.set_digital @index, value
                 puts "#{@path} = #{value}"
     			return 0
 			rescue
@@ -146,3 +141,67 @@ class K8055AnalogOutput < DBus::Object
 end # class
 
 
+class K8055Driver < DBus::Object
+
+    def initialize( dbus_service )
+    
+        @service = dbus_service
+        @pins = Hash.new
+        @address = ARGV[0].to_i
+	
+	    begin
+            @board = RubyK8055.new
+            @board.connect(@address)
+        rescue  
+            puts "K8055 Error trying to connect"
+            exit(-1)
+        end
+
+        # Instanciate DBUS-Objects
+        (1..8).each do |i|
+            path = "/k8055/#{@address}/digital/output/#{i}"
+            @pins[path] = K8055DigitalOutput.new(@board, path, i)
+            @service.export(@pins[path])
+            puts path
+        end
+        (1..5).each do |i|
+            path = "/k8055/#{@address}/digital/input/#{i}"
+            @pins[path] = K8055DigitalInput.new(@board, path, i)
+            @service.export(@pins[path])
+            puts path
+        end
+        (1..2).each do |i|
+            path = "/k8055/#{@address}/analog/output/#{i}"
+            @pins[path] = K8055AnalogOutput.new(@board, path, i)
+            @service.export(@pins[path])
+            puts path
+        end
+        (1..2).each do |i|
+            path = "/k8055/#{@address}/analog/input/#{i}"
+            @pins[path] = K8055AnalogInput.new(@board, path, i)
+            @service.export(@pins[path])
+            puts path
+        end
+	end # def
+		
+end # class
+
+
+#
+# Live
+#
+if not ARGV[0]
+    puts "Usage : #{$0} k8055-address"
+    exit(1)
+end
+
+# Bus Open and Service Name Request
+bus = DBus.session_bus
+k8055_dbus_service = bus.request_service("org.openplacos.drivers.k8055.id#{ARGV[0]}")
+
+driver = K8055Driver.new( k8055_dbus_service )
+
+puts "listening"
+main = DBus::Main.new
+main << bus
+main.run
