@@ -25,26 +25,32 @@ require 'yaml'
 include USB
 
 
-class K8055DigitalInput < DBus::Object
+class K8055Pin < DBus::Object
 
 	def initialize(k8055, path, index)
 	    super(path)
-		@board, @index = k8055, index
+	    @k8055 = k8055
+		@index = index
 	end
+
+end # class
+
+
+class K8055DigitalInput < K8055Pin
 
     dbus_interface "org.openplacos.driver.digital" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
 			begin
-    			return @board.get_digital( @index )
+                @k8055.get_digital @index
 			rescue
-			    puts "K8055 Error (#{e.code}). #{e}"
+			    puts "K8055 Error"
 			    return -1
             end
 		end  
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-		    puts "write not supported"
+		    puts "K8055DigitalInput : write not supported"
 		    return -1
 		end
 	end
@@ -52,32 +58,25 @@ class K8055DigitalInput < DBus::Object
 end # class
 
 
-class K8055DigitalOutput < DBus::Object
+class K8055DigitalOutput < K8055Pin
 
-	def initialize(k8055, path, index)
-	    super(path)
-		@board, @index = k8055, index
-		@state = false
-	end
+    def initialize(k8055, path, index)
+        super
+        @state = false
+    end #def
 
     dbus_interface "org.openplacos.driver.digital" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-			begin
-    			return @state
-			rescue
-			    puts "K8055 Error (#{e.code}). #{e}"
-			    return -1
-            end
-		end  
+            @state
+		end
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
             begin
-    			test = @board.set_digital @index, value
-                puts "#{@path} = #{value}"
-    			return 0
+                @k8055.set_digital @index, value
+                @state = value
 			rescue
-			    puts "K8055 Error (#{e.code}). #{e}"
+			    puts "K8055 Error"
 			    return -1
             end
 		end
@@ -86,53 +85,47 @@ class K8055DigitalOutput < DBus::Object
 end # class
 
 
-
-class K8055AnalogInput < DBus::Object
-
-	def initialize(k8055, path, index)
-	    super(path)
-		@board, @index = k8055, index
-	end
+class K8055AnalogInput < K8055Pin
 
     dbus_interface "org.openplacos.driver.analog" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
 			begin
-    			return value = @board.get_analog( @index)
+                @k8055.get_analog @index
 			rescue
-			    puts "K8055 Error (#{e.code}). #{e}"
+			    puts "K8055 Error"
 			    return -1
             end
-		end  
+		end
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-            puts "write not supported"
+            puts "K8055AnalogInput : write not supported"
 		    return -1
 		end
-	end  
+	end
 	
 end # class
 
 
-class K8055AnalogOutput < DBus::Object
+class K8055AnalogOutput < K8055Pin
 
-	def initialize(k8055, path, index)
-	    super(path)
-		@board, @index = k8055, index
-	end
+    def initialize(k8055, path, index)
+        super
+        @value = 0
+    end #def
 
     dbus_interface "org.openplacos.driver.analog" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-            puts "read not supported"
+            @value
 		end  
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
             begin
-    			value = @board.set_analog @index, value
-    			return true
+                @k8055.set_analog @index, value
+                @value = value
 			rescue
-			    puts "K8055 Error (#{e.code}). #{e}"
+			    puts "K8055 Error"
 			    return -1
             end
 		end
@@ -141,67 +134,73 @@ class K8055AnalogOutput < DBus::Object
 end # class
 
 
-class K8055Driver < DBus::Object
+class K8055Driver < RubyK8055
 
-    def initialize( dbus_service )
-    
+    attr_reader :pins
+
+    def initialize( dbus_service, address )
+
+        super()
         @service = dbus_service
-        @pins = Hash.new
-        @address = ARGV[0].to_i
-	
-	    begin
-            @board = RubyK8055.new
-            @board.connect(@address)
-        rescue  
-            puts "K8055 Error trying to connect"
-            exit(-1)
-        end
+        @address = address.to_i
+        @pins = Array.new
 
         # Instanciate DBUS-Objects
         (1..8).each do |i|
             path = "/k8055/#{@address}/digital/output/#{i}"
-            @pins[path] = K8055DigitalOutput.new(@board, path, i)
-            @service.export(@pins[path])
-            puts path
+            @pins << K8055DigitalOutput.new(self, path, i)
         end
         (1..5).each do |i|
             path = "/k8055/#{@address}/digital/input/#{i}"
-            @pins[path] = K8055DigitalInput.new(@board, path, i)
-            @service.export(@pins[path])
-            puts path
+            @pins << K8055DigitalInput.new(self, path, i)
         end
         (1..2).each do |i|
             path = "/k8055/#{@address}/analog/output/#{i}"
-            @pins[path] = K8055AnalogOutput.new(@board, path, i)
-            @service.export(@pins[path])
-            puts path
+            @pins << K8055AnalogOutput.new(self, path, i)
         end
         (1..2).each do |i|
             path = "/k8055/#{@address}/analog/input/#{i}"
-            @pins[path] = K8055AnalogInput.new(@board, path, i)
-            @service.export(@pins[path])
-            puts path
+            @pins << K8055AnalogInput.new(self, path, i)
         end
+        @pins.each do |pin|
+           @service.export(pin)
+           puts pin.path
+        end
+
 	end # def
-		
+
+	def connect
+	    super(@address)
+	end # def
+
 end # class
 
 
 #
 # Live
 #
-if not ARGV[0]
-    puts "Usage : #{$0} k8055-address"
-    exit(1)
+if __FILE__ == $0
+
+    if not ARGV[0]
+        puts "Usage : #{$0} address"
+        exit(1)
+    end
+
+    # Bus Open and Service Name Request
+    bus = DBus.session_bus
+    k8055_dbus_service = bus.request_service("org.openplacos.drivers.k8055.id#{ARGV[0]}")
+    k8055 = K8055Driver.new( k8055_dbus_service, ARGV[0] )
+    begin
+        k8055.connect
+    rescue
+        puts "K8055 Error trying to connect"
+        exit(-1)
+    end
+    k8055.clear_all_digital
+    k8055.clear_all_analog
+
+    puts "listening"
+    main = DBus::Main.new
+    main << bus
+    main.run
 end
-
-# Bus Open and Service Name Request
-bus = DBus.session_bus
-k8055_dbus_service = bus.request_service("org.openplacos.drivers.k8055.id#{ARGV[0]}")
-
-driver = K8055Driver.new( k8055_dbus_service )
-
-puts "listening"
-main = DBus::Main.new
-main << bus
-main.run
