@@ -21,6 +21,7 @@ require 'dbus'
 require 'rubygems'
 require 'rubyk8055'
 require 'yaml'
+require 'thread'
 
 include USB
 
@@ -41,20 +42,36 @@ class K8055DigitalInput < K8055Pin
     dbus_interface "org.openplacos.driver.digital" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-			begin
-                @k8055.get_digital @index
-			rescue
-			    puts "K8055 Error"
-			    return -1
-            end
+			self.read
 		end  
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-		    puts "K8055DigitalInput : write not supported"
-		    return -1
+		    self.write value
 		end
 	end
-	  
+	
+	dbus_interface "org.openplacos.driver.signal" do
+	    dbus_signal :change, "value:i" do
+	        self.read
+	    end
+    end
+
+    def read
+        begin
+            @k8055.synchronize do
+                @k8055.get_digital @index
+            end
+		rescue
+		    puts "K8055 Error"
+		    return -1
+        end
+    end
+	
+	def write(value)
+	    puts "K8055DigitalInput : write not supported"
+	    return -1
+    end
+	
 end # class
 
 
@@ -68,18 +85,28 @@ class K8055DigitalOutput < K8055Pin
     dbus_interface "org.openplacos.driver.digital" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-            @state
+            self.read
 		end
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-            begin
+            self.write value
+		end
+	end
+	
+	def read
+	    @state
+	end
+	
+	def write(value)
+	    begin
+            @k8055.synchronize do
                 @k8055.set_digital @index, value
                 @state = value
-			rescue
-			    puts "K8055 Error"
-			    return -1
             end
-		end
+		rescue
+		    puts "K8055 Error"
+		    return -1
+	    end
 	end
 	
 end # class
@@ -90,19 +117,33 @@ class K8055AnalogInput < K8055Pin
     dbus_interface "org.openplacos.driver.analog" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-			begin
-                @k8055.get_analog @index
-			rescue
-			    puts "K8055 Error"
-			    return -1
-            end
+			self.read
 		end
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-            puts "K8055AnalogInput : write not supported"
-		    return -1
+            self.write value
 		end
 	end
+		
+	dbus_interface "org.openplacos.driver.signal" do
+	    dbus_signal :change, "value:i"
+    end
+    
+	def read
+        begin
+		    @k8055.synchronize do
+                @k8055.get_analog @index
+            end
+		rescue
+		    puts "K8055 Error"
+		    return -1
+        end
+	end
+
+    def write(value)
+        puts "K8055AnalogInput : write not supported"
+	    return -1
+    end	
 	
 end # class
 
@@ -117,63 +158,48 @@ class K8055AnalogOutput < K8055Pin
     dbus_interface "org.openplacos.driver.analog" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
-            @value
+           self.read
 		end  
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
-            begin
-                @k8055.set_analog @index, value
-                @value = value
-			rescue
-			    puts "K8055 Error"
-			    return -1
-            end
+            self.write value
 		end
 	end  
 	
+	def read
+        @value
+	end
+	
+	def write(value)
+        begin
+            @k8055.synchronize do
+                @k8055.set_analog @index, value
+                @value = value
+            end
+		rescue
+		    puts "K8055 Error"
+		    return -1
+        end
+	end
+	
 end # class
 
-
+# Redifine the k8055 driver to include a mutex
 class K8055Driver < RubyK8055
-
-    attr_reader :pins
-
-    def initialize( dbus_service, address )
-
-        super()
-        @service = dbus_service
-        @address = address.to_i
-        @pins = Array.new
-
-        # Instanciate DBUS-Objects
-        (1..8).each do |i|
-            path = "/k8055/#{@address}/digital/output/#{i}"
-            @pins << K8055DigitalOutput.new(self, path, i)
+    
+    def initialize
+        super
+        @mutex = Mutex.new
+    end
+    
+    def synchronize
+        @mutex.synchronize do
+            yield
         end
-        (1..5).each do |i|
-            path = "/k8055/#{@address}/digital/input/#{i}"
-            @pins << K8055DigitalInput.new(self, path, i)
-        end
-        (1..2).each do |i|
-            path = "/k8055/#{@address}/analog/output/#{i}"
-            @pins << K8055AnalogOutput.new(self, path, i)
-        end
-        (1..2).each do |i|
-            path = "/k8055/#{@address}/analog/input/#{i}"
-            @pins << K8055AnalogInput.new(self, path, i)
-        end
-        @pins.each do |pin|
-           @service.export(pin)
-           puts pin.path
-        end
+    end
+    
+end
 
-	end # def
-
-	def connect
-	    super(@address)
-	end # def
-
-end # class
 
 
 #
@@ -186,12 +212,20 @@ if __FILE__ == $0
         exit(1)
     end
 
+    # config
+    PollingTime = 0.5
+    address = ARGV[0].to_i
+    
+    # flags
+    the_end = false
+
     # Bus Open and Service Name Request
     bus = DBus.session_bus
-    k8055_dbus_service = bus.request_service("org.openplacos.drivers.k8055.id#{ARGV[0]}")
-    k8055 = K8055Driver.new( k8055_dbus_service, ARGV[0] )
+    dbus_service = bus.request_service("org.openplacos.drivers.k8055.id#{address}")
+    
+    k8055 = K8055Driver.new
     begin
-        k8055.connect
+        k8055.connect address
     rescue
         puts "K8055 Error trying to connect"
         exit(-1)
@@ -199,8 +233,57 @@ if __FILE__ == $0
     k8055.clear_all_digital
     k8055.clear_all_analog
 
+    pins = Array.new
+    (1..8).each do |i|
+        path = "/k8055/#{address}/digital/output/#{i}"
+        pins << K8055DigitalOutput.new(k8055, path, i)
+    end
+    (1..5).each do |i|
+        path = "/k8055/#{address}/digital/input/#{i}"
+        pins << K8055DigitalInput.new(k8055, path, i)
+    end
+    (1..2).each do |i|
+        path = "/k8055/#{address}/analog/output/#{i}"
+        pins << K8055AnalogOutput.new(k8055, path, i)
+    end
+    (1..2).each do |i|
+        path = "/k8055/#{address}/analog/input/#{i}"
+        pins << K8055AnalogInput.new(k8055, path, i)
+    end
+    pins.each do |pin|
+       dbus_service.export(pin)
+       puts pin.path
+    end
+
+    # Polling thread
+    thrd_poll = Thread.new do
+        old = []
+        until the_end
+            new = []
+            puts "\e[H\e[2J"
+            pins.each do |pin|
+                new << pin.read
+                puts pin.path + ":" + pin.read.to_s
+            end
+            if new != old
+                new.each_index do |i|
+                    if pins[i].class == K8055DigitalInput
+                        #puts pins[i].methods
+                        pins[i].change(new[i]) if new[i] != old[i]
+                    end
+                end
+            end
+            old = new.dup
+            sleep PollingTime
+        end
+    end
+
     puts "listening"
     main = DBus::Main.new
     main << bus
     main.run
+    
+    the_end = true
+    thrd_poll.join
+    
 end
