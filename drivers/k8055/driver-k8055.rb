@@ -259,15 +259,12 @@ if __FILE__ == $0
         old = []
         until the_end
             new = []
-            puts "\e[H\e[2J"
             pins.each do |pin|
                 new << pin.read
-                puts pin.path + ":" + pin.read.to_s
             end
             if new != old
                 new.each_index do |i|
                     if pins[i].class == K8055DigitalInput
-                        #puts pins[i].methods
                         pins[i].change(new[i]) if new[i] != old[i]
                     end
                 end
