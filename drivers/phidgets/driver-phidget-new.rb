@@ -102,9 +102,9 @@ class IfkDigitalOutput < InterfaceKitPin
 	
 	def write(value)
 	    begin
-			value = @phidget.setOutputState(@index, value)
-            puts "#{@path} = #{value}"
-			return 0
+	        @phidget.synchronize do
+			    @phidget.setOutputState(@index, value)
+		    end
 		rescue
 		    puts "Phidgets Error (#{e.code}). #{e}"
 		    return -1
@@ -133,7 +133,9 @@ class IfkAnalogInput < InterfaceKitPin
     
 	def read
         begin
-			value = @phidget.getSensorValue(@index)
+            @phidget.synchronize do
+    			value = @phidget.getSensorValue(@index)
+			end
 		rescue
 		    puts "Phidgets Error (#{e.code}). #{e}"
 		    return -1
