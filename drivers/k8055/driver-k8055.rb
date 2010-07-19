@@ -185,20 +185,16 @@ class K8055AnalogOutput < K8055Pin
 end # class
 
 # Redifine the k8055 driver to include a mutex
-class K8055Driver < RubyK8055
+class RubyK8055
     
-    def initialize
-        super
-        @mutex = Mutex.new
-    end
-    
+    attr_accessor :mutex
+  
     def synchronize
         @mutex.synchronize do
             yield
         end
-    end
-    
-end
+    end  
+end # class
 
 
 
@@ -213,7 +209,7 @@ if __FILE__ == $0
     end
 
     # config
-    PollingTime = 0.5
+    PollingTime = 0.1
     address = ARGV[0].to_i
     
     # flags
@@ -221,15 +217,18 @@ if __FILE__ == $0
 
     # Bus Open and Service Name Request
     bus = DBus.session_bus
-    dbus_service = bus.request_service("org.openplacos.drivers.k8055.id#{address}")
+    dbus_service = bus.request_service("org.openplacos.drivers.k8055-#{address}")
     
-    k8055 = K8055Driver.new
+    k8055 = RubyK8055.new
     begin
         k8055.connect address
     rescue
         puts "K8055 Error trying to connect"
         exit(-1)
     end
+    # add mutex to driver
+    k8055.mutex = Mutex.new
+    # cleaning
     k8055.clear_all_digital
     k8055.clear_all_analog
 
