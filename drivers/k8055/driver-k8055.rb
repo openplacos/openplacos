@@ -18,9 +18,7 @@
 
 
 require 'dbus'
-require 'rubygems'
 require 'rubyk8055'
-require 'yaml'
 require 'thread'
 
 include USB
