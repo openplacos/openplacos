@@ -6,30 +6,38 @@ placos:
   Ventillation Time Constant: 10
   Thread Refresh Rate: 0.1
 
+devices:
+  indoor_Temperature:
+    kind: sensor
+    VPvariable: inTemp
+
+  outdoor_Temperature:
+    kind: sensor
+    VPvariable: outTemp
+    
+  indoor_Hygro:
+    kind: sensor
+    VPvariable: inHygroSensor
+
+  outdoor_Hygro:
+    kind: sensor
+    VPvariable: outHygroSensor    
+
+  eclairage:
+    kind: actuator
+    VPmethod: setEclairage
+
+  ventilation:
+    kind: actuator
+    VPmethod: setVentilation
+
 pins:
-  - dbusname: Pin_1
-    variable: inTemp
-    method: dummy
-    
-  - dbusname: Pin_2
-    variable: outTemp
-    method: dummy    
-    
-  - dbusname: Pin_3
-    variable: eclairage
-    method: setEclairage
-
-  - dbusname: Pin_4
-    variable: ventilation
-    method: setVentilation
-
-  - dbusname: Pin_5
-    variable: outHygroSensor
-    method: dummy    
-
-  - dbusname: Pin_6
-    variable: inHygroSensor
-    method: dummy
+  Pin_1: indoor_Temperature
+  Pin_2: outdoor_Temperature   
+  Pin_3: eclairage
+  Pin_4: ventilation
+  Pin_5: outdoor_Hygro
+  Pin_6: indoor_Hygro
 
 interupts:
   - variable: inTemp

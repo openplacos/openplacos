@@ -1,0 +1,18 @@
+lsusb:
+
+- pid: 0403:caa0
+  name: Future Technology Devices International, Ltd
+  driver: uchameleon
+  
+- pid: 06c2:0081
+  name: Phidgets Inc. (formerly GLAB)
+  driver: phidget
+
+- pid: 06c2:007d
+  name: Phidgets Inc. (formerly GLAB)
+  driver: phidget
+  
+- pid: 06c2:0040
+  name: Phidgets Inc. (formerly GLAB) PhidgetInterface Kit 0-0-4
+  driver: phidget
+ 
