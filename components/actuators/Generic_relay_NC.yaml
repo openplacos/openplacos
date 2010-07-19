@@ -1,0 +1,11 @@
+# a generic Normaly open relay
+Generic_relay_NC:
+  informations:
+    kind: Actuator
+  driver:
+    interface: digital   
+  methods: #shortcuts for command
+    - name: "on" 
+      value: "false"
+    - name: "off"
+      value : "true"

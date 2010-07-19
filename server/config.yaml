@@ -1,38 +1,41 @@
-card:
-- name: uCham
-  interface: org.openplacos.driver.uChamInterface
-  driver: org.openplacos.drivers.uChameleon
-  object: 
-    device_1:  pin_1 
-    device_2:  pin_2 
-    device_3:  pin_3 
-    device_4:  pin_4 
-    device_5:  pin_5 
-    device_6:  pin_6
-    device_7:  pin_7
-    device_8:  pin_8
-    device_9:  pin_9
-    device_10: pin_10
-    device_11: pin_11
-    device_12: pin_12
-    device_13: pin_13
-    device_14: pin_14
-    device_15: pin_15
-    device_16: pin_16
-    device_17: pin_17
-
 measure:
-- name: device_1
-  interface: org.openplacos.drivers.level1.convert
-  driver: org.openplacos.drivers.level1.convert
-  object: 
-    - org/openplacos/drivers/level1/Convert
+- name: Temperature_indoor
+  room: indoor
+  model: Generic_Celsius_Temperature
+   
+- name: Temperature_outdoor
+  room: outdoor
+  model: Generic_Celsius_Temperature
 
+- name: Hygro_out
+  room: outdoor
+  model: VirtualPlacos_Hygro
+  depends:
+    temp: Temperature_outdoor
+     
+- name: Hygro_in
+  room: indoor
+  model: VirtualPlacos_Hygro
+  depends:
+    temp: Temperature_indoor
+
+actuator:
+- name: Light
+  room: indoor
+  model: Generic_relay_NO
     
-- name: device_2
-  interface: org.openplacos.drivers.level1.convert
-  driver: org.openplacos.drivers.level1.convert
-  object: 
-    - org/openplacos/drivers/level1/Convert
-  dep_list:
-    - device_1
+- name: Fan
+  room: indoor
+  model: Generic_relay_NO
+
+
+card:
+- name: uChameleon
+  plug: 
+    pin_1: Temperature_indoor
+    pin_2: Temperature_outdoor
+    pin_3: Light
+    pin_4: Fan
+    pin_5: Hygro_out
+    pin_6: Hygro_in
+
