@@ -232,19 +232,19 @@ if __FILE__ == $0
 
     pins = Array.new
     (1..8).each do |i|
-        path = "/k8055/#{address}/digital/output/#{i}"
+        path = "/digital/output/#{i}"
         pins << K8055DigitalOutput.new(k8055, path, i)
     end
     (1..5).each do |i|
-        path = "/k8055/#{address}/digital/input/#{i}"
+        path = "/digital/input/#{i}"
         pins << K8055DigitalInput.new(k8055, path, i)
     end
     (1..2).each do |i|
-        path = "/k8055/#{address}/analog/output/#{i}"
+        path = "/analog/output/#{i}"
         pins << K8055AnalogOutput.new(k8055, path, i)
     end
     (1..2).each do |i|
-        path = "/k8055/#{address}/analog/input/#{i}"
+        path = "/analog/input/#{i}"
         pins << K8055AnalogInput.new(k8055, path, i)
     end
     pins.each do |pin|
