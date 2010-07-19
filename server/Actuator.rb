@@ -106,7 +106,12 @@ class Actuator
             option = "{}"
           end
 
-          methdef = "def " + method["name"] + " \n @proxy_iface.write( " + value + "," + option + ") \n @state = #{value} \n end"
+          methdef = """
+          def #{method["name"]}
+            @proxy_iface.write( #{value}, #{option})
+            @state = #{value}
+          end
+          """
           self.instance_eval(methdef)
           @methods[method["name"]] = method["name"]
         }
