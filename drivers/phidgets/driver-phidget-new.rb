@@ -147,24 +147,16 @@ class IfkAnalogInput < InterfaceKitPin
 	
 end # class
 
+# Redefine Phidgets::InterfaceKit to add mutex capabilities
+class Phidgets::InterfaceKit
 
-# Redifine the phidget driver to include a mutex
-class K8055Driver < RubyK8055
-    
-    def initialize
-        super
-        @mutex = Mutex.new
-    end
-    
+    attr_accessor :mutex
     def synchronize
         @mutex.synchronize do
             yield
         end
     end
-    
-end
-
-
+end # class
 
 #
 # Live
@@ -177,7 +169,7 @@ if __FILE__ == $0
     end
 
     # config
-    PollingTime = 0.5
+    PollingTime = 0.1
     address = ARGV[0].to_i
     
     # flags
@@ -185,7 +177,7 @@ if __FILE__ == $0
 
     # Bus Open and Service Name Request
     bus = DBus.session_bus
-    dbus_service = bus.request_service("org.openplacos.drivers.interfacekit.id#{address}")
+    dbus_service = bus.request_service("org.openplacos.drivers.interfacekit-#{address}")
     
     begin
         phidget = Phidgets::InterfaceKit.new(address,2000)
@@ -193,8 +185,9 @@ if __FILE__ == $0
         puts "Phidgets Error (#{e.code}). #{e}"
         exit(-1)
     end
-    phidget.clear_all_digital
-    phidget.clear_all_analog
+
+    # Init Mutex for the driver
+    phidget.mutex = Mutex.new
 
     pins = Array.new
     phidget.getOutputCount.times do |i|
@@ -219,10 +212,10 @@ if __FILE__ == $0
         old = []
         until the_end
             new = []
-            puts "\e[H\e[2J"
+            #puts "\e[H\e[2J"
             pins.each do |pin|
                 new << pin.read
-                puts pin.path + ":" + pin.read.to_s
+                # puts pin.path + ":" + pin.read.to_s
             end
             if new != old
                 pins.each_index do |i|
