@@ -44,7 +44,7 @@ class Actuator
       act_ = deep_merge(model,act_)
     end
     
-    # Parse Yaml correponding to the model of sensor
+    # Parse Yaml correponding to the model of actuator
     parse_config(act_)
     @config = act_
     @top = top_
