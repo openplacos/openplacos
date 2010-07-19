@@ -82,7 +82,7 @@ class Top
       # Get object list mapped in array
       object_list = Array.new
       card["plug"].each_key{ |obj|
-        object_list.push("/" + obj)
+        object_list.push(obj)
       }
 
       # Create driver proxy with standard acquisition card iface
@@ -95,16 +95,16 @@ class Top
 
         # plug proxy with measure 
         if @measure[device]
-          @measure[device].plug(@driver[card["name"]].objects["/"+obj])
+          @measure[device].plug(@driver[card["name"]].objects[obj])
         end
 
         # plug proxy with actuator
         if @actuator[device]
-          @actuator[device].plug(@driver[card["name"]].objects["/"+obj])
+          @actuator[device].plug(@driver[card["name"]].objects[obj])
         end
 
         
-        exported_obj = Dbus_debug.new(device,@driver[card["name"]].objects["/"+obj])
+        exported_obj = Dbus_debug.new(device,@driver[card["name"]].objects[obj])
         @service.export(exported_obj)
       }
     }
