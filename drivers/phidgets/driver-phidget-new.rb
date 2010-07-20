@@ -152,8 +152,8 @@ end # class
 # Redefine Phidgets::InterfaceKit to add mutex capabilities
 class Phidgets::InterfaceKit
 
-    attr_accessor :mutex
     def synchronize
+        @mutex ||= Mutex.new
         @mutex.synchronize do
             yield
         end
@@ -187,9 +187,6 @@ if __FILE__ == $0
         puts "Phidgets Error (#{e.code}). #{e}"
         exit(-1)
     end
-
-    # Init Mutex for the driver
-    phidget.mutex = Mutex.new
 
     pins = Array.new
     phidget.getOutputCount.times do |i|
