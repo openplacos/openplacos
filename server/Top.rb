@@ -81,17 +81,16 @@ class Top
 
       # Get object list mapped in array
       object_list = Array.new
-      card["plug"].each_pair{ |obj,device| object_list << obj unless device == nil }
+      card["plug"].each_pair{ |obj,device| object_list << obj unless device.nil? }
 
       # Create driver proxy with standard acquisition card iface
       @driver.store(card["name"], Driver.new( card, object_list))
       
-
       # Push driver in DBus server config
       # Stand for debug
       card["plug"].each_pair{ |obj, device|
 
-        break if device == nil
+        next if device.nil?
 
         # plug proxy with measure 
         if @measure[device]
