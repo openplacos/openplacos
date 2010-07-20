@@ -184,10 +184,9 @@ end # class
 
 # Redifine the k8055 driver to include a mutex
 class RubyK8055
-    
-    attr_accessor :mutex
-  
+
     def synchronize
+        @mutex ||= Mutex.new
         @mutex.synchronize do
             yield
         end
@@ -224,8 +223,6 @@ if __FILE__ == $0
         puts "K8055 Error trying to connect"
         exit(-1)
     end
-    # add mutex to driver
-    k8055.mutex = Mutex.new
     # cleaning
     k8055.clear_all_digital
     k8055.clear_all_analog
