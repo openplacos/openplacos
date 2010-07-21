@@ -95,7 +95,7 @@ end
 
 def get_objects(nod,obj) #get objects from a node, ignore Debug objects
   nod.each_pair{ |key,value|
-   if not(key=="Debug") #ignore debug objects
+   if not (key=="Debug" or key=="server") #ignore debug objects
      if not value.object.nil?
       obj[value.object.path] = value.object
      else
@@ -116,7 +116,7 @@ end
 def get_config_from_objects(objects) #contact config methods for all objects
   cfg = Hash.new
   objects.each_pair{ |key, obj|
-    cfg[key] = obj["org.openplacos.server.config"].getConfig[0] 
+    cfg[key] = obj["org.openplacos.server.config"].getConfig[0]
   }
   cfg
 end
