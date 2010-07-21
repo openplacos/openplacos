@@ -98,7 +98,11 @@ class K8055DigitalOutput < K8055Pin
 	def write(value)
 	    begin
             @k8055.synchronize do
-                @k8055.set_digital @index, value
+                if value
+                    @k8055.digital_on @index
+                else
+                    @k8055.digital_off @index
+                end
                 @state = value
             end
 		rescue
