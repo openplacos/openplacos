@@ -96,17 +96,20 @@ class Measure
       @last_mesure = Time.new.to_f
       
       if self.methods.include?("convert") # if convert fonction exist ?
-        #build hash of dependencies
-        dep = @dependencies.dup
-        
-        #fill hash with values of dependencies
-        dep.each_pair{ |key, meas|
-          #--- 
-          #FIXME : I don't know why the result of get_value is an array, maybe VP or ruby-dbus variant
-          #+++
-          dep[key] = @top.measure[meas].get_value
-        }
-        
+
+        if @dependencies
+            #build hash of dependencies
+            dep = @dependencies.dup
+            #fill hash with values of dependencies
+            dep.each_pair{ |key, meas|
+              #---
+              #FIXME : I don't know why the result of get_value is an array, maybe VP or ruby-dbus variant
+              #+++
+              dep[key] = @top.measure[meas].get_value
+            }
+        else
+            dep = {}
+        end
         @value = self.convert(@proxy_iface.read(@option)[0],dep)
       else
         @value = @proxy_iface.read(@option)[0]
