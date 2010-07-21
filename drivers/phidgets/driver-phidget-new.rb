@@ -190,15 +190,15 @@ if __FILE__ == $0
 
     pins = Array.new
     phidget.getOutputCount.times do |i|
-        path = "/interfacekit/#{address}/digital/output/#{i}"
+        path = "/digital/output/#{i}"
         pins << IfkDigitalOutput.new(phidget, path, i)
     end
     phidget.getInputCount.times do |i|
-        path = "/interfacekit/#{address}/digital/input/#{i}"
+        path = "/digital/input/#{i}"
         pins << IfkDigitalInput.new(phidget, path, i)
     end
     phidget.getSensorCount.times do |i|
-        path = "/interfacekit/#{address}/analog/input/#{i}"
+        path = "/analog/input/#{i}"
         pins << IfkAnalogInput.new(phidget, path, i)
     end
     pins.each do |pin|
