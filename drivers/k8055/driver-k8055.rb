@@ -98,12 +98,14 @@ class K8055DigitalOutput < K8055Pin
 	def write(value)
 	    begin
             @k8055.synchronize do
-                if value
+                if not value and not @state
+                    # workaround to a libk8055 bug ?
+                elsif value
                     @k8055.digital_on @index
-                else
+                elsif not value
                     @k8055.digital_off @index
                 end
-                @state = value
+                if value then @state = true else @state = false end
             end
 		rescue
 		    puts "K8055 Error"
