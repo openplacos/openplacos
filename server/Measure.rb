@@ -67,7 +67,7 @@ class Measure
     end
     if (@dependencies != nil)
       @dependencies.each_value { |dep|
-        @top.measure[dep].check(0, ttl_ - 1)
+        @top.measures[dep].check(0, ttl_ - 1)
       }
     end
     return 
@@ -76,7 +76,7 @@ class Measure
   def sanity_check()
     @check_lock = 1
     # Check overpass for first time
-    self.check(1, @top.measure.length())
+    self.check(1, @top.measures.length())
     @check_lock = 0
   end
 
@@ -105,7 +105,7 @@ class Measure
               #---
               #FIXME : I don't know why the result of get_value is an array, maybe VP or ruby-dbus variant
               #+++
-              dep[key] = @top.measure[meas].get_value
+              dep[key] = @top.measures[meas].get_value
             }
         else
             dep = {}
