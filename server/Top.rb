@@ -69,7 +69,6 @@ class Top
     #create actuators
     if @config["actuator"]
       @config["actuator"].each { |act|
-        $global.trace "Actuator: " + act["name"]
         @actuators.store(act["name"], Actuator.new(act, self))
       }
     else
