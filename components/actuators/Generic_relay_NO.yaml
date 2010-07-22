@@ -6,6 +6,6 @@ Generic_relay_NO:
     interface: digital   
   methods: #shortcuts for command
     - name: "on" 
-      value: "true"
+      value: True
     - name: "off"
-      value : "false"
+      value : False
