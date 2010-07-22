@@ -57,8 +57,8 @@ class IfkDigitalInput < InterfaceKitPin
             @phidget.synchronize do
                 @phidget.getInputState(@index)
             end
-		rescue
-		    puts "InterfaceKit Error"
+		rescue Phidgets::Exception => e
+		    puts "Phidgets Error (#{e.code}). #{e}"
 		    return -1
         end
     end
@@ -94,8 +94,8 @@ class IfkDigitalOutput < InterfaceKitPin
             @phidget.synchronize do
         	    @state = @phidget.getOutputState(@index)
             end
-		rescue
-		    puts "InterfaceKit Error"
+		rescue Phidgets::Exception => e
+		    puts "Phidgets Error (#{e.code}). #{e}"
 		    return -1
 	    end
 	end
@@ -105,7 +105,7 @@ class IfkDigitalOutput < InterfaceKitPin
 	        @phidget.synchronize do
 			    @phidget.setOutputState(@index, value)
 		    end
-		rescue
+		rescue Phidgets::Exception => e
 		    puts "Phidgets Error (#{e.code}). #{e}"
 		    return -1
 	    end
@@ -136,7 +136,7 @@ class IfkAnalogInput < InterfaceKitPin
             @phidget.synchronize do
     			value = @phidget.getSensorValue(@index)
 			end
-		rescue
+		rescue Phidgets::Exception => e
 		    puts "Phidgets Error (#{e.code}). #{e}"
 		    return -1
         end
@@ -183,7 +183,7 @@ if __FILE__ == $0
     
     begin
         phidget = Phidgets::InterfaceKit.new(address,2000)
-    rescue Phidgets::Exception => e 
+    rescue Phidgets::Exception => e
         puts "Phidgets Error (#{e.code}). #{e}"
         exit(-1)
     end
