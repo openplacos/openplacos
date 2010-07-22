@@ -98,13 +98,14 @@ class IfkDigitalOutput < InterfaceKitPin
 	def write(value)
 	    begin
 	        @phidget.synchronize do
-	            if value then v = true else v = false end
+	            if value then v = 1 else v = 0 end
 			    @phidget.setOutputState(@index, v)
 		    end
 		rescue Phidgets::Exception => e
 		    puts "Phidgets Error (#{e.code}). #{e}"
 		    return -1
 	    end
+	    return 0
 	end
 	
 end # class
