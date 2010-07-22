@@ -73,11 +73,6 @@ end # class
 
 class IfkDigitalOutput < InterfaceKitPin
 
-    def initialize(phidget, path, index)
-        super
-        @state = false
-    end #def
-
     dbus_interface "org.openplacos.driver.digital" do
 
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
@@ -92,7 +87,7 @@ class IfkDigitalOutput < InterfaceKitPin
 	def read
 	    begin
             @phidget.synchronize do
-        	    @state = @phidget.getOutputState(@index)
+                @phidget.getOutputState(@index)
             end
 		rescue Phidgets::Exception => e
 		    puts "Phidgets Error (#{e.code}). #{e}"
@@ -103,7 +98,8 @@ class IfkDigitalOutput < InterfaceKitPin
 	def write(value)
 	    begin
 	        @phidget.synchronize do
-			    @phidget.setOutputState(@index, value)
+	            if value then v = true else v = false end
+			    @phidget.setOutputState(@index, v)
 		    end
 		rescue Phidgets::Exception => e
 		    puts "Phidgets Error (#{e.code}). #{e}"
