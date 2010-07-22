@@ -91,7 +91,7 @@ class Actuator
         param.each{ |method|
           #Check if value is defined for the method
           #value is required
-          if method["value"]
+          if not method["value"].nil?
             value = method["value"]
           else
             abort "Error in model " + model["model"] + " : value is required for method " +  method["name"]
