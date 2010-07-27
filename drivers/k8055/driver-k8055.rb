@@ -25,10 +25,13 @@ include USB
 
 class K8055DigitalInput < DBus::Object
 
+    attr_reader :trigger
+
     def initialize(k8055, path, index)
         super(path)
         @k8055 = k8055
         @index = index
+        @trigger = 1
     end
 
     dbus_interface "org.openplacos.driver.digital" do
@@ -114,10 +117,13 @@ end # class
 
 class K8055AnalogInput < DBus::Object
 
+    attr_reader :trigger
+
     def initialize(k8055, path, index)
         super(path)
         @k8055 = k8055
         @index = index
+        @trigger = 2
     end
 
     dbus_interface "org.openplacos.driver.analog" do
@@ -250,6 +256,7 @@ if __FILE__ == $0
     k8055.clear_all_analog
 
     pins = Array.new
+    watched_pins = Array.new   # pins to monitor
     (1..8).each do |i|
         path = "/digital/output/#{i}"
         pins << K8055DigitalOutput.new(k8055, path, i)
@@ -257,6 +264,7 @@ if __FILE__ == $0
     (1..5).each do |i|
         path = "/digital/input/#{i}"
         pins << K8055DigitalInput.new(k8055, path, i)
+        watched_pins << pins.last
     end
     (1..2).each do |i|
         path = "/analog/output/#{i}"
@@ -265,6 +273,7 @@ if __FILE__ == $0
     (1..2).each do |i|
         path = "/analog/input/#{i}"
         pins << K8055AnalogInput.new(k8055, path, i)
+        watched_pins << pins.last
     end
     pins.each do |pin|
        dbus_service.export(pin)
@@ -274,19 +283,23 @@ if __FILE__ == $0
     # Polling thread
     thrd_poll = Thread.new do
         old = []
+        watched_pins.each do |pin|
+            old << pin.read
+        end
         until the_end
             new = []
-            pins.each do |pin|
+            watched_pins.each do |pin|
                 new << pin.read
             end
             if new != old
                 new.each_index do |i|
-                    if pins[i].class == K8055DigitalInput
-                        pins[i].change(new[i]) if new[i] != old[i]
+                    # emit dbus signal if difference between old and new value is more than the defined trigger
+                    if (new[i] - old[i]).abs >= watched_pins[i].trigger
+                        watched_pins[i].change(new[i])
+                        old[i] = new[i]
                     end
                 end
             end
-            old = new.dup
             sleep PollingTime
         end
     end
