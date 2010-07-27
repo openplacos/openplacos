@@ -23,19 +23,13 @@ require 'thread'
 
 include USB
 
+class K8055DigitalInput < DBus::Object
 
-class K8055Pin < DBus::Object
-
-	def initialize(k8055, path, index)
-	    super(path)
-	    @k8055 = k8055
-		@index = index
-	end
-
-end # class
-
-
-class K8055DigitalInput < K8055Pin
+    def initialize(k8055, path, index)
+        super(path)
+        @k8055 = k8055
+        @index = index
+    end
 
     dbus_interface "org.openplacos.driver.digital" do
 
@@ -73,10 +67,12 @@ class K8055DigitalInput < K8055Pin
 end # class
 
 
-class K8055DigitalOutput < K8055Pin
+class K8055DigitalOutput < DBus::Object
 
     def initialize(k8055, path, index)
-        super
+        super(path)
+        @k8055 = k8055
+        @index = index
         @state = false
     end #def
 
@@ -116,7 +112,13 @@ class K8055DigitalOutput < K8055Pin
 end # class
 
 
-class K8055AnalogInput < K8055Pin
+class K8055AnalogInput < DBus::Object
+
+    def initialize(k8055, path, index)
+        super(path)
+        @k8055 = k8055
+        @index = index
+    end
 
     dbus_interface "org.openplacos.driver.analog" do
 
@@ -152,10 +154,12 @@ class K8055AnalogInput < K8055Pin
 end # class
 
 
-class K8055AnalogOutput < K8055Pin
+class K8055AnalogOutput < DBus::Object
 
     def initialize(k8055, path, index)
-        super
+        super(path)
+        @k8055 = k8055
+        @index = index
         @value = 0
     end #def
 
