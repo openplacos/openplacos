@@ -170,6 +170,17 @@ class K8055AnalogOutput < K8055Pin
 		end
 	end  
 	
+	dbus_interface "org.openplacos.driver.pwm" do
+
+		dbus_method :read, "out return:v, in option:a{sv}" do |option|
+           self.read
+		end  
+		
+		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+            self.write value * 51
+		end
+	end
+	
 	def read
         @value
 	end
