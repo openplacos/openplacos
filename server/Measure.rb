@@ -81,7 +81,11 @@ class Measure
   end
 
   # Plug the measure to the proxy with defined interface 
-  def plug(proxy) 
+  def plug(proxy)
+    if not proxy.has_iface? @interface.get_name
+      puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.name
+      Process.exit 1
+    end
     if proxy[@interface.get_name].methods["read"]
       @proxy_iface = proxy[@interface.get_name]
     else
