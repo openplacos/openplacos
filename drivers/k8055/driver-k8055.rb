@@ -35,11 +35,9 @@ class K8055DigitalInput < DBus::Object
     end
 
     dbus_interface "org.openplacos.driver.digital" do
-
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
 			self.read
-		end  
-		
+		end
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
 		    self.write value
 		end
@@ -80,11 +78,9 @@ class K8055DigitalOutput < DBus::Object
     end #def
 
     dbus_interface "org.openplacos.driver.digital" do
-
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
             self.read
 		end
-		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
             self.write value
 		end
@@ -127,11 +123,9 @@ class K8055AnalogInput < DBus::Object
     end
 
     dbus_interface "org.openplacos.driver.analog" do
-
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
 			self.read
 		end
-		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
             self.write value
 		end
@@ -170,22 +164,18 @@ class K8055AnalogOutput < DBus::Object
     end #def
 
     dbus_interface "org.openplacos.driver.analog" do
-
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
            self.read
-		end  
-		
+		end
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
             self.write value
 		end
-	end  
+	end
 	
 	dbus_interface "org.openplacos.driver.pwm" do
-
 		dbus_method :read, "out return:v, in option:a{sv}" do |option|
            self.read
-		end  
-		
+		end
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
 		    # FIXME need to define the pwm api
             self.write value * 51
