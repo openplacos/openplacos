@@ -101,9 +101,9 @@ class K8055DigitalOutput < K8055Pin
                 if not value and not @state
                     # workaround to a libk8055 bug ?
                 elsif value
-                    @k8055.digital_on @index
+                    @k8055.set_digital @index, true
                 elsif not value
-                    @k8055.digital_off @index
+                    @k8055.set_digital @index, false
                 end
                 if value then @state = true else @state = false end
             end
@@ -177,6 +177,7 @@ class K8055AnalogOutput < K8055Pin
 		end  
 		
 		dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+		    # FIXME need to define the pwm api
             self.write value * 51
 		end
 	end
