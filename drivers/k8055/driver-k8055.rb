@@ -44,8 +44,8 @@ class K8055DigitalInput < DBus::Object
 	end
 	
 	dbus_interface "org.openplacos.driver.signal" do
-	    dbus_signal :change, "value:i" do
-	        self.read
+	    dbus_signal :changed, "path:s" do
+	        self.path
 	    end
     end
 
@@ -132,7 +132,9 @@ class K8055AnalogInput < DBus::Object
 	end
 		
 	dbus_interface "org.openplacos.driver.signal" do
-	    dbus_signal :change, "value:i"
+	    dbus_signal :changed, "path:s" do
+	        self.path
+	    end
     end
     
 	def read
