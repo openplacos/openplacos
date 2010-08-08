@@ -118,7 +118,10 @@ class Measure
       else
         @value = @proxy_iface.read(@option)[0]
       end
-      
+    Thread.new{ 
+      flow = Database::Flow.create(:date  => Time.new,:value => @value) 
+      Database::Measure.create(:flow_id => flow.id) # Warning ! missing key_to_sensor
+    }
     end
     return @value   
   end

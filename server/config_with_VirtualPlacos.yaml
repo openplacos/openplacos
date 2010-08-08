@@ -31,9 +31,16 @@ actuator:
 card:
 - name: VirtualPlacos
   plug: 
-    Pin_1: Temperature_indoor
-    Pin_2: Temperature_outdoor
-    Pin_3: Light
-    Pin_4: Fan
-    Pin_5: Hygro_out
-    Pin_6: Hygro_in
+    /Pin_1: Temperature_indoor
+    /Pin_2: Temperature_outdoor
+    /Pin_3: Light
+    /Pin_4: Fan
+    /Pin_5: Hygro_out
+    /Pin_6: Hygro_in
+
+database: 
+  name: opos_VP
+  adapter: mysql
+  host: localhost
+  user: root
+  password: root

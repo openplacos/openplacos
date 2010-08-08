@@ -25,6 +25,7 @@ require 'Measure.rb'
 require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
+require 'sql.rb'
 
 # List of library include
 require 'yaml' 
@@ -119,7 +120,11 @@ class Top
       exported_obj = Dbus_actuator.new(act)
       @service.export(exported_obj)
     }
-
+    
+    if @config['database']
+      database = Database.new(@config)
+    end
+    
     @service.export(Server.new)
   end # End of init
 end # End of Top
