@@ -88,7 +88,7 @@ end
 
 
 class Server #openplacos server 
-  attr_accessor :config, :objects, :service, :rooms
+  attr_accessor :config, :objects, :service, :rooms , :measures, :actuators
   
   def initialize
     
@@ -97,7 +97,7 @@ class Server #openplacos server
       @service = @bus.service("org.openplacos.server")
     
       @service.introspect
-    
+      @server_mutex = Mutex.new
       #discover all objects of server
       @objects = server_object_discover(@service)
       
@@ -106,6 +106,19 @@ class Server #openplacos server
       
       @rooms = service.root.keys
       @rooms.delete("Debug")
+      @rooms.delete("server")
+      
+      #create measure and actuator pulling Thread
+      @measures = Array.new
+      @actuators = Array.new
+      get_measure_list(@objects).each{ |meas|
+        @measures.push Measure_Thread.new(@objects[meas]['org.openplacos.server.measure'],@server_mutex,1)
+      }
+      get_actuator_list(@objects).each{ |act|
+        @actuators.push Actuator_Thread.new(@objects[act]['org.openplacos.server.actuator'],@server_mutex,1)
+      }
+      
+      
     else
       puts "Can't find OpenplacOS server"
     end
@@ -116,11 +129,11 @@ class Server #openplacos server
   def get_objects(nod) #get objects from a node, ignore Debug objects
     obj = Hash.new
     nod.each_pair{ |key,value|
-     if not(key=="Debug") #ignore debug objects
+     if not(key=="Debug" or key=="server") #ignore debug objects
        if not value.object.nil?
         obj[value.object.path] = value.object
        else
-        get_objects(value)
+        obj.merge!(get_objects(value))
        end
      end
     }
@@ -136,9 +149,31 @@ class Server #openplacos server
   def get_config_from_objects(objects) #contact config methods for all objects
     cfg = Hash.new
     objects.each_pair{ |key, obj|
-      cfg[key] = obj["org.openplacos.server.config"].getConfig[0] 
+      if not(obj["org.openplacos.server.config"]==nil)
+        cfg[key] = obj["org.openplacos.server.config"].getConfig[0] 
+      end
     }
     cfg
+  end
+  
+  def get_measure_list(objects)
+    measure = Array.new
+    objects.each_key{ |key|
+      if key.include?("Measure")
+        measure.push(key)
+      end
+    }
+    measure  
+  end
+  
+  def get_actuator_list(objects)
+    actuator = Array.new
+    objects.each_key{ |key|
+      if key.include?("Actuator")
+        actuator.push(key)
+      end
+    }
+    actuator 
   end
 
 
@@ -147,14 +182,105 @@ end
 
 class Monitor < Gtk::Frame  #Minitor Widget
 
-  def initialize(notebook)
+  def initialize(notebook,measure_th,actuator_th,measure_cfg)
     super('Monitor')
     
+    @measures = measure_th
+    @actuators = actuator_th
+
     @hbox = Gtk::HBox.new(true,6)
     
+    #Create measure monitor frame
+    meas_frame = Gtk::Frame.new("Measures")
+    meas_box = Gtk::VBox.new(true,6)
+    @measures.each{ |meas|
+      meas_box.pack_start(Measure_Monitor.new(measure_cfg[meas.meas.object.path]),true)
+    }
+    meas_frame.add_child(Gtk::Builder.new,meas_box,nil)    
+    
+    #Create actuator monitor frame
+    act_frame = Gtk::Frame.new("Actuators")
+    act_box = Gtk::VBox.new(true,6)
+    @actuators.each{ |act|
+      act_box.pack_start(Gtk::Label.new(act.state.to_s),true)
+    }
+    act_frame.add_child(Gtk::Builder.new,act_box,nil)    
+     
+    
+    @hbox.pack_start(meas_frame,true)
+    @hbox.pack_start(act_frame,true)
+    self.add_child(Gtk::Builder.new,@hbox,nil)    
     notebook.append_page(self,nil)
 
   end
 
 
 end
+
+
+class Measure_Thread < Thread
+  attr_reader :value, :meas
+  
+  def initialize(meas,mutex,refresh_rate)
+    @mutex = mutex
+    @meas = meas
+    @refresh_rate = refresh_rate
+    @mutex.synchronize{@value = @meas.value[0]}
+    super{
+        loop do
+          @mutex.synchronize{
+            @value = @meas.value[0]
+          }
+          sleep @refresh_rate
+        end
+      }
+  end
+
+end
+
+class Actuator_Thread < Thread
+  attr_reader :state
+  
+  def initialize(act,mutex,refresh_rate)
+    @mutex = mutex
+    @act = act
+    @refresh_rate = refresh_rate
+    @mutex.synchronize{@state = @act.state[0]}
+    super{
+        loop do
+          @mutex.synchronize{
+            @state = @meas.state[0]
+          }
+          sleep @refresh_rate
+        end
+      }
+  end
+
+end
+
+class Measure_Monitor < Gtk::Frame
+
+  def initialize(config)
+    super(config["name"])
+    hbox = Gtk::HBox.new(true,6)
+    
+    #find image and push it into the container
+    case config["unit"]
+      when "Celsius"
+        path = "./icons/leaf.png"
+      when "%RH"
+        path = "./icons/leaf.png"
+      else 
+        path = "./icons/leaf.png"
+    end
+    @image = Gtk::Image.new(path)
+    hbox.pack_start(@image,true)
+    
+    # value label
+    @value_label = Gtk::Label.new("")
+
+     self.add_child(Gtk::Builder.new,hbox,nil)      
+  end
+
+end
+
