@@ -94,12 +94,12 @@ class Top
 
         # plug proxy with measure 
         if @measures[device]
-          @measures[device].plug(@drivers[card["name"]].objects[obj])
+          @measures[device].plug(@drivers[card["name"]].objects[obj], card["name"])
         end
 
         # plug proxy with actuator
         if @actuators[device]
-          @actuators[device].plug(@drivers[card["name"]].objects[obj])
+          @actuators[device].plug(@drivers[card["name"]].objects[obj], card["name"])
         end
 
         
@@ -123,6 +123,9 @@ class Top
     
     if @config['database']
       database = Database.new(@config)
+
+      # store config if not done before
+      database.store_config( @drivers, @measures, @actuators)
     end
     
     @service.export(Server.new)
