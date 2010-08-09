@@ -22,7 +22,7 @@ $PATH_SENSOR = "../components/sensors/"
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config
+  attr_reader :name , :proxy_iface, :value ,:room, :config, :card_name, :device_model
 
   #1 Measure definition in yaml config
   #2 Top reference
@@ -30,6 +30,7 @@ class Measure
 
     @dependencies = nil
     @room = nil
+    @device_model = nil
     
     #detec model and merge with config
     if meas_["model"]
@@ -43,7 +44,9 @@ class Measure
       #---
       # FIXME : merge delete similar keys, its not good for somes keys (like driver)
       #+++
-      meas_ = deep_merge(model,meas_)
+      meas_ = deep_merge(model,meas_) # /!\ 
+
+     
     end
     # Parse Yaml correponding to the model of sensor
     parse_config(meas_)
@@ -57,6 +60,8 @@ class Measure
   end
 
   def check(overpass_, ttl_)
+    #1 overpass to 1 do not check dependencies, only at first step !
+    #2 current ttl
     if (@check_lock==1 && overpass_==0)
       puts "\nDependencies loop detected for " + @name + " measure !"
       puts "Please check dependencies for this measure"
@@ -81,17 +86,22 @@ class Measure
   end
 
   # Plug the measure to the proxy with defined interface 
-  def plug(proxy)
-    if not proxy.has_iface? @interface.get_name
+  def plug(proxy_, card_name_)
+    #1 proxy to card with defined interface
+    #2 card name
+
+
+    if not proxy_.has_iface? @interface.get_name
       puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.name
       Process.exit 1
     end
-    if proxy[@interface.get_name].methods["read"]
-      @proxy_iface = proxy[@interface.get_name]
+    if proxy_[@interface.get_name].methods["read"]
+      @proxy_iface = proxy_[@interface.get_name]
     else
       puts "Error : No read method in interface " + @interface.get_name + "to plug with sensor" + self.name
       Process.exit 1
     end 
+    @card_name = card_name_
   end
   
   #measure from sensor
@@ -126,17 +136,23 @@ class Measure
     return @value   
   end
 
-  def parse_config(model)
+  def parse_config(config_)
     #parse config and add variable according to the config and the model
+    #1 config given in yaml
     
-    #for each keys of config
-    model.each {|key, param| 
+    #for each keys of config 
+    config_.each {|key, param| 
+    # Do we need this loop ?
       
       case key
       when "room"
         @room = param
       when "name"
         @name = param
+        
+      when "model"
+        @device_model = param
+        
       when "driver"
         if param["option"]
           @option = value["option"].dup
@@ -147,20 +163,20 @@ class Measure
         if param["interface"]
           @interface = Dbus_interface.new(param["interface"]).dup
         else
-          abort "Error in model " + model["model"] + " : interface is required "
+          abort "Error in model " + config_["model"] + " : interface is required "
         end
         
         if param["ttl"]
-          @ttl = model["driver"]["ttl"]
+          @ttl = config_["driver"]["ttl"]
         else
           @ttl = 0
         end
         
       when "depends"
         @dependencies = param
-        
+
       when "conversion"
-        eq = model["conversion"].split
+        eq = config_["conversion"].split
         eq.each_with_index { |block, index|
 
           if block.include? "%"

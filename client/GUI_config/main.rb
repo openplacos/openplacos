@@ -17,7 +17,12 @@ class MonAppli
     
     @parent = store.append(nil)
     store.set_value(@parent, 0, "uCham")
-    @main_glade["main"].show_all
+    puts @main_glade["set_model_container"].class
+    @main_glade["set_model_container"].pack_start = Gtk::ComboBox.new (true)
+    combo = Gtk::ComboBox.new (true)
+    @main_glade["select_model"] = combo
+    @main_glade["select_model"].append_text("test")
+     @main_glade["main"].show_all
   end 
 
   def on_add_card_clicked
@@ -32,11 +37,18 @@ class MonAppli
     end
 
     @main_glade["tree"].show_all
+  
   end 
 
   def on_close_clicked
     Gtk.main_quit
   end 
+
+  def on_assistant_add_device_close
+    puts @main_glade["assistant_add_device"].class
+    @main_glade["assistant_add_device"].close
+  end
+
 
 end 
 

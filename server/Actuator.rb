@@ -21,7 +21,7 @@ $PATH_ACTUATOR = "../components/actuators/"
 
 class Actuator
 
-  attr_reader :name , :proxy_iface, :methods, :room ,:config ,:state
+  attr_reader :name , :proxy_iface, :methods, :room ,:config ,:state, :card_name, :device_model
 
   #1 Measure definition in yaml config
   #2 Top reference
@@ -29,7 +29,8 @@ class Actuator
     
     @room = nil
     @state = -1
-    
+    @device_model = nil
+ 
     #detect model and merge with config
     if act_["model"]
       #parse yaml
@@ -41,7 +42,8 @@ class Actuator
       #---
       # FIXME : merge delete similar keys, its not good for somes keys (like methods)
       #+++    
-      act_ = deep_merge(model,act_)
+
+      act_ = deep_merge(model,act_) # /!\ 
     end
     
     # Parse Yaml correponding to the model of actuator
@@ -52,31 +54,37 @@ class Actuator
   end
 
   # Plug the actuator to the proxy with defined interface 
-  def plug(proxy) 
-    if not proxy.has_iface? @interface.get_name
+  def plug(proxy_, card_name_) 
+    if not proxy_.has_iface? @interface.get_name
       puts "Error : No interface " + @interface.get_name + " avalaibable for actuator " + self.name
       Process.exit 1
     end
-    if proxy[@interface.get_name].methods["write"]
-      @proxy_iface = proxy[@interface.get_name]
+    if proxy_[@interface.get_name].methods["write"]
+      @proxy_iface = proxy_[@interface.get_name]
     else
       puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.name
       Process.exit 1
     end 
+    @card_name = card_name_
   end
   
   
-  def parse_config(model)
+  def parse_config(config_)
     #parse config and add variable according to the config and the model
     
     #for each keys of config
-    model.each {|key, param| 
+    config_.each {|key, param| 
       
       case key
       when "room"
         @room = param
+
       when "name"
         @name = param
+
+      when "model"
+        @device_model = param
+
       when "driver"
         if param["option"]
           @option = value["option"].dup
@@ -98,7 +106,7 @@ class Actuator
           if not method["value"].nil?
             value = method["value"]
           else
-            abort "Error in model " + model["model"] + " : value is required for method " +  method["name"]
+            abort "Error in model " + config_["model"] + " : value is required for method " +  method["name"]
           end
 
           #Check if option is defined
