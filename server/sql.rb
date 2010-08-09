@@ -34,8 +34,9 @@ class Database
   class Actuator < ActiveRecord::Base 
   end
   class Flow < ActiveRecord::Base 
+
   end
-  class Measure < ActiveRecord::Base 
+  class Measure < ActiveRecord::Base
   end
   class Instruction < ActiveRecord::Base 
   end
@@ -135,22 +136,22 @@ class Database
   def create_elements_from_config(config_)
   
     config_["card"].each{ |card|
-      if !Card.find(:first, :conditions => {"config_name" => card['name']})
+      if !Card.exists?(:config_name => card['name'])
         Card.create(:config_name => card['name'] ) # model, usb id and path missing
       end
     }
     
     config_["measure"].each{ |meas|
-      if !Device.find(:first, :conditions => {"config_name" => meas['name']})
+      if !Device.exists?(:config_name => meas['name'])
         dev = Device.create(:config_name => meas['name'], :model => meas["model"], :room => meas["room"] ) # key to car missing
         Sensor.create(:device_id => dev.id) #unit missing
       end
     }
     
     config_["actuator"].each{ |act|
-      if !Device.find(:first, :conditions => {"config_name" => act['name']})
+      if !Device.exists?(:config_name => act['name'])
         dev = Device.create(:config_name => act['name'], :model => act["model"], :room => act["room"] ) # key to car missing
-        Actuator.create(:device_id => dev.id) #unit missing
+        Actuator.create(:device_id => dev.id) #interface missing
       end
     }
     
