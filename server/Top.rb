@@ -1,4 +1,4 @@
-#/usr/bin/ruby -w
+#!/usr/bin/ruby -w
 
 #    This file is part of Openplacos.
 #
@@ -18,9 +18,13 @@
 
 
 # List of local include
-require 'Driver_object.rb'
-require 'Request.rb'
+require 'Driver.rb'
+require 'Dbus-interfaces_acquisition_card.rb'
+require 'Dbus_debug.rb'
 require 'Measure.rb'
+require 'Actuator.rb'
+require 'Publish.rb'
+require 'globals.rb'
 
 # List of library include
 require 'yaml' 
@@ -29,70 +33,119 @@ require 'yaml'
 sessionBus = DBus::session_bus
 service = sessionBus.request_service("org.openplacos.server")
 
-class Top
-  attr_reader :measure
-  attr_reader :driver
+#Global functions
+$global = Global.new
 
+
+class Top
+  attr_reader :measures, :actuators
+  attr_reader :drivers
+  
+  #1 Config file path
+  #2 Dbus session reference
   def initialize (config_, service_)
     # Parse yaml
     @config =  YAML::load(File.read(config_))
-    
     @service = service_
 
     # Config 
-    @driver = Hash.new
-    @measure = Hash.new
+    @drivers = Hash.new
+    @measures = Hash.new
+    @actuators = Hash.new
+    
+    # Create measures
+    if @config["measure"]
+      @config["measure"].each { |meas|
+        @measures.store(meas["name"], Measure.new(meas, self))
+      }
 
-    # Create measure
-    @config["measure"].each { |meas|
-      @measure.store(meas["name"], Measure.new(meas, self))
-    }
-
-    # Check dependencies
-    @measure.each_value{ |meas|
-      meas.sanity_check()
-    }
-
-    # Configure all the driver
+      # Check dependencies
+      @measures.each_value{ |meas|
+        meas.sanity_check()
+      }
+      
+    end
+    
+    #create actuators
+    if @config["actuator"]
+      @config["actuator"].each { |act|
+        @actuators.store(act["name"], Actuator.new(act, self))
+      }
+    else
+      puts "No actuators where defined in config"
+    end
+    
+    # For each acquisition driver
     @config["card"].each { |card|
 
-      # Get object list
+      # Get object list mapped in array
       object_list = Array.new
-      card["object"].each_value{ |obj|
-        object_list.push("/" + obj)
-      }
-      @driver.store(card["name"], Driver_object.new( card, object_list))
+      card["plug"].each_pair{ |obj,device| object_list << obj unless device.nil? }
+
+      # Create driver proxy with standard acquisition card iface
+      @drivers.store(card["name"], Driver.new( card, object_list))
       
-      # DBus server config
-      card["object"].each_pair{ |device, pin|
-        exported_obj = Request.new(device, driver[card["name"]].pins["/"+pin])
+      # Push driver in DBus server config
+      # Stand for debug
+      card["plug"].each_pair{ |obj, device|
+
+        next if device.nil?
+
+        # plug proxy with measure 
+        if @measures[device]
+          @measures[device].plug(@drivers[card["name"]].objects[obj])
+        end
+
+        # plug proxy with actuator
+        if @actuators[device]
+          @actuators[device].plug(@drivers[card["name"]].objects[obj])
+        end
+
+        
+        exported_obj = Dbus_debug.new(device,@drivers[card["name"]].objects[obj])
         @service.export(exported_obj)
       }
     }
+    
+    
+    # Publish measures on Dbus
+    @measures.each_value{ |measure|
+      exported_obj = Dbus_measure.new(measure)
+      @service.export(exported_obj)
+    }
+    
+    # Publish actuators on Dbus
+    @actuators.each_value{ |act|
+      exported_obj = Dbus_actuator.new(act)
+      @service.export(exported_obj)
+    }
 
-  end
-end
+    @service.export(Server.new)
+  end # End of init
+end # End of Top
 
+# Config file basic verification
 if (ARGV[0] == nil)
   puts "Please specify a config file"
   puts "Usage: openplacos-server <config-file>"
-  Process.exit
+  Process.exit 1
 end
 
 if (! File.exist?(ARGV[0]))
   puts "Config file " +ARGV[0]+" doesn't exist"
-  Process.exit
+  Process.exit 1
 end
 
 
 if (! File.readable?(ARGV[0]))
   puts "Config file " +ARGV[0]+" not readable"
-  Process.exit
+  Process.exit 1
 end
 
-
+# Construct Top
 top = Top.new(ARGV[0], service)
 
+# Let's Dbus have execution control
 main = DBus::Main.new
 main << sessionBus
 main.run
