@@ -130,7 +130,7 @@ class Measure
       end
     Thread.new{ 
       flow = Database::Flow.create(:date  => Time.new,:value => @value) 
-      Database::Measure.create(:flow_id => flow.id) # Warning ! missing key_to_sensor
+      Database::Measure.create(:flow_id => flow.id, :sensor_id => Database::Device.find(:first, :conditions => { :config_name => self.name }).id) # Warning ! its key_to_device and not key_to_sensor
     }
     end
     return @value   
