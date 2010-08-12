@@ -55,7 +55,7 @@ class Database
                                               :adapter => config_['database']['adapter'],
                                               :host => config_['database']['host'],
                                               :user => config_['database']['user'],
-                                              :password => config_['database']['password'],
+                                              :password => ENV['OPOS_PASS'],
                                               :database => config_['database']['name']
                                               )
       

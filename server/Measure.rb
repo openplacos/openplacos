@@ -129,9 +129,12 @@ class Measure
         @value = @proxy_iface.read(@option)[0]
       end
     Thread.new{ 
-      flow = Database::Flow.create(:date  => Time.new,:value => @value) 
-      Database::Measure.create(:flow_id => flow.id, :sensor_id => Database::Device.find(:first, :conditions => { :config_name => self.name }).id) # Warning ! its key_to_device and not key_to_sensor
-    }
+        flow = Database::Flow.create(:date  => Time.new,:value => @value) 
+        device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
+        sensor =  Database::Sensor.find(:first, :conditions => { :device_id => device.id })
+        Database::Measure.create(:flow_id => flow.id,
+                                 :sensor_id => sensor.id)
+   }
     end
     return @value   
   end
