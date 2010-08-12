@@ -144,7 +144,7 @@ class Database
 
     cards_.each_pair{ |name, card|
       if !Card.exists?(:config_name => name)
-        Card.create(:config_name => name ) # model, usb id and path missing
+        Card.create(:config_name => name, :path_dbus => card.path_dbus ) # model, usb id missing
       end
     }
     
@@ -156,9 +156,10 @@ class Database
         dev = Device.create(:config_name => name,
                             :model => meas.instance_variable_get(:@device_model) ,
                             :room => meas.instance_variable_get(:@room) ,
+                            :path_dbus => meas.proxy_iface.object.path,
                             :card_id => Card.find(:first, :conditions => [ "config_name = ?",  meas.instance_variable_get(:@card_name)]))
                             
-        Sensor.create(:device_id => dev.id) #unit missing
+        Sensor.create(:device_id => dev.id, :unit => meas.informations['unit'])
       end
     }
     
@@ -167,8 +168,9 @@ class Database
         dev = Device.create(:config_name => name,
                             :model => act.instance_variable_get(:@device_model) ,
                             :room => act.instance_variable_get(:@room),
+                            :path_dbus => act.proxy_iface.object.path,
                             :card_id => Card.find(:first, :conditions => [ "config_name = ?", act.instance_variable_get(:@card_name)])) 
-        Actuator.create(:device_id => dev.id) #interface missing
+        Actuator.create(:device_id => dev.id, :interface => act.config["driver"]["interface"]) 
       end
     }
     

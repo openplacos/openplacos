@@ -22,7 +22,7 @@ $PATH_SENSOR = "../components/sensors/"
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config, :card_name, :device_model
+  attr_reader :name , :proxy_iface, :value ,:room, :config, :card_name, :device_model, :informations
 
   #1 Measure definition in yaml config
   #2 Top reference
@@ -152,6 +152,9 @@ class Measure
         
       when "model"
         @device_model = param
+      
+      when "informations"
+        @informations = param
         
       when "driver"
         if param["option"]
