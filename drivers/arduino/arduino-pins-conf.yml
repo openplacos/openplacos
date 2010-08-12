@@ -1,2 +1,0 @@
-- { type: digital, index: 0, mode: INPUT }
-- { type: digital, index: 13, mode: OUTPUT }

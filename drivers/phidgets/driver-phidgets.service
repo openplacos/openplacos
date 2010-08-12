@@ -1,4 +1,0 @@
-[D-BUS Service]
-Name=org.openplacos.drivers.phidgets
-Exec=/usr/local/lib/opos/drivers/phidgets.py
-

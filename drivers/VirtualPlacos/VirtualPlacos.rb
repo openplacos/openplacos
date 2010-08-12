@@ -253,6 +253,13 @@ def my_notify(message)
     puts message
 end
 
+def my_notify(message)
+	if $notify==true 
+		$notifyIface.Notify('VirtualPlacos', 0,Pathname.pwd.to_s + "/icones/VirtualPlacos.png","VirtualPlacos",message,[], {}, -1)
+	end
+	puts message
+end
+
 if (ARGV[0] == nil)
   puts "Please specify a config file"
   puts "Usage: openplacos-server <config-file>"
