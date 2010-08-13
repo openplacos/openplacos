@@ -44,3 +44,6 @@ database:
   host: localhost
   user: root
 # Please set password in $OPOS_PASS 
+  profile: measures, actuators, users 
+  include: 
+  exclude:  Temperature_outdoor, Hygro_out

@@ -64,6 +64,7 @@ class Database
       #create tables if doesnt exist.
       create_opos_tables      
       
+      define_profile(config_["database"])
 
       
     end
@@ -176,6 +177,10 @@ class Database
     
   end
 
-  
+  def define_profile(config_)
+    if config_["profile"] then @profiles = config_["profile"].delete(" ").split(",") end
+    if config_["include"] then @include = config_["include"].delete(" ").split(",") end
+    if config_["exclude"] then @exclude = config_["exclude"].delete(" ").split(",") end
+  end
   
 end
