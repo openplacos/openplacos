@@ -120,8 +120,7 @@ class Actuator
 
           methdef = """
           def #{method["name"]}
-            @proxy_iface.write( #{value}, #{option})
-            @state = #{value}
+            write( #{value}, #{option})
           end
           """
           self.instance_eval(methdef)
@@ -130,6 +129,18 @@ class Actuator
       end
       
     }
+  end
+  
+  def write( value_, option_)
+   @proxy_iface.write( value_, option_)
+   Thread.new{ 
+        flow = Database::Flow.create(:date  => Time.new,:value => to_float(value_)) 
+        device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
+        actuator =  Database::Actuator.find(:first, :conditions => { :device_id => device.id })
+        Database::Instruction.create(:flow_id => flow.id,
+                                 :actuator_id => actuator.id)
+   }
+    @state = value_
   end
   
   def deep_merge(oldhash,newhash)
@@ -144,5 +155,17 @@ class Actuator
       end
     }
   end
+  
+  def to_float(arg)
+    case arg
+    when true
+      return 1.0
+    when false
+      return 0.0
+    else
+      return arg.to_f
+    end     
+  end
+
 
 end
