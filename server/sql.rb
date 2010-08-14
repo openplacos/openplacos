@@ -180,23 +180,29 @@ class Database
   def define_profile(config_)
  
     @trace = Array.new
-  
+    
     if config_["database"]["profile"] 
       @profiles = config_["database"]["profile"].delete(" ").split(",")
-      @profiles.each { |profile|
-        case profile.downcase
-          when "measures"
-            config_["measure"].each{ |meas|
-              @trace.push(meas['name'])
-            }
-          when "actuators"
-            config_["actuator"].each{ |act|
-              @trace.push(act['name'])
-            }
-          when "users"
-        end
+    else
+      @profiles = ["measures","actuators","users"] #if no profiles defined, all is traced 
+    end
+    
+    if @profiles.include?("measures")
+      config_["measure"].each{ |meas|
+        @trace.push(meas['name'])
       }
     end
+    
+    if @profiles.include?("actuators")      
+      config_["actuator"].each{ |act|
+        @trace.push(act['name'])
+      }
+    end     
+    
+    if @profiles.include?("users") 
+      #nothing 
+    end
+
 
     if config_["database"]["include"] 
       @include = config_["database"]["include"].delete(" ").split(",")
