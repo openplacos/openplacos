@@ -64,7 +64,7 @@ class Database
       #create tables if doesnt exist.
       create_opos_tables      
       
-      define_profile(config_["database"])
+      define_profile(config_)
 
       
     end
@@ -178,9 +178,43 @@ class Database
   end
 
   def define_profile(config_)
-    if config_["profile"] then @profiles = config_["profile"].delete(" ").split(",") end
-    if config_["include"] then @include = config_["include"].delete(" ").split(",") end
-    if config_["exclude"] then @exclude = config_["exclude"].delete(" ").split(",") end
+ 
+    @trace = Array.new
+  
+    if config_["database"]["profile"] 
+      @profiles = config_["database"]["profile"].delete(" ").split(",")
+      @profiles.each { |profile|
+        case profile.downcase
+          when "measures"
+            config_["measure"].each{ |meas|
+              @trace.push(meas['name'])
+            }
+          when "actuators"
+            config_["actuator"].each{ |act|
+              @trace.push(act['name'])
+            }
+          when "users"
+        end
+      }
+    end
+
+    if config_["database"]["include"] 
+      @include = config_["database"]["include"].delete(" ").split(",")
+      @trace.push(@include)
+    end
+        
+    if config_["database"]["exclude"] 
+      @exclude = config_["database"]["exclude"].delete(" ").split(",")
+      @exclude.each { |ex|
+        @trace.delete(ex)
+      }
+    end
+  $global.trace("#{@trace.inspect} are traced in database")
   end
+  
+  def is_traced(name_)
+    return @trace.include?(name_)
+  end
+  
   
 end

@@ -122,10 +122,10 @@ class Top
     }
     
     if @config['database']
-      database = Database.new(@config)
+      $database = Database.new(@config)
 
       # store config if not done before
-      database.store_config( @drivers, @measures, @actuators)
+      $database.store_config( @drivers, @measures, @actuators)
     end
     
     @service.export(Server.new)

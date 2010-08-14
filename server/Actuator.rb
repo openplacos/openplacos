@@ -136,11 +136,13 @@ class Actuator
   def write( value_, option_)
     @proxy_iface.write( value_, option_)
     Thread.new{ 
-      flow = Database::Flow.create(:date  => Time.new,:value => to_float(value_)) 
-      device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
-      actuator =  Database::Actuator.find(:first, :conditions => { :device_id => device.id })
-      Database::Instruction.create(:flow_id => flow.id,
-                                   :actuator_id => actuator.id)
+      if $database.is_traced(self.name)
+        flow = Database::Flow.create(:date  => Time.new,:value => to_float(value_)) 
+        device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
+        actuator =  Database::Actuator.find(:first, :conditions => { :device_id => device.id })
+        Database::Instruction.create(:flow_id => flow.id,
+                                     :actuator_id => actuator.id)
+      end
     }
     @state = value_
   end
