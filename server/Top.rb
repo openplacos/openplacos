@@ -101,7 +101,6 @@ class Top
           @actuators[device].plug(@drivers[card["name"]].objects[obj])
         end
 
-        
         exported_obj = Dbus_debug.new(device,@drivers[card["name"]].objects[obj])
         @service.export(exported_obj)
       }
