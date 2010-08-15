@@ -31,7 +31,7 @@ class Measure
     @dependencies = nil
     @room = nil
     @device_model = nil
-    
+    @config = meas_
     #detec model and merge with config
     if meas_["model"]
       #parse yaml
@@ -44,13 +44,13 @@ class Measure
       #---
       # FIXME : merge delete similar keys, its not good for somes keys (like driver)
       #+++
-      meas_ = deep_merge(model,meas_) # /!\ 
+      @config = deep_merge(model,meas_) # /!\ 
 
      
     end
     # Parse Yaml correponding to the model of sensor
-    parse_config(meas_)
-    @config = meas_
+    parse_config(@config)
+
     @last_mesure = 0
     @value = nil     
 
@@ -136,7 +136,7 @@ class Measure
         Database::Measure.create(:flow_id => flow.id,
                                  :sensor_id => sensor.id)
       end
-   }
+    }
     end
     return @value   
   end
@@ -144,64 +144,54 @@ class Measure
   def parse_config(config_)
     #parse config and add variable according to the config and the model
     #1 config given in yaml
+
+    # Error processing
+    if config_["driver"]["interface"].nil?
+      abort "Error in model " + config_["model"] + " : interface is required "
+    end
+    if config_["name"].nil?
+      abort "Error in config : name is required "
+    end
+ 
+    #for each keys of config
+    @room         = config_["room"]
+    @name         = config_["name"]
+    @device_model = config_["model"]
+    @informations = config_["informations"]
+    @dependencies = config_["depends"]
+    @interface    = Dbus_interface.new(config_["driver"]["interface"]).dup 
+
+    if config_["driver"]["option"]
+      @option = config_["driver"]["option"].dup
+    else
+      @option = Hash.new
+    end  
+
+    if config_["driver"]["ttl"]
+      @ttl = config_["driver"]["ttl"]
+    else
+      @ttl = 0
+    end
     
+    if config_["conversion"]    
+      eq = config_["conversion"].split
+      eq.each_with_index { |block, index|
+
+        if block.include? "%"
+          if block=="%self"
+            eq[index] = "raw_value"
+          else 
+            eq[index] = "depends['" + block.delete!("%")+ "']"
+          end
+        end 
+      }
+      # add conversion method
+      methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
+      self.instance_eval(methdef) 
+    end
+        
     #for each keys of config 
-    config_.each {|key, param| 
-    # Do we need this loop ?
-      
-      case key
-      when "room"
-        @room = param
-      when "name"
-        @name = param
-        
-      when "model"
-        @device_model = param
-      
-      when "informations"
-        @informations = param
-        
-      when "driver"
-        if param["option"]
-          @option = value["option"].dup
-        else
-          @option = Hash.new
-        end
-        
-        if param["interface"]
-          @interface = Dbus_interface.new(param["interface"]).dup
-        else
-          abort "Error in model " + config_["model"] + " : interface is required "
-        end
-        
-        if param["ttl"]
-          @ttl = config_["driver"]["ttl"]
-        else
-          @ttl = 0
-        end
-        
-      when "depends"
-        @dependencies = param
-
-      when "conversion"
-        eq = config_["conversion"].split
-        eq.each_with_index { |block, index|
-
-          if block.include? "%"
-            if block=="%self"
-              eq[index] = "raw_value"
-            else 
-              eq[index] = "depends['" + block.delete!("%")+ "']"
-            end
-          end 
-        }
-        # add conversion method
-        methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
-        self.instance_eval(methdef)   
-        
-      end
-      
-    }
+    
   end
   
   def deep_merge(oldhash,newhash)

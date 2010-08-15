@@ -30,7 +30,7 @@ class Actuator
     @room = nil
     @state = -1
     @device_model = nil
-    
+    @config = act_
     #detect model and merge with config
     if act_["model"]
       #parse yaml
@@ -43,12 +43,12 @@ class Actuator
       # FIXME : merge delete similar keys, its not good for somes keys (like methods)
       #+++    
 
-      act_ = deep_merge(model,act_) # /!\ 
+      @config = deep_merge(model,act_) # /!\ 
     end
     
     # Parse Yaml correponding to the model of actuator
-    parse_config(act_)
-    @config = act_
+    parse_config(@config)
+    
     @top = top_
 
   end
@@ -78,7 +78,7 @@ class Actuator
 
     # Error processing
     if config_["driver"]["interface"].nil?
-      abort "Error in model " + model["model"] + " : interface is required "
+      abort "Error in model " + config_["model"] + " : interface is required "
     end
     if config_["name"].nil?
       abort "Error in config : name is required "
@@ -117,20 +117,14 @@ class Actuator
         """
           self.instance_eval(methdef)
           @methods[method["name"]] = method["name"]
-        }
-
-
-    config_.each { |key, param| 
-      
-      case key
-      when "driver"
-        if param["option"]
-          @option = value["option"].dup  ### What is value ?
-        else
-          @option = Hash.new
-        end
-      end
     }
+
+    if config_["driver"]["option"]
+      @option = config_["driver"]["option"].dup
+    else
+      @option = Hash.new
+    end    
+    
   end
   
   def write( value_, option_)
