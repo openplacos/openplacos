@@ -22,10 +22,7 @@ require '../libclient.rb'
 
 opos = LibClient::Server.new
 
-if opos.sensors[ARGV[0]]
-  puts opos.sensors[ARGV[0]].method(ARGV[1]).call
-end
 
-if opos.actuators[ARGV[0]]
-  puts opos.actuators[ARGV[0]].method(ARGV[1]).call
-end
+puts opos.sensors[ARGV[0]].method(ARGV[1]).call if opos.sensors[ARGV[0]]
+puts opos.actuators[ARGV[0]].method(ARGV[1]).call if opos.actuators[ARGV[0]]
+
