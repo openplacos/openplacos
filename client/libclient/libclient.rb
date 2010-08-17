@@ -17,7 +17,6 @@
 # this is a library for openplacos client application
 # it will provide methods and classes to connect easily a client application to the openplacOS server
 
-require 'dbus'
 require '../lib/server.rb'
 
 module LibClient

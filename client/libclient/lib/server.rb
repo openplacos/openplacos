@@ -13,6 +13,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'dbus'
 
 module LibClient
   class Server #openplacos server 
@@ -28,9 +29,7 @@ module LibClient
         #@server_mutex = Mutex.new
         #discover all objects of server
         @objects = server_object_discover
-        
-        #get config from objects
-        @config = get_config_from_objects(@objects)
+
         
         #get sensors and actuators
         @sensors = get_sensors
