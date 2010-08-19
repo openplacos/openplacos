@@ -111,7 +111,7 @@ class Server < DBus::Object
   def getUsbDevices
     devices = Array.new
     pid_file =  YAML::load(File.read("pid.yaml"))
-    lsusb =  `lsusb` #execute lsusb command
+    lsusb =  `./scripts/get_id_usb.rb` #execute lsusb command
     pid_file["lsusb"].each { |dev|
       if lsusb.match(dev["pid"])
         devices.push(dev["driver"])
