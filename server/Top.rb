@@ -38,8 +38,8 @@ $global = Global.new
 
 
 class Top
-  attr_reader :measure, :actuator
-  attr_reader :driver
+  attr_reader :measures, :actuators
+  attr_reader :drivers
   
   #1 Config file path
   #2 Dbus session reference
@@ -49,18 +49,18 @@ class Top
     @service = service_
 
     # Config 
-    @driver = Hash.new
-    @measure = Hash.new
-    @actuator = Hash.new
+    @drivers = Hash.new
+    @measures = Hash.new
+    @actuators = Hash.new
     
     # Create measures
     if @config["measure"]
       @config["measure"].each { |meas|
-        @measure.store(meas["name"], Measure.new(meas, self))
+        @measures.store(meas["name"], Measure.new(meas, self))
       }
 
       # Check dependencies
-      @measure.each_value{ |meas|
+      @measures.each_value{ |meas|
         meas.sanity_check()
       }
       
@@ -69,8 +69,7 @@ class Top
     #create actuators
     if @config["actuator"]
       @config["actuator"].each { |act|
-        $global.trace "Actuator: " + act["name"]
-        @actuator.store(act["name"], Actuator.new(act, self))
+        @actuators.store(act["name"], Actuator.new(act, self))
       }
     else
       puts "No actuators where defined in config"
@@ -81,43 +80,41 @@ class Top
 
       # Get object list mapped in array
       object_list = Array.new
-      card["plug"].each_key{ |obj|
-        object_list.push("/" + obj)
-      }
+      card["plug"].each_pair{ |obj,device| object_list << obj unless device.nil? }
 
       # Create driver proxy with standard acquisition card iface
-      @driver.store(card["name"], Driver.new( card, object_list))
+      @drivers.store(card["name"], Driver.new( card, object_list))
       
-
       # Push driver in DBus server config
       # Stand for debug
       card["plug"].each_pair{ |obj, device|
 
+        next if device.nil?
+
         # plug proxy with measure 
-        if @measure[device]
-          @measure[device].plug(@driver[card["name"]].objects["/"+obj])
+        if @measures[device]
+          @measures[device].plug(@drivers[card["name"]].objects[obj])
         end
 
         # plug proxy with actuator
-        if @actuator[device]
-          @actuator[device].plug(@driver[card["name"]].objects["/"+obj])
+        if @actuators[device]
+          @actuators[device].plug(@drivers[card["name"]].objects[obj])
         end
 
-        
-        exported_obj = Dbus_debug.new(device,@driver[card["name"]].objects["/"+obj])
+        exported_obj = Dbus_debug.new(device,@drivers[card["name"]].objects[obj])
         @service.export(exported_obj)
       }
     }
     
     
     # Publish measures on Dbus
-    @measure.each_value{ |measure|
+    @measures.each_value{ |measure|
       exported_obj = Dbus_measure.new(measure)
       @service.export(exported_obj)
     }
     
     # Publish actuators on Dbus
-    @actuator.each_value{ |act|
+    @actuators.each_value{ |act|
       exported_obj = Dbus_actuator.new(act)
       @service.export(exported_obj)
     }

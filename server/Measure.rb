@@ -67,7 +67,7 @@ class Measure
     end
     if (@dependencies != nil)
       @dependencies.each_value { |dep|
-        @top.measure[dep].check(0, ttl_ - 1)
+        @top.measures[dep].check(0, ttl_ - 1)
       }
     end
     return 
@@ -76,12 +76,16 @@ class Measure
   def sanity_check()
     @check_lock = 1
     # Check overpass for first time
-    self.check(1, @top.measure.length())
+    self.check(1, @top.measures.length())
     @check_lock = 0
   end
 
   # Plug the measure to the proxy with defined interface 
-  def plug(proxy) 
+  def plug(proxy)
+    if not proxy.has_iface? @interface.get_name
+      puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.name
+      Process.exit 1
+    end
     if proxy[@interface.get_name].methods["read"]
       @proxy_iface = proxy[@interface.get_name]
     else
@@ -96,17 +100,20 @@ class Measure
       @last_mesure = Time.new.to_f
       
       if self.methods.include?("convert") # if convert fonction exist ?
-        #build hash of dependencies
-        dep = @dependencies.dup
-        
-        #fill hash with values of dependencies
-        dep.each_pair{ |key, meas|
-          #--- 
-          #FIXME : I don't know why the result of get_value is an array, maybe VP or ruby-dbus variant
-          #+++
-          dep[key] = @top.measure[meas].get_value
-        }
-        
+
+        if @dependencies
+            #build hash of dependencies
+            dep = @dependencies.dup
+            #fill hash with values of dependencies
+            dep.each_pair{ |key, meas|
+              #---
+              #FIXME : I don't know why the result of get_value is an array, maybe VP or ruby-dbus variant
+              #+++
+              dep[key] = @top.measures[meas].get_value
+            }
+        else
+            dep = {}
+        end
         @value = self.convert(@proxy_iface.read(@option)[0],dep)
       else
         @value = @proxy_iface.read(@option)[0]

@@ -44,7 +44,7 @@ class Actuator
       act_ = deep_merge(model,act_)
     end
     
-    # Parse Yaml correponding to the model of sensor
+    # Parse Yaml correponding to the model of actuator
     parse_config(act_)
     @config = act_
     @top = top_
@@ -53,6 +53,10 @@ class Actuator
 
   # Plug the actuator to the proxy with defined interface 
   def plug(proxy) 
+    if not proxy.has_iface? @interface.get_name
+      puts "Error : No interface " + @interface.get_name + " avalaibable for actuator " + self.name
+      Process.exit 1
+    end
     if proxy[@interface.get_name].methods["write"]
       @proxy_iface = proxy[@interface.get_name]
     else
@@ -91,7 +95,7 @@ class Actuator
         param.each{ |method|
           #Check if value is defined for the method
           #value is required
-          if method["value"]
+          if not method["value"].nil?
             value = method["value"]
           else
             abort "Error in model " + model["model"] + " : value is required for method " +  method["name"]
@@ -106,7 +110,12 @@ class Actuator
             option = "{}"
           end
 
-          methdef = "def " + method["name"] + " \n @proxy_iface.write( " + value + "," + option + ") \n @state = #{value} \n end"
+          methdef = """
+          def #{method["name"]}
+            @proxy_iface.write( #{value}, #{option})
+            @state = #{value}
+          end
+          """
           self.instance_eval(methdef)
           @methods[method["name"]] = method["name"]
         }
