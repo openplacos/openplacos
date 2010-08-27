@@ -22,18 +22,14 @@ require 'phidgets'
 require 'yaml'
 
 
-class InterfaceKitPin < DBus::Object
+class IfkDigitalInput < DBus::Object
 
 	def initialize(phidget, path, index)
 	    super(path)
 	    @phidget = phidget
 		@index = index
+		@trigger = 1
 	end
-
-end # class
-
-
-class IfkDigitalInput < InterfaceKitPin
 
     dbus_interface "org.openplacos.driver.digital" do
 
@@ -71,7 +67,13 @@ class IfkDigitalInput < InterfaceKitPin
 end # class
 
 
-class IfkDigitalOutput < InterfaceKitPin
+class IfkDigitalOutput < DBus::Object
+
+	def initialize(phidget, path, index)
+	    super(path)
+	    @phidget = phidget
+		@index = index
+	end
 
     dbus_interface "org.openplacos.driver.digital" do
 
@@ -111,7 +113,14 @@ class IfkDigitalOutput < InterfaceKitPin
 end # class
 
 
-class IfkAnalogInput < InterfaceKitPin
+class IfkAnalogInput < DBus::Object
+
+	def initialize(phidget, path, index)
+	    super(path)
+	    @phidget = phidget
+		@index = index
+		@trigger = 2
+	end
 
     dbus_interface "org.openplacos.driver.analog" do
 
@@ -186,6 +195,7 @@ if __FILE__ == $0
     end
 
     pins = Array.new
+    watched_pins = Array.new   # pins to monitor
     phidget.getOutputCount.times do |i|
         path = "/digital/output/#{i}"
         pins << IfkDigitalOutput.new(phidget, path, i)
@@ -193,35 +203,44 @@ if __FILE__ == $0
     phidget.getInputCount.times do |i|
         path = "/digital/input/#{i}"
         pins << IfkDigitalInput.new(phidget, path, i)
+        #watched_pins << pins.last
     end
     phidget.getSensorCount.times do |i|
         path = "/analog/input/#{i}"
         pins << IfkAnalogInput.new(phidget, path, i)
+        #watched_pins << pins.last
     end
     pins.each do |pin|
        dbus_service.export(pin)
        puts pin.path
     end
 
-    # Polling thread
-    thrd_poll = Thread.new do
-        old = []
-        until the_end
-            new = []
-            #puts "\e[H\e[2J"
-            pins.each do |pin|
-                new << pin.read
-                # puts pin.path + ":" + pin.read.to_s
+
+    Poll = true
+    if Poll 
+        # Polling thread
+        thrd_poll = Thread.new do
+            old = []
+            watched_pins.each do |pin|
+                old << pin.read
             end
-            if new != old
-                pins.each_index do |i|
-                    if pins[i].class == IfkDigitalInput
-                        pins[i].change(new[i]) if new[i] != old[i]
+            until the_end
+                new = []
+                watched_pins.each do |pin|
+                    new << pin.read
+                    sleep 0.01
+                end
+                if new != old
+                    new.each_index do |i|
+                        # emit dbus signal if difference between old and new value is more than the defined trigger
+                        if (new[i] - old[i]).abs >= watched_pins[i].trigger
+                            watched_pins[i].change(new[i])
+                            old[i] = new[i]
+                        end
                     end
                 end
+                sleep PollingTime
             end
-            old = new.dup
-            sleep PollingTime
         end
     end
 
