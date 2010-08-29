@@ -58,5 +58,25 @@ class Digital_pin < DBus::Object
       return true
     end
   end
+  
+  def add_pwm_fonction
+  
+    dbusdef = 'dbus_interface "org.openplacos.driver.pwm" do
+                  dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+                    return self.write_pwm(value)
+                  end 
+                end'
+    self.singleton_class.instance_eval(dbusdef)
+  end
+  
+  def write_pwm(value_)
+    if value_ > 255 
+      value = 255
+    else
+      value = value_
+    end
+    
+    $sp.write("pwm #{@number} #{value}")
+  end
 
 end

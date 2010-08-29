@@ -19,7 +19,7 @@
 SERIAL_PORT = "/dev/ttyUSB1"
 NB_ANALOG_PIN = 16
 NB_DIGITAL_PIN = 54
-NB_PWM_PIN = 14
+NB_PWM_PIN = 2..13
 
 require 'rubygems'
 require 'serialport'
@@ -61,6 +61,10 @@ analog_pin = Array.new
 
 NB_DIGITAL_PIN.times { |number|
   digital_pin.push Digital_pin.new("/Digital_Pin#{number}",number)
+  if (NB_PWM_PIN.to_a).include?(number)
+    puts number
+    digital_pin[number].add_pwm_fonction
+  end
   service.export(digital_pin[number])
 }
 

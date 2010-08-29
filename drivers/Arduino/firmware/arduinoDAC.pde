@@ -61,6 +61,13 @@ void messageReady() {
    }  
  }
  
+ if ( message.checkString("pwm") ) {
+   int pin = message.readInt();
+   int duty = message.readInt();
+   analogWrite(pin,duty);
+   return;  
+ }  
+ 
 
  message.readInt();
  }      
