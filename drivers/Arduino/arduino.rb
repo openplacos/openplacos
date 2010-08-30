@@ -21,6 +21,9 @@ NB_ANALOG_PIN = 16
 NB_DIGITAL_PIN = 54
 NB_PWM_PIN = 2..13
 
+#Interupt , array of pin in order of interupt number
+INTERUPT_PIN = {2,3,21,20,19,18} # interupt number 0 1 2 3 4 5
+
 require 'rubygems'
 require 'serialport'
 require 'dbus'
