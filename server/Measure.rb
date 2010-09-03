@@ -17,34 +17,17 @@
 #
 
 
-$PATH_SENSOR = "../components/sensors/"
-
-
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config
+  attr_reader :name , :proxy_iface, :value ,:path, :config
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(meas_, top_) # Constructor
 
     @dependencies = nil
-    @room = nil
+    @path = meas_["path"]
     
-    #detec model and merge with config
-    if meas_["model"]
-      #parse yaml
-      #---
-      # FIXME : model's yaml will be change, maybe
-      #+++
-      model = YAML::load(File.read( $PATH_SENSOR + meas_["model"] + ".yaml"))[meas_["model"]]
-      
-      
-      #---
-      # FIXME : merge delete similar keys, its not good for somes keys (like driver)
-      #+++
-      meas_ = deep_merge(model,meas_)
-    end
     # Parse Yaml correponding to the model of sensor
     parse_config(meas_)
     @config = meas_
@@ -174,19 +157,6 @@ class Measure
         
       end
       
-    }
-  end
-  
-  def deep_merge(oldhash,newhash)
-    oldhash.merge(newhash) { |key, oldval ,newval|
-      case oldval.class.to_s
-      when "Hash"
-        deep_merge(oldval,newval)
-      when "Array"
-        oldval.concat(newval)
-      else
-        newval
-      end
     }
   end
   

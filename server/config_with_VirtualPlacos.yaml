@@ -1,39 +1,40 @@
-measure:
+objects:
+
 - name: Temperature_indoor
-  room: indoor
+  path: /home/Temperature_indoor
   model: Generic_Celsius_Temperature
    
 - name: Temperature_outdoor
-  room: outdoor
+  path: /home/Temperature_outdoor
   model: Generic_Celsius_Temperature
 
 - name: Hygro_out
-  room: outdoor
+  path: /home/Hygro_out
   model: VirtualPlacos_Hygro
   depends:
-    temp: Temperature_outdoor
+    temp: /home/Temperature_outdoor
      
 - name: Hygro_in
-  room: indoor
+  path: /home/Hygro_in
   model: VirtualPlacos_Hygro
   depends:
-    temp: Temperature_indoor
+    temp: /home/Temperature_indoor
 
-actuator:
 - name: Light
-  room: indoor
+  path: /home/Light
   model: Generic_relay_NO
     
 - name: Fan
-  room: indoor
+  path: /home/Fan
   model: Generic_relay_NO
 
 card:
 - name: VirtualPlacos
   plug: 
-    /Pin_1: Temperature_indoor
-    /Pin_2: Temperature_outdoor
-    /Pin_3: Light
-    /Pin_4: Fan
-    /Pin_5: Hygro_out
-    /Pin_6: Hygro_in
+    /Pin_1: /home/Temperature_indoor
+    /Pin_2: /home/Temperature_outdoor
+    /Pin_3: /home/Light
+    /Pin_4: /home/Fan
+    /Pin_5: /home/Hygro_out
+    /Pin_6: /home/Hygro_in
+

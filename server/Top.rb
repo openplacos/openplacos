@@ -38,7 +38,7 @@ $global = Global.new
 
 
 class Top
-  attr_reader :measures, :actuators
+
   attr_reader :drivers
   
   #1 Config file path
@@ -48,79 +48,111 @@ class Top
     @config =  YAML::load(File.read(config_))
     @service = service_
 
-    # Config 
+    # Config
+    # Hash of available dbus drivers
     @drivers = Hash.new
-    @measures = Hash.new
-    @actuators = Hash.new
+    # Hash of available dbus objects (measures, actuators..)
+    # the hash key is the dbus path
+    @objects = Hash.new
     
     # Create measures
-    if @config["measure"]
-      @config["measure"].each { |meas|
-        @measures.store(meas["name"], Measure.new(meas, self))
-      }
-
-      # Check dependencies
-      @measures.each_value{ |meas|
-        meas.sanity_check()
-      }
-      
-    end
+    @config["objects"].each do |object|
     
-    #create actuators
-    if @config["actuator"]
-      @config["actuator"].each { |act|
-        @actuators.store(act["name"], Actuator.new(act, self))
-      }
-    else
-      puts "No actuators where defined in config"
+      #detect model and merge with config
+      if object["model"]
+          #parse yaml
+          #---
+          # FIXME : model's yaml will be change, maybe
+          #+++
+          if File.exist?("../components/sensors/" + object["model"] + ".yaml")
+              model = YAML::load(File.read("../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
+          elsif File.exist?("../components/actuators/" + object["model"] + ".yaml")
+              model = YAML::load(File.read("../components/actuators/" + object["model"] + ".yaml"))[object["model"]]
+          else
+              abort "No model found for #{object['name']} : #{object['model']}"
+          end
+          #---
+          # FIXME : merge delete similar keys, its not good for somes keys (like driver)
+          #+++
+          object = deep_merge(model,object)
+
+          # Creates object from config and save it in @objects
+          case object["informations"]["kind"]
+            when "Sensor"
+              @objects.store(object["path"], Measure.new(object, self))
+              # Check dependencies
+              @objects[object["path"]].sanity_check()
+            when "Actuator"
+              @objects.store(object["path"], Actuator.new(object, self))
+          end     
+      end
     end
     
     # For each acquisition driver
     @config["card"].each { |card|
 
-      # Get object list mapped in array
-      object_list = Array.new
-      card["plug"].each_pair{ |obj,device| object_list << obj unless device.nil? }
-
       # Create driver proxy with standard acquisition card iface
-      @drivers.store(card["name"], Driver.new( card, object_list))
-      
+      @drivers.store(card["name"], Driver.new(card))
+
       # Push driver in DBus server config
       # Stand for debug
-      card["plug"].each_pair{ |obj, device|
+      card["plug"].each_pair{ |pin, object_path|
 
-        next if device.nil?
-
-        # plug proxy with measure 
-        if @measures[device]
-          @measures[device].plug(@drivers[card["name"]].objects[obj])
+        next if object_path.nil?
+        
+        # plug proxy with dbus objects
+        if @objects[object_path]
+          @objects[object_path].plug(@drivers[card["name"]].objects[pin])
         end
-
-        # plug proxy with actuator
-        if @actuators[device]
-          @actuators[device].plug(@drivers[card["name"]].objects[obj])
-        end
-
-        exported_obj = Dbus_debug.new(device,@drivers[card["name"]].objects[obj])
-        @service.export(exported_obj)
+        
+        # For debug purposes
+        @service.export(Dbus_debug.new(object_path, @drivers[card["name"]].objects[object_path]))
       }
     }
     
-    
-    # Publish measures on Dbus
-    @measures.each_value{ |measure|
-      exported_obj = Dbus_measure.new(measure)
-      @service.export(exported_obj)
-    }
-    
-    # Publish actuators on Dbus
-    @actuators.each_value{ |act|
-      exported_obj = Dbus_actuator.new(act)
-      @service.export(exported_obj)
-    }
+    # Publish Objects on the bus
+    @objects.each_value do |object|
+      @service.export(Dbus_measure.new(object))  if object.is_a? Measure
+      @service.export(Dbus_actuator.new(object)) if object.is_a? Actuator
+    end
 
+    # FIXME : comment here to explain
     @service.export(Server.new)
+
   end # End of init
+
+  def measures
+    measures = Hash.new
+    @objects.each_pair do |path,object|
+      measures[path] = object if object.is_a? Measure
+    end
+    return measures
+  end
+
+  def actuators
+    actuators = Hash.new
+    @objects.each_pair do |path,object|
+      actuators[path] = object if object.is_a? Actuator
+    end
+    return actuators
+  end
+
+  private
+
+  # used to merge models with config
+  def deep_merge(oldhash,newhash)
+    oldhash.merge(newhash) { |key, oldval ,newval|
+      case oldval.class.to_s
+      when "Hash"
+        deep_merge(oldval,newval)
+      when "Array"
+        oldval.concat(newval)
+      else
+        newval
+      end
+    }
+  end
+
 end # End of Top
 
 # Config file basic verification

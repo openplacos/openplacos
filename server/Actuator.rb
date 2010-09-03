@@ -16,33 +16,16 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
-$PATH_ACTUATOR = "../components/actuators/"
-
 class Actuator
 
-  attr_reader :name , :proxy_iface, :methods, :room ,:config ,:state
+  attr_reader :name , :proxy_iface, :methods, :path ,:config ,:state
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(act_, top_) # Constructor
     
-    @room = nil
+    @path = act_["path"]
     @state = -1
-    
-    #detect model and merge with config
-    if act_["model"]
-      #parse yaml
-      #---
-      # FIXME : model's yaml will be change, maybe
-      #+++
-      model = YAML::load(File.read( $PATH_ACTUATOR + act_["model"] + ".yaml"))[act_["model"]]
-
-      #---
-      # FIXME : merge delete similar keys, its not good for somes keys (like methods)
-      #+++    
-      act_ = deep_merge(model,act_)
-    end
     
     # Parse Yaml correponding to the model of actuator
     parse_config(act_)
@@ -73,8 +56,8 @@ class Actuator
     model.each {|key, param| 
       
       case key
-      when "room"
-        @room = param
+      when "path"
+        @path = param
       when "name"
         @name = param
       when "driver"
@@ -121,19 +104,6 @@ class Actuator
         }
       end
       
-    }
-  end
-  
-  def deep_merge(oldhash,newhash)
-    oldhash.merge(newhash) { |key, oldval ,newval|
-      case oldval.class.to_s
-      when "Hash"
-        deep_merge(oldval,newval)
-      when "Array"
-        oldval.concat(newval)
-      else
-        newval
-      end
     }
   end
 
