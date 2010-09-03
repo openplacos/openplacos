@@ -1,20 +1,20 @@
 objects:
 
-- name: Temperature_indoor
+- name: Temperature Indoor
   path: /home/Temperature_indoor
   model: Generic_Celsius_Temperature
    
-- name: Temperature_outdoor
+- name: Temperature Outdoor
   path: /home/Temperature_outdoor
   model: Generic_Celsius_Temperature
 
-- name: Hygro_out
+- name: Hygrometrie Outdoor
   path: /home/Hygro_out
   model: VirtualPlacos_Hygro
   depends:
     temp: /home/Temperature_outdoor
      
-- name: Hygro_in
+- name: Hygrometrie Indoor
   path: /home/Hygro_in
   model: VirtualPlacos_Hygro
   depends:
