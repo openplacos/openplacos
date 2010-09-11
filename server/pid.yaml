@@ -15,4 +15,8 @@ lsusb:
 - pid: 06c2:0040
   name: Phidgets Inc. (formerly GLAB) PhidgetInterface Kit 0-0-4
   driver: phidget
+  
+- pid: 0403:6001
+  name: Arduino Mega
+  driver: Arduino
  
