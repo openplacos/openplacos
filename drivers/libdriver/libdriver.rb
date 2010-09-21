@@ -18,6 +18,19 @@ require 'dbus'
 
 class GenericPin < DBus::Object
 
+  def write(iface_, value_, option_)
+    if (@input == 1)
+      set_output
+    end
+
+    if (iface_ == "pwm" && @is_pwm_init!=1)
+      init_pwm
+      @is_pwm_init=1
+    end
+
+    eval("write_#{iface_}(value_, option_)")
+
+  end
 
   def add_write(iface_)
     dbusdef = "dbus_interface 'org.openplacos.driver.#{iface_}' do
@@ -25,7 +38,11 @@ class GenericPin < DBus::Object
                     return self.write_#{iface_}(value,option)
                   end 
                 end"
-    self.singleton_class.instance_eval(dbusdef)
+    if ENV['KIRSH_DBUS'] # Temporary patch for supporting homemade patch on ruby-dbus
+      self.class.instance_eval(dbusdef)
+    else
+      self.singleton_class.instance_eval(dbusdef)
+    end
   end
 
   
@@ -35,7 +52,11 @@ class GenericPin < DBus::Object
                     return self.read_#{iface_}(option)
                   end 
                 end"
-    self.singleton_class.instance_eval(dbusdef)
+    if ENV['KIRSH_DBUS'] # Temporary patch for supporting homemade patch on ruby-dbus
+      self.class.instance_eval(dbusdef)
+    else
+      self.singleton_class.instance_eval(dbusdef)
+    end
   end
   
   def add_read_and_write(iface_) # dbus do not merge methods in interface if they are not define in the same time
@@ -47,7 +68,11 @@ class GenericPin < DBus::Object
                     return self.write_#{iface_}(value,option)
                   end 
                 end"
-    self.singleton_class.instance_eval(dbusdef)
+    if ENV['KIRSH_DBUS'] # Temporary patch for supporting homemade patch on ruby-dbus
+      self.class.instance_eval(dbusdef)
+    else
+      self.singleton_class.instance_eval(dbusdef)
+    end
   end
  
   

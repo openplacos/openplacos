@@ -15,7 +15,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'libdriver.rb'
+require '../libdriver/libdriver.rb'
 require 'rubygems'
 require 'serialport'
 #Write module and function definition
@@ -23,7 +23,7 @@ require 'serialport'
 module Module_write_analog 
   
   def write_analog(value_,option_)
-    #insert specific code
+    #No such function for uCham
   end
 
 end
@@ -31,17 +31,16 @@ end
 module Module_write_digital
   
   def write_digital(value_,option_)
-    if (@input==nil or @input == 1 )
-      $sp.write("pin #{@number} output") # if pin is set as output, set it as input
-      puts "set out"
+    if (@input == 1)
+      $sp.write("pin #{@number} output") # if pin is set as input, set it as output
       @input = 0
     end    
     if (value_.class==TrueClass or value_==1)
-      $sp.write("pin #{@number} 1")  
+      $sp.write("pin #{@number} high")  
       return true
     end
     if (value_.class==FalseClass or value_==0)
-      $sp.write("pin #{@number} 0")  
+      $sp.write("pin #{@number} low")  
       return true
     end
   end
@@ -50,13 +49,26 @@ end
 
 module Module_write_pwm
   
+ def init_pwm
+     $sp.write("pwm #{@number} period 1000")
+     $sp.write("pwm #{@number} polarity 0")
+     $sp.write("pwm #{@number} on")
+  end
+  
+  def turn_off_pwm
+    $sp.write("pwm #{@number} off")   
+  end
+
   def write_pwm(value_,option_)
     if value_ > 255 
       value = 255
     else
       value = value_
     end
-    
+
+    $sp.write("pin #{@number} output") # if pin is set as input, set it as output
+    init_pwm()
+
     $sp.write("pwm #{@number} #{value}")
   end
 
@@ -67,15 +79,18 @@ end
 module Module_read_analog 
   
   def read_analog(option_)
+    puts "coucou"
     return $sp.write_and_read("adc #{@number}").to_f/1023
   end
 
 end
 
 module Module_read_digital
+
+ 
   
   def read_digital(option_)
-    if (@input == 0  or @input==nil)
+    if @input == 0 
       $sp.write("pin #{@number} input") # if pin is set as output, set it as input
       @input = 1
     end
@@ -84,34 +99,35 @@ module Module_read_digital
 
 end
 
-module Module_read_pwm
-  
-  def read_pwm(option_)
-    #insert specific code
-  end
-
-end
-
 module Other_common_fonctions
   
   def set_pin_number(number_)
     @number = number_
+    @input = 1
+  end
+
+  def set_input
+    $sp.write("pin #{@number} input") # if pin is set as output, set it as input
+  end
+
+  def set_output
+    $sp.write("pin #{@number} output") # if pin is set as output, set it as input 
   end
 
 end
 
-class Serial_Arduino
-  
+class Serial_uCham
+
   def initialize(port_)
     @sp = SerialPort.new port_, 115200
   end
   
   def write(string_)
-    @sp.write(string_+ "\r\n")
+    @sp.write(string_+ "\n")
   end
   
   def write_and_read(string_)
-    @sp.write(string_+ "\r\n")
+    @sp.write(string_+ "\n")
     val = @sp.gets.split.reverse[0]
     return val
   end
@@ -128,40 +144,32 @@ end
 #
 
 SERIAL_PORT = "/dev/ttyUSB0"
-NB_ANALOG_PIN = (0..15).to_a
-NB_DIGITAL_PIN = (0..53).to_a
-NB_PWM_PIN = (2..13).to_a
-
-#Interupt , array of pin in order of interupt number
-INTERUPT_PIN = {2,3,21,20,19,18} # interupt number 0 1 2 3 4 5
-
-$sp = Serial_Arduino.new(SERIAL_PORT)
+NB_ANALOG_PIN = (1..8).to_a
+#NB_DIGITAL_PIN = (9..).to_a
+NB_PWM_PIN = (9..12).to_a
 
 bus = DBus.session_bus
-service = bus.request_service("org.openplacos.drivers.arduino")
+service = bus.request_service("org.openplacos.drivers.uchameleon")
 
-digital_pin = Array.new
+$sp = Serial_uCham.new(SERIAL_PORT)
+
 analog_pin = Array.new
+pwm_pin = Array.new
 
-NB_DIGITAL_PIN.each { |number|
+NB_ANALOG_PIN.each { |number|
+  read_ifaces = ["analog", "digital"]
   write_ifaces = ["digital"]
-  read_ifaces = ["digital"]
-  if (NB_PWM_PIN).include?(number)
-    write_ifaces.push "pwm"
-    pin =  GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
-  else
-    pin = GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
-  end
-  digital_pin.push pin
+  pin = GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
+  analog_pin.push pin
   pin.set_pin_number(number)
   service.export(pin)
 }
 
-NB_ANALOG_PIN.each { |number|
-  read_ifaces = ["analog"]
-  write_ifaces = nil
-  pin = GenericPin.new("/Analog_Pin#{number}", write_ifaces, read_ifaces)
-  analog_pin.push pin
+NB_PWM_PIN.each { |number|
+  read_ifaces = ["digital"]
+  write_ifaces = ["digital", "pwm"]
+  pin = GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
+  pwm_pin.push pin
   pin.set_pin_number(number)
   service.export(pin)
 }
