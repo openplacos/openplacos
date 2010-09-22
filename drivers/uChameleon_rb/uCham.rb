@@ -60,16 +60,16 @@ module Module_write_pwm
   end
 
   def write_pwm(value_,option_)
-    if value_ > 255 
-      value = 255
-    else
-      value = value_
+    value = value_ * 1000
+    if value > 1000 
+      value = 1000
     end
+    value = value.to_i
 
     $sp.write("pin #{@number} output") # if pin is set as input, set it as output
     init_pwm()
 
-    $sp.write("pwm #{@number} #{value}")
+    $sp.write("pwm #{@number} width #{value}")
   end
 
 end
@@ -79,7 +79,6 @@ end
 module Module_read_analog 
   
   def read_analog(option_)
-    puts "coucou"
     return $sp.write_and_read("adc #{@number}").to_f/1023
   end
 
