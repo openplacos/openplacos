@@ -31,10 +31,7 @@ end
 module Module_write_digital
   
   def write_digital(value_,option_)
-    if (@input == 1)
-      $sp.write("pin #{@number} output") # if pin is set as input, set it as output
-      @input = 0
-    end    
+
     if (value_.class==TrueClass or value_==1)
       $sp.write("pin #{@number} high")  
       return true
@@ -43,6 +40,7 @@ module Module_write_digital
       $sp.write("pin #{@number} low")  
       return true
     end
+    return false  # NOT recognized
   end
 
 end
@@ -54,10 +52,10 @@ module Module_write_pwm
      $sp.write("pwm #{@number} polarity 0")
      $sp.write("pwm #{@number} on")
   end
-  
-  def turn_off_pwm
-    $sp.write("pwm #{@number} off")   
-  end
+
+ def exit_pwm
+    $sp.write("pwm #{@number} off")
+ end
 
   def write_pwm(value_,option_)
     value = value_ * 1000
@@ -65,9 +63,6 @@ module Module_write_pwm
       value = 1000
     end
     value = value.to_i
-
-    $sp.write("pin #{@number} output") # if pin is set as input, set it as output
-    init_pwm()
 
     $sp.write("pwm #{@number} width #{value}")
   end
@@ -79,7 +74,7 @@ end
 module Module_read_analog 
   
   def read_analog(option_)
-    return $sp.write_and_read("adc #{@number}").to_f/1023
+    return $sp.write_and_read("adc #{@number}").to_f*(5.0/255.0)
   end
 
 end
@@ -122,20 +117,30 @@ class Serial_uCham
   end
   
   def write(string_)
+    self.print_debug(string_)
     @sp.write(string_+ "\n")
   end
   
   def write_and_read(string_)
+    self.print_debug(string_)
     @sp.write(string_+ "\n")
     val = @sp.gets.split.reverse[0]
+    self.print_debug("Return " + val)
     return val
   end
 
   def read
     return @sp.gets
   end
+ 
+def print_debug(string_)
+    if ENV['DEBUG_UCHAM']
+      puts string_
+    end    
+  end
 
 end
+
 
 
 #
@@ -144,8 +149,8 @@ end
 
 SERIAL_PORT = "/dev/ttyUSB0"
 NB_ANALOG_PIN = (1..8).to_a
-#NB_DIGITAL_PIN = (9..).to_a
 NB_PWM_PIN = (9..12).to_a
+OTHERS_PIN = (13..18).to_a
 
 bus = DBus.session_bus
 service = bus.request_service("org.openplacos.drivers.uchameleon")
@@ -154,6 +159,7 @@ $sp = Serial_uCham.new(SERIAL_PORT)
 
 analog_pin = Array.new
 pwm_pin = Array.new
+other_pin = Array.new
 
 NB_ANALOG_PIN.each { |number|
   read_ifaces = ["analog", "digital"]
@@ -161,6 +167,7 @@ NB_ANALOG_PIN.each { |number|
   pin = GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
   analog_pin.push pin
   pin.set_pin_number(number)
+  pin.write("digital", 0, nil)
   service.export(pin)
 }
 
@@ -170,8 +177,21 @@ NB_PWM_PIN.each { |number|
   pin = GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
   pwm_pin.push pin
   pin.set_pin_number(number)
+  pin.write("digital", 0, nil)
   service.export(pin)
 }
+
+OTHERS_PIN.each { |number|
+  read_ifaces = ["digital"]
+  write_ifaces = ["digital"]
+  pin = GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
+  other_pin.push pin
+  pin.set_pin_number(number)
+  pin.write("digital", 0, nil)
+  service.export(pin)
+}
+
+
 
 main = DBus::Main.new
 main << bus
