@@ -28,8 +28,7 @@ module LibClient
         @service.introspect
         #@server_mutex = Mutex.new
         #discover all objects of server
-        @objects = server_object_discover
-
+        @objects = get_objects(@service.root)
         
         #get sensors and actuators
         @sensors = get_sensors
@@ -56,13 +55,6 @@ module LibClient
       obj
     end
     
-
-
-    def server_object_discover #discover all objects for a given service
-      objects = get_objects(@service.root)
-    end
-    
-
     def get_config_from_objects(objects) #contact config methods for all objects
       cfg = Hash.new
       objects.each_pair{ |key, obj|
