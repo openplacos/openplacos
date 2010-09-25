@@ -38,7 +38,6 @@ card:
     /Pin_5: Hygro_out
     /Pin_6: Hygro_in
 
-
 database: 
   name: opos_VP
   adapter: mysql
@@ -48,4 +47,3 @@ database:
   profile: measures, actuators, users 
   include: 
   exclude:  Temperature_outdoor, Hygro_out
-
