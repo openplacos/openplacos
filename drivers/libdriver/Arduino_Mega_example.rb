@@ -159,7 +159,7 @@ NB_DIGITAL_PIN.each { |number|
 
 NB_ANALOG_PIN.each { |number|
   read_ifaces = ["analog"]
-  write_ifaces = nil
+  write_ifaces = []
   pin = GenericPin.new("/Analog_Pin#{number}", write_ifaces, read_ifaces)
   analog_pin.push pin
   pin.set_pin_number(number)
