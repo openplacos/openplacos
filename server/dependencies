@@ -1,0 +1,10 @@
+# Getting mkmf
+apt-get install ruby1.8-dev
+
+
+# For a mySQL config
+gem install activerecord
+gem install mysql
+apt-get install mysql-client
+apt-get install libmysqlclient-dev
+gem install mysql

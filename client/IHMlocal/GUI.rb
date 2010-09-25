@@ -36,7 +36,7 @@ class GuiGlade
   def on_connect_bt_clicked(widget)
     puts "Connexion with OpenplacOS server"
     @server = Server.new
-    @monitor = Monitor.new(@glade['notebook'])
+    @monitor = Monitor.new(@glade['notebook'],@server.measures,@server.actuators,@server.config)
     @glade["main"].show_all
   end
 

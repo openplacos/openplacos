@@ -22,7 +22,7 @@ $PATH_SENSOR = "../components/sensors/"
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config
+  attr_reader :name , :proxy_iface, :value ,:room, :config, :card_name, :device_model, :informations
 
   #1 Measure definition in yaml config
   #2 Top reference
@@ -30,7 +30,8 @@ class Measure
 
     @dependencies = nil
     @room = nil
-    
+    @device_model = nil
+    @config = meas_
     #detec model and merge with config
     if meas_["model"]
       #parse yaml
@@ -43,11 +44,13 @@ class Measure
       #---
       # FIXME : merge delete similar keys, its not good for somes keys (like driver)
       #+++
-      meas_ = deep_merge(model,meas_)
+      @config = deep_merge(model,meas_) # /!\ 
+
+     
     end
     # Parse Yaml correponding to the model of sensor
-    parse_config(meas_)
-    @config = meas_
+    parse_config(@config)
+
     @last_mesure = 0
     @value = nil     
 
@@ -57,6 +60,8 @@ class Measure
   end
 
   def check(overpass_, ttl_)
+    #1 overpass to 1 do not check dependencies, only at first step !
+    #2 current ttl
     if (@check_lock==1 && overpass_==0)
       puts "\nDependencies loop detected for " + @name + " measure !"
       puts "Please check dependencies for this measure"
@@ -81,17 +86,22 @@ class Measure
   end
 
   # Plug the measure to the proxy with defined interface 
-  def plug(proxy)
-    if not proxy.has_iface? @interface.get_name
+  def plug(proxy_, card_name_)
+    #1 proxy to card with defined interface
+    #2 card name
+
+
+    if not proxy_.has_iface? @interface.get_name
       puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.name
       Process.exit 1
     end
-    if proxy[@interface.get_name].methods["read"]
-      @proxy_iface = proxy[@interface.get_name]
+    if proxy_[@interface.get_name].methods["read"]
+      @proxy_iface = proxy_[@interface.get_name]
     else
       puts "Error : No read method in interface " + @interface.get_name + "to plug with sensor" + self.name
       Process.exit 1
     end 
+    @card_name = card_name_
   end
   
   #measure from sensor
@@ -118,63 +128,70 @@ class Measure
       else
         @value = @proxy_iface.read(@option)[0]
       end
-      
+    Thread.new{
+      if $database.is_traced(self.name)
+        flow = Database::Flow.create(:date  => Time.new,:value => @value) 
+        device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
+        sensor =  Database::Sensor.find(:first, :conditions => { :device_id => device.id })
+        Database::Measure.create(:flow_id => flow.id,
+                                 :sensor_id => sensor.id)
+      end
+    }
     end
     return @value   
   end
 
-  def parse_config(model)
+  def parse_config(config_)
     #parse config and add variable according to the config and the model
-    
-    #for each keys of config
-    model.each {|key, param| 
-      
-      case key
-      when "room"
-        @room = param
-      when "name"
-        @name = param
-      when "driver"
-        if param["option"]
-          @option = value["option"].dup
-        else
-          @option = Hash.new
-        end
-        
-        if param["interface"]
-          @interface = Dbus_interface.new(param["interface"]).dup
-        else
-          abort "Error in model " + model["model"] + " : interface is required "
-        end
-        
-        if param["ttl"]
-          @ttl = model["driver"]["ttl"]
-        else
-          @ttl = 0
-        end
-        
-      when "depends"
-        @dependencies = param
-        
-      when "conversion"
-        eq = model["conversion"].split
-        eq.each_with_index { |block, index|
+    #1 config given in yaml
 
-          if block.include? "%"
-            if block=="%self"
-              eq[index] = "raw_value"
-            else 
-              eq[index] = "depends['" + block.delete!("%")+ "']"
-            end
-          end 
-        }
-        # add conversion method
-        methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
-        self.instance_eval(methdef)   
+    # Error processing
+    if config_["driver"]["interface"].nil?
+      abort "Error in model " + config_["model"] + " : interface is required "
+    end
+    if config_["name"].nil?
+      abort "Error in config : name is required "
+    end
+ 
+    #for each keys of config
+    @room         = config_["room"]
+    @name         = config_["name"]
+    @device_model = config_["model"]
+    @informations = config_["informations"]
+    @dependencies = config_["depends"]
+    @interface    = Dbus_interface.new(config_["driver"]["interface"]).dup 
+
+    if config_["driver"]["option"]
+      @option = config_["driver"]["option"].dup
+    else
+      @option = Hash.new
+    end  
+
+    if config_["driver"]["ttl"]
+      @ttl = config_["driver"]["ttl"]
+    else
+      @ttl = 0
+    end
+    
+    if config_["conversion"]    
+      eq = config_["conversion"].split
+      eq.each_with_index { |block, index|
+
+        if block.include? "%"
+          if block=="%self"
+            eq[index] = "raw_value"
+          else 
+            eq[index] = "depends['" + block.delete!("%")+ "']"
+          end
+        end 
+      }
+      # add conversion method
+      methdef = "def convert(raw_value,depends) \n return " + eq.join(" ") + "\n end"
+      self.instance_eval(methdef) 
+    end
         
-      end
-      
-    }
+    #for each keys of config 
+    
   end
   
   def deep_merge(oldhash,newhash)

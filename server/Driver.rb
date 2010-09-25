@@ -25,7 +25,7 @@ require 'Dbus-interfaces.rb'
 
 
 class Driver
-  attr_reader :objects
+  attr_reader :objects, :path_dbus
 
   #1 Name of service
   #2 Object listed in config

@@ -16,6 +16,10 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# List of library include
+require 'yaml' 
+require 'rubygems'
+require 'active_record'
 
 # List of local include
 require 'Driver.rb'
@@ -25,9 +29,9 @@ require 'Measure.rb'
 require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
+require 'sql.rb'
 
-# List of library include
-require 'yaml' 
+
 
 #DBus
 sessionBus = DBus::session_bus
@@ -93,12 +97,12 @@ class Top
 
         # plug proxy with measure 
         if @measures[device]
-          @measures[device].plug(@drivers[card["name"]].objects[obj])
+          @measures[device].plug(@drivers[card["name"]].objects[obj], card["name"])
         end
 
         # plug proxy with actuator
         if @actuators[device]
-          @actuators[device].plug(@drivers[card["name"]].objects[obj])
+          @actuators[device].plug(@drivers[card["name"]].objects[obj], card["name"])
         end
 
         exported_obj = Dbus_debug.new(device,@drivers[card["name"]].objects[obj])
@@ -118,7 +122,14 @@ class Top
       exported_obj = Dbus_actuator.new(act)
       @service.export(exported_obj)
     }
+    
+    if @config['database']
+      $database = Database.new(@config)
 
+      # store config if not done before
+      $database.store_config( @drivers, @measures, @actuators)
+    end
+    
     @service.export(Server.new)
   end # End of init
 end # End of Top
