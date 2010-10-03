@@ -112,6 +112,7 @@ class Top
     
     # Publish Objects on the bus
     @objects.each_value do |object|
+      next if object.proxy_iface.nil?
       @service.export(Dbus_measure.new(object))  if object.is_a? Measure
       @service.export(Dbus_actuator.new(object)) if object.is_a? Actuator
     end
