@@ -106,7 +106,7 @@ class Top
         end
         
         # For debug purposes
-        @service.export(Dbus_debug.new(object_path, @drivers[card["name"]].objects[object_path]))
+        #@service.export(Dbus_debug.new(object_path, @drivers[card["name"]].objects[object_path]))
       }
     }
     
