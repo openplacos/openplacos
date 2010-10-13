@@ -18,7 +18,7 @@
 
 class Actuator
 
-  attr_reader :name , :proxy_iface, :methods, :room ,:config ,:state, :card_name, :device_model
+  attr_reader :name , :proxy_iface, :methods, :config ,:state, :path
 
 
   #1 Measure definition in yaml config
@@ -29,16 +29,16 @@ class Actuator
     @state = -1
 
     # Parse Yaml correponding to the model of actuator
-    parse_config(@config)
+    parse_config(act_)
     
     @top = top_
 
   end
 
   # Plug the actuator to the proxy with defined interface 
-  def plug(proxy_, card_name_) 
+  def plug(proxy_) 
     if not proxy_.has_iface? @interface.get_name
-      puts "Error : No interface " + @interface.get_name + " avalaibable for actuator " + self.name
+      puts "Error : No interface " + @interface.get_name + " availabable for actuator " + self.name
       Process.exit 1
     end
     if proxy_[@interface.get_name].methods["write"]
@@ -47,11 +47,10 @@ class Actuator
       puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.name
       Process.exit 1
     end 
-    @card_name = card_name_
   end
   
   
-  def parse_config(config_)
+  def parse_config(model_)
     #parse config and add variable according to the config and the model
 
     #Create hashes
@@ -59,16 +58,16 @@ class Actuator
 
 
     # Error processing
-    if config_["driver"]["interface"].nil?
-      abort "Error in model " + config_["model"] + " : interface is required "
+    if model_["driver"]["interface"].nil?
+      abort "Error in model " + model_["model"] + " : interface is required "
     end
-    if config_["name"].nil?
+    if model_["name"].nil?
       abort "Error in config : name is required "
     end
 
     #for each keys of config
 
-    model.each {|key, param| 
+    model_.each {|key, param| 
       
       case key
       when "path"
@@ -117,13 +116,13 @@ class Actuator
           self.instance_eval(methdef)
           @methods[method["name"]] = method["name"]
     }
-
-    if config_["driver"]["option"]
-      @option = config_["driver"]["option"].dup
+    end
+    if model_["driver"]["option"]
+      @option = model_["driver"]["option"].dup
     else
       @option = Hash.new
     end    
-    
+    }
   end
   
   def write( value_, option_)

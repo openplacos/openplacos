@@ -38,13 +38,13 @@ card:
     /Pin_5: /home/Hygro_out
     /Pin_6: /home/Hygro_in
 
-database: 
-  name: opos_VP
-  adapter: mysql
-  host: localhost
-  user: root
+#database: 
+#  name: opos_VP
+#  adapter: mysql
+#  host: localhost
+#  user: root
 # Please set password in $OPOS_PASS 
-  profile: measures, actuators, users 
-  include: 
-  exclude:  Temperature_outdoor, Hygro_out
+#  profile: measures, actuators, users 
+#  include: 
+#  exclude:  Temperature_outdoor, Hygro_out
 

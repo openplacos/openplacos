@@ -19,7 +19,7 @@
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config, :card_name, :device_model, :informations
+  attr_reader :name , :proxy_iface, :value ,:room, :config, :path, :informations
 
 
   #1 Measure definition in yaml config
@@ -31,7 +31,7 @@ class Measure
     @path = meas_["path"]
     
     # Parse Yaml correponding to the model of sensor
-    parse_config(@config)
+    parse_config(meas_)
 
     @last_mesure = 0
     @value = nil     
@@ -68,7 +68,7 @@ class Measure
   end
 
   # Plug the measure to the proxy with defined interface 
-  def plug(proxy_, card_name_)
+  def plug(proxy_)
     #1 proxy to card with defined interface
     #2 card name
 
@@ -83,7 +83,6 @@ class Measure
       puts "Error : No read method in interface " + @interface.get_name + "to plug with sensor" + self.name
       Process.exit 1
     end 
-    @card_name = card_name_
   end
   
   #measure from sensor
