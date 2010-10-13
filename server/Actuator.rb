@@ -16,36 +16,18 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
-$PATH_ACTUATOR = "../components/actuators/"
-
 class Actuator
 
   attr_reader :name , :proxy_iface, :methods, :room ,:config ,:state, :card_name, :device_model
+
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(act_, top_) # Constructor
     
-    @room = nil
+    @path = act_["path"]
     @state = -1
-    @device_model = nil
-    @config = act_
-    #detect model and merge with config
-    if act_["model"]
-      #parse yaml
-      #---
-      # FIXME : model's yaml will be change, maybe
-      #+++
-      model = YAML::load(File.read( $PATH_ACTUATOR + act_["model"] + ".yaml"))[act_["model"]]
 
-      #---
-      # FIXME : merge delete similar keys, its not good for somes keys (like methods)
-      #+++    
-
-      @config = deep_merge(model,act_) # /!\ 
-    end
-    
     # Parse Yaml correponding to the model of actuator
     parse_config(@config)
     
@@ -85,32 +67,49 @@ class Actuator
     end
 
     #for each keys of config
-    @room         = config_["room"]
-    @name         = config_["name"]
-    @device_model = config_["model"]
-    @interface    = Dbus_interface.new(config_["driver"]["interface"]).dup
-    
 
-    # Get method defined in model
-    config_["methods"].each { |method|
-      #Check if value is defined for the method
-      #value is required
-      if not method["value"].nil?
-        value = method["value"]
-      else
-        abort "Error in model " + config_["model"] + " : value is required for method " +  method["name"]
-      end
+    model.each {|key, param| 
+      
+      case key
+      when "path"
+        @path = param
+      when "name"
+        @name = param
+      when "driver"
+        if param["option"]
+          @option = value["option"].dup
+        else
+          @option = Hash.new
+        end
+        
+        if param["interface"]
+          @interface = Dbus_interface.new(param["interface"]).dup
+        else
+          abort "Error in model " + model["model"] + " : interface is required "
+        end
+        
+      when "methods"
+        @methods = Hash.new
+        param.each{ |method|
+          #Check if value is defined for the method
+          #value is required
+          if not method["value"].nil?
+            value = method["value"]
+          else
+            abort "Error in model " + model["model"] + " : value is required for method " +  method["name"]
+          end
 
-      #Check if option is defined
-      if method["option"]
-        #Parse option define in yaml to a hash
-        option = method["option"].inspect
-      else
-        #if no option is defined, send an empty hash
-        option = "{}"
-      end
+          #Check if option is defined
+          if method["option"]
+            #Parse option define in yaml to a hash
+            option = method["option"].inspect
+          else
+            #if no option is defined, send an empty hash
+            option = "{}"
+          end
 
-      methdef = """
+          methdef = """
+
           def #{method["name"]}
             write( #{value}, #{option})
                 end
@@ -139,30 +138,6 @@ class Actuator
       end
     }
     @state = value_
-  end
-  
-  def deep_merge(oldhash,newhash)
-    oldhash.merge(newhash) { |key, oldval ,newval|
-      case oldval.class.to_s
-      when "Hash"
-        deep_merge(oldval,newval)
-      when "Array"
-        oldval.concat(newval)
-      else
-        newval
-      end
-    }
-  end
-  
-  def to_float(arg)
-    case arg
-    when true
-      return 1.0
-    when false
-      return 0.0
-    else
-      return arg.to_f
-    end     
   end
 
 

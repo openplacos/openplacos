@@ -28,9 +28,7 @@ class Driver
   attr_reader :objects, :path_dbus
 
   #1 Name of service
-  #2 Object listed in config
-  #3 Ifaces that can be supported by this driver
-  def initialize(card_, object_list_) # Constructor
+  def initialize(card_ ) # Constructor
 
     # Class variables
     @name = card_["name"]
@@ -40,13 +38,13 @@ class Driver
     
       @objects = Hash.new
 
-      # Recognize standards objects
-      object_list_.each { |pin|
+      card_["plug"].each_pair do |pin,object_path|
         
+        next if object_path.nil?
+
         # Get object proxy
         obj_proxy = Bus.introspect(@path_dbus, pin)
         @objects[pin]=obj_proxy
-        
         
         # Welcome to Real Informatik
         # Here is a workaround to https://bugs.freedesktop.org/show_bug.cgi?id=25125
@@ -67,7 +65,7 @@ class Driver
             end
           } 
         }
-      }
+      end
       
     else
       abort "Can't find dbus service for card #{@name}"

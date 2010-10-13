@@ -17,14 +17,13 @@ require 'dbus'
 
 module LibClient
   class Server #openplacos server 
-    attr_accessor :config, :objects, :service, :rooms , :sensors, :actuators
+    attr_accessor :config, :objects, :service, :sensors, :actuators
     
     def initialize
       
       @bus = DBus::SessionBus.instance
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")
-      
         @service.introspect
         #@server_mutex = Mutex.new
         #discover all objects of server
@@ -46,7 +45,7 @@ module LibClient
       nod.each_pair{ |key,value|
        if not(key=="Debug" or key=="server") #ignore debug objects
          if not value.object.nil?
-          obj[value.object.path.split("/").reverse[0]] = value.object
+          obj[value.object.path] = value.object
          else
           obj.merge!(get_objects(value))
          end
@@ -68,7 +67,7 @@ module LibClient
     def get_sensors
       sensors = Hash.new
       @objects.each_pair{ |key, value|
-        if value.path.include?("Measure")
+        if value.has_iface?('org.openplacos.server.measure')
           sensors[key] = value['org.openplacos.server.measure']
         end
       }
@@ -78,7 +77,7 @@ module LibClient
     def get_actuators
       actuators = Hash.new
       @objects.each_pair{ |key, value|
-        if value.path.include?("Actuator")
+        if value.has_iface?('org.openplacos.server.actuator')
           actuators[key] = value['org.openplacos.server.actuator']
         end
       }

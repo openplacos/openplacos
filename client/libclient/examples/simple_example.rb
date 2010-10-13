@@ -23,8 +23,8 @@ opos = LibClient::Server.new
 
 #puts server.objects.keys
 
-puts opos.sensors["Hygro_in"].value
-puts opos.sensors["Temperature_indoor"].value
+puts opos.sensors["/home/Hygro_in"].value
+puts opos.sensors["/home/Temperature_indoor"].value
 
-server.actuators["Light"].on
+opos.actuators["/home/Light"].on
 
