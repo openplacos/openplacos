@@ -23,31 +23,38 @@ class Regulation
       @measure     = measure_
       @action_up   = config_["action+"]
       @action_down = config_["action-"]
-      @is_regul_on = 0
+      @is_regul_on = false
       @order       = nil
+      Thread.abort_on_exception = true
+      
+      @thread = Thread.new{
+        Thread.stop
+        loop do
+          sleep(1)
+          puts "regulation #{@measure.name} : #{@measure.get_value()} "
+          #regul(nil)
+        end
+      }  
+      @thread.wakeup
   end
   
   
   def regul(option_)
 
-    while(@is_regul_on)
+    #while(@is_regul_on)
+      #sleep 1
       puts "regulation #{@measure.name} : #{@measure.get_value()} "
-      sleep(5) 
-    end
-    puts "has quit"
+    #end
+
   end
   
   def set(option_)
-    @is_regul_on = 1
-    
-    Thread.new{
-      regul(option_)
-    }   
-   
+    @is_regul_on = true
+    @thread.wakeup
   end
   
   def unset
-    @is_regul_on = 0
+    @is_regul_on = false
   end
 
 end

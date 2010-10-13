@@ -114,6 +114,7 @@ class Measure
         @value = @proxy_iface.read(@option)[0]
       end
     Thread.new{
+    if $database
       if $database.is_traced(self.name)
         flow = Database::Flow.create(:date  => Time.new,:value => @value) 
         device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
@@ -121,6 +122,7 @@ class Measure
         Database::Measure.create(:flow_id => flow.id,
                                  :sensor_id => sensor.id)
       end
+    end
     }
     end
     return @value   
