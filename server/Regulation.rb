@@ -28,14 +28,15 @@ class Regulation
       Thread.abort_on_exception = true
       
       @thread = Thread.new{
-        Thread.stop
         loop do
+          Thread.stop if !@is_regul_on
           sleep(1)
-          puts "regulation #{@measure.name} : #{@measure.get_value()} "
+          puts @measure.name
+          #puts "regulation #{@measure.name} : #{@measure.get_value()} "
           #regul(nil)
         end
       }  
-      @thread.wakeup
+
   end
   
   

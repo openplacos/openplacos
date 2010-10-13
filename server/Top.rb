@@ -190,8 +190,8 @@ end
 top = Top.new(ARGV[0], service)
 
 # Let's Dbus have execution control
+
 main = DBus::Main.new
 main << sessionBus
 main.run
-
 
