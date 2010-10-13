@@ -29,10 +29,10 @@ class Measure
     @dependencies = nil
 
     @path = meas_["path"]
-    
+    @config = meas_
     # Parse Yaml correponding to the model of sensor
     parse_config(meas_)
-
+    
     @last_mesure = 0
     @value = nil     
 

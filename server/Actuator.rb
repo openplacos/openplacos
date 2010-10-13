@@ -27,7 +27,7 @@ class Actuator
     
     @path = act_["path"]
     @state = -1
-
+    @config = act_
     # Parse Yaml correponding to the model of actuator
     parse_config(act_)
     
