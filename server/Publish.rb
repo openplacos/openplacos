@@ -40,7 +40,14 @@ class Dbus_measure < DBus::Object
     end  
   end 
 
-
+  dbus_interface "org.openplacos.server.regul" do
+    dbus_method :set, "in return:a{sv}" do |option|
+      [@meas.regul.set(option)]
+    end  
+    dbus_method :unset do 
+      [@meas.regul.unset]
+    end  
+  end 
 
 
   def initialize (meas_)

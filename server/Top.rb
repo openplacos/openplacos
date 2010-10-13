@@ -30,6 +30,7 @@ require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
 require 'sql.rb'
+require 'Regulation.rb'
 
 
 

@@ -3,6 +3,8 @@ objects:
 - name: Temperature Indoor
   path: /home/Temperature_indoor
   model: Generic_Celsius_Temperature
+  regul:
+    action-: /home/Fan
    
 - name: Temperature Outdoor
   path: /home/Temperature_outdoor
@@ -19,7 +21,9 @@ objects:
   model: VirtualPlacos_Hygro
   depends:
     temp: /home/Temperature_indoor
-
+  regul:
+    action-: /home/Fan
+    
 - name: Light
   path: /home/Light
   model: Generic_relay_NO

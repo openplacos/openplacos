@@ -19,7 +19,7 @@
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config, :path, :informations
+  attr_reader :name , :proxy_iface, :value ,:room, :config, :path, :informations ,:regul
 
 
   #1 Measure definition in yaml config
@@ -38,6 +38,10 @@ class Measure
 
     @top = top_
     @check_lock = 0
+
+    if meas_["regul"]
+      @regul = Regulation.new(meas_["regul"],self)
+    end
 
   end
 
@@ -87,7 +91,7 @@ class Measure
   
   #measure from sensor
   def get_value
-    if (Time.new.to_f - @last_mesure) > @ttl
+    if (Time.new.to_f - @last_mesure) > @ttl  # cache
       @last_mesure = Time.new.to_f
       
       if self.methods.include?("convert") # if convert fonction exist ?
