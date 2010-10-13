@@ -75,7 +75,7 @@ class Dbus_actuator < DBus::Object
   dbusmethods = define_dbus_methods(@act.methods)
   
   # add dbus methods to the class instance
-  self.class.instance_eval(dbusmethods)
+  self.singleton_class.instance_eval(dbusmethods)
 
   super(@act.path)
 
