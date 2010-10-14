@@ -19,7 +19,7 @@
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config, :path, :informations
+  attr_reader :name, :proxy_iface, :value ,:room, :config, :path, :informations
 
 
   #1 Measure definition in yaml config
@@ -27,11 +27,10 @@ class Measure
   def initialize(meas_, top_) # Constructor
 
     @dependencies = nil
-
-    @path = meas_["path"]
     
     # Parse Yaml correponding to the model of sensor
     parse_config(meas_)
+    @config = meas_
 
     @last_mesure = 0
     @value = nil     
@@ -135,7 +134,7 @@ class Measure
     end
  
     #for each keys of config
-    @room         = config_["room"]
+    @path         = config_["path"]
     @name         = config_["name"]
     @device_model = config_["model"]
     @informations = config_["informations"]

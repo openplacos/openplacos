@@ -18,18 +18,18 @@
 
 class Actuator
 
-  attr_reader :name , :proxy_iface, :methods, :config ,:state, :path
+  attr_reader :name, :proxy_iface, :methods, :config ,:state, :path
 
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(act_, top_) # Constructor
     
-    @path = act_["path"]
     @state = -1
 
     # Parse Yaml correponding to the model of actuator
     parse_config(act_)
+    @config = act_
     
     @top = top_
 
