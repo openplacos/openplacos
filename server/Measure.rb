@@ -117,7 +117,7 @@ class Measure
         Database::Measure.create(:flow_id => flow.id,
                                  :sensor_id => sensor.id)
       end
-    }
+    } if defined? $database
     end
     return @value   
   end

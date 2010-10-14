@@ -135,7 +135,7 @@ class Actuator
         Database::Instruction.create(:flow_id => flow.id,
                                      :actuator_id => actuator.id)
       end
-    }
+    } if defined? $database
     @state = value_
   end
 
