@@ -31,8 +31,8 @@ class Regulation
         loop do
           Thread.stop if !@is_regul_on
           sleep(1)
-          puts @measure.name
-          #puts "regulation #{@measure.name} : #{@measure.get_value()} "
+          
+          puts "regulation #{@measure.name} : #{@measure.get_value()} "
           #regul(nil)
         end
       }  

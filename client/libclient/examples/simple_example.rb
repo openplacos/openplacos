@@ -28,3 +28,5 @@ puts opos.sensors["/home/Temperature_indoor"].value
 
 opos.actuators["/home/Light"].on
 
+puts opos.rooms
+
