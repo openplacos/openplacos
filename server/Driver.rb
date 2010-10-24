@@ -18,7 +18,7 @@
 require 'dbus'
 include REXML
 
-Bus = DBus::SessionBus.instance
+Bus = DBus::SystemBus.instance
 
 # local include
 require 'Dbus-interfaces.rb'

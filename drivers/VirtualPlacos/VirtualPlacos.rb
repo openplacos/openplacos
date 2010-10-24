@@ -281,18 +281,18 @@ config_placos = config['placos']
 $placos = Virtualplacos.new(config_placos["Outdoor Temperature"].to_f,config_placos["Max Indoor Temperature"].to_f,config_placos["Outdoor Hygro"].to_f,config_placos["Light Time Constant"].to_f,config_placos["Ventillation Time Constant"].to_f,config_placos["Thread Refresh Rate"].to_f)
 
 
-bus = DBus.session_bus
+bus = DBus.system_bus
 
-#check notification system
-$notify = config['allow notify']
+# #check notification system
+# $notify = config['allow notify']
 
-# Start notification systeme
-if $notify==true
-    notifyService = bus.service("org.freedesktop.Notifications")
-    notifyObject = notifyService.object('/org/freedesktop/Notifications')
-    notifyObject.introspect
-    $notifyIface = notifyObject['org.freedesktop.Notifications']
-end
+# # Start notification systeme
+# if $notify==true
+#     notifyService = bus.service("org.freedesktop.Notifications")
+#     notifyObject = notifyService.object('/org/freedesktop/Notifications')
+#     notifyObject.introspect
+#     $notifyIface = notifyObject['org.freedesktop.Notifications']
+# end
 
 #publish methods on dbus
 

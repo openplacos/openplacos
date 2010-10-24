@@ -34,8 +34,8 @@ require 'sql.rb'
 
 
 #DBus
-sessionBus = DBus::session_bus
-service = sessionBus.request_service("org.openplacos.server")
+systemBus  = DBus::system_bus
+service    = systemBus.request_service("org.openplacos.server")
 
 #Global functions
 $global = Global.new
@@ -190,7 +190,7 @@ top = Top.new(ARGV[0], service)
 
 # Let's Dbus have execution control
 main = DBus::Main.new
-main << sessionBus
+main << systemBus
 main.run
 
 
