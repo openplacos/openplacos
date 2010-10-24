@@ -1,0 +1,1 @@
+sudo adduser openplacos --system -disabled-login -no-create-home
