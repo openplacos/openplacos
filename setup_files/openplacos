@@ -5,23 +5,21 @@ PID=$(cat /tmp/openplacos.pid 2>/dev/null)
 
 case "$1" in
     	start)
-        	stat_busy "Starting OpenplacOS"
+        	echo "Starting OpenplacOS"
 		[ -z $PID ] && su -l openplacos -s /bin/sh -c "/usr/bin/openplacos-server /etc/default/openplacos &> /tmp/openplacos.log &"
 		if [ $? -gt 0 ]; then
-			stat_fail
+		    exit 1
 		else
-			add_daemon openplacos
-			stat_done
+		    exit 0
 		fi
 	;;
     	stop)
-        	stat_busy "Stopping OpenplacOS"
+        	echo "Stopping OpenplacOS"
 		[ ! -z $PID ] && kill $PID &> /dev/null
 		if [ $? -gt 0 ]; then
-			stat_fail
+		    exit 1
 		else
-			rm_daemon openplacos
-			stat_done
+		    exit 0
 		fi
 	;;
     	restart)
