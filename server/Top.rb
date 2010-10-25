@@ -16,6 +16,10 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# This is dirty fix to find server sources
+$INSTALL_PATH = '/usr/lib/openplacos/server/'
+$LOAD_PATH << $INSTALL_PATH
+
 # List of library include
 require 'yaml' 
 require 'rubygems'
@@ -68,10 +72,10 @@ class Top
           #---
           # FIXME : model's yaml will be change, maybe
           #+++
-          if File.exist?("../components/sensors/" + object["model"] + ".yaml")
-              model = YAML::load(File.read("../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
-          elsif File.exist?("../components/actuators/" + object["model"] + ".yaml")
-              model = YAML::load(File.read("../components/actuators/" + object["model"] + ".yaml"))[object["model"]]
+          if File.exist?($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml")
+              model = YAML::load(File.read($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
+          elsif File.exist?($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml")
+              model = YAML::load(File.read($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml"))[object["model"]]
           else
               abort "No model found for #{object['name']} : #{object['model']}"
           end

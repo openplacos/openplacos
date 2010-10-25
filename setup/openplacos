@@ -6,7 +6,7 @@ PID=$(cat /tmp/openplacos.pid 2>/dev/null)
 case "$1" in
     	start)
         	stat_busy "Starting OpenplacOS"
-		[ -z $PID ] && su openplacos -s /bin/sh -c "/usr/bin/openplacos-server /etc/default/openplacos_config.yaml &> /tmp/openplacos.log &"
+		[ -z $PID ] && su -l openplacos -s /bin/sh -c "/usr/bin/openplacos-server /etc/default/openplacos &> /tmp/openplacos.log &"
 		if [ $? -gt 0 ]; then
 			stat_fail
 		else

@@ -1,1 +1,5 @@
 sudo adduser openplacos --system -disabled-login -no-create-home
+sudo cp -rf openplacos/ /usr/lib/
+sudo ln -s /usr/lib/openplacos/server/Top.rb /usr/bin/openplacos-server
+sudo cp openplacos/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+sudo cp org.openplacos.drivers.virtualplacos.service /usr/share/dbus-1/services/

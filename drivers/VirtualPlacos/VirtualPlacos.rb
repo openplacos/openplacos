@@ -254,9 +254,7 @@ def my_notify(message)
 end
 
 if (ARGV[0] == nil)
-  puts "Please specify a config file"
-  puts "Usage: openplacos-server <config-file>"
-  Process.exit
+ ARGV[0] = '/usr/lib/openplacos/drivers/VirtualPlacos/config.yaml'
 end
 
 if (! File.exist?(ARGV[0]))
