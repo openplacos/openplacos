@@ -19,7 +19,7 @@
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config, :path, :informations ,:regul
+  attr_reader :name , :proxy_iface, :value ,:room, :config, :path, :informations ,:regul ,:top
 
 
   #1 Measure definition in yaml config

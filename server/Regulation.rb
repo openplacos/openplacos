@@ -25,31 +25,36 @@ class Regulation
       @action_down = config_["action-"]
       @is_regul_on = false
       @order       = nil
+      @threeshold = nil
       Thread.abort_on_exception = true
       
       @thread = Thread.new{
         loop do
           Thread.stop if !@is_regul_on
           sleep(1)
-          
-          puts "regulation #{@measure.name} : #{@measure.get_value()} "
-          #regul(nil)
+          regul
         end
       }  
 
   end
   
   
-  def regul(option_)
-
-    #while(@is_regul_on)
-      #sleep 1
-      puts "regulation #{@measure.name} : #{@measure.get_value()} "
-    #end
-
+  def regul
+    return if @threeshold.nil?
+    meas = @measure.get_value
+    if meas > (@threeshold + 0.05*@threeshold)
+      @measure.top.objects[@action_down].on if (not @action_down.nil?) 
+      @measure.top.objects[@action_up].off if (not @action_up.nil?) 
+    end
+    if meas < (@threeshold - 0.05*@threeshold)
+      @measure.top.objects[@action_down].off if(not @action_down.nil?)
+      @measure.top.objects[@action_up].on if (not @action_up.nil?)
+    end
+    
   end
   
   def set(option_)
+    @threeshold = option_["threeshold"]
     @is_regul_on = true
     @thread.wakeup
   end

@@ -44,7 +44,7 @@ $global = Global.new
 
 class Top
 
-  attr_reader :drivers
+  attr_reader :drivers, :objects
   
   #1 Config file path
   #2 Dbus session reference
