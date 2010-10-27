@@ -1,0 +1,9 @@
+# a simple temperature sensor using juste a LM335 temperature sensor
+Simple_LM335:
+  informations:
+    kind: Sensor
+    unit: Celsius
+  driver:
+    interface: analog
+    ttl: 0.1   
+  conversion: 100*( %self * 5 - 2.78 )

@@ -26,12 +26,24 @@ class Regulation
       @is_regul_on = false
       @order       = nil
       @threeshold = nil
+      if config_["frequency"].nil?
+		@frequency = 1 #by default 
+	  else
+	    @frequency = config_["frequency"]
+	  end
+	  
+	  if config_["hysteresis"].nil?
+		@hysteresis = 1 #by default 
+	  else
+	    @hysteresis = config_["hysteresis"]
+	  end
+	  
       Thread.abort_on_exception = true
       
       @thread = Thread.new{
         loop do
           Thread.stop if !@is_regul_on
-          sleep(1)
+          sleep(@frequency)
           regul
         end
       }  
@@ -40,10 +52,9 @@ class Regulation
   
   
   def regul
-    puts "coucou"
     return if @threeshold.nil?
     meas = @measure.get_value
-    if meas > (@threeshold + 0.05*@threeshold)
+    if meas > (@threeshold + @hysteresis)
       if (not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="on")))
         @measure.top.objects[@action_down].on 
       end
@@ -51,7 +62,7 @@ class Regulation
         @measure.top.objects[@action_up].off
       end
     end
-    if meas < (@threeshold - 0.05*@threeshold)
+    if meas < (@threeshold - @hysteresis)
       @measure.top.objects[@action_down].off if ( not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="off")))
       @measure.top.objects[@action_up].on if ( not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="on")))
     end
@@ -60,6 +71,9 @@ class Regulation
   
   def set(option_)
     @threeshold = option_["threeshold"]
+    if !option_["hysteresis"].nil?
+      @hysteresis = option_["hysteresis"]
+    end
     @is_regul_on = true
     @thread.wakeup
   end

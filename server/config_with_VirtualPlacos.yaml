@@ -23,6 +23,7 @@ objects:
     temp: /home/Temperature_indoor
   regul:
     action-: /home/Fan
+    frequency: 0.5
     
 - name: Light
   path: /home/Light
