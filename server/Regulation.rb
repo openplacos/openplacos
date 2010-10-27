@@ -40,15 +40,20 @@ class Regulation
   
   
   def regul
+    puts "coucou"
     return if @threeshold.nil?
     meas = @measure.get_value
     if meas > (@threeshold + 0.05*@threeshold)
-      @measure.top.objects[@action_down].on if (not @action_down.nil?) 
-      @measure.top.objects[@action_up].off if (not @action_up.nil?) 
+      if (not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="on")))
+        @measure.top.objects[@action_down].on 
+      end
+      if (not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="off")))
+        @measure.top.objects[@action_up].off
+      end
     end
     if meas < (@threeshold - 0.05*@threeshold)
-      @measure.top.objects[@action_down].off if(not @action_down.nil?)
-      @measure.top.objects[@action_up].on if (not @action_up.nil?)
+      @measure.top.objects[@action_down].off if ( not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="off")))
+      @measure.top.objects[@action_up].on if ( not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="on")))
     end
     
   end

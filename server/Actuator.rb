@@ -26,7 +26,7 @@ class Actuator
   def initialize(act_, top_) # Constructor
     
     @path = act_["path"]
-    @state = -1
+    @state = Hash.new
     @config = act_
     # Parse Yaml correponding to the model of actuator
     parse_config(act_)
@@ -111,8 +111,11 @@ class Actuator
 
           def #{method["name"]}
             write( #{value}, #{option})
-                end
-        """
+             @state['name'] = \"#{method['name']}\"
+             @state['value'] = \"#{value}\"
+             @state['option'] = \"#{option}\"
+          end
+          """
           self.instance_eval(methdef)
           @methods[method["name"]] = method["name"]
     }
@@ -125,7 +128,7 @@ class Actuator
     }
   end
   
-  def write( value_, option_)
+  def write( value_, option_)    
     @proxy_iface.write( value_, option_)
     Thread.new{ 
       if $database
@@ -138,7 +141,6 @@ class Actuator
       end
       end
     }
-    @state = value_
   end
 
 

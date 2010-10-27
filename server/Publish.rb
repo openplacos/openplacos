@@ -90,7 +90,7 @@ class Dbus_actuator < DBus::Object
 
   def define_dbus_methods(methods)
     methdef =    "dbus_interface 'org.openplacos.server.actuator' do \n "
-    methdef +=   "dbus_method :state, 'out return:v' do \n  return @act.state \n end \n"
+    methdef +=   "dbus_method :state, 'out return:a{sv}' do \n  return @act.state \n end \n"
     methods.each_value { |name|
       methdef +=     "dbus_method :" + name + ", 'out return:v' do \n return @act." + name + " \n end \n "
     }
