@@ -25,17 +25,13 @@ require 'Dbus-interfaces_acquisition_card.rb'
 class Dbus_measure < DBus::Object
   # Create an interface.
   dbus_interface "org.openplacos.server.measure" do
-    dbus_method :value, "out return:v" do
+    dbus_method :value, "out return:v" do 
       return @meas.get_value
-    end
-
-    dbus_method :name, "out return:s" do
-      return @meas.name
-    end
+    end  
   end 
   
   dbus_interface "org.openplacos.server.config" do
-    dbus_method :getConfig, "out return:a{sv}" do
+    dbus_method :getConfig, "out return:a{sv}" do 
       [@meas.config]
     end  
   end 
@@ -48,7 +44,6 @@ class Dbus_measure < DBus::Object
       [@meas.regul.unset]
     end  
   end 
-
 
   def initialize (meas_)
     # DBus constructor
@@ -63,16 +58,11 @@ end # End of class Dbus_debug_measure
 class Dbus_actuator < DBus::Object
   
   dbus_interface "org.openplacos.server.config" do
-    dbus_method :getConfig, "out return:a{sv}" do
+    dbus_method :getConfig, "out return:a{sv}" do 
       [@act.config]
     end
   end 
   
-  dbus_interface 'org.openplacos.server.actuator' do
-    dbus_method :value, "out return:v" do
-      return @meas.get_value
-    end
-  end
 
   def initialize (act_)
     # DBus constructor

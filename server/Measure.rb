@@ -19,25 +19,21 @@
 
 class Measure
 
-  attr_reader :name , :proxy_iface, :value ,:room, :config, :path, :informations ,:regul ,:top
-
+  attr_reader :name, :proxy_iface, :value, :config, :path, :informations, :regul, :top
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(meas_, top_) # Constructor
 
     @dependencies = nil
-
-    @path = meas_["path"]
-    @config = meas_
-    # Parse Yaml correponding to the model of sensor
-    parse_config(meas_)
-    
     @last_mesure = 0
-    @value = nil     
-
+    @value = nil
     @top = top_
     @check_lock = 0
+    
+    # Parse Yaml correponding to the model of sensor
+    parse_config(meas_)
+    @config = meas_
 
     if meas_["regul"]
       @regul = Regulation.new(meas_["regul"],self)
@@ -114,7 +110,6 @@ class Measure
         @value = @proxy_iface.read(@option)[0]
       end
     Thread.new{
-    if $database
       if $database.is_traced(self.name)
         flow = Database::Flow.create(:date  => Time.new,:value => @value) 
         device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
@@ -122,10 +117,9 @@ class Measure
         Database::Measure.create(:flow_id => flow.id,
                                  :sensor_id => sensor.id)
       end
+    } if defined? $database
     end
-    }
-    end
-    return @value   
+    return @value
   end
 
   def parse_config(config_)
@@ -141,7 +135,7 @@ class Measure
     end
  
     #for each keys of config
-    @room         = config_["room"]
+    @path         = config_["path"]
     @name         = config_["name"]
     @device_model = config_["model"]
     @informations = config_["informations"]

@@ -18,20 +18,18 @@
 
 class Actuator
 
-  attr_reader :name , :proxy_iface, :methods, :config ,:state, :path
-
+  attr_reader :name, :proxy_iface, :methods, :config ,:state, :path
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(act_, top_) # Constructor
     
-    @path = act_["path"]
     @state = Hash.new
-    @config = act_
+    @top = top_
+    
     # Parse Yaml correponding to the model of actuator
     parse_config(act_)
-    
-    @top = top_
+    @config = act_ 
 
   end
 
@@ -108,7 +106,6 @@ class Actuator
           end
 
           methdef = """
-
           def #{method["name"]}
             write( #{value}, #{option})
              @state['name'] = \"#{method['name']}\"
@@ -131,7 +128,6 @@ class Actuator
   def write( value_, option_)    
     @proxy_iface.write( value_, option_)
     Thread.new{ 
-      if $database
       if $database.is_traced(self.name)
         flow = Database::Flow.create(:date  => Time.new,:value => to_float(value_)) 
         device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
@@ -139,8 +135,8 @@ class Actuator
         Database::Instruction.create(:flow_id => flow.id,
                                      :actuator_id => actuator.id)
       end
-      end
-    }
+    } if defined? $database
+
   end
 
 
