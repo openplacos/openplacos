@@ -35,10 +35,6 @@ class Measure
     parse_config(meas_)
     @config = meas_
 
-    if meas_["regul"]
-      @regul = Regulation.new(meas_["regul"],self)
-    end
-
   end
 
   def check(overpass_, ttl_)
@@ -171,7 +167,9 @@ class Measure
       self.instance_eval(methdef) 
     end
         
-    #for each keys of config 
+    if config_["regul"]
+      @regul = Regulation.new(config_["regul"], self)
+    end
     
   end
   
