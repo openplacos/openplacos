@@ -128,7 +128,7 @@ class Top
       # store config if not done before
       $database.store_config( @drivers, @measures, @actuators)
     else
-      $database = nil
+      #$database = nil
     end
 
 
