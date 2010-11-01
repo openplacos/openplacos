@@ -25,7 +25,7 @@ class Regulation
       @action_down = config_["action-"]
       @is_regul_on = false
       @order       = nil
-      @threeshold = nil
+      @threshold = nil
       if config_["frequency"].nil?
 		@frequency = 1 #by default 
 	  else
@@ -52,9 +52,9 @@ class Regulation
   
   
   def regul
-    return if @threeshold.nil?
+    return if @threshold.nil?
     meas = @measure.get_value
-    if meas > (@threeshold + @hysteresis)
+    if meas > (@threshold + @hysteresis)
       if (not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="on")))
         @measure.top.objects[@action_down].on 
       end
@@ -62,7 +62,7 @@ class Regulation
         @measure.top.objects[@action_up].off
       end
     end
-    if meas < (@threeshold - @hysteresis)
+    if meas < (@threshold - @hysteresis)
       @measure.top.objects[@action_down].off if ( not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="off")))
       @measure.top.objects[@action_up].on if ( not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="on")))
     end
@@ -70,7 +70,7 @@ class Regulation
   end
   
   def set(option_)
-    @threeshold = option_["threeshold"]
+    @threshold = option_["threshold"]
     if !option_["hysteresis"].nil?
       @hysteresis = option_["hysteresis"]
     end
