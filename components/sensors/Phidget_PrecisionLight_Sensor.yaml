@@ -1,0 +1,11 @@
+# Phidget Precision Light Sensor 1127 : 
+# http://www.phidgets.com/products.php?category=6&product_id=1127
+# 
+Phidget_PrecisionLight_Sensor:
+  informations:
+    kind: Sensor
+    unit: lux
+  driver:
+    interface: analog
+    ttl: 0.1
+  conversion: %self 
