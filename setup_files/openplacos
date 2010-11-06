@@ -6,7 +6,7 @@ PID=$(cat /tmp/openplacos.pid 2>/dev/null)
 case "$1" in
     	start)
         	echo "Starting OpenplacOS"
-		[ -z $PID ] && su -l openplacos -s /bin/sh -c "/usr/bin/openplacos-server /etc/default/openplacos &> /tmp/openplacos.log &"
+		su -l openplacos -s /bin/sh -c "/usr/bin/openplacos-server /etc/default/openplacos &> /tmp/openplacos.log &"
 		if [ $? -gt 0 ]; then
 		    exit 1
 		else
@@ -15,7 +15,7 @@ case "$1" in
 	;;
     	stop)
         	echo "Stopping OpenplacOS"
-		[ ! -z $PID ] && kill $PID &> /dev/null
+		pkill openplacos
 		if [ $? -gt 0 ]; then
 		    exit 1
 		else

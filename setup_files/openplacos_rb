@@ -2,7 +2,10 @@
 
 require 'rubygems'        # if you use RubyGems
 require 'daemons'
+require 'etc'
 
-daemon_opos = Daemons.run('/usr/bin/openplacos-server /etc/default/openplacos &> /tmp/openplacos.log')
-daemon_opos.change_privilege(Hash["user" => "openplacos"])
+#Process.exec('su -l openplacos')
+
+
+daemon_opos = Daemons.run('/usr/bin/openplacos-server')
 

@@ -36,9 +36,10 @@ installation() {
   /var/lib/gems/1.8/bin/update_rubygems 
   gem update
   echo "----------------------------------------------------"
-  echo "Ruby gem lib installation -- please wait"
+  echo "Ruby gem lib installation "
+  echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport
+  gem install activerecord mysql serialport daemons
 
   # User openplacos
   echo "----------------------------------------------------"

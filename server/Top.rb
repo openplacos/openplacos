@@ -34,7 +34,7 @@ require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
 require 'sql.rb'
-
+require 'etc'
 
 
 #DBus
@@ -173,9 +173,7 @@ end # End of Top
 
 # Config file basic verification
 if (ARGV[0] == nil)
-  puts "Please specify a config file"
-  puts "Usage: openplacos-server <config-file>"
-  Process.exit 1
+  ARGV[0] = '/etc/default/openplacos'
 end
 
 if (! File.exist?(ARGV[0]))
