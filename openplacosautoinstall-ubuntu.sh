@@ -24,6 +24,7 @@ version="0.1"
 
 openplacos_core_version="0"
 openplacos_core_subversion="0.1"
+path=`dirname $0`
 
 # Fonction: installation
 installation() {
@@ -39,7 +40,7 @@ installation() {
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport daemons
+  gem install activerecord mysql serialport 
 
   # User openplacos
   echo "----------------------------------------------------"
@@ -63,12 +64,12 @@ installation() {
   echo "----------------------------------------------------"
   echo "File copy in your system"
   echo "----------------------------------------------------"
-  cp -rf ../openplacos/ /usr/lib/ruby/
+  cp -rf $path/../openplacos/ /usr/lib/ruby/
   ln -s /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
-  cp server/config_with_VirtualPlacos.yaml /etc/default/openplacos
-  cp setup_files/*.service /usr/share/dbus-1/system-services/
-  cp setup_files/openplacos.conf /etc/dbus-1/system.d/
-  cp setup_files/openplacos /etc/init.d/
+  cp $path/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+  cp $path/setup_files/*.service /usr/share/dbus-1/system-services/
+  cp $path/setup_files/openplacos.conf /etc/dbus-1/system.d/
+  cp $path/setup_files/openplacos /etc/init.d/
   update-rc.d openplacos defaults 98 02
 
  
