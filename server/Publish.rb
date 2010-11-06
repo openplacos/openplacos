@@ -14,7 +14,6 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
 require 'dbus'
 include REXML
 
@@ -97,8 +96,8 @@ class Server < DBus::Object
 
   def getUsbDevices
     devices = Array.new
-    pid_file =  YAML::load(File.read("pid.yaml"))
-    lsusb =  `./scripts/get_id_usb.rb` #execute lsusb command
+    pid_file =  YAML::load(File.read($INSTALL_PATH + "/pid.yaml"))
+    lsusb =  `#{$INSTALL_PATH}/scripts/get_id_usb.rb` #execute lsusb command
     pid_file["lsusb"].each { |dev|
       if lsusb.match(dev["pid"])
         devices.push(dev["driver"])
