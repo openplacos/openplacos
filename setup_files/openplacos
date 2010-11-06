@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-PID=$(cat /tmp/openplacos.pid 2>/dev/null)
-
 case "$1" in
     	start)
         	echo "Starting OpenplacOS"
