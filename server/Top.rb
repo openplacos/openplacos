@@ -16,9 +16,9 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# This is dirty fix to find server sources
-$INSTALL_PATH = '/usr/lib/openplacos/server/'
-$LOAD_PATH << $INSTALL_PATH
+# $INSTALL_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
+$INSTALL_PATH = '/usr/lib/ruby/openplacos/server/'
+$LOAD_PATH << $INSTALL_PATH 
 
 # List of library include
 require 'yaml' 
@@ -34,7 +34,6 @@ require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
 require 'sql.rb'
-require 'etc'
 
 
 #DBus
