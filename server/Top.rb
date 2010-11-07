@@ -25,7 +25,6 @@ require 'Measure.rb'
 require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
-require 'sql.rb'
 
 # List of library include
 require 'yaml' 
@@ -122,6 +121,7 @@ class Top
     }
     
     if @config['database']
+      require 'sql.rb'
       $database = Database.new(@config)
 
       # store config if not done before
