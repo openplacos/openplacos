@@ -38,12 +38,23 @@ card:
     /Pin_5: Hygro_out
     /Pin_6: Hygro_in
 
-database: 
-  name: opos_VP
-  adapter: mysql
-  host: localhost
-  user: root
-# Please set password in $OPOS_PASS 
-  profile: measures, actuators, users 
-  include: 
+database:
+  # Database config for ActiveRecord
+  # see http://api.rubyonrails.org/classes/ActiveRecord/Base.html#method-c-establish_connection
+  # for examples
+  config:
+    adapter: sqlite3
+    database: "opos.sql"
+
+  # Database config for mysql
+  #config:
+    # name: opos_VP
+    # adapter: mysql
+    # host: localhost
+    # user: root
+    # Please set password in $OPOS_PASS
+
+  profile: measures, actuators, users
+  include:
   exclude:  Temperature_outdoor, Hygro_out
+

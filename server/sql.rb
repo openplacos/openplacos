@@ -50,13 +50,12 @@ class Database
     $global.trace "Connect to database."
     
     #Connect to database
-    ActiveRecord::Base.establish_connection(
-                                            :adapter => config_['database']['adapter'],
-                                            :host => config_['database']['host'],
-                                            :user => config_['database']['user'],
-                                            :password => ENV['OPOS_PASS'],
-                                            :database => config_['database']['name']
-                                            )
+    options = Hash.new
+    config_['database']['config'].each_pair do |key,value|
+      options[key.to_sym] = value
+    end
+    options[:password] = ENV['OPOS_PASS'] if ENV['OPOS_PASS']
+    ActiveRecord::Base.establish_connection( options )
     
     $global.trace "Connected"
     
