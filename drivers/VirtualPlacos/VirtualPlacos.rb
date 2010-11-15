@@ -280,6 +280,9 @@ $placos = Virtualplacos.new(config_placos["Outdoor Temperature"].to_f,config_pla
 
 
 bus = DBus.system_bus
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  bus =  DBus.session_bus
+end
 
 # #check notification system
 # $notify = config['allow notify']
