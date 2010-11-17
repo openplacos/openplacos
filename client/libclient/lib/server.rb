@@ -17,7 +17,7 @@ require 'dbus'
 
 module LibClient
   class Server #openplacos server 
-    attr_accessor :config, :objects, :service, :sensors, :actuators
+    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms
     
     def initialize
       
@@ -28,6 +28,7 @@ module LibClient
         #@server_mutex = Mutex.new
         #discover all objects of server
         @objects = get_objects(@service.root)
+        @rooms = get_rooms(@service.root)
         
         #get sensors and actuators
         @sensors = get_sensors
@@ -39,6 +40,19 @@ module LibClient
       
     
     end  
+    
+    def get_rooms(nod)
+      room = Array.new
+      nod.each_pair{ |key,value|
+       if not(key=="Debug" or key=="server") #ignore debug objects
+         if value.object.nil?
+          room.push(key)
+         end
+       end
+      }
+      room.uniq
+    end
+    
     
     def get_objects(nod) #get objects from a node, ignore Debug objects
       obj = Hash.new

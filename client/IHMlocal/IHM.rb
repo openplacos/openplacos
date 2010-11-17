@@ -16,10 +16,10 @@
 
 require 'dbus'
 require 'gtk2'
+require '../libclient/lib/server.rb'
 
-bus = DBus::SessionBus.instance
-service = bus.service("org.openplacos.server")
-service.introspect
+opos = LibClient::Server.new
+Thread.abort_on_exception=true
 
 class Measure < Gtk::Frame #Measure Widget
   attr_accessor :label_value
@@ -45,7 +45,7 @@ class Measure < Gtk::Frame #Measure Widget
       @container.attach(@curve,0,3,1,2,Gtk::FILL)
       
       @mutex = mutex
-      @meas = meas['org.openplacos.server.measure']
+      @meas = meas
       @meas_vect = Array.new
       @th = Thread.new{
         loop do
@@ -75,7 +75,7 @@ class Actuator < Gtk::Frame #actuator Widget
     super(cfg["name"])
     
     @container = Gtk::HBox.new(true,6)
-    @act = act['org.openplacos.server.actuator']
+    @act = act
     @mutex = mutex
     @button = Hash.new
     
@@ -93,91 +93,42 @@ class Actuator < Gtk::Frame #actuator Widget
   end
 end
 
-def get_objects(nod,obj) #get objects from a node, ignore Debug objects
-  nod.each_pair{ |key,value|
-   if not (key=="Debug" or key=="server") #ignore debug objects
-     if not value.object.nil?
-      obj[value.object.path] = value.object
-     else
-      get_objects(value,obj)
-     end
-   end
-  }
-  obj
-end
-
-
-def server_object_discover(service) #discover all objects for a given service
-  node = service.root
-  objects = Hash.new
-  get_objects(node,objects)
-end
-
-def get_config_from_objects(objects) #contact config methods for all objects
-  cfg = Hash.new
-  objects.each_pair{ |key, obj|
-    cfg[key] = obj["org.openplacos.server.config"].getConfig[0]
-  }
-  cfg
-end
-
-objects =  server_object_discover(service)
-config = get_config_from_objects(objects)
 
 windows = Gtk::Window.new
 windows.signal_connect('destroy') { Gtk.main_quit }
 
-#room = Array.new
-
-## find the diffents room from config
-#config.each_value{ |val|
-
-    #if val.has_key? "room"
-      #if not room.include?(val["room"])
-        #room.push(val["room"])
-      #end
-    #end
- 
-#}
-##create Notebook 
-#puts room.inspect
-
 notebook = Gtk::Notebook.new
 notebook.set_tab_pos(Gtk::POS_TOP)
 
-node = service.root
 roomcontener = Hash.new
 measure = Hash.new
 actuator = Hash.new
 server_acces = Mutex.new
+config = opos.get_config_from_objects(opos.objects)
 
-node.keys.each { |room|
-  if not room=="Debug"
-    roomcontener[room] = Hash.new
-    roomcontener[room]["Hbox"] = Gtk::HBox.new(true,6)
-    node[room].keys.each { |device|
-      roomcontener[room][device] = Gtk::Frame.new(device)
-      test = Gtk::VBox.new(true,6)
-      node[room][device].keys.each { |obj|
-        if device=="Measure"
-          measure[obj] = Measure.new(objects[node[room][device][obj].object.path],config[node[room][device][obj].object.path],server_acces)
-          test.pack_start(measure[obj],false)
-        end
-        if device=="Actuator"
-          actuator[obj] = Actuator.new(objects[node[room][device][obj].object.path],config[node[room][device][obj].object.path],server_acces)
-          test.pack_start(actuator[obj],false)
-        end
-      }
-      roomcontener[room][device].add_child(Gtk::Builder.new,test,nil)
-      roomcontener[room]["Hbox"].pack_start(roomcontener[room][device],false)
-    }
-    notebook.append_page( roomcontener[room]["Hbox"], Gtk::Label.new(room) )
-  end
+opos.rooms.each { |room|
+  roomcontener[room] = Hash.new
+  roomcontener[room]["Hbox"] = Gtk::HBox.new(true,6)
+  opos.sensors.each{ |key,obj|
+    roomcontener[room][key] = Gtk::Frame.new(key)
+    test = Gtk::VBox.new(true,6)
+    measure[key] = Measure.new(obj,config[key],server_acces)
+    test.pack_start(measure[key],false)
+    roomcontener[room][key].add_child(Gtk::Builder.new,test,nil)
+    roomcontener[room]["Hbox"].pack_start(roomcontener[room][key],false)
+
+  }
+  
+  opos.actuators.each{ |key,obj|
+    roomcontener[room][key] = Gtk::Frame.new(key)
+    test = Gtk::VBox.new(true,6)
+    actuator[key] = Actuator.new(obj,config[key],server_acces)
+    test.pack_start(actuator[key],false)
+    roomcontener[room][key].add_child(Gtk::Builder.new,test,nil)
+    roomcontener[room]["Hbox"].pack_start(roomcontener[room][key],false)
+  }
+  notebook.append_page( roomcontener[room]["Hbox"], Gtk::Label.new(room) )
 }
-
-
-
-
 windows.add(notebook)
 
 windows.show_all

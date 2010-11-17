@@ -29,6 +29,7 @@ require 'Measure.rb'
 require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
+require 'Regulation.rb'
 
 
 
@@ -42,7 +43,7 @@ $global = Global.new
 
 class Top
 
-  attr_reader :drivers
+  attr_reader :drivers, :objects
   
   #1 Config file path
   #2 Dbus session reference
@@ -126,6 +127,8 @@ class Top
 
       # store config if not done before
       $database.store_config( @drivers, @measures, @actuators)
+    else
+      #$database = nil
     end
 
 
@@ -189,8 +192,8 @@ end
 top = Top.new(ARGV[0], service)
 
 # Let's Dbus have execution control
+
 main = DBus::Main.new
 main << sessionBus
 main.run
-
 
