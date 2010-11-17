@@ -19,7 +19,6 @@
 # List of library include
 require 'yaml' 
 require 'rubygems'
-require 'active_record'
 
 # List of local include
 require 'Driver.rb'

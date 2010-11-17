@@ -43,7 +43,7 @@ card:
     /Pin_5: /home/Hygro_out
     /Pin_6: /home/Hygro_in
 
-database:
+#database:
   # Database config for ActiveRecord
   # see http://api.rubyonrails.org/classes/ActiveRecord/Base.html#method-c-establish_connection
   # for examples

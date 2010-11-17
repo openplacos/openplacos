@@ -17,7 +17,7 @@
 #
 #   Opos classes for database binding.
 
-
+require 'active_record'
 
 class Database 
   
