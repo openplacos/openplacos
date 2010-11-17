@@ -41,31 +41,27 @@ class Database
 
   attr_reader :measures, :actuators
   attr_reader :drivers
+  
   def initialize(config_)
     #1 Config for DB
     
-    if config_['database']
-      
-      $global.trace "Connect to database."
-      
-      #Connect to database
-      ActiveRecord::Base.establish_connection(
-                                              :adapter => config_['database']['adapter'],
-                                              :host => config_['database']['host'],
-                                              :user => config_['database']['user'],
-                                              :password => ENV['OPOS_PASS'],
-                                              :database => config_['database']['name']
-                                              )
-      
-      $global.trace "Connected"
-      
-      #create tables if doesnt exist.
-      create_opos_tables      
-      
-      define_profile(config_)
-
-      
+    $global.trace "Connect to database."
+    
+    #Connect to database
+    options = Hash.new
+    config_['database']['config'].each_pair do |key,value|
+      options[key.to_sym] = value
     end
+    options[:password] = ENV['OPOS_PASS'] if ENV['OPOS_PASS']
+    ActiveRecord::Base.establish_connection( options )
+    
+    $global.trace "Connected"
+    
+    #create tables if doesnt exist.
+    create_opos_tables      
+    
+    define_profile(config_)
+
   end
   
   def create_opos_tables 

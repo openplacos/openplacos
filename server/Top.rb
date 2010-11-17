@@ -29,7 +29,6 @@ require 'Measure.rb'
 require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
-require 'sql.rb'
 
 
 
@@ -122,6 +121,7 @@ class Top
     end
 
     if @config['database']
+      require 'sql.rb'
       $database = Database.new(@config)
 
       # store config if not done before
