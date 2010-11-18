@@ -233,7 +233,10 @@ if __FILE__ == $0
     the_end = false
 
     # Bus Open and Service Name Request
-    bus = DBus.session_bus
+    bus = DBus::system_bus
+    if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+      bus =  DBus::session_bus
+    end
     dbus_service = bus.request_service("org.openplacos.drivers.k8055-#{address}")
     
     k8055 = RubyK8055.new
