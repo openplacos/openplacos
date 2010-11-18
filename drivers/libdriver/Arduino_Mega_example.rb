@@ -137,7 +137,10 @@ INTERUPT_PIN = {2,3,21,20,19,18} # interupt number 0 1 2 3 4 5
 
 $sp = Serial_Arduino.new(SERIAL_PORT)
 
-bus = DBus.session_bus
+bus = DBus::system_bus
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  bus =  DBus::session_bus
+end
 service = bus.request_service("org.openplacos.drivers.arduino")
 
 digital_pin = Array.new
