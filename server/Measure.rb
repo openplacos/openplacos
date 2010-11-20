@@ -19,24 +19,21 @@
 
 class Measure
 
-  attr_reader :name, :proxy_iface, :value ,:room, :config, :path, :informations
-
+  attr_reader :name, :proxy_iface, :value, :config, :path, :informations, :regul, :top
 
   #1 Measure definition in yaml config
   #2 Top reference
   def initialize(meas_, top_) # Constructor
 
     @dependencies = nil
+    @last_mesure = 0
+    @value = nil
+    @top = top_
+    @check_lock = 0
     
     # Parse Yaml correponding to the model of sensor
     parse_config(meas_)
     @config = meas_
-
-    @last_mesure = 0
-    @value = nil     
-
-    @top = top_
-    @check_lock = 0
 
   end
 
@@ -86,7 +83,7 @@ class Measure
   
   #measure from sensor
   def get_value
-    if (Time.new.to_f - @last_mesure) > @ttl
+    if (Time.new.to_f - @last_mesure) > @ttl  # cache
       @last_mesure = Time.new.to_f
       
       if self.methods.include?("convert") # if convert fonction exist ?
@@ -118,7 +115,7 @@ class Measure
       end
     } if defined? $database
     end
-    return @value   
+    return @value
   end
 
   def parse_config(config_)
@@ -170,7 +167,9 @@ class Measure
       self.instance_eval(methdef) 
     end
         
-    #for each keys of config 
+    if config_["regul"]
+      @regul = Regulation.new(config_["regul"], self)
+    end
     
   end
   

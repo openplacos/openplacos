@@ -3,6 +3,8 @@ objects:
 - name: Temperature Indoor
   path: /home/Temperature_indoor
   model: Generic_Celsius_Temperature
+  regul:
+    action-: /home/Fan
    
 - name: Temperature Outdoor
   path: /home/Temperature_outdoor
@@ -19,7 +21,10 @@ objects:
   model: VirtualPlacos_Hygro
   depends:
     temp: /home/Temperature_indoor
-
+  regul:
+    action-: /home/Fan
+    frequency: 0.5
+    
 - name: Light
   path: /home/Light
   model: Generic_relay_NO
@@ -38,13 +43,23 @@ card:
     /Pin_5: /home/Hygro_out
     /Pin_6: /home/Hygro_in
 
-#database: 
-#  name: opos_VP
-#  adapter: mysql
-#  host: localhost
-#  user: root
-# Please set password in $OPOS_PASS 
-#  profile: measures, actuators, users 
-#  include: 
-#  exclude:  Temperature_outdoor, Hygro_out
+#database:
+  # Database config for ActiveRecord
+  # see http://api.rubyonrails.org/classes/ActiveRecord/Base.html#method-c-establish_connection
+  # for examples
+  config:
+    adapter: sqlite3
+    database: "opos.sql"
+
+  # Database config for mysql
+  #config:
+    # name: opos_VP
+    # adapter: mysql
+    # host: localhost
+    # user: root
+    # Please set password in $OPOS_PASS
+
+  profile: measures, actuators, users
+  include:
+  exclude:  Temperature_outdoor, Hygro_out
 

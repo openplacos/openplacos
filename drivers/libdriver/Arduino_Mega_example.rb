@@ -127,7 +127,7 @@ end
 # Live
 #
 
-SERIAL_PORT = "/dev/ttyUSB0"
+SERIAL_PORT = "/dev/ttyUSB1"
 NB_ANALOG_PIN = (0..15).to_a
 NB_DIGITAL_PIN = (0..53).to_a
 NB_PWM_PIN = (2..13).to_a

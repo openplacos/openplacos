@@ -19,7 +19,6 @@
 # List of library include
 require 'yaml' 
 require 'rubygems'
-require 'active_record'
 
 # List of local include
 require 'Driver.rb'
@@ -29,7 +28,7 @@ require 'Measure.rb'
 require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
-require 'sql.rb'
+require 'Regulation.rb'
 
 
 
@@ -43,7 +42,7 @@ $global = Global.new
 
 class Top
 
-  attr_reader :drivers
+  attr_reader :drivers, :objects
   
   #1 Config file path
   #2 Dbus session reference
@@ -122,10 +121,13 @@ class Top
     end
 
     if @config['database']
+      require 'sql.rb'
       $database = Database.new(@config)
 
       # store config if not done before
       $database.store_config( @drivers, @measures, @actuators)
+    else
+      #$database = nil
     end
 
 
@@ -189,8 +191,8 @@ end
 top = Top.new(ARGV[0], service)
 
 # Let's Dbus have execution control
+
 main = DBus::Main.new
 main << sessionBus
 main.run
-
 
