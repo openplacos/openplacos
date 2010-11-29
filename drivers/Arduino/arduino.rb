@@ -56,7 +56,10 @@ end
 
 $sp = Serial_Arduino.new(SERIAL_PORT)
 
-bus = DBus.session_bus
+bus = DBus::system_bus
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  bus =  DBus::session_bus
+end
 service = bus.request_service("org.openplacos.drivers.arduino")
 
 digital_pin = Array.new

@@ -16,6 +16,10 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# $INSTALL_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
+$INSTALL_PATH = '/usr/lib/ruby/openplacos/server/'
+$LOAD_PATH << $INSTALL_PATH 
+
 # List of library include
 require 'yaml' 
 require 'rubygems'
@@ -31,10 +35,13 @@ require 'globals.rb'
 require 'Regulation.rb'
 
 
-
 #DBus
-sessionBus = DBus::session_bus
-service = sessionBus.request_service("org.openplacos.server")
+
+bus = DBus::system_bus
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  bus =  DBus::session_bus
+end
+service    = bus.request_service("org.openplacos.server")
 
 #Global functions
 $global = Global.new
@@ -67,10 +74,10 @@ class Top
           #---
           # FIXME : model's yaml will be change, maybe
           #+++
-          if File.exist?("../components/sensors/" + object["model"] + ".yaml")
-              model = YAML::load(File.read("../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
-          elsif File.exist?("../components/actuators/" + object["model"] + ".yaml")
-              model = YAML::load(File.read("../components/actuators/" + object["model"] + ".yaml"))[object["model"]]
+          if File.exist?($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml")
+              model = YAML::load(File.read($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
+          elsif File.exist?($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml")
+              model = YAML::load(File.read($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml"))[object["model"]]
           else
               abort "No model found for #{object['name']} : #{object['model']}"
           end
@@ -171,9 +178,7 @@ end # End of Top
 
 # Config file basic verification
 if (ARGV[0] == nil)
-  puts "Please specify a config file"
-  puts "Usage: openplacos-server <config-file>"
-  Process.exit 1
+  ARGV[0] = '/etc/default/openplacos'
 end
 
 if (! File.exist?(ARGV[0]))
@@ -193,6 +198,6 @@ top = Top.new(ARGV[0], service)
 # Let's Dbus have execution control
 
 main = DBus::Main.new
-main << sessionBus
+main << bus
 main.run
 

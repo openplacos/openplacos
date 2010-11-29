@@ -254,9 +254,7 @@ def my_notify(message)
 end
 
 if (ARGV[0] == nil)
-  puts "Please specify a config file"
-  puts "Usage: openplacos-server <config-file>"
-  Process.exit
+ ARGV[0] = File.dirname(__FILE__) + '/config.yaml'
 end
 
 if (! File.exist?(ARGV[0]))
@@ -281,18 +279,21 @@ config_placos = config['placos']
 $placos = Virtualplacos.new(config_placos["Outdoor Temperature"].to_f,config_placos["Max Indoor Temperature"].to_f,config_placos["Outdoor Hygro"].to_f,config_placos["Light Time Constant"].to_f,config_placos["Ventillation Time Constant"].to_f,config_placos["Thread Refresh Rate"].to_f)
 
 
-bus = DBus.session_bus
-
-#check notification system
-$notify = config['allow notify']
-
-# Start notification systeme
-if $notify==true
-    notifyService = bus.service("org.freedesktop.Notifications")
-    notifyObject = notifyService.object('/org/freedesktop/Notifications')
-    notifyObject.introspect
-    $notifyIface = notifyObject['org.freedesktop.Notifications']
+bus = DBus.system_bus
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  bus =  DBus.session_bus
 end
+
+# #check notification system
+# $notify = config['allow notify']
+
+# # Start notification systeme
+# if $notify==true
+#     notifyService = bus.service("org.freedesktop.Notifications")
+#     notifyObject = notifyService.object('/org/freedesktop/Notifications')
+#     notifyObject.introspect
+#     $notifyIface = notifyObject['org.freedesktop.Notifications']
+# end
 
 #publish methods on dbus
 

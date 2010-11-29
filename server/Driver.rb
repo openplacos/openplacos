@@ -18,7 +18,7 @@
 require 'dbus'
 include REXML
 
-Bus = DBus::SessionBus.instance
+Bus = DBus::SystemBus.instance
 
 # local include
 require 'Dbus-interfaces.rb'
@@ -34,42 +34,37 @@ class Driver
     @name = card_["name"]
     @path_dbus = "org.openplacos.drivers." + card_["name"].downcase
     
-    if Bus.service(@path_dbus).exists?
-    
-      @objects = Hash.new
+    @objects = Hash.new
 
-      card_["plug"].each_pair do |pin,object_path|
-        
-        next if object_path.nil?
-
-        # Get object proxy
-        obj_proxy = Bus.introspect(@path_dbus, pin)
-        @objects[pin]=obj_proxy
-        
-        # Welcome to Real Informatik
-        # Here is a workaround to https://bugs.freedesktop.org/show_bug.cgi?id=25125
-        obj_proxy.interfaces().each { |iface_name|
-          obj_proxy[iface_name].methods.keys.each { |method|
-            if (method == "read_"+ iface_name.split(".").reverse[0])
-              $global.trace "redefine " + method + "() to read() for object " + pin
-              aliasdef = "alias read " + "read_" + iface_name.split(".").reverse[0]
-              obj_proxy[iface_name].instance_eval(aliasdef)
-              obj_proxy[iface_name].methods["read"] =  obj_proxy[iface_name].methods["read_" + iface_name.split(".").reverse[0]]
-            end
-            
-            if (method == "write_"+ iface_name.split(".").reverse[0])
-              $global.trace "redefine " + method + "() to write() for object " + pin
-              aliasdef = "alias write " + "write_" + iface_name.split(".").reverse[0]
-              obj_proxy[iface_name].instance_eval(aliasdef)
-              obj_proxy[iface_name].methods["write"] =  obj_proxy[iface_name].methods["write_" + iface_name.split(".").reverse[0]]
-            end
-          } 
-        }
-      end
+    card_["plug"].each_pair do |pin,object_path|
       
-    else
-      abort "Can't find dbus service for card #{@name}"
+      next if object_path.nil?
+
+      # Get object proxy
+      obj_proxy = Bus.introspect(@path_dbus, pin)
+      @objects[pin]=obj_proxy
+      
+      # Welcome to Real Informatik
+      # Here is a workaround to https://bugs.freedesktop.org/show_bug.cgi?id=25125
+      obj_proxy.interfaces().each { |iface_name|
+        obj_proxy[iface_name].methods.keys.each { |method|
+          if (method == "read_"+ iface_name.split(".").reverse[0])
+            $global.trace "redefine " + method + "() to read() for object " + pin
+            aliasdef = "alias read " + "read_" + iface_name.split(".").reverse[0]
+            obj_proxy[iface_name].instance_eval(aliasdef)
+            obj_proxy[iface_name].methods["read"] =  obj_proxy[iface_name].methods["read_" + iface_name.split(".").reverse[0]]
+          end
+          
+          if (method == "write_"+ iface_name.split(".").reverse[0])
+            $global.trace "redefine " + method + "() to write() for object " + pin
+            aliasdef = "alias write " + "write_" + iface_name.split(".").reverse[0]
+            obj_proxy[iface_name].instance_eval(aliasdef)
+            obj_proxy[iface_name].methods["write"] =  obj_proxy[iface_name].methods["write_" + iface_name.split(".").reverse[0]]
+          end
+        } 
+      }
     end
+    
 
   end #  End of initialize
 

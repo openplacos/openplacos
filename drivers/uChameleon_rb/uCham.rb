@@ -152,7 +152,10 @@ NB_ANALOG_PIN = (1..8).to_a
 NB_PWM_PIN = (9..12).to_a
 OTHERS_PIN = (13..18).to_a
 
-bus = DBus.session_bus
+bus = DBus::system_bus
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  bus =  DBus::session_bus
+end
 service = bus.request_service("org.openplacos.drivers.uchameleon")
 
 $sp = Serial_uCham.new(SERIAL_PORT)

@@ -1,0 +1,7 @@
+[D-BUS Service]
+Name=org.openplacos.drivers.virtualplacos
+Exec=/usr/lib/ruby/openplacos/drivers/VirtualPlacos/VirtualPlacos.rb
+User=openplacos
+
+
+
