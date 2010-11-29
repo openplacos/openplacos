@@ -47,12 +47,12 @@ uninstallation() {
 }
 
 # Fonction: Check config file -- To be implemented
-check() {
+#check() {
   # echo "----------------------------------------------------"
   # echo "OpenplacOS config file check"
   # echo "----------------------------------------------------"
 #  /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
-}   
+#}   
 
 # OpenplacOS stop
 stop() {
@@ -71,6 +71,6 @@ if [ "$(id -u)" != "0" ]; then
 fi
 stop
 uninstallation
-check
+#check
 
 
