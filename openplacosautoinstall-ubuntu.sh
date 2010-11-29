@@ -103,7 +103,13 @@ if [ "$(id -u)" != "0" ]; then
 	echo "Syntax: sudo $0"
 	exit 1
 fi
-installation
+
+if [ "$1" = "-nodep" ]
+then
+    echo "No dep installed"
+else
+    installation
+fi
 check
 start
 
