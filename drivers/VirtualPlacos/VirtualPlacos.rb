@@ -254,7 +254,7 @@ def my_notify(message)
 end
 
 if (ARGV[0] == nil)
- ARGV[0] = '/usr/lib/openplacos/drivers/VirtualPlacos/config.yaml'
+ ARGV[0] = File.dirname(__FILE__) + '/config.yaml'
 end
 
 if (! File.exist?(ARGV[0]))

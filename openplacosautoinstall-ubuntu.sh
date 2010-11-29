@@ -32,7 +32,7 @@ installation() {
   echo "----------------------------------------------------"
   echo "Dependencies installation"
   echo "----------------------------------------------------"
-  aptitude install git-core ruby ruby1.8-dev rubygems 
+  apt-get install git-core ruby ruby1.8-dev rubygems 
   gem install rubygems-update
   /var/lib/gems/1.8/bin/update_rubygems 
   gem update
