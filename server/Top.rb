@@ -16,8 +16,8 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# $INSTALL_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
-$INSTALL_PATH = '/usr/lib/ruby/openplacos/server/'
+# $INSTALL_PATH = File.dirname(__FILE__) + "/"
+ $INSTALL_PATH = '/usr/lib/ruby/openplacos/server/'
 $LOAD_PATH << $INSTALL_PATH 
 
 # List of library include
@@ -74,7 +74,7 @@ class Top
           #---
           # FIXME : model's yaml will be change, maybe
           #+++
-          if File.exist?($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml")
+          if File.exist?($INSTALL_PATH + "components/sensors/" + object["model"] + ".yaml")
               model = YAML::load(File.read($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
           elsif File.exist?($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml")
               model = YAML::load(File.read($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml"))[object["model"]]

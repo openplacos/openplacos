@@ -1,3 +1,5 @@
+#!/usr/bin/ruby -w
+
 #    This file is part of Openplacos.
 #
 #    Openplacos is free software: you can redistribute it and/or modify
@@ -16,7 +18,11 @@
 
 require 'dbus'
 require 'gtk2'
-require '../libclient/lib/server.rb'
+
+$INSTALL_PATH = '/usr/lib/ruby/openplacos/'
+$LOAD_PATH << $INSTALL_PATH 
+
+require 'client/libclient/lib/server.rb'
 
 opos = LibClient::Server.new
 Thread.abort_on_exception=true

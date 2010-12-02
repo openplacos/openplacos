@@ -65,10 +65,20 @@ installation() {
   echo "File copy in your system"
   echo "----------------------------------------------------"
   cp -rf $path/../openplacos/ /usr/lib/ruby/
+
+# link into path
   ln -s /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
+  ln -s /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
+  ln -s /usr/lib/ruby/openplacos/client/IHMlocal/IHM.rb /usr/bin/openplacos-gtk
+
+# default config
   cp $path/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+
+# dbus integration
   cp $path/setup_files/*.service /usr/share/dbus-1/system-services/
   cp $path/setup_files/openplacos.conf /etc/dbus-1/system.d/
+
+# Start with system
   cp $path/setup_files/openplacos /etc/init.d/
   update-rc.d openplacos defaults 98 02
 
