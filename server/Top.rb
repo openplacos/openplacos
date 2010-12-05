@@ -37,9 +37,13 @@ require 'Regulation.rb'
 
 #DBus
 
-bus = DBus::system_bus
+
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  puts "Debug mode activated"
   bus =  DBus::session_bus
+  $INSTALL_PATH = File.dirname(__FILE__) + "/"
+else
+  bus = DBus::system_bus  
 end
 service    = bus.request_service("org.openplacos.server")
 
@@ -74,7 +78,7 @@ class Top
           #---
           # FIXME : model's yaml will be change, maybe
           #+++
-          if File.exist?($INSTALL_PATH + "components/sensors/" + object["model"] + ".yaml")
+          if File.exist?($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml")
               model = YAML::load(File.read($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
           elsif File.exist?($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml")
               model = YAML::load(File.read($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml"))[object["model"]]
