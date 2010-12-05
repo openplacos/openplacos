@@ -17,8 +17,11 @@
 # lib include
 require 'dbus'
 include REXML
-
-Bus = DBus::SystemBus.instance
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  Bus = DBus::SessionBus.instance
+else
+  Bus = DBus::SystemBus.instance
+end
 
 # local include
 require 'Dbus-interfaces.rb'

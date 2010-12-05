@@ -39,7 +39,6 @@ require 'Regulation.rb'
 
 
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  puts "Debug mode activated"
   bus =  DBus::session_bus
   $INSTALL_PATH = File.dirname(__FILE__) + "/"
 else
