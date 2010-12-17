@@ -36,9 +36,12 @@ end
 def usage()
 
 puts "Usage: "
-puts "opos-client list              # Return sensor and actuator list and corresponding interface "
-puts "opos-client get  <sensor>     # Make a read access on this sensor"
-puts "opos-client set  <actuator>   # Make a write access on this actuator"
+puts "opos-client list               # Return sensor and actuator list and corresponding interface "
+puts "opos_client status             # Return a status of your placos"
+puts "opos-client get  <sensor>      # Make a read access on this sensor"
+puts "opos-client set  <actuator>    # Make a write access on this actuator"
+puts "opos-client regul <sensor> -threeshold <threeshold>   \n   # Setup up a regul on this sensor with this threeshold"
+
 end
 
 
@@ -50,18 +53,25 @@ end
 
 
 if( ARGV[0] == "list")
-  puts "Actuators\t"+ get_adjust("Actuators".length) +"   Interface"
+  puts "Actuators\t"+ get_adjust("Actuators".length) +"\t   Interface"
   opos.actuators.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length) # Cosmetic
-    puts key +":\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
+    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
   }
-  puts "\nSensor\t"+ get_adjust("Sensor".length)+ "   Interface"
+  puts "\nSensor\t"+ get_adjust("Sensor".length)+ "\t   Interface" + "\t   Regul"
   opos.sensors.each_pair{|key, value|
-    adjust = get_adjust(key.to_str.length)
-     puts key +":\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
+    adjust = get_adjust(key.to_str.length)    
+    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '') +  "\t" +  opos.is_regul(value).to_s
   }
   
 end # Eof 'list'
+
+if( ARGV[0] == "status")
+  opos.sensors.each_pair{|key, sensor|
+    puts key + " \t\t\t" + sensor.value().to_s
+  }
+  puts "\tT"
+end
 
 if( ARGV[0] == "set")
   if( ARGV.length < 3)

@@ -17,7 +17,7 @@ require 'dbus'
 
 module LibClient
   class Server #openplacos server 
-    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms
+    attr_accessor :config, :objects, :service, :sensors, :reguls, :actuators, :rooms
     
     def initialize
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
@@ -89,6 +89,31 @@ module LibClient
         end
       }
       sensors  
+    end
+    
+    def is_regul(sensor)
+      # get dbus object of sensor
+      key = get_sensors.index(sensor)
+      if (key == nil)
+        return false
+      end
+
+      # Test interface
+      if (@objects[key].has_iface?('org.openplacos.server.regul'))
+        return true
+      else
+        return false
+      end
+    end
+
+    def get_reguls
+      reguls = Hash.new
+      @objects.each_pair{ |key, value|
+        if value.has_iface?('org.openplacos.server.regul')
+          sensors[key] = value['org.openplacos.server.regul']
+        end
+      }
+      reguls  
     end
     
     def get_actuators
