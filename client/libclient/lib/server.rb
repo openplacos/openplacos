@@ -20,8 +20,11 @@ module LibClient
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms
     
     def initialize
-      
-      @bus = DBus::SessionBus.instance
+      if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+        @bus = DBus::SessionBus.instance
+      else 
+        @bus = DBus::SystemBus.instance
+      end
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")
         @service.introspect
