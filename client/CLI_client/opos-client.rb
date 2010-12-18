@@ -23,14 +23,12 @@ require '../libclient/lib/server.rb'
 opos = LibClient::Server.new
 
 
-def get_adjust(size_)
-  if (size_ < 8)
-    return "\t\t"
-  end 
-  if (size_ < 16)
-    return "\t"
-  end 
-  return ""
+def get_adjust(string_len_, size_=2)
+  if (string_len_ >= size_*8)
+    return "" 
+  end
+  str = "\t"*(size_-(string_len_/8))
+  return str
 end
 
 def usage()
@@ -68,9 +66,8 @@ end # Eof 'list'
 
 if( ARGV[0] == "status")
   opos.sensors.each_pair{|key, sensor|
-    puts key + " \t\t\t" + sensor.value().to_s
+    puts key + get_adjust(key.length, 5) + sensor.value().to_s
   }
-  puts "\tT"
 end
 
 if( ARGV[0] == "set")
