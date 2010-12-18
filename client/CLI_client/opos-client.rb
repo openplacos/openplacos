@@ -16,9 +16,11 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 
+$LIB_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
+$LOAD_PATH << $LIB_PATH 
 
 
-require '../libclient/lib/server.rb'
+require $LIB_PATH +'../libclient/lib/server.rb'
 
 opos = LibClient::Server.new
 
