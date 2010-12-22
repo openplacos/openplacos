@@ -68,7 +68,15 @@ end # Eof 'list'
 
 if( ARGV[0] == "status")
   opos.sensors.each_pair{|key, sensor|
-    puts key + get_adjust(key.length, 5) + sensor.value().to_s
+    regul_enabled = "NA"
+    if opos.is_regul(sensor)
+      if(opos.get_regul_iface(sensor).state )
+        regul_enabled = "enabled"
+      else
+        regul_enabled = "disabled"
+      end
+    end    
+    puts key + get_adjust(key.length, 5) + sensor.value().to_s + get_adjust(10)+ regul_enabled
   }
 end
 

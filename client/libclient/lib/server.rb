@@ -106,6 +106,14 @@ module LibClient
       end
     end
 
+    def get_regul_iface(sensor)
+      if (is_regul(sensor)==nil)
+        return nil
+      end
+      key = get_sensors.index(sensor)
+      return @objects[key]['org.openplacos.server.regul']
+    end
+
     def get_reguls
       reguls = Hash.new
       @objects.each_pair{ |key, value|
