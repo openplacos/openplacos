@@ -33,11 +33,9 @@ require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
 require 'Regulation.rb'
-
+require 'Plugin.rb'
 
 #DBus
-
-
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
   bus =  DBus::session_bus
   $INSTALL_PATH = File.dirname(__FILE__) + "/"
@@ -67,6 +65,12 @@ class Top
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
     @objects = Hash.new
+    @plugins = Hash.new
+
+    # Launch required plugins
+    @config["plugins"].each do |plugin|
+      @plugins.store(plugin["name"], Plugin.new(plugin, self))
+    end
     
     # Create measures
     @config["objects"].each do |object|

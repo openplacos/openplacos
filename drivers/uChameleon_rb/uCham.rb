@@ -80,8 +80,6 @@ module Module_read_analog
 end
 
 module Module_read_digital
-
- 
   
   def read_digital(option_)
     if @input == 0 
