@@ -27,8 +27,12 @@ else
 end
 service    = bus.request_service("org.openplacos.plugins.log")
 
-
-$log_file = File.open("/tmp/log.txt", "r+") 
+file = "/tmp/log.txt"
+if File.exists? file
+  $log_file = File.open(file, "a+") 
+else
+  $log_file = File.new(file, "a+")
+end
 
 class Log < DBus::Object
   dbus_interface "org.openplacos.plugin.log" do
@@ -59,7 +63,7 @@ class Log < DBus::Object
       date = `date`
       date = date.chomp
       ord  = order.to_s
-      $log_file.write date +":" + "New order "+"#{name} #{val}" + "\n"
+      $log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
       $log_file.flush 
     end    
 
