@@ -21,7 +21,10 @@ module LibClient
     
     def initialize
       
-      @bus = DBus::SessionBus.instance
+@bus = DBus::system_bus
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  @bus =  DBus::session_bus
+end
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")
         @service.introspect
