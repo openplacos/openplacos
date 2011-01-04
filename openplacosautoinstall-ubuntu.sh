@@ -33,14 +33,14 @@ installation() {
   echo "Dependencies installation"
   echo "----------------------------------------------------"
   apt-get install git-core ruby ruby1.8-dev rubygems 
-  gem install rubygems-update
+  gem install rubygems-update --no-ri --no-rdoc
   /var/lib/gems/1.8/bin/update_rubygems 
-  gem update
+  gem update --no-ri --no-rdoc
   echo "----------------------------------------------------"
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport 
+  gem install activerecord mysql serialport --no-ri --no-rdoc
 
   # User openplacos
   echo "----------------------------------------------------"
