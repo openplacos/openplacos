@@ -19,8 +19,15 @@ require 'dbus'
 require 'xmlrpc/server'
 require '../../libclient/lib/server.rb'
 
+
+if ARGV.include?("-p")
+  port = ARGV[ ARGV.index("-p") + 1]
+else
+  port = 8080
+end
+
 opos = LibClient::Server.new
-server = XMLRPC::Server.new(8080, '0.0.0.0', 150, $stderr)
+server = XMLRPC::Server.new(port, '0.0.0.0', 150, $stderr)
 
 server.add_handler("sensors") do
     opos.sensors.keys

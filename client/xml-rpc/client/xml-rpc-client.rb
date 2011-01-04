@@ -20,7 +20,26 @@
 
 require "xmlrpc/client"
 
-opos = XMLRPC::Client.new( "localhost", "/","8080")
+if ARGV.include?("-p")
+  index = ARGV.index("-p")
+  port = ARGV[ index + 1].to_i
+  ARGV.delete_at(index)
+  ARGV.delete_at(index)
+else
+  port = 8080
+end
+
+if ARGV.include?("-h")
+  index = ARGV.index("-h")
+  host = ARGV[ index + 1]
+  ARGV.delete_at(index)
+  ARGV.delete_at(index)
+else
+  host = "localhost"
+end
+
+
+opos = XMLRPC::Client.new( host, "/",port)
 
 def get_adjust(size_)
   if (size_ < 8)
@@ -38,6 +57,8 @@ puts "Usage: "
 puts "opos-client list                      # Return sensor and actuator list and corresponding interface "
 puts "opos-client get  <sensor>             # Make a read access on this sensor"
 puts "opos-client set  <actuator> <method>  # Make a write access on this actuator"
+puts "use -p <port> to set the port, default 8080"
+puts "use -h <host> to set the host, default localhost"
 end
 
 
