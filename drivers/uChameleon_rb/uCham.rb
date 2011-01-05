@@ -15,7 +15,12 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require "#{File.expand_path(File.dirname(__FILE__))}/../libdriver/libdriver.rb"
+if ENV['DEBUG_OPOS']
+  require '../libdriver/libdriver.rb'
+else
+  $: << "/usr/lib/ruby/openplacos/drivers/libdriver/" 
+  require "libdriver.rb"
+end
 require 'rubygems'
 require 'serialport'
 #Write module and function definition

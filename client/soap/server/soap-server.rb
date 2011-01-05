@@ -18,8 +18,13 @@
 require 'dbus'
 require 'rubygems'
 require "soap/rpc/standaloneServer"
-require "#{File.expand_path(File.dirname(__FILE__))}/../../libclient/lib/server.rb"
 
+if ENV['DEBUG_OPOS']
+  require '../../libclient/libclient.rb'
+else
+  $: << "/usr/lib/ruby/openplacos/client/libclient/" 
+  require "libclient.rb"
+end
 
 if ARGV.include?("-p")
   port = ARGV[ ARGV.index("-p") + 1]
