@@ -17,13 +17,14 @@
 
 require 'dbus'
 require 'xmlrpc/server'
-
-if ENV['DEBUG_OPOS']
-  require '../../libclient/libclient.rb'
-else
-  $: << "/usr/lib/ruby/openplacos/client/libclient/" 
-  require "libclient.rb"
+require 'pathname'
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
 end
+require "#{PATH}/../../libclient/libclient.rb"
+
 
 
 if ARGV.include?("-p")
