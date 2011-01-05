@@ -15,7 +15,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require '../libdriver/libdriver.rb'
+require "#{File.expand_path(File.dirname(__FILE__))}/../libdriver/libdriver.rb"
 require 'rubygems'
 require 'serialport'
 #Write module and function definition

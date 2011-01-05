@@ -18,7 +18,7 @@
 require 'dbus'
 require 'rubygems'
 require "soap/rpc/standaloneServer"
-require '../../libclient/lib/server.rb'
+require "#{File.expand_path(File.dirname(__FILE__))}/../../libclient/lib/server.rb"
 
 
 if ARGV.include?("-p")

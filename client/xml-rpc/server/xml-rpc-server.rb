@@ -17,7 +17,7 @@
 
 require 'dbus'
 require 'xmlrpc/server'
-require '../../libclient/lib/server.rb'
+require "#{File.expand_path(File.dirname(__FILE__))}/../../libclient/lib/server.rb"
 
 
 if ARGV.include?("-p")
