@@ -54,6 +54,14 @@ opos.add_method('get','path')
 opos.add_method('set_a','path','meth') #cant use set for methode name
 # Call remote service methods
 
+
+begin
+  opos.sensors # try a method to know if server respond
+rescue
+  puts "Can't find opos server at host #{host}:#{port}"
+  Process.exit 1
+end
+
 def get_adjust(size_)
   if (size_ < 8)
     return "\t\t"

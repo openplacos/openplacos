@@ -34,7 +34,7 @@ else
 end
 
 opos = LibClient::Server.new
-server = XMLRPC::Server.new(port, '0.0.0.0', 150, $stderr)
+server = XMLRPC::Server.new(port)#, '0.0.0.0', 150, $stderr)
 
 server.add_handler("sensors") do
     opos.sensors.keys

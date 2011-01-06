@@ -38,8 +38,14 @@ else
   host = "localhost"
 end
 
+ opos = XMLRPC::Client.new( host, "/",port)
 
-opos = XMLRPC::Client.new( host, "/",port)
+begin
+  opos.call("sensors") # try a method to know if server respond
+rescue
+  puts "Can't find opos server at host #{host}:#{port}"
+  Process.exit 1
+end
 
 def get_adjust(size_)
   if (size_ < 8)
