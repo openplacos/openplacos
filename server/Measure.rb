@@ -34,7 +34,10 @@ class Measure
     # Parse Yaml correponding to the model of sensor
     parse_config(meas_)
     @config = meas_
-
+    
+    @top.plugins.each {|plugin| do
+        plugin.create_measure(@name, @config)
+    }
   end
 
   def check(overpass_, ttl_)

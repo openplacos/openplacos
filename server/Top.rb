@@ -42,7 +42,7 @@ if(ENV['DEBUG_OPOS'] ) ## Stand for debug
 else
   bus = DBus::system_bus  
 end
-service    = bus.request_service("org.openplacos.server")
+service = bus.request_service("org.openplacos.server")
 
 #Global functions
 $global = Global.new
