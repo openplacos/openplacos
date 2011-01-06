@@ -1,8 +1,0 @@
-Package: openplacos
-Version: 0.1	
-Section: base
-Priority: optional
-Architecture: all
-Depends:  git-core ruby ruby1.8-dev rubygems bash
-Maintainer: flagos <flagospub@gmail.com>
-Description: Domotic server subsystem oriented
