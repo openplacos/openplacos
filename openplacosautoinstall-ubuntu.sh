@@ -40,7 +40,7 @@ installation() {
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport 
+  gem install --no-ri --no-rdoc activerecord mysql serialport 
 
   # User openplacos
   echo "----------------------------------------------------"
