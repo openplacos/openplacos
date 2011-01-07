@@ -17,28 +17,41 @@
 #
 #   Opos classes for database binding.
 
-require 'active_record'
+
 
 class Database 
   
-  class User < ActiveRecord::Base
-  end
-  class Card < ActiveRecord::Base
-  end
-  class Device < ActiveRecord::Base 
-  end
-  class Sensor < ActiveRecord::Base 
-  end
-  class Actuator < ActiveRecord::Base 
-  end
-  class Flow < ActiveRecord::Base 
-
-  end
-  class Measure < ActiveRecord::Base
-  end
-  class Instruction < ActiveRecord::Base 
-  end
-
+    class User < ActiveRecord::Base
+      #has_many :flows
+    end
+    class Card < ActiveRecord::Base
+      #has_many :devices
+    end
+    class Device < ActiveRecord::Base 
+      #belongs_to :card
+      #has_many :sensors
+      #has_many :actuators
+    end
+    class Sensor < ActiveRecord::Base
+      #belongs_to :device
+      #has_many :measures
+    end
+    class Actuator < ActiveRecord::Base 
+      #belongs_to :device
+      #has_many :instructions
+    end
+    class Flow < ActiveRecord::Base
+      #belongs_to :user
+      #has_many :measures , :instructions
+    end
+    class Measure < ActiveRecord::Base
+      #belongs_to :flow, :sensor
+    end
+    class Instruction < ActiveRecord::Base
+      #belongs_to :flow, :actuator 
+    end
+  
+  
   attr_reader :measures, :actuators
   attr_reader :drivers
   
@@ -88,7 +101,6 @@ class Database
         create_table :devices do |table|
           table.column :config_name, :string, :limit => 80
           table.column :model, :string, :limit => 80
-          table.column :room, :string, :limit => 80
           table.column :path_dbus, :string
           table.references(:card) 
         end
@@ -149,8 +161,7 @@ class Database
     measures_.each_pair{ |name, meas|
        if !Device.exists?(:config_name => name)
         dev = Device.create(:config_name => name,
-                            :model => meas.instance_variable_get(:@device_model) ,
-                            :room => meas.instance_variable_get(:@room) ,
+                            :model => meas.instance_variable_get(:@config)["model"],
                             :path_dbus => meas.proxy_iface.object.path,
                             :card_id => Card.find(:first, :conditions => [ "config_name = ?",  meas.instance_variable_get(:@card_name)]))
                             
@@ -161,8 +172,7 @@ class Database
     actuators_.each_pair{ |name, act|
       if !Device.exists?(:config_name => name)
         dev = Device.create(:config_name => name,
-                            :model => act.instance_variable_get(:@device_model) ,
-                            :room => act.instance_variable_get(:@room),
+                            :model => act.instance_variable_get(:@config)["model"] ,
                             :path_dbus => act.proxy_iface.object.path,
                             :card_id => Card.find(:first, :conditions => [ "config_name = ?", act.instance_variable_get(:@card_name)])) 
         Actuator.create(:device_id => dev.id, :interface => act.config["driver"]["interface"]) 
@@ -181,17 +191,27 @@ class Database
       @profiles = ["measures","actuators","users"] #if no profiles defined, all is traced 
     end
     
-    if @profiles.include?("measures")
-      config_["measure"].each{ |meas|
-        @trace.push(meas['name'])
-      }
-    end
+    #---
+    # FIXME : cant find with the config if an object is ans actuator or a measure.
+    #+++
     
-    if @profiles.include?("actuators")      
-      config_["actuator"].each{ |act|
-        @trace.push(act['name'])
+    #if @profiles.include?("measures")
+      #config_["objects"].each{ |meas|
+        #@trace.push(meas['path']) 
+      #}
+    #end
+    
+    #if @profiles.include?("actuators")      
+      #config_["objects"].each{ |act|
+        #@trace.push(act['path'])
+      #}
+    #end
+        
+    if (@profiles.include?("actuators") or @profiles.include?("measures") )     
+      config_["objects"].each{ |act|
+        @trace.push(act['path'])
       }
-    end     
+    end        
     
     if @profiles.include?("users") 
       #nothing 

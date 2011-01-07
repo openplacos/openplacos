@@ -36,13 +36,13 @@ class Actuator
   # Plug the actuator to the proxy with defined interface 
   def plug(proxy_) 
     if not proxy_.has_iface? @interface.get_name
-      puts "Error : No interface " + @interface.get_name + " availabable for actuator " + self.name
+      puts "Error : No interface " + @interface.get_name + " availabable for actuator " + self.path
       Process.exit 1
     end
     if proxy_[@interface.get_name].methods["write"]
       @proxy_iface = proxy_[@interface.get_name]
     else
-      puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.name
+      puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.path
       Process.exit 1
     end 
   end
@@ -128,9 +128,9 @@ class Actuator
   def write( value_, option_)    
     @proxy_iface.write( value_, option_)
     Thread.new{ 
-      if $database.is_traced(self.name)
+      if $database.is_traced(self.path)
         flow = Database::Flow.create(:date  => Time.new,:value => to_float(value_)) 
-        device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
+        device =  Database::Device.find(:first, :conditions => { :config_name => self.path })
         actuator =  Database::Actuator.find(:first, :conditions => { :device_id => device.id })
         Database::Instruction.create(:flow_id => flow.id,
                                      :actuator_id => actuator.id)
