@@ -1,2 +1,18 @@
 #!/bin/bash
-	
+
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+
+    /etc/init.d/openplacos stop
+    update-rc.d openplacos disable
+    userdel openplacos
+#    rm -rf /usr/lib/ruby/openplacos/
+    rm /usr/bin/openplacos*
+    rm /usr/share/dbus-1/system-services/org.openplacos.drivers.*
+    rm /etc/dbus-1/system.d/openplacos.conf
+    rm /etc/init.d/openplacos
+    
+fi
+
+if [ "$1" = "purge" ] ; then
+    rm /etc/default/openplacos
+fi
