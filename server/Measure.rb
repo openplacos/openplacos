@@ -35,8 +35,8 @@ class Measure
     parse_config(meas_)
     @config = meas_
     
-    @top.plugins.each {|plugin| do
-        plugin.create_measure(@name, @config)
+    @top.plugins.each_value {|plugin| 
+      plugin.create_measure(@name, @config)
     }
   end
 

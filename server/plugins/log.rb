@@ -25,7 +25,7 @@ if(ENV['DEBUG_OPOS'] ) ## Stand for debug
 else
   bus = DBus::system_bus  
 end
-service    = bus.request_service("org.openplacos.plugins.log")
+service = bus.request_service("org.openplacos.plugins.log")
 
 file = "/tmp/log.txt"
 if File.exists? file
@@ -35,7 +35,7 @@ else
 end
 
 class Log < DBus::Object
-  dbus_interface "org.openplacos.plugin.log" do
+  dbus_interface "org.openplacos.plugin" do
 
     dbus_method :create_measure, "in measure_name:s, in config:a{sv}" do |name, config|
       date = `date`
