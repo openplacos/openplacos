@@ -126,18 +126,19 @@ class Actuator
   end
   
   def write( value_, option_)    
-    @proxy_iface.write( value_, option_)
-    Thread.new{ 
-      if $database.is_traced(self.path)
-        flow = Database::Flow.create(:date  => Time.new,:value => to_float(value_)) 
-        device =  Database::Device.find(:first, :conditions => { :config_name => self.path })
-        actuator =  Database::Actuator.find(:first, :conditions => { :device_id => device.id })
-        Database::Instruction.create(:flow_id => flow.id,
-                                     :actuator_id => actuator.id)
+    if defined? $database
+      if $database.is_traced(self.path)     
+        mes = {"kind" => "actuator", "date" => Time.new , "name" => self.path , "value" => to_float(value_) }
+        $database.push mes
       end
-    } if defined? $database
-
+    end
+    return @proxy_iface.write( value_, option_)
   end
 
+  def to_float(bool)
+    return 1 if bool.is_a?(TrueClass)
+    return 0 if bool.is_a?(FalseClass)
+    return bool.to_f
+  end
 
 end

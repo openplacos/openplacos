@@ -74,6 +74,8 @@ class Database
     create_opos_tables      
     
     define_profile(config_)
+    
+    start_write_thread
 
   end
   
@@ -236,5 +238,30 @@ class Database
     return @trace.include?(name_)
   end
   
+  def start_write_thread
+    @database_queue = Queue.new
+    Thread.new do
+      loop do 
+        
+        rec = @database_queue.pop
+
+        flow = Flow.create(:date  => rec["date"],:value => rec["value"]) 
+        device =  Device.find(:first, :conditions => { :config_name => rec["name"] })
+
+        if rec["kind"]=="measure"
+          sensor =  Sensor.find(:first, :conditions => { :device_id => device.id })
+          Measure.create(:flow_id => flow.id,:sensor_id => sensor.id) 
+        end
+        if rec["kind"]=="actuator"
+          actuator = Actuator.find(:first, :conditions => { :device_id => device.id })
+          Instruction.create(:flow_id => flow.id,:actuator_id => actuator.id)
+        end       
+      end
+    end    
+  end
+  
+  def push(arg_)
+    @database_queue.push arg_
+  end
   
 end

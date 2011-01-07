@@ -23,7 +23,7 @@ $LOAD_PATH << $INSTALL_PATH
 # List of library include
 require 'yaml' 
 require 'rubygems'
-#require 'active_record' #database desactivate until it was fix
+require 'active_record' #database desactivate until it was fix
 
 # List of local include
 require 'Driver.rb'
@@ -132,11 +132,11 @@ class Top
     end
 
     if @config['database'] # database is desactivate for instant
-      #require 'sql.rb'
-      #$database = Database.new(@config)
+      require 'sql.rb'
+      $database = Database.new(@config)
 
       # store config if not done before
-      #$database.store_config( @drivers, measures, actuators)
+      $database.store_config( @drivers, measures, actuators)
     end
 
 

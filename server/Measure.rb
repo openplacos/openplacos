@@ -104,17 +104,15 @@ class Measure
         @value = self.convert(@proxy_iface.read(@option)[0],dep)
       else
         @value = @proxy_iface.read(@option)[0]
-      end
-    Thread.new{
+      end   
 
-      if $database.is_traced(self.path)        
-        flow = Database::Flow.create(:date  => Time.new,:value => @value) 
-        device =  Database::Device.find(:first, :conditions => { :config_name => self.path })
-        sensor =  Database::Sensor.find(:first, :conditions => { :device_id => device.id })
-        Database::Measure.create(:flow_id => flow.id,
-                                 :sensor_id => sensor.id)
+      if defined? $database
+        if $database.is_traced(self.path)     
+          mes = {"kind" => "measure", "date" => Time.new , "name" => self.path , "value" => @value }
+          $database.push mes
+        end
       end
-    } if defined? $database
+      
     end
     return @value
   end
