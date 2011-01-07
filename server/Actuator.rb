@@ -31,6 +31,9 @@ class Actuator
     parse_config(act_)
     @config = act_ 
 
+    @top.plugins.each_value {|plugin| 
+      plugin.create_actuator(@name, @config)
+    }
   end
 
   # Plug the actuator to the proxy with defined interface 
