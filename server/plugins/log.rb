@@ -51,7 +51,7 @@ class Log < DBus::Object
       $log_file.flush 
     end    
 
-    dbus_method :new_measure, "in measure_name:s, in value:v" do |name, value|
+    dbus_method :new_measure, "in measure_name:s, in value:v, in options:a{sv}" do |name, value, option|
       date = `date`
       date = date.chomp
       val = value.to_s
@@ -59,7 +59,7 @@ class Log < DBus::Object
       $log_file.flush 
     end    
 
-    dbus_method :new_order, "in actuator_name:s, in order:v" do |name, order|
+    dbus_method :new_order, "in actuator_name:s, in value:v, in options:a{sv}" do |name, order, option|
       date = `date`
       date = date.chomp
       ord  = order.to_s

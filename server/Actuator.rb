@@ -140,6 +140,11 @@ class Actuator
       end
     } if defined? $database
 
+   @top.plugins.each_value {|plugin| 
+      Thread.new{ 
+        plugin.new_order(@name, value_, option_)
+      }
+    }
   end
 
 

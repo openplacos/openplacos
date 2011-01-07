@@ -118,6 +118,13 @@ class Measure
       end
     } if defined? $database
     end
+
+    @top.plugins.each_value {|plugin| 
+      Thread.new{ 
+        plugin.new_measure(@name, @value, @option)
+      }
+    }
+    
     return @value
   end
 
