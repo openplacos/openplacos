@@ -202,15 +202,23 @@ end
 # Construct Top
 top = Top.new(ARGV[0], service)
 
-# Let's Dbus have execution control
+# quit the plugins when server quit
+trap('INT') do 
+  top.plugins.each_value do |plugin| 
+    plugin.quit
+  end
+  Process.exit(0)
+end
 
-Thread.new{
+# server is now ready, send the information to plugin
+Thread.new do
   sleep 1
-  top.plugins.each_value {|plugin| 
+  top.plugins.each_value do |plugin| 
     plugin.server_ready
-  }
-}
+  end
+end
 
+# Let's Dbus have execution control
 main = DBus::Main.new
 main << bus
 main.run

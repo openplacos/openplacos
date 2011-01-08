@@ -112,4 +112,10 @@ class Plugin
     end
   end
 
+  def quit
+    if (@proxy_plug.methods["quit"] != nil)
+       @proxy_plug.quit
+    end
+  end
+
 end

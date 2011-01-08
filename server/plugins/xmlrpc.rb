@@ -78,7 +78,9 @@ class XmlrpcPlugin < DBus::Object
     end 
     
     dbus_method :quit do
-      Process.exit(0)
+      Thread.new{ sleep 1 
+      Process.exit(0)} # return somthing and quit 
+      return
     end  
     
   end

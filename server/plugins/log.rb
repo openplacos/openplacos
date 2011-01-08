@@ -67,6 +67,11 @@ class Log < DBus::Object
       $log_file.flush 
     end    
 
+    dbus_method :quit do
+      Thread.new{ sleep 1 
+      Process.exit(0)} # return somthing and quit 
+      return
+    end
 
   end
 end
