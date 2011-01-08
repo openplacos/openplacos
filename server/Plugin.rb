@@ -83,19 +83,27 @@ class Plugin
   end
 
   def create_actuator(name_,config_)
-    @proxy_plug.create_actuator(name_, config_)
+    if (@proxy_plug.methods["create_actuator"] != nil)
+      @proxy_plug.create_actuator(name_, config_)
+    end
   end
 
   def create_measure(name_,config_)
-    @proxy_plug.create_measure(name_, config_)
+    if (@proxy_plug.methods["create_measure"] != nil)
+      @proxy_plug.create_measure(name_, config_)
+    end
   end
 
   def new_measure(name_,value_, config_)
-    @proxy_plug.new_measure(name_, value_, config_)
+    if (@proxy_plug.methods["new_measure"] != nil)
+      @proxy_plug.new_measure(name_, value_, config_)
+    end
   end
 
   def new_order(name_,value_, config_)
-    @proxy_plug.new_order(name_, value_, config_)
+     if (@proxy_plug.methods["new_order"] != nil)
+       @proxy_plug.new_order(name_, value_, config_)
+     end
   end
 
 end
