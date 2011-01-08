@@ -105,5 +105,11 @@ class Plugin
        @proxy_plug.new_order(name_, value_, config_)
      end
   end
+  
+  def server_ready
+    if (@proxy_plug.methods["server_ready"] != nil)
+       @proxy_plug.server_ready
+    end
+  end
 
 end

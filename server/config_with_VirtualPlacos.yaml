@@ -66,5 +66,9 @@ card:
 plugins:
 
 - name: log
-  method: thread
+  method: forked
   exec: plugins/log.rb
+  
+- name: xmlrpc
+  method: forked
+  exec: plugins/xmlrpc.rb

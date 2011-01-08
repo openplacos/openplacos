@@ -204,6 +204,13 @@ top = Top.new(ARGV[0], service)
 
 # Let's Dbus have execution control
 
+Thread.new{
+  sleep 1
+  top.plugins.each_value {|plugin| 
+    plugin.server_ready
+  }
+}
+
 main = DBus::Main.new
 main << bus
 main.run
