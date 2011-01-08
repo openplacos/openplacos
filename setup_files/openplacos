@@ -4,9 +4,6 @@ case "$1" in
     	start)
         	echo "Starting OpenplacOS"
 		su -l openplacos -s /bin/sh -c "/usr/bin/openplacos-server /etc/default/openplacos > /tmp/openplacos.log &"
-          echo "Starting xml-rpc server"
-          sleep 1 # wait until opos server is started
-    su -l openplacos -s /bin/sh -c "/usr/bin/openplacos-server-xmlrpc > /tmp/openplacos-xmlrpc.log &"
     if [ $? -gt 0 ]; then
 		    exit 1
 		else
