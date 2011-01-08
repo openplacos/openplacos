@@ -23,6 +23,7 @@ $LOAD_PATH << $INSTALL_PATH
 # List of library include
 require 'yaml' 
 require 'rubygems'
+require 'active_record' #database desactivate until it was fix
 
 # List of local include
 require 'Driver.rb'
@@ -134,14 +135,12 @@ class Top
       @service.export(Dbus_actuator.new(object)) if object.is_a? Actuator
     end
 
-    if @config['database']
+    if @config['database'] # database is desactivate for instant
       require 'sql.rb'
       $database = Database.new(@config)
 
       # store config if not done before
-      $database.store_config( @drivers, @measures, @actuators)
-    else
-      #$database = nil
+      $database.store_config( @drivers, measures, actuators)
     end
 
 

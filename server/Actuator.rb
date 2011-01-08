@@ -39,13 +39,13 @@ class Actuator
   # Plug the actuator to the proxy with defined interface 
   def plug(proxy_) 
     if not proxy_.has_iface? @interface.get_name
-      puts "Error : No interface " + @interface.get_name + " availabable for actuator " + self.name
+      puts "Error : No interface " + @interface.get_name + " availabable for actuator " + self.path
       Process.exit 1
     end
     if proxy_[@interface.get_name].methods["write"]
       @proxy_iface = proxy_[@interface.get_name]
     else
-      puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.name
+      puts "Error : No write method in interface " + @interface.get_name + "to plug with actuator" + self.path
       Process.exit 1
     end 
   end
@@ -128,24 +128,27 @@ class Actuator
     }
   end
   
-  def write( value_, option_)    
-    @proxy_iface.write( value_, option_)
-    Thread.new{ 
-      if $database.is_traced(self.name)
-        flow = Database::Flow.create(:date  => Time.new,:value => to_float(value_)) 
-        device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
-        actuator =  Database::Actuator.find(:first, :conditions => { :device_id => device.id })
-        Database::Instruction.create(:flow_id => flow.id,
-                                     :actuator_id => actuator.id)
+  def write( value_, option_)
+  ret = @proxy_iface.write( value_, option_)    
+    if defined? $database
+      if $database.is_traced(self.path)     
+        mes = {"kind" => "actuator", "date" => Time.new , "name" => self.path , "value" => to_float(value_) }
+        $database.push mes
       end
-    } if defined? $database
-
-   @top.plugins.each_value {|plugin| 
+    end
+       
+    @top.plugins.each_value {|plugin| 
       Thread.new{ 
         plugin.new_order(@name, value_, option_)
       }
     }
+    return ret
   end
 
+  def to_float(bool)
+    return 1 if bool.is_a?(TrueClass)
+    return 0 if bool.is_a?(FalseClass)
+    return bool.to_f
+  end
 
 end

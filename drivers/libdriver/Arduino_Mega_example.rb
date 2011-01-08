@@ -15,7 +15,13 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'libdriver.rb'
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
+end
+require "#{PATH}/libdriver.rb"
+
 require 'rubygems'
 require 'serialport'
 #Write module and function definition
@@ -127,7 +133,7 @@ end
 # Live
 #
 
-SERIAL_PORT = "/dev/ttyUSB1"
+SERIAL_PORT = "/dev/arduino"
 NB_ANALOG_PIN = (0..15).to_a
 NB_DIGITAL_PIN = (0..53).to_a
 NB_PWM_PIN = (2..13).to_a

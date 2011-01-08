@@ -27,21 +27,23 @@ openplacos_core_subversion="0.1"
 path=`dirname $0`
 
 # Fonction: installation
-installation() {
+dependencies() {
   # Pre-requis
   echo "----------------------------------------------------"
   echo "Dependencies installation"
   echo "----------------------------------------------------"
   apt-get install git-core ruby ruby1.8-dev rubygems 
-  gem install rubygems-update
+  gem install rubygems-update --no-ri --no-rdoc
   /var/lib/gems/1.8/bin/update_rubygems 
-  gem update
+  gem update --no-ri --no-rdoc
   echo "----------------------------------------------------"
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport 
+  gem install activerecord mysql serialport --no-ri --no-rdoc
+}
 
+installation() {
   # User openplacos
   echo "----------------------------------------------------"
   echo "User OpenplacOS"
@@ -67,10 +69,14 @@ installation() {
   cp -rf $path/../openplacos/ /usr/lib/ruby/
 
 # link into path
-  ln -s /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
-  ln -s /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
-  ln -s /usr/lib/ruby/openplacos/client/IHMlocal/IHM.rb /usr/bin/openplacos-gtk
-
+  ln -s -f /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
+  ln -s -f /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
+  ln -s -f /usr/lib/ruby/openplacos/client/IHMlocal/IHM.rb /usr/bin/openplacos-gtk
+  ln -s -f /usr/lib/ruby/openplacos/client/xml-rpc/client/xml-rpc-client.rb  /usr/bin/openplacos-xmlrpc
+  ln -s -f /usr/lib/ruby/openplacos/client/soap/client/soap-client.rb  /usr/bin/openplacos-soap
+  ln -s -f /usr/lib/ruby/openplacos/client/xml-rpc/server/xml-rpc-server.rb  /usr/bin/openplacos-server-xmlrpc
+  ln -s -f /usr/lib/ruby/openplacos/client/soap/server/soap-server.rb  /usr/bin/openplacos-server-soap  
+  
 # default config
   cp $path/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
 
@@ -118,8 +124,10 @@ if [ "$1" = "-nodep" ]
 then
     echo "No dep installed"
 else
-    installation
+   dependencies 
 fi
+
+installation
 check
 start
 

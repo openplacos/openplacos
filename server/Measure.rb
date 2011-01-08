@@ -44,7 +44,7 @@ class Measure
     #1 overpass to 1 do not check dependencies, only at first step !
     #2 current ttl
     if (@check_lock==1 && overpass_==0)
-      puts "\nDependencies loop detected for " + @name + " measure !"
+      puts "\nDependencies loop detected for " + @path + " measure !"
       puts "Please check dependencies for this measure"
       Process.exit 1
     end
@@ -73,13 +73,13 @@ class Measure
 
 
     if not proxy_.has_iface? @interface.get_name
-      puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.name
+      puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.path
       Process.exit 1
     end
     if proxy_[@interface.get_name].methods["read"]
       @proxy_iface = proxy_[@interface.get_name]
     else
-      puts "Error : No read method in interface " + @interface.get_name + "to plug with sensor" + self.name
+      puts "Error : No read method in interface " + @interface.get_name + "to plug with sensor" + self.path
       Process.exit 1
     end 
   end
@@ -107,16 +107,15 @@ class Measure
         @value = self.convert(@proxy_iface.read(@option)[0],dep)
       else
         @value = @proxy_iface.read(@option)[0]
+      end   
+
+      if defined? $database
+        if $database.is_traced(self.path)     
+          mes = {"kind" => "measure", "date" => Time.new , "name" => self.path , "value" => @value }
+          $database.push mes
+        end
       end
-    Thread.new{
-      if $database.is_traced(self.name)
-        flow = Database::Flow.create(:date  => Time.new,:value => @value) 
-        device =  Database::Device.find(:first, :conditions => { :config_name => self.name })
-        sensor =  Database::Sensor.find(:first, :conditions => { :device_id => device.id })
-        Database::Measure.create(:flow_id => flow.id,
-                                 :sensor_id => sensor.id)
-      end
-    } if defined? $database
+      
     end
 
     @top.plugins.each_value {|plugin| 

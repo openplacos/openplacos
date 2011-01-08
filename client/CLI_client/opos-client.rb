@@ -18,7 +18,12 @@
 
 
 
-require '../libclient/lib/server.rb'
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
+end
+require "#{PATH}/../libclient/libclient.rb"
 
 opos = LibClient::Server.new
 
