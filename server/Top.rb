@@ -19,6 +19,8 @@
 # $INSTALL_PATH = File.dirname(__FILE__) + "/"
  $INSTALL_PATH = '/usr/lib/ruby/openplacos/server/'
 $LOAD_PATH << $INSTALL_PATH 
+ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
+
 
 # List of library include
 require 'yaml' 
