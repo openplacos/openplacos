@@ -24,12 +24,12 @@ class Plugin
     @path   = plugin_["path"]
     @method = plugin_["method"]
     @class  = plugin_["name"].to_s.capitalize
-    @exec   = '~/Projets/openplacos/server/' + plugin_["exec"] # To be patched with Patchname class
+    @exec   = '/home/flagos/Projets/openplacos/server/' + plugin_["exec"] # To be patched with Patchname class
 
 #    if (@method == "thread")
-    if (false)
+    if (@method == "thread")
       Thread.new{
-         start_plug_fork()
+         start_plug_thread()
       }
     else
       p = Process.fork{ # First fork
@@ -63,11 +63,14 @@ class Plugin
 
   end
   
-  # def start_plug_thread()
+  def start_plug_thread()
+    @string_eval = ""
+    @string_eval << "module "+ @name.capitalize
+    @string_eval << File.open(@exec).read
+    @string_eval << "end #EOF module " + @name
 
-  #   require '#{name}.rb'
-  #   @instance = @class.new()
-  # end
+    eval @string_eval
+  end
   
   def start_plug_fork()
 
