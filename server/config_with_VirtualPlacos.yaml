@@ -66,5 +66,5 @@ card:
 plugins:
 
 - name: log
- # method: thread
+  method: thread
   exec: plugins/log.rb

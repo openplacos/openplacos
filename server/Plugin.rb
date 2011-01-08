@@ -29,9 +29,8 @@ class Plugin
     @path   = plugin_["path"]
     @method = plugin_["method"]
     @class  = plugin_["name"].to_s.capitalize
-    @exec   = PATH + plugin_["exec"] # To be patched with Patchname class
+    @exec   = PATH + "/" + plugin_["exec"] # To be patched with Patchname class
 
-#    if (@method == "thread")
     if (@method == "thread")
       Thread.new{
          start_plug_thread()
