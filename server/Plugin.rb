@@ -14,6 +14,11 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
+end
 
 class Plugin
 
@@ -24,7 +29,7 @@ class Plugin
     @path   = plugin_["path"]
     @method = plugin_["method"]
     @class  = plugin_["name"].to_s.capitalize
-    @exec   = '/home/flagos/Projets/openplacos/server/' + plugin_["exec"] # To be patched with Patchname class
+    @exec   = PATH + plugin_["exec"] # To be patched with Patchname class
 
 #    if (@method == "thread")
     if (@method == "thread")
