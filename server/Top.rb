@@ -53,7 +53,7 @@ $global = Global.new
 
 class Top
 
-  attr_reader :drivers, :objects, :plugins
+  attr_reader :drivers, :objects, :plugins, :dbus_plugins
   
   #1 Config file path
   #2 Dbus session reference
@@ -70,11 +70,16 @@ class Top
     @objects = Hash.new
     @plugins = Hash.new
 
-    # Launch required plugins
-    @config["plugins"].each do |plugin|
-      @plugins.store(plugin["name"], Plugin.new(plugin, self))
-    end
+    #export the dbus object for plugins 
+    @dbus_plugins = Dbus_Plugin.new("/plugins")
+    @service.export(@dbus_plugins) 
     
+    # Launch required plugins
+    if @config["plugins"]
+      @config["plugins"].each do |plugin|
+        @plugins.store(plugin["name"], Plugin.new(plugin, self))
+      end
+    end
     # Create measures
     @config["objects"].each do |object|
     
@@ -205,18 +210,14 @@ top = Top.new(ARGV[0], service)
 
 # quit the plugins when server quit
 trap('INT') do 
-  top.plugins.each_value do |plugin| 
-    plugin.quit
-  end
+  top.dbus_plugins.quit
   Process.exit(0)
 end
 
 # server is now ready, send the information to plugin
 Thread.new do
   sleep 1
-  top.plugins.each_value do |plugin| 
-    plugin.server_ready
-  end
+  top.dbus_plugins.ready
 end
 
 # Let's Dbus have execution control

@@ -20,12 +20,17 @@ require 'dbus'
 
 #DBus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  bus =  DBus::session_bus
-  $INSTALL_PATH = File.dirname(__FILE__) + "/"
+  clientbus =  DBus::SessionBus.instance
 else
-  bus = DBus::system_bus  
+  clientbus =  DBus::SystemBus.instance
 end
-service = bus.request_service("org.openplacos.plugins.log")
+
+server = clientbus.service("org.openplacos.server")
+
+plugin = server.object("/plugins")
+plugin.introspect
+plugin.default_iface = "org.openplacos.plugins"
+
 
 file = "/tmp/log.txt"
 if File.exists? file
@@ -34,52 +39,37 @@ else
   $log_file = File.new(file, "a+")
 end
 
-class Log < DBus::Object
-  dbus_interface "org.openplacos.plugin" do
-
-    dbus_method :create_measure, "in measure_name:s, in config:a{sv}" do |name, config|
-      date = `date`
-      date = date.chomp
-      $log_file.write date +":" + "Create measure "+"#{name} #{config}" + "\n"
-      $log_file.flush 
-    end    
-
-    dbus_method :create_actuator, "in actuator_name:s, in config:a{sv}" do |name, config|
-      date = `date`
-      date = date.chomp
-      $log_file.write date +":" + "Create actuator "+"#{name} #{config}" + "\n"
-      $log_file.flush 
-    end    
-
-    dbus_method :new_measure, "in measure_name:s, in value:v, in options:a{sv}" do |name, value, option|
-      date = `date`
-      date = date.chomp
-      val = value.to_s
-      $log_file.write date +":" + "New measure "+"#{name} #{val}" + "\n"
-      $log_file.flush 
-    end    
-
-    dbus_method :new_order, "in actuator_name:s, in value:v, in options:a{sv}" do |name, order, option|
-      date = `date`
-      date = date.chomp
-      ord  = order.to_s
-      $log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
-      $log_file.flush 
-    end    
-
-    dbus_method :quit do
-      Thread.new{ sleep 1 
-      Process.exit(0)} # return somthing and quit 
-      return
-    end
-
-  end
+plugin.on_signal("create_measure") do |name,config|
+    date = Time.new.to_s
+    $log_file.write date +":" + "Create measure "+"#{name} #{config.inspect}" + "\n"
+    $log_file.flush 
 end
 
+plugin.on_signal("create_actuator") do |name,config|
+    date = Time.new.to_s
+    $log_file.write date +":" + "Create actuator "+"#{name} #{config}" + "\n"
+    $log_file.flush 
+end
 
-instance = Log.new("/org/openplacos/plugin/log")
-service.export(instance)
+plugin.on_signal("new_measure") do |name, value, option|
+    date = Time.new.to_s
+    val = value.to_s
+    $log_file.write date +":" + "New measure "+"#{name} #{val}" + "\n"
+    $log_file.flush 
+end
 
+plugin.on_signal("new_order") do |name, order, option|
+    date = Time.new.to_s
+    val = value.to_s
+    $log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
+    $log_file.flush 
+end
+
+plugin.on_signal("quit") do
+  Process.exit(0)
+end
+
+#needed for signal reception
 main = DBus::Main.new
-main << bus
+main << clientbus
 main.run

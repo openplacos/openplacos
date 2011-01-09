@@ -58,12 +58,8 @@ class Plugin
       }
       Process.detach(p) # otherwise p will be zombified by OS
     end
-
-    sleep 1 # We've to find a way to synchronize -- signal dbus ?
-    @path_dbus = "org.openplacos.plugins." + @name.downcase
-    @object_path = "/org/openplacos/plugin/" + @name.downcase
-    @object_proxy = Bus.introspect(@path_dbus, @object_path)
-    @proxy_plug = @object_proxy["org.openplacos.plugin"]
+    
+    sleep 1 # Wait that the plugins is launched, need to be improve (maybe plugins need to call a server method
 
   end
   
@@ -80,42 +76,6 @@ class Plugin
 
     # http://ruby.about.com/od/advancedruby/a/The-Exec-Method.htm
     exec "#{@exec}"
-  end
-
-  def create_actuator(name_,config_)
-    if (@proxy_plug.methods["create_actuator"] != nil)
-      @proxy_plug.create_actuator(name_, config_)
-    end
-  end
-
-  def create_measure(name_,config_)
-    if (@proxy_plug.methods["create_measure"] != nil)
-      @proxy_plug.create_measure(name_, config_)
-    end
-  end
-
-  def new_measure(name_,value_, config_)
-    if (@proxy_plug.methods["new_measure"] != nil)
-      @proxy_plug.new_measure(name_, value_, config_)
-    end
-  end
-
-  def new_order(name_,value_, config_)
-     if (@proxy_plug.methods["new_order"] != nil)
-       @proxy_plug.new_order(name_, value_, config_)
-     end
-  end
-  
-  def server_ready
-    if (@proxy_plug.methods["server_ready"] != nil)
-       @proxy_plug.server_ready
-    end
-  end
-
-  def quit
-    if (@proxy_plug.methods["quit"] != nil)
-       @proxy_plug.quit
-    end
   end
 
 end

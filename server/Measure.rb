@@ -35,9 +35,9 @@ class Measure
     parse_config(meas_)
     @config = meas_
     
-    @top.plugins.each_value {|plugin| 
-      plugin.create_measure(@name, @config)
-    }
+    #infor the plugins that a new measure has been created
+    @top.dbus_plugins.create_measure(@name, @config)
+
   end
 
   def check(overpass_, ttl_)
@@ -118,11 +118,8 @@ class Measure
       
     end
 
-    @top.plugins.each_value {|plugin| 
-      Thread.new{ 
-        plugin.new_measure(@name, @value, @option)
-      }
-    }
+    # informs the plugins 
+    @top.dbus_plugins.new_measure(@name, @value, @option)
     
     return @value
   end

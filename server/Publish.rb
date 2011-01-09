@@ -115,3 +115,16 @@ class Server < DBus::Object
   end
 end
 
+class Dbus_Plugin < DBus::Object
+
+  dbus_interface "org.openplacos.plugins" do
+    dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
+    dbus_signal :create_actuator, "in actuator_name:s, in config:a{sv}"
+    dbus_signal :new_measure, "in measure_name:s, in value:v, in options:a{sv}"
+    dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
+    dbus_signal :quit,""
+    dbus_signal :ready,""
+  end
+
+
+end

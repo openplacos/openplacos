@@ -21,10 +21,12 @@ module LibClient
     
     def initialize
       
-@bus = DBus::system_bus
-if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  @bus =  DBus::session_bus
-end
+      ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
+      if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+        @bus =  DBus::session_bus
+      else
+        @bus = DBus::system_bus
+      end
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")
         @service.introspect

@@ -20,96 +20,91 @@ require 'rubygems'
 require "soap/rpc/standaloneServer"
 
 if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
+  P =  File.dirname(File.readlink(__FILE__))
 else 
-  PATH = File.expand_path(File.dirname(__FILE__))
+  P = File.expand_path(File.dirname(__FILE__))
 end
+a = P.split("/")
+PATH = a.slice(0..a.rindex("openplacos")).join("/")
 
-class XmlrpcPlugin < DBus::Object
-  dbus_interface "org.openplacos.plugin" do
-
-    dbus_method :server_ready do
-      Thread.new do
-        Thread.abort_on_exception = true
-        require "#{PATH}/../../client/libclient/lib/server.rb"
-
-
-        begin
-           class MySoapServer < SOAP::RPC::StandaloneServer
-
-              # Expose our services
-              def initialize(opos_,*args)
-                @opos = opos_
-                super(*args)
-                 add_method(self, 'sensors')
-                 add_method(self, 'actuators')
-                 add_method(self, 'actuators_methods','path')
-                 add_method(self, 'objects')
-                 add_method(self, 'get','path')
-                 add_method(self, 'set_a','path','meth')  #cant use set for methode name
-              end
-              
-              def sensors
-                @opos.sensors.keys
-              end
-            
-              def actuators
-                @opos.actuators.keys
-              end
-              
-              def actuators_methods(path)
-                @opos.actuators[path].methods.keys
-              end
-             
-              def objects
-                @opos.objects.keys
-              end
-              
-              def get(path)
-                @opos.sensors[path].value[0]
-              end
-
-              def set_a(path,meth)
-                @opos.actuators[path].method(meth).call
-              end
-
-          end
-          
-          opos = LibClient::Server.new
-          port = 8081
-          server = MySoapServer.new(opos,"MySoapServer", 
-                    'urn:ruby:opos', '0.0.0.0', port)
-          trap('INT'){
-             server.shutdown
-          }
-          server.start
-        rescue => err
-          puts err.message
-        end       
-        
-      end
-    end 
-    
-    dbus_method :quit do
-      Thread.new{ sleep 1 
-      Process.exit(0)} # return somthing and quit 
-      return
-    end  
-    
-  end
-  
-end 
 
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  bus =  DBus::session_bus
+  clientbus =  DBus::SessionBus.instance
 else
-  bus = DBus::system_bus  
+  clientbus =  DBus::SystemBus.instance
 end
-service = bus.request_service("org.openplacos.plugins.soap")
-xmlrs = XmlrpcPlugin.new("/org/openplacos/plugin/soap")
-service.export(xmlrs)
+
+serv = clientbus.service("org.openplacos.server")
+
+plugin = serv.object("/plugins")
+plugin.introspect
+plugin.default_iface = "org.openplacos.plugins"
+
+plugin.on_signal("quit") do
+  Process.exit(0)
+end
+
+plugin.on_signal("ready") do
+  Thread.new do
+    Thread.abort_on_exception = true
+    require "#{PATH}/client/libclient/libclient.rb"
+
+
+    begin
+       class MySoapServer < SOAP::RPC::StandaloneServer
+
+          # Expose our services
+          def initialize(opos_,*args)
+            @opos = opos_
+            super(*args)
+             add_method(self, 'sensors')
+             add_method(self, 'actuators')
+             add_method(self, 'actuators_methods','path')
+             add_method(self, 'objects')
+             add_method(self, 'get','path')
+             add_method(self, 'set_a','path','meth')  #cant use set for methode name
+          end
+          
+          def sensors
+            @opos.sensors.keys
+          end
+        
+          def actuators
+            @opos.actuators.keys
+          end
+          
+          def actuators_methods(path)
+            @opos.actuators[path].methods.keys
+          end
+         
+          def objects
+            @opos.objects.keys
+          end
+          
+          def get(path)
+            @opos.sensors[path].value[0]
+          end
+
+          def set_a(path,meth)
+            @opos.actuators[path].method(meth).call
+          end
+
+      end
+      
+      opos = LibClient::Server.new
+      port = 8081
+      server = MySoapServer.new(opos,"MySoapServer", 
+                'urn:ruby:opos', '0.0.0.0', port)
+      server.start
+    rescue => err
+      puts err.message
+    end       
+    
+  end
+end 
+
 main = DBus::Main.new
-main << bus
+main << clientbus
 main.run
 
 

@@ -19,84 +19,71 @@ require 'dbus'
 require 'xmlrpc/server'
 
 if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
+  P =  File.dirname(File.readlink(__FILE__))
 else 
-  PATH = File.expand_path(File.dirname(__FILE__))
+  P = File.expand_path(File.dirname(__FILE__))
 end
-
-class XmlrpcPlugin < DBus::Object
-  dbus_interface "org.openplacos.plugin" do
-
-    dbus_method :server_ready do
-      Thread.new do
-        Thread.abort_on_exception = true
-        require "#{PATH}/../../client/libclient/lib/server.rb"
-
-
-        port = 8080
-        opos = LibClient::Server.new
-        server = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
-
-        server.add_handler("sensors") do
-            opos.sensors.keys
-        end
-
-        server.add_handler("actuators") do
-            opos.actuators.keys
-        end
-
-        server.add_handler("actuators.methods") do |path|
-            opos.actuators[path].methods.keys
-        end
-
-        server.add_handler("objects") do
-            opos.objects.keys
-        end
-
-        server.add_handler("get") do |path|
-            opos.sensors[path].value[0]
-        end
-
-        server.add_handler("set") do |path, meth|
-            eval "opos.actuators[\"#{path}\"].#{meth}"
-        end
-
-        begin
-
-          trap('INT'){
-             Process.exit(0)
-          }
-            
-          server.serve 
-
-        end
-
-        
-        
-        
-      end
-    end 
-    
-    dbus_method :quit do
-      Thread.new{ sleep 1 
-      Process.exit(0)} # return somthing and quit 
-      return
-    end  
-    
-  end
-  
-end 
+a = P.split("/")
+PATH = a.slice(0..a.rindex("openplacos")).join("/")
 
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  bus =  DBus::session_bus
+  clientbus =  DBus::SessionBus.instance
 else
-  bus = DBus::system_bus  
+  clientbus =  DBus::SystemBus.instance
 end
-service = bus.request_service("org.openplacos.plugins.xmlrpc")
-xmlrs = XmlrpcPlugin.new("/org/openplacos/plugin/xmlrpc")
-service.export(xmlrs)
+
+serv = clientbus.service("org.openplacos.server")
+
+plugin = serv.object("/plugins")
+plugin.introspect
+plugin.default_iface = "org.openplacos.plugins"
+
+plugin.on_signal("quit") do
+  Process.exit(0)
+end
+
+plugin.on_signal("ready") do
+  Thread.new do
+    Thread.abort_on_exception = true
+    require "#{PATH}/client/libclient/libclient.rb"
+
+
+    port = 8080
+    opos = LibClient::Server.new
+    server = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
+
+    server.add_handler("sensors") do
+        opos.sensors.keys
+    end
+
+    server.add_handler("actuators") do
+        opos.actuators.keys
+    end
+
+    server.add_handler("actuators.methods") do |path|
+        opos.actuators[path].methods.keys
+    end
+
+    server.add_handler("objects") do
+        opos.objects.keys
+    end
+
+    server.add_handler("get") do |path|
+        opos.sensors[path].value[0]
+    end
+
+    server.add_handler("set") do |path, meth|
+        eval "opos.actuators[\"#{path}\"].#{meth}"
+    end
+   
+    server.serve 
+  end
+end
+
+
 main = DBus::Main.new
-main << bus
+main << clientbus
 main.run
+
 
 

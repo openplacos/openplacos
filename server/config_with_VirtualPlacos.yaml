@@ -66,13 +66,13 @@ card:
 plugins:
 
 - name: log
-  method: forked
+  method: thread
   exec: plugins/log.rb
   
 - name: xmlrpc
-  method: forked
+  method: thread
   exec: plugins/xmlrpc.rb
   
-- name: soap
-  method: forked
-  exec: plugins/soap.rb
+#~ - name: soap
+  #~ method: thread
+  #~ exec: plugins/soap.rb

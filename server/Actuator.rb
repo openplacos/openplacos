@@ -31,9 +31,9 @@ class Actuator
     parse_config(act_)
     @config = act_ 
 
-    @top.plugins.each_value {|plugin| 
-      plugin.create_actuator(@name, @config)
-    }
+    #tell to plugins that a new actuator has been created
+    @top.dbus_plugins.create_actuator(@name, @config)
+    
   end
 
   # Plug the actuator to the proxy with defined interface 
@@ -137,11 +137,9 @@ class Actuator
       end
     end
        
-    @top.plugins.each_value {|plugin| 
-      Thread.new{ 
-        plugin.new_order(@name, value_, option_)
-      }
-    }
+    # tell to plugins that a new order has been treat
+    @top.dbus_plugins.new_order(@name, value_, option_)
+
     return ret
   end
 
