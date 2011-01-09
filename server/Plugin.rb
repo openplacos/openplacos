@@ -67,7 +67,7 @@ class Plugin
     @string_eval = ""
     @string_eval << "module "+ @name.capitalize
     @string_eval << File.open(@exec).read
-    @string_eval << "end #EOF module " + @name
+    @string_eval << "end # end of module " + @name
 
     eval @string_eval
   end
