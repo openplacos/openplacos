@@ -47,7 +47,7 @@ end
 
 plugin.on_signal("create_actuator") do |name,config|
     date = Time.new.to_s
-    $log_file.write date +":" + "Create actuator "+"#{name} #{config}" + "\n"
+    $log_file.write date +":" + "Create actuator "+"#{name} #{config.inspect}" + "\n"
     $log_file.flush 
 end
 

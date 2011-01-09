@@ -51,7 +51,7 @@ class Call < DBus::Object
       return
     end
     dbus_method :create_actuator, "in actuator_name:s, in config:a{sv}" do |act ,config|
-      Thread.new{$plugins.create_actuator(meas,config)}
+      Thread.new{$plugins.create_actuator(act,config)}
       return
     end
     
