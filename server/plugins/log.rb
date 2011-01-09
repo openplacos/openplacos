@@ -60,7 +60,7 @@ end
 
 plugin.on_signal("new_order") do |name, order, option|
     date = Time.new.to_s
-    val = value.to_s
+    ord = order.to_s
     $log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
     $log_file.flush 
 end

@@ -138,7 +138,7 @@ class Actuator
     end
        
     # tell to plugins that a new order has been treat
-    @top.dbus_plugins.new_order(@name, value_, option_)
+    @top.dbus_plugins.new_order(@name, to_float(value_), option_)
 
     return ret
   end
