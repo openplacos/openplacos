@@ -75,8 +75,7 @@ plugin.on_signal("ready") do
     server.add_handler("set") do |path, meth|
         eval "opos.actuators[\"#{path}\"].#{meth}"
     end
-   
-    server.serve 
+    server.serve
   end
 end
 
