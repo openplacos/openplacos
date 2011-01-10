@@ -1,47 +1,47 @@
 objects:
 
 - name: Temperature Indoor
-  path: /home/Temperature_indoor
+  path: /home/indoor/Temperature
   model: Generic_Celsius_Temperature
   regul:
     action-: /home/Fan
    
 - name: Temperature Outdoor
-  path: /home/Temperature_outdoor
+  path: /home/outdoor/Temperature
   model: Generic_Celsius_Temperature
 
 - name: Hygrometrie Outdoor
-  path: /home/Hygro_out
+  path: /home/outdoor/Hygro
   model: VirtualPlacos_Hygro
   depends:
-    temp: /home/Temperature_outdoor
+    temp: /home/outdoor/Temperature
      
 - name: Hygrometrie Indoor
-  path: /home/Hygro_in
+  path: /home/indoor/Hygro
   model: VirtualPlacos_Hygro
   depends:
-    temp: /home/Temperature_indoor
+    temp: /home/indoor/Temperature
   regul:
     action-: /home/Fan
     frequency: 0.5
     
 - name: Light
-  path: /home/Light
+  path: /home/indoor/Light
   model: Generic_relay_NO
     
 - name: Fan
-  path: /home/Fan
+  path: /home/indoor/Fan
   model: Generic_relay_NO
 
 card:
 - name: VirtualPlacos
   plug: 
-    /Pin_1: /home/Temperature_indoor
-    /Pin_2: /home/Temperature_outdoor
-    /Pin_3: /home/Light
-    /Pin_4: /home/Fan
-    /Pin_5: /home/Hygro_out
-    /Pin_6: /home/Hygro_in
+    /Pin_1: /home/indoor/Temperature
+    /Pin_2: /home/outdoor/Temperature
+    /Pin_3: /home/indoor/Light
+    /Pin_4: /home/indoor/Fan
+    /Pin_5: /home/outdoor/Hygro
+    /Pin_6: /home/indoor/Hygro
 
 database:
   # Database config for ActiveRecord
