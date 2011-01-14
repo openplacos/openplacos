@@ -9,5 +9,5 @@ Homepage: http://sourceforge.net/projects/openplacos/
 Package: openplacos
 Version: 0.1	
 Architecture: all
-Depends: ruby, ruby1.8-dev, rubygems, bash
+Depends: ruby, ruby1.8-dev, rubygems, bash, libsqlite3-dev, libmysqlclient-dev 
 Description: Domotic server subsystem oriented

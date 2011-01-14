@@ -5,11 +5,11 @@ path=`dirname $0`
 # Fonction: installation
 installation() {
   # Pre-requis
-    gem install rubygems-update
+    gem install rubygems-update --no-ri --no-rdoc
     /var/lib/gems/1.8/bin/update_rubygems 
     gem update
  
-    gem install --no-ri --no-rdoc activerecord mysql serialport 
+    gem install --no-ri --no-rdoc ruby-dbus sqlite3-ruby mysql activerecord serialport 
     
   # User openplacos
     adduser openplacos --system -disabled-login -no-create-home
