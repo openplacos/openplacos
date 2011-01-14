@@ -1,5 +1,5 @@
-openplacos (0.1-1) unstable; urgency=low
+openplacos (0.1-0ubuntu1) maverick; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 
- -- flagos <flagospub@gmail.com>  Thu, 13 Jan 2011 19:48:25 +0100
+ -- miaoufkirsh <miaoufkirsh@gmail.com>  Fri, 14 Jan 2011 11:08:25 +0100
