@@ -116,6 +116,7 @@ class Server < DBus::Object
 end
 
 class Dbus_Plugin < DBus::Object
+  attr_accessor :ready_queue
 
   dbus_interface "org.openplacos.plugins" do
     dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
@@ -124,7 +125,16 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
     dbus_signal :quit,""
     dbus_signal :ready,""
+    
+    dbus_method :plugin_is_ready, "in name:s" do |name|
+      @ready_queue.push name
+    end  
+    
   end
-
+  
+  def initialize
+    super("/plugins")
+    @ready_queue = Queue.new 
+  end
 
 end

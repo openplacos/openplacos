@@ -21,7 +21,7 @@ else
 end
 
 class Plugin
-
+  
   #1 Plugin definition in yaml config
   #2 Top reference
   def initialize(plugin_, top_) # Constructor
@@ -30,7 +30,7 @@ class Plugin
     @method = plugin_["method"]
     @class  = plugin_["name"].to_s.capitalize
     @exec   = PATH + "/" + plugin_["exec"] # To be patched with Patchname class
-
+    
     if (@method == "thread")
       Thread.new{
          start_plug_thread()
@@ -59,7 +59,8 @@ class Plugin
       Process.detach(p) # otherwise p will be zombified by OS
     end
     
-    sleep 1 # Wait that the plugins is launched, need to be improve (maybe plugins need to call a server method
+    name = top_.dbus_plugins.ready_queue.pop
+    puts "Plugin named #{name} is started"
 
   end
   

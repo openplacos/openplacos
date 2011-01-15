@@ -71,15 +71,23 @@ class Top
     @plugins = Hash.new
 
     #export the dbus object for plugins 
-    @dbus_plugins = Dbus_Plugin.new("/plugins")
+    @dbus_plugins = Dbus_Plugin.new
     @service.export(@dbus_plugins) 
+    @plugin_main = DBus::Main.new
+    @plugin_main << @service.bus
     
+    # start a thread to listen on bus for reception of message
+    plug_thread = Thread.new { @plugin_main.run }
+        
     # Launch required plugins
     if @config["plugins"]
       @config["plugins"].each do |plugin|
         @plugins.store(plugin["name"], Plugin.new(plugin, self))
       end
     end
+    
+    @plugin_main.quit
+    plug_thread.terminate
     # Create measures
     @config["objects"].each do |object|
     

@@ -69,6 +69,8 @@ plugin.on_signal("quit") do
   Process.exit(0)
 end
 
+plugin.plugin_is_ready("log.rb")
+
 #needed for signal reception
 main = DBus::Main.new
 main << clientbus

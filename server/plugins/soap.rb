@@ -102,7 +102,7 @@ plugin.on_signal("ready") do
     
   end
 end 
-
+plugin.plugin_is_ready("soap.rb")
 main = DBus::Main.new
 main << clientbus
 main.run
