@@ -15,25 +15,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'dbus'
 require 'rubygems'
 require "soap/rpc/standaloneServer"
-
-if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
-else 
-  PATH = File.expand_path(File.dirname(__FILE__))
-end
-require "#{PATH}/../../libclient/libclient.rb"
-
+require "openplacos"
 
 if ARGV.include?("-p")
   port = ARGV[ ARGV.index("-p") + 1]
 else
   port = 8080
 end
-
-
 
 begin
    class MySoapServer < SOAP::RPC::StandaloneServer
@@ -76,7 +66,7 @@ begin
 
   end
   
-  opos = LibClient::Server.new
+  opos = Openplacos::Client.new
   
   server = MySoapServer.new(opos,"MySoapServer", 
             'urn:ruby:opos', '0.0.0.0', port)

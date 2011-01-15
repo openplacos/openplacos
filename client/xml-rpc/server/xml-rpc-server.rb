@@ -14,18 +14,9 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
-
-require 'dbus'
+require "rubygems"
 require 'xmlrpc/server'
-require 'pathname'
-if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
-else 
-  PATH = File.expand_path(File.dirname(__FILE__))
-end
-require "#{PATH}/../../libclient/libclient.rb"
-
-
+require "openplacos"
 
 if ARGV.include?("-p")
   port = ARGV[ ARGV.index("-p") + 1]
@@ -33,7 +24,7 @@ else
   port = 8080
 end
 
-opos = LibClient::Server.new
+opos = Openplacos::Client.new
 server = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
 
 server.add_handler("sensors") do

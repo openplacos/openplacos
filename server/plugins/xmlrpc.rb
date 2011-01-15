@@ -18,12 +18,11 @@ require "rubygems"
 require 'xmlrpc/server'
 require "openplacos"
 
-puts ENV["DBUS_THREADED_ACCESS"]
 plugin = Openplacos::Plugin.new("xmlrpc")
 
-
-puts "wait for server is ready"
+puts "wait for opos server be ready"
 plugin.nonblock_run
+sleep 2
 puts "ok"
 port = 8080
 

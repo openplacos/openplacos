@@ -70,7 +70,7 @@ plugins:
   exec: plugins/log.rb
   
 - name: xmlrpc
-  method: thread
+  method: fork
   exec: plugins/xmlrpc.rb
   
 #~ - name: soap
