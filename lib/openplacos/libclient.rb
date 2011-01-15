@@ -13,15 +13,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'dbus'
 
-module LibClient
-  class Server #openplacos server 
+module Openplacos
+  class Client # client for openplacos server 
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms
     
     def initialize
       
-      ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
         @bus =  DBus::session_bus
       else
