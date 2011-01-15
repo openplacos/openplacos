@@ -19,11 +19,10 @@ module Openplacos
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms
     
     def initialize
-      
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-        @bus =  DBus::session_bus
+        @bus =  DBus::SessionBus.instance
       else
-        @bus = DBus::system_bus
+        @bus =  DBus::SystemBus.instance
       end
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")

@@ -18,25 +18,12 @@
 require 'dbus'
 require 'rubygems'
 require "soap/rpc/standaloneServer"
-
-if File.symlink?(__FILE__)
-  P =  File.dirname(File.readlink(__FILE__))
-else 
-  P = File.expand_path(File.dirname(__FILE__))
-end
-a = P.split("/")
-PATH = a.slice(0..a.rindex("openplacos")).join("/")
-
-require "#{PATH}/server/plugins/libplugin.rb"
+require "openplacos"
 
 plugin = Openplacos::Plugin.new("soap")
 
 
 plugin.nonblock_run
-
-
-require "#{PATH}/client/libclient/libclient.rb"
-
 
 begin
    class MySoapServer < SOAP::RPC::StandaloneServer
@@ -79,7 +66,7 @@ begin
 
   end
   
-  opos = LibClient::Server.new
+  opos = Openplacos::Client.new
   port = 8081
   server = MySoapServer.new(opos,"MySoapServer", 
             'urn:ruby:opos', '0.0.0.0', port)

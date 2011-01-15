@@ -15,16 +15,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-if File.symlink?(__FILE__)
-  P =  File.dirname(File.readlink(__FILE__))
-else 
-  P = File.expand_path(File.dirname(__FILE__))
-end
-a = P.split("/")
-PATH = a.slice(0..a.rindex("openplacos")).join("/")
-
-require "#{PATH}/server/plugins/libplugin.rb"
+require "rubygems"
+require "openplacos"
 
 plugin = Openplacos::Plugin.new("test")
 
@@ -42,10 +34,6 @@ end
 
 plugin.opos.on_signal("new_order") do |name, order, option|
   # do stuff when a order is send
-end
-
-plugin.opos.on_signal("ready") do
-  # do stuff when the server is ready
 end
 
 plugin.run

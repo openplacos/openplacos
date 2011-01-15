@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
 
 
 desc 'Default: gem packaging'
-task :default => "env:gem"
+task :default => "gem"
 
 
 load "openplacos.gemspec"
