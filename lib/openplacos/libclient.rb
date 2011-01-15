@@ -16,7 +16,7 @@
 
 module Openplacos
   class Client # client for openplacos server 
-    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms
+    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls
     
     def initialize
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
@@ -35,6 +35,7 @@ module Openplacos
         #get sensors and actuators
         @sensors = get_sensors
         @actuators = get_actuators
+        @reguls = get_reguls
       else
         puts "Can't find OpenplacOS server"
         Process.exit 1
@@ -46,7 +47,7 @@ module Openplacos
     def get_rooms(nod)
       room = Array.new
       nod.each_pair{ |key,value|
-       if not(key=="Debug" or key=="server") #ignore debug objects
+       if not(key=="Debug" or key=="server" or key=="plugins") #ignore debug objects
          if value.object.nil?
           room.push(key)
          end
@@ -99,5 +100,16 @@ module Openplacos
       }
       actuators
     end
+    
+    def get_reguls
+      reguls = Hash.new
+      @objects.each_pair{ |key, value|
+        if value.has_iface?('org.openplacos.server.regul')
+          reguls[key] = value['org.openplacos.server.regul']
+        end
+      }
+      reguls
+    end
+    
   end
 end

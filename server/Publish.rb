@@ -35,6 +35,10 @@ class Dbus_measure < DBus::Object
     end  
   end 
 
+  # ++++
+  # FIXME : create interface only if has a regul 
+  # ----
+
   dbus_interface "org.openplacos.server.regul" do
     dbus_method :set, "in return:a{sv}" do |option|
       [@meas.regul.set(option)]
