@@ -76,3 +76,4 @@ plugins:
 - name: soap
   method: thread
   exec: plugins/soap.rb
+

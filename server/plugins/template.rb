@@ -16,47 +16,36 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'dbus'
-
-#DBus
-if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  clientbus =  DBus::SessionBus.instance
-else
-  clientbus =  DBus::SystemBus.instance
+if File.symlink?(__FILE__)
+  P =  File.dirname(File.readlink(__FILE__))
+else 
+  P = File.expand_path(File.dirname(__FILE__))
 end
+a = P.split("/")
+PATH = a.slice(0..a.rindex("openplacos")).join("/")
 
-server = clientbus.service("org.openplacos.server")
+require "#{PATH}/server/plugins/libplugin.rb"
 
-plugin = server.object("/plugins")
-plugin.introspect
-plugin.default_iface = "org.openplacos.plugins"
+plugin = Openplacos::Plugin.new("test")
 
-
-plugin.on_signal("create_measure") do |name,config|
+plugin.opos.on_signal("create_measure") do |name,config|
   # do stuff when a measure is created
 end
 
-plugin.on_signal("create_actuator") do |name,config|
+plugin.opos.on_signal("create_actuator") do |name,config|
   # do stuff when an actuator is created
 end
 
-plugin.on_signal("new_measure") do |name, value, option|
+plugin.opos.on_signal("new_measure") do |name, value, option|
   # do stuff when a measure is done
 end
 
-plugin.on_signal("new_order") do |name, order, option|
+plugin.opos.on_signal("new_order") do |name, order, option|
   # do stuff when a order is send
 end
 
-plugin.on_signal("ready") do
+plugin.opos.on_signal("ready") do
   # do stuff when the server is ready
 end
 
-plugin.on_signal("quit") do
-  Process.exit(0)
-end
-
-#needed for signal reception
-main = DBus::Main.new
-main << clientbus
-main.run
+plugin.run

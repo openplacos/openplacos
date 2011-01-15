@@ -16,21 +16,17 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'dbus'
-
-#DBus
-if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  clientbus =  DBus::SessionBus.instance
-else
-  clientbus =  DBus::SystemBus.instance
+if File.symlink?(__FILE__)
+  P =  File.dirname(File.readlink(__FILE__))
+else 
+  P = File.expand_path(File.dirname(__FILE__))
 end
+a = P.split("/")
+PATH = a.slice(0..a.rindex("openplacos")).join("/")
 
-server = clientbus.service("org.openplacos.server")
+require "#{PATH}/server/plugins/libplugin.rb"
 
-plugin = server.object("/plugins")
-plugin.introspect
-plugin.default_iface = "org.openplacos.plugins"
-
+plugin = Openplacos::Plugin.new("log")
 
 file = "/tmp/log.txt"
 if File.exists? file
@@ -39,39 +35,30 @@ else
   $log_file = File.new(file, "a+")
 end
 
-plugin.on_signal("create_measure") do |name,config|
+plugin.opos.on_signal("create_measure") do |name,config|
     date = Time.new.to_s
     $log_file.write date +":" + "Create measure "+"#{name} #{config.inspect}" + "\n"
     $log_file.flush 
 end
 
-plugin.on_signal("create_actuator") do |name,config|
+plugin.opos.on_signal("create_actuator") do |name,config|
     date = Time.new.to_s
     $log_file.write date +":" + "Create actuator "+"#{name} #{config.inspect}" + "\n"
     $log_file.flush 
 end
 
-plugin.on_signal("new_measure") do |name, value, option|
+plugin.opos.on_signal("new_measure") do |name, value, option|
     date = Time.new.to_s
     val = value.to_s
     $log_file.write date +":" + "New measure "+"#{name} #{val}" + "\n"
     $log_file.flush 
 end
 
-plugin.on_signal("new_order") do |name, order, option|
+plugin.opos.on_signal("new_order") do |name, order, option|
     date = Time.new.to_s
     ord = order.to_s
     $log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
     $log_file.flush 
 end
 
-plugin.on_signal("quit") do
-  Process.exit(0)
-end
-
-plugin.plugin_is_ready("log.rb")
-
-#needed for signal reception
-main = DBus::Main.new
-main << clientbus
-main.run
+plugin.run

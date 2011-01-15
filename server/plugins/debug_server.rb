@@ -39,7 +39,12 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
     dbus_signal :quit,""
     dbus_signal :ready,""
+    dbus_method :plugin_is_ready, "in name:s" do |name|
+      puts "Plugin named #{name} is started"
+    end 
+  
   end
+  
   
 end
 

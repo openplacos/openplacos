@@ -15,7 +15,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'dbus'
 require 'xmlrpc/server'
 
 if File.symlink?(__FILE__)
@@ -26,63 +25,44 @@ end
 a = P.split("/")
 PATH = a.slice(0..a.rindex("openplacos")).join("/")
 
-if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  clientbus =  DBus::SessionBus.instance
-else
-  clientbus =  DBus::SystemBus.instance
+require "#{PATH}/server/plugins/libplugin.rb"
+
+plugin = Openplacos::Plugin.new("xmlrpc")
+
+plugin.nonblock_run
+
+require "#{PATH}/client/libclient/libclient.rb"
+
+
+port = 8080
+opos = LibClient::Server.new
+server = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
+
+server.add_handler("sensors") do
+    opos.sensors.keys
 end
 
-serv = clientbus.service("org.openplacos.server")
-
-plugin = serv.object("/plugins")
-plugin.introspect
-plugin.default_iface = "org.openplacos.plugins"
-
-plugin.on_signal("quit") do
-  Process.exit(0)
+server.add_handler("actuators") do
+    opos.actuators.keys
 end
 
-plugin.on_signal("ready") do
-  Thread.new do
-    Thread.abort_on_exception = true
-    require "#{PATH}/client/libclient/libclient.rb"
-
-
-    port = 8080
-    opos = LibClient::Server.new
-    server = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
-
-    server.add_handler("sensors") do
-        opos.sensors.keys
-    end
-
-    server.add_handler("actuators") do
-        opos.actuators.keys
-    end
-
-    server.add_handler("actuators.methods") do |path|
-        opos.actuators[path].methods.keys
-    end
-
-    server.add_handler("objects") do
-        opos.objects.keys
-    end
-
-    server.add_handler("get") do |path|
-        opos.sensors[path].value[0]
-    end
-
-    server.add_handler("set") do |path, meth|
-        eval "opos.actuators[\"#{path}\"].#{meth}"
-    end
-    server.serve
-  end
+server.add_handler("actuators.methods") do |path|
+    opos.actuators[path].methods.keys
 end
 
-plugin.plugin_is_ready("xmlrpc.rb")
-main = DBus::Main.new
-main << clientbus
-main.run
+server.add_handler("objects") do
+    opos.objects.keys
+end
+
+server.add_handler("get") do |path|
+    opos.sensors[path].value[0]
+end
+
+server.add_handler("set") do |path, meth|
+    eval "opos.actuators[\"#{path}\"].#{meth}"
+end
+server.serve
+
 
 
 
