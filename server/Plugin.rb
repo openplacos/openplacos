@@ -13,7 +13,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+require 'timeout'
 if File.symlink?(__FILE__)
   PATH =  File.dirname(File.readlink(__FILE__))
 else 
@@ -59,8 +59,14 @@ class Plugin
       Process.detach(p) # otherwise p will be zombified by OS
     end
     
-    name = top_.dbus_plugins.ready_queue.pop
-    puts "Plugin named #{name} is started"
+    begin # if plugin don't start within the next 10 seconds, go ahead.
+      Timeout::timeout(10) do 
+        name = top_.dbus_plugins.ready_queue.pop
+        puts "Plugin named #{name} is started"
+      end
+    rescue Timeout::Error
+      puts "Plugin #{@name} do not respond in time, try the next plugin"
+    end
 
   end
   

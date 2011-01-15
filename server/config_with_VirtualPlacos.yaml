@@ -73,7 +73,7 @@ plugins:
   method: fork
   exec: plugins/xmlrpc.rb
   
-#~ - name: soap
-  #~ method: fork
-  #~ exec: plugins/soap.rb
+- name: soap
+  method: thread
+  exec: plugins/soap.rb
 
