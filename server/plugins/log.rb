@@ -60,4 +60,11 @@ plugin.opos.on_signal("error") do |error, option|
     $log_file.flush 
 end
 
+plugin.opos.on_signal("create_card") do |name,config|
+    date = Time.new.to_s
+    $log_file.write date +":" + "Create card "+"#{name} #{config.inspect}" + "\n"
+    $log_file.flush 
+end
+
+
 plugin.run

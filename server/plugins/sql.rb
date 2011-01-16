@@ -161,4 +161,10 @@ plugin.opos.on_signal("new_order") do |name, order, option|
     Instruction.create(:flow_id => flow.id,:actuator_id => actuator.id)
 end
 
+plugin.opos.on_signal("create_card") do |name,config|
+    if !Card.exists?(:config_name => name)
+      Card.create(:config_name => name, :path_dbus => name ) # model, usb id missing
+    end
+end
+
 plugin.run

@@ -132,7 +132,9 @@ class Top
 
       # Create driver proxy with standard acquisition card iface
       @drivers.store(card["name"], Driver.new(card))
-
+      
+      #infor the plugins that a new measure has been created
+      @dbus_plugins.create_card(card["name"], card)
       # Push driver in DBus server config
       # Stand for debug
       card["plug"].each_pair{ |pin, object_path|

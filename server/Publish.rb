@@ -127,6 +127,7 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :create_actuator, "in actuator_name:s, in config:a{sv}"
     dbus_signal :new_measure, "in measure_name:s, in value:v, in options:a{sv}"
     dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
+    dbus_signal :create_card, "in card_name:s, in config:a{sv}" 
     dbus_signal :quit,""
     dbus_signal :ready,""
     dbus_signal :error,"in error:s, in options:a{sv}"
