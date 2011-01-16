@@ -9,7 +9,7 @@ installation() {
     /var/lib/gems/1.8/bin/update_rubygems 
     gem update
  
-    gem install --no-ri --no-rdoc ruby-dbus sqlite3-ruby mysql activerecord serialport 
+    gem install --no-ri --no-rdoc ruby-dbus sqlite3-ruby mysql activerecord serialport openplacos
     
   # User openplacos
     adduser openplacos --system -disabled-login -no-create-home
