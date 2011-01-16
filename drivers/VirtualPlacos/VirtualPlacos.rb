@@ -18,6 +18,7 @@
 #
 #    Virtual placos for tests
 
+require 'rubygems'
 require 'dbus'
 require 'thread'
 require 'yaml' # Assumed in future examples

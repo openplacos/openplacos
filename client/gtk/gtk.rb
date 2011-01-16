@@ -24,7 +24,7 @@ module OposGtk
   class Measure < Gtk::Frame #Measure Widget
     attr_accessor :label_value
     
-    def  initialize(meas,cfg,mutex)
+    def  initialize(meas,cfg)
         super(cfg["name"])
         @container = Gtk::Table.new(2,3)
         
@@ -44,17 +44,17 @@ module OposGtk
         @container.attach(@label_unit,2,3,0,1,Gtk::SHRINK,Gtk::SHRINK)
         @container.attach(@curve,0,3,1,2,Gtk::FILL)
         
-        @mutex = mutex
+
         @meas = meas
         @meas_vect = Array.new
         @th = Thread.new{
           loop do
             sleep 1
-            @mutex.synchronize{
-              val = @meas.value[0]
-              @label_value.text = val.to_s[0..3]
-              @meas_vect.push(val)
-            }
+ 
+            val = @meas.value[0]
+            @label_value.text = val.to_s[0..3]
+            @meas_vect.push(val)
+
             if @meas_vect.length > 60*10
               @meas_vect.shift
             end
@@ -71,12 +71,11 @@ module OposGtk
   end
 
   class Actuator < Gtk::Frame #actuator Widget
-    def initialize(act,cfg,mutex)
+    def initialize(act,cfg)
       super(cfg["name"])
       
       @container = Gtk::HBox.new(true,6)
       @act = act
-      @mutex = mutex
       @button = Hash.new
       
       @act.methods.each_key{ |key|
@@ -84,7 +83,7 @@ module OposGtk
           @button[key] = Gtk::Button.new(key)
           @container.pack_start(@button[key],true)
           @button[key].signal_connect('clicked'){
-            @mutex.synchronize{ @act.method(key).call }
+            @act.method(key).call
           }
         end
       }
@@ -108,7 +107,6 @@ notebook.set_tab_pos(Gtk::POS_TOP)
 
 measure = Hash.new
 actuator = Hash.new
-server_acces = Mutex.new
 
 box = mesbox = Gtk::HBox.new(true,6)
 
@@ -116,7 +114,7 @@ mesbox = Gtk::VBox.new(true,6)
 
 opos.sensors.each_pair do |path,sensor|
    
-        measure[path] = OposGtk::Measure.new(sensor,opos.objects[path]["org.openplacos.server.config"].getConfig[0] ,server_acces)
+        measure[path] = OposGtk::Measure.new(sensor,opos.objects[path]["org.openplacos.server.config"].getConfig[0])
         mesbox.pack_start(measure[path],false)
 end
 
@@ -126,7 +124,7 @@ actbox = Gtk::VBox.new(true,6)
 
 opos.actuators.each_pair do |path,act|
 
-        actuator[path] = OposGtk::Actuator.new(act,opos.objects[path]["org.openplacos.server.config"].getConfig[0],server_acces)
+        actuator[path] = OposGtk::Actuator.new(act,opos.objects[path]["org.openplacos.server.config"].getConfig[0])
         actbox.pack_start(actuator[path],false)
 end
 box.pack_start(actbox,false)
