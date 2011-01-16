@@ -10,7 +10,7 @@ GEMSPEC = Gem::Specification.new do |s|
     These libraries allow an easier coding of openplacos clients, plugins or drivers in ruby.
   EOF
   s.version = File.read("VERSION").strip
-  s.licence = 'GPL-3'
+  s.license = 'GPL-3'
   s.author = "Openplacos Team"
   s.email = "openplacos-general@lists.sourceforge.net"
   s.homepage = "http://openplacos.sourceforge.net/"
