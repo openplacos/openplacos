@@ -12,7 +12,7 @@ case "$1" in
 	;;
     	stop)
         	echo "Stopping OpenplacOS"
-		pkill openplacos
+		pkill openplacos -u openplacos
 		if [ $? -gt 0 ]; then
 		    exit 1
 		else

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+path=`dirname $0`
+
+# Fonction: installation
+installation() {
+  # Pre-requis
+    gem install rubygems-update --no-ri --no-rdoc
+    /var/lib/gems/1.8/bin/update_rubygems 
+    gem update
+ 
+    gem install --no-ri --no-rdoc ruby-dbus sqlite3-ruby mysql activerecord serialport 
+    
+  # User openplacos
+    adduser openplacos --system -disabled-login -no-create-home
+    echo "openplacos user added"
+
+   # Files copies
+
+# link into path
+    ln -s /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
+    ln -s /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
+    ln -s /usr/lib/ruby/openplacos/client/IHMlocal/IHM.rb /usr/bin/openplacos-gtk
+
+# default config
+    cp  /usr/lib/ruby/openplacos/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+
+# dbus integration
+    cp  /usr/lib/ruby/openplacos/setup_files/*.service /usr/share/dbus-1/system-services/
+    cp  /usr/lib/ruby/openplacos/setup_files/openplacos.conf /etc/dbus-1/system.d/
+
+# Start with system
+    cp /usr/lib/ruby/openplacos/setup_files/openplacos /etc/init.d/
+    update-rc.d openplacos defaults 98 02
+
+}
+
+if [ "$1" = "configure" ]; then
+    installation
+fi
