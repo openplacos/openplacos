@@ -20,7 +20,8 @@ installation() {
 # link into path
     ln -s /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
     ln -s /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
-    ln -s /usr/lib/ruby/openplacos/client/IHMlocal/IHM.rb /usr/bin/openplacos-gtk
+    ln -s /usr/lib/ruby/openplacos/client/soap/soap-client.rb /usr/bin/openplacos-soap
+    ln -s /usr/lib/ruby/openplacos/client/xml-rpc/xml-rpc-client.rb /usr/bin/openplacos-xmlrpc
 
 # default config
     cp  /usr/lib/ruby/openplacos/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
