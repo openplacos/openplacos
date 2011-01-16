@@ -129,16 +129,10 @@ class Actuator
   end
   
   def write( value_, option_)
-  ret = safe_write( value_, option_)    
-    if defined? $database
-      if $database.is_traced(self.path)     
-        mes = {"kind" => "actuator", "date" => Time.new , "name" => self.path , "value" => to_float(value_) }
-        $database.push mes
-      end
-    end
-       
+    ret = safe_write( value_, option_)    
+      
     # tell to plugins that a new order has been treat
-    @top.dbus_plugins.new_order(@name, to_float(value_), option_)
+    @top.dbus_plugins.new_order(@path, to_float(value_), option_)
 
     return ret
   end

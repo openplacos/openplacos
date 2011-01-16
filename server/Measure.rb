@@ -108,18 +108,11 @@ class Measure
       else
         @value = self.safe_read
       end   
-
-      if defined? $database
-        if $database.is_traced(self.path)     
-          mes = {"kind" => "measure", "date" => Time.new , "name" => self.path , "value" => @value }
-          $database.push mes
-        end
-      end
-      
+    
     end
 
     # informs the plugins 
-    @top.dbus_plugins.new_measure(@name, @value, @option)
+    @top.dbus_plugins.new_measure(@path, @value, @option)
     
     return @value
   end

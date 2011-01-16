@@ -43,37 +43,21 @@ card:
     /Pin_5: /home/outdoor/Hygro
     /Pin_6: /home/indoor/Hygro
 
-#database:
-  # Database config for ActiveRecord
-  # see http://api.rubyonrails.org/classes/ActiveRecord/Base.html#method-c-establish_connection
-  # for examples
-  config:
-    adapter: sqlite3
-    database: "opos.sql"
-
-  # Database config for mysql
-  #config:
-    # name: opos_VP
-    # adapter: mysql
-    # host: localhost
-    # user: root
-    # Please set password in $OPOS_PASS
-
-  profile: measures, actuators, users
-  include:
-  exclude:  Temperature_outdoor, Hygro_out
-#~ 
 plugins:
 
-- name: log
-  method: thread
-  exec: plugins/log.rb
+#~ - name: log
+  #~ method: fork
+  #~ exec: plugins/log.rb
+  #~ 
+#~ - name: xmlrpc
+  #~ method: fork
+  #~ exec: plugins/xmlrpc.rb
+  #~ 
+#~ - name: soap
+  #~ method: thread
+  #~ exec: plugins/soap.rb
   
-- name: xmlrpc
+- name: sql
   method: fork
-  exec: plugins/xmlrpc.rb
-  
-- name: soap
-  method: thread
-  exec: plugins/soap.rb
+  exec: plugins/sql.rb
 

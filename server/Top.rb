@@ -26,7 +26,6 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'yaml' 
 require 'rubygems'
 require 'dbus'
-require 'active_record' #database desactivate until it was fix
 
 # List of local include
 require 'Driver.rb'
@@ -156,15 +155,6 @@ class Top
       @service.export(Dbus_measure.new(object))  if object.is_a? Measure
       @service.export(Dbus_actuator.new(object)) if object.is_a? Actuator
     end
-
-    if @config['database'] # database is desactivate for instant
-      require 'sql.rb'
-      $database = Database.new(@config)
-
-      # store config if not done before
-      $database.store_config( @drivers, measures, actuators)
-    end
-
 
     @service.export(Server.new)
 
