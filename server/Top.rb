@@ -25,6 +25,7 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 # List of library include
 require 'yaml' 
 require 'rubygems'
+require 'dbus'
 require 'active_record' #database desactivate until it was fix
 
 # List of local include
@@ -70,25 +71,30 @@ class Top
     @objects = Hash.new
     @plugins = Hash.new
 
-    #export the dbus object for plugins 
     @dbus_plugins = Dbus_Plugin.new
-    @service.export(@dbus_plugins) 
-    @plugin_main = DBus::Main.new
-    @plugin_main << @service.bus
+    @service.export(@dbus_plugins)  
     
-    # start a thread to listen on bus for reception of message
-    plug_thread = Thread.new { @plugin_main.run }
-        
     # Launch required plugins
     if @config["plugins"]
+      #export the dbus object for plugins 
+
+      @plugin_main = DBus::Main.new
+      @plugin_main << @service.bus
+    
+      # start a thread to listen on bus for reception of message
+      plug_thread = Thread.new { @plugin_main.run }
+      
       @config["plugins"].each do |plugin|
         @plugins.store(plugin["name"], Plugin.new(plugin, self))
       end
+      
+      @plugin_main.quit
+      plug_thread.terminate
+      @plugin_main = nil
+      
     end
     
-    @plugin_main.quit
-    plug_thread.terminate
-    @plugin_main = nil
+
     # Create measures
     @config["objects"].each do |object|
     

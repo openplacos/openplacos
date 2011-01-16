@@ -62,16 +62,16 @@ card:
   profile: measures, actuators, users
   include:
   exclude:  Temperature_outdoor, Hygro_out
-
+#~ 
 plugins:
 
 - name: log
   method: thread
   exec: plugins/log.rb
   
-#~ - name: xmlrpc
-  #~ method: fork
-  #~ exec: plugins/xmlrpc.rb
+- name: xmlrpc
+  method: fork
+  exec: plugins/xmlrpc.rb
   
 - name: soap
   method: thread

@@ -20,6 +20,7 @@
 # this is a debug server for plugins
 
 ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
+require 'rubygems'
 require 'dbus'
 
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
