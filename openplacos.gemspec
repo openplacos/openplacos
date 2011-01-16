@@ -4,13 +4,13 @@ require "rake"
 
 GEMSPEC = Gem::Specification.new do |s|
   s.name = "openplacos"
-  # s.rubyforge_project = nil
   s.summary = "Openplacos libraries : Libclient, LibPlugin, LibDriver"
   s.description = <<-EOF
     Openplacos Gem is a set of libraries for openplacos software.
     These libraries allow an easier coding of openplacos clients, plugins or drivers in ruby.
   EOF
   s.version = File.read("VERSION").strip
+  s.licence = 'GPL-3'
   s.author = "Openplacos Team"
   s.email = "openplacos-general@lists.sourceforge.net"
   s.homepage = "http://openplacos.sourceforge.net/"
