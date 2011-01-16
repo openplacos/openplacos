@@ -129,7 +129,7 @@ class Actuator
   end
   
   def write( value_, option_)
-  ret = @proxy_iface.write( value_, option_)    
+  ret = safe_write( value_, option_)    
     if defined? $database
       if $database.is_traced(self.path)     
         mes = {"kind" => "actuator", "date" => Time.new , "name" => self.path , "value" => to_float(value_) }
@@ -142,7 +142,17 @@ class Actuator
 
     return ret
   end
-
+  
+  def safe_write( value_, option_)
+    begin
+      ret = @proxy_iface.write( value_, option_)
+      return ret
+    rescue  
+      @top.dbus_plugins.error("Unable to contact driver for actuator #{ self.path}",{})
+      raise "Unable to contact driver for actuator #{ self.path}"
+    end
+  end
+  
   def to_float(bool)
     return 1 if bool.is_a?(TrueClass)
     return 0 if bool.is_a?(FalseClass)

@@ -54,4 +54,10 @@ plugin.opos.on_signal("new_order") do |name, order, option|
     $log_file.flush 
 end
 
+plugin.opos.on_signal("error") do |error, option|
+    date = Time.new.to_s
+    $log_file.write date +":" + error + "\n"
+    $log_file.flush 
+end
+
 plugin.run

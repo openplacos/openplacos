@@ -104,9 +104,9 @@ class Measure
         else
             dep = {}
         end
-        @value = self.convert(@proxy_iface.read(@option)[0],dep)
+        @value = self.convert(self.safe_read,dep)
       else
-        @value = @proxy_iface.read(@option)[0]
+        @value = self.safe_read
       end   
 
       if defined? $database
@@ -122,6 +122,17 @@ class Measure
     @top.dbus_plugins.new_measure(@name, @value, @option)
     
     return @value
+  end
+  
+  #read a value on the driver and rescue if error
+  def safe_read
+    begin
+      ret = @proxy_iface.read(@option)[0]
+      return ret
+    rescue
+      @top.dbus_plugins.error("Unable to contact driver for sensor #{ self.path}",{})
+      raise "Unable to contact driver for sensor #{ self.path}"
+    end
   end
 
   def parse_config(config_)

@@ -129,7 +129,7 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
     dbus_signal :quit,""
     dbus_signal :ready,""
-    
+    dbus_signal :error,"in error:s, in options:a{sv}"
     dbus_method :plugin_is_ready, "in name:s" do |name|
       @ready_queue.push name
     end  

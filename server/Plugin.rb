@@ -65,6 +65,7 @@ class Plugin
         puts "Plugin named #{name} is started"
       end
     rescue Timeout::Error
+      top_.dbus_plugins.error("Plugin #{@name} do not respond in time, try the next plugin",{})
       puts "Plugin #{@name} do not respond in time, try the next plugin"
     end
 

@@ -88,6 +88,7 @@ class Top
     
     @plugin_main.quit
     plug_thread.terminate
+    @plugin_main = nil
     # Create measures
     @config["objects"].each do |object|
     
