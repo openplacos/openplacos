@@ -15,15 +15,11 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
-else 
-  PATH = File.expand_path(File.dirname(__FILE__))
-end
-require "#{PATH}/libdriver.rb"
+
 
 require 'rubygems'
 require 'serialport'
+require 'openplacos'
 #Write module and function definition
 
 module Module_write_analog 
@@ -157,9 +153,9 @@ NB_DIGITAL_PIN.each { |number|
   read_ifaces = ["digital"]
   if (NB_PWM_PIN).include?(number)
     write_ifaces.push "pwm"
-    pin =  GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
+    pin =  Openplacos::Driver::GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
   else
-    pin = GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
+    pin = Openplacos::Driver::GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
   end
   digital_pin.push pin
   pin.set_pin_number(number)
@@ -169,7 +165,7 @@ NB_DIGITAL_PIN.each { |number|
 NB_ANALOG_PIN.each { |number|
   read_ifaces = ["analog"]
   write_ifaces = []
-  pin = GenericPin.new("/Analog_Pin#{number}", write_ifaces, read_ifaces)
+  pin = Openplacos::Driver::GenericPin.new("/Analog_Pin#{number}", write_ifaces, read_ifaces)
   analog_pin.push pin
   pin.set_pin_number(number)
   service.export(pin)

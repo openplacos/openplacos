@@ -35,6 +35,10 @@ class Dbus_measure < DBus::Object
     end  
   end 
 
+  # ++++
+  # FIXME : create interface only if has a regul 
+  # ----
+
   dbus_interface "org.openplacos.server.regul" do
     dbus_method :set, "in return:a{sv}" do |option|
       [@meas.regul.set(option)]
@@ -115,3 +119,26 @@ class Server < DBus::Object
   end
 end
 
+class Dbus_Plugin < DBus::Object
+  attr_accessor :ready_queue
+
+  dbus_interface "org.openplacos.plugins" do
+    dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
+    dbus_signal :create_actuator, "in actuator_name:s, in config:a{sv}"
+    dbus_signal :new_measure, "in measure_name:s, in value:v, in options:a{sv}"
+    dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
+    dbus_signal :quit,""
+    dbus_signal :ready,""
+    
+    dbus_method :plugin_is_ready, "in name:s" do |name|
+      @ready_queue.push name
+    end  
+    
+  end
+  
+  def initialize
+    super("/plugins")
+    @ready_queue = Queue.new 
+  end
+
+end

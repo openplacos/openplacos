@@ -31,6 +31,9 @@ class Actuator
     parse_config(act_)
     @config = act_ 
 
+    #tell to plugins that a new actuator has been created
+    @top.dbus_plugins.create_actuator(@name, @config)
+    
   end
 
   # Plug the actuator to the proxy with defined interface 
@@ -125,14 +128,19 @@ class Actuator
     }
   end
   
-  def write( value_, option_)    
+  def write( value_, option_)
+  ret = @proxy_iface.write( value_, option_)    
     if defined? $database
       if $database.is_traced(self.path)     
         mes = {"kind" => "actuator", "date" => Time.new , "name" => self.path , "value" => to_float(value_) }
         $database.push mes
       end
     end
-    return @proxy_iface.write( value_, option_)
+       
+    # tell to plugins that a new order has been treat
+    @top.dbus_plugins.new_order(@name, to_float(value_), option_)
+
+    return ret
   end
 
   def to_float(bool)

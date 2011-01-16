@@ -34,6 +34,9 @@ class Measure
     # Parse Yaml correponding to the model of sensor
     parse_config(meas_)
     @config = meas_
+    
+    #infor the plugins that a new measure has been created
+    @top.dbus_plugins.create_measure(@name, @config)
 
   end
 
@@ -114,6 +117,10 @@ class Measure
       end
       
     end
+
+    # informs the plugins 
+    @top.dbus_plugins.new_measure(@name, @value, @option)
+    
     return @value
   end
 

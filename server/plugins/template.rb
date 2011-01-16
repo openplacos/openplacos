@@ -14,41 +14,26 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
+#
 require "rubygems"
-require 'xmlrpc/server'
 require "openplacos"
 
-if ARGV.include?("-p")
-  port = ARGV[ ARGV.index("-p") + 1]
-else
-  port = 8080
+plugin = Openplacos::Plugin.new("test")
+
+plugin.opos.on_signal("create_measure") do |name,config|
+  # do stuff when a measure is created
 end
 
-opos = Openplacos::Client.new
-server = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
-
-server.add_handler("sensors") do
-    opos.sensors.keys
+plugin.opos.on_signal("create_actuator") do |name,config|
+  # do stuff when an actuator is created
 end
 
-server.add_handler("actuators") do
-    opos.actuators.keys
+plugin.opos.on_signal("new_measure") do |name, value, option|
+  # do stuff when a measure is done
 end
 
-server.add_handler("actuators.methods") do |path|
-    opos.actuators[path].methods.keys
+plugin.opos.on_signal("new_order") do |name, order, option|
+  # do stuff when a order is send
 end
 
-server.add_handler("objects") do
-    opos.objects.keys
-end
-
-server.add_handler("get") do |path|
-    opos.sensors[path].value[0]
-end
-
-server.add_handler("set") do |path, meth|
-    eval "opos.actuators[\"#{path}\"].#{meth}"
-end
-
-server.serve
+plugin.run

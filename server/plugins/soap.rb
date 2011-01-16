@@ -15,15 +15,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'dbus'
 require 'rubygems'
 require "soap/rpc/standaloneServer"
 require "openplacos"
 
-if ARGV.include?("-p")
-  port = ARGV[ ARGV.index("-p") + 1]
-else
-  port = 8080
-end
+plugin = Openplacos::Plugin.new("soap")
+
+
+plugin.nonblock_run
 
 begin
    class MySoapServer < SOAP::RPC::StandaloneServer
@@ -67,14 +67,14 @@ begin
   end
   
   opos = Openplacos::Client.new
-  
+  port = 8081
   server = MySoapServer.new(opos,"MySoapServer", 
             'urn:ruby:opos', '0.0.0.0', port)
-  trap('INT'){
-     server.shutdown
-  }
   server.start
 rescue => err
   puts err.message
-end
+end       
+    
+
+
 
