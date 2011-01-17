@@ -238,6 +238,6 @@ end
 
 # Let's Dbus have execution control
 main = DBus::Main.new
-main << bus
+main << Bus
 main.run
 
