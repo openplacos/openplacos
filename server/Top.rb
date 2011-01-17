@@ -133,7 +133,7 @@ class Top
     @config["card"].each { |card|
 
       # Create driver proxy with standard acquisition card iface
-      @drivers.store(card["name"], Driver.new(card))
+      @drivers.store(card["name"], Driver.new(card,self))
 
       # Push driver in DBus server config
       # Stand for debug
