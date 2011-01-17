@@ -76,7 +76,3 @@ plugins:
 - name: soap
   method: thread
   exec: plugins/soap.rb
-
-- name: gmail
-  method: fork
-  exec: plugins/gmail.rb
