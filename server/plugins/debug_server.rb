@@ -38,6 +38,7 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :create_actuator, "in actuator_name:s, in config:a{sv}"
     dbus_signal :new_measure, "in measure_name:s, in value:v, in options:a{sv}"
     dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
+    dbus_signal :error, "in error:s, in option:a{sv}"
     dbus_signal :quit,""
     dbus_signal :ready,""
     dbus_method :plugin_is_ready, "in name:s" do |name|
@@ -73,6 +74,11 @@ class Call < DBus::Object
     
     dbus_method :new_order, "in actuator_name:s, in value:v, in options:a{sv}" do |act,value,options|
       Thread.new{$plugins.new_order(act,value,options)}
+      return
+    end
+    
+    dbus_method :error, "in error:s, in options:a{sv}" do |err,options|
+      Thread.new{$plugins.error(err,options)}
       return
     end
     
