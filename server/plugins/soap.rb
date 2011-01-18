@@ -22,6 +22,7 @@ require "openplacos"
 
 plugin = Openplacos::Plugin.new("soap")
 
+port = plugin.config["port"]
 
 plugin.nonblock_run
 
@@ -67,7 +68,7 @@ begin
   end
   
   opos = Openplacos::Client.new
-  port = 8081
+
   server = MySoapServer.new(opos,"MySoapServer", 
             'urn:ruby:opos', '0.0.0.0', port)
   server.start

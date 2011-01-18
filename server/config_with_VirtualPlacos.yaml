@@ -45,19 +45,32 @@ card:
 
 plugins:
 
-#~ - name: log
-  #~ method: fork
-  #~ exec: plugins/log.rb
-  #~ 
-#~ - name: xmlrpc
-  #~ method: fork
-  #~ exec: plugins/xmlrpc.rb
-  #~ 
-#~ - name: soap
-  #~ method: thread
-  #~ exec: plugins/soap.rb
+- name: log
+  method: thread
+  exec: plugins/log.rb
+  file: /tmp/opos.log
   
 - name: sql
   method: fork
   exec: plugins/sql.rb
+  config:
+    adapter: sqlite3
+    database: /tmp/opos.sql
+  # Database config for mysql
+  #config:
+  # name: opos_VP
+  # adapter: mysql
+  # host: localhost
+  # user: root
+  # Please set password in $OPOS_PASS
+
+- name: xmlrpc
+  method: fork
+  exec: plugins/xmlrpc.rb
+  port: 8080
+  
+- name: soap
+  method: thread
+  exec: plugins/soap.rb
+  port: 8081
 

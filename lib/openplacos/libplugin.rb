@@ -17,7 +17,7 @@
 module Openplacos
 
   class Plugin
-    attr_reader :name, :opos ,:main
+    attr_reader :name, :opos ,:main ,:config
     def initialize(name_)
       @server_ready_queue = Queue.new
       @name = name_
@@ -33,6 +33,8 @@ module Openplacos
       @opos = server.object("/plugins")
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
+      
+      @config = @opos.getConfig[0]
       
       @opos.on_signal("quit") do
         self.quit

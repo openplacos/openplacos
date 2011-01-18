@@ -14,7 +14,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'dbus'
+
 include REXML
 
 # List of local include
@@ -40,7 +40,7 @@ class Dbus_measure < DBus::Object
   # ----
 
   dbus_interface "org.openplacos.server.regul" do
-    dbus_method :set, "in return:a{sv}" do |option|
+    dbus_method :set, "in option:a{sv}" do |option|
       [@meas.regul.set(option)]
     end  
     dbus_method :unset do 
@@ -120,7 +120,7 @@ class Server < DBus::Object
 end
 
 class Dbus_Plugin < DBus::Object
-  attr_accessor :ready_queue
+  attr_accessor :ready_queue, :config_queue
 
   dbus_interface "org.openplacos.plugins" do
     dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
@@ -133,13 +133,17 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :error,"in error:s, in options:a{sv}"
     dbus_method :plugin_is_ready, "in name:s" do |name|
       @ready_queue.push name
+    end
+    dbus_method :getConfig, "out config:a{sv}" do
+      return [@config_queue.pop]
     end  
     
   end
   
   def initialize
     super("/plugins")
-    @ready_queue = Queue.new 
+    @ready_queue = Queue.new
+    @config_queue = Queue.new 
   end
 
 end

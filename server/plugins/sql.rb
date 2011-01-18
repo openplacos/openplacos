@@ -19,11 +19,15 @@ require 'active_record' #database desactivate until it was fix
 require "rubygems"
 require "openplacos"
 
-ActiveRecord::Base.establish_connection(
-    :adapter => "sqlite3",
-    :database  => "/tmp/opos.sql"
-)
+plugin = Openplacos::Plugin.new("sql")
 
+options = Hash.new
+plugin.config['config'].each_pair do |key,value|
+  options[key.to_sym] = value
+end
+options[:password] = ENV['OPOS_PASS'] if ENV['OPOS_PASS']
+
+ActiveRecord::Base.establish_connection( options )
 
 ActiveRecord::Schema.define do
   if !ActiveRecord::Base.connection.table_exists?('users')
@@ -123,8 +127,6 @@ class Instruction < ActiveRecord::Base
   #belongs_to :flow
   #belongs_to :actuator 
 end
-
-plugin = Openplacos::Plugin.new("sql")
 
 plugin.opos.on_signal("create_measure") do |name,config|
   if !Device.exists?(:config_name => config["path"])

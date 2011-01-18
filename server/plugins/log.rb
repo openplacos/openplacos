@@ -21,7 +21,7 @@ require "openplacos"
 
 plugin = Openplacos::Plugin.new("log")
 
-file = "/tmp/log.txt"
+file = plugin.config['file']
 if File.exists? file
   $log_file = File.open(file, "a+") 
 else
