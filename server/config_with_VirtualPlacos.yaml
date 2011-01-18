@@ -68,11 +68,14 @@ plugins:
 - name: log
   method: thread
   exec: plugins/log.rb
+  file: /tmp/opos.log
   
 - name: xmlrpc
   method: fork
   exec: plugins/xmlrpc.rb
+  port: 8080
   
 - name: soap
   method: thread
   exec: plugins/soap.rb
+  port: 8081
