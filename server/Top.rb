@@ -41,12 +41,13 @@ require 'Plugin.rb'
 
 #DBus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  bus =  DBus::session_bus
+  Bus = DBus::SessionBus.instance
   $INSTALL_PATH = File.dirname(__FILE__) + "/"
 else
-  bus = DBus::system_bus  
+  Bus = DBus::SystemBus.instance
 end
-service = bus.request_service("org.openplacos.server")
+
+service = Bus.request_service("org.openplacos.server")
 
 #Global functions
 $global = Global.new
@@ -132,7 +133,7 @@ class Top
     @config["card"].each { |card|
 
       # Create driver proxy with standard acquisition card iface
-      @drivers.store(card["name"], Driver.new(card))
+      @drivers.store(card["name"], Driver.new(card,self))
 
       # Push driver in DBus server config
       # Stand for debug
@@ -237,6 +238,6 @@ end
 
 # Let's Dbus have execution control
 main = DBus::Main.new
-main << bus
+main << Bus
 main.run
 

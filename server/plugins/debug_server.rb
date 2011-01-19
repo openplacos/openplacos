@@ -28,7 +28,7 @@ if(ENV['DEBUG_OPOS'] ) ## Stand for debug
 else
   bus = DBus::system_bus  
 end
-
+$config = Hash.new
 service = bus.request_service("org.openplacos.server")
 
 class Dbus_Plugin < DBus::Object
@@ -38,12 +38,15 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :create_actuator, "in actuator_name:s, in config:a{sv}"
     dbus_signal :new_measure, "in measure_name:s, in value:v, in options:a{sv}"
     dbus_signal :new_order, "in actuator_name:s, in value:v, in options:a{sv}"
+    dbus_signal :error, "in error:s, in option:a{sv}"
     dbus_signal :quit,""
     dbus_signal :ready,""
     dbus_method :plugin_is_ready, "in name:s" do |name|
       puts "Plugin named #{name} is started"
     end 
-  
+    dbus_method :getConfig, "out return:a{sv}" do
+      [$config]
+    end  
   end
   
   
@@ -76,6 +79,11 @@ class Call < DBus::Object
       return
     end
     
+    dbus_method :error, "in error:s, in options:a{sv}" do |err,options|
+      Thread.new{$plugins.error(err,options)}
+      return
+    end
+    
     dbus_method :quit do 
       Thread.new{$plugins.quit}
       return
@@ -85,6 +93,10 @@ class Call < DBus::Object
       Thread.new{$plugins.ready}
       return
     end
+    
+    dbus_method :setConfig, "in config:a{sv}" do |config|
+      $config = config
+    end  
     
   end
 

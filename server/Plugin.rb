@@ -31,6 +31,8 @@ class Plugin
     @class  = plugin_["name"].to_s.capitalize
     @exec   = PATH + "/" + plugin_["exec"] # To be patched with Patchname class
     
+    top_.dbus_plugins.config_queue.push plugin_
+    
     if (@method == "thread")
       Thread.new{
          start_plug_thread()
@@ -65,6 +67,7 @@ class Plugin
         puts "Plugin named #{name} is started"
       end
     rescue Timeout::Error
+      top_.dbus_plugins.config_queue.clear
       top_.dbus_plugins.error("Plugin #{@name} do not respond in time, try the next plugin",{})
       puts "Plugin #{@name} do not respond in time, try the next plugin"
     end
