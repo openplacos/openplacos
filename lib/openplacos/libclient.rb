@@ -91,6 +91,29 @@ module Openplacos
       sensors  
     end
     
+    def is_regul(sensor)
+      # get dbus object of sensor
+      key = get_sensors.index(sensor)
+      if (key == nil)
+        return false
+      end
+
+      # Test interface
+      if (@objects[key].has_iface?('org.openplacos.server.regul'))
+        return true
+      else
+        return false
+      end
+    end
+
+    def get_regul_iface(sensor)
+      if (is_regul(sensor)==nil)
+        return nil
+      end
+      key = get_sensors.index(sensor)
+      return @objects[key]['org.openplacos.server.regul']
+    end
+
     def get_actuators
       actuators = Hash.new
       @objects.each_pair{ |key, value|
