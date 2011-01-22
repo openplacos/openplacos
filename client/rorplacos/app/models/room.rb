@@ -4,8 +4,8 @@ class Room
     
     def initialize(connection, path)
       @connect = connection
-      @room_backend = connection.rooms[path]
-      @path = path
+      @path = path + "/"
+      @room_backend = connection.rooms[@path]
     end
 
     def name

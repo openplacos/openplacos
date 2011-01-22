@@ -1186,3 +1186,129 @@ Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 18:17:58 +0100 2011
   Processing by ConnexionsController#index as HTML
 Rendered connexions/index.html.erb within layouts/application (1.8ms)
 Completed 200 OK in 604ms (Views: 6.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 18:23:16 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 743ms (Views: 6.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos" for 127.0.0.1 at Sat Jan 22 18:23:20 +0100 2011
+  Processing by RoomsController#index as HTML
+Rendered rooms/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 628ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos" for 127.0.0.1 at Sat Jan 22 18:26:44 +0100 2011
+  Processing by RoomsController#index as HTML
+Rendered rooms/index.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 597ms (Views: 6.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos" for 127.0.0.1 at Sat Jan 22 18:26:58 +0100 2011
+  Processing by RoomsController#index as HTML
+Rendered rooms/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 595ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/" for 127.0.0.1 at Sat Jan 22 18:27:04 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home"}
+Rendered rooms/index.html.erb within layouts/application (2.4ms)
+Completed   in 592ms
+
+ActionView::Template::Error (undefined method `path' for nil:NilClass):
+    1: <%= @rooms.room_backend.path %>
+    2: <br>
+    3: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:1:in `_app_views_rooms_index_html_erb__542667102__617301598_0'
+  app/controllers/rooms_controller.rb:11:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1948.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (1998.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Jan 22 18:27:14 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.4ms)
+Completed   in 439ms
+
+ActionView::Template::Error (undefined method `path' for nil:NilClass):
+    1: <%= @rooms.room_backend.path %>
+    2: <br>
+    3: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:1:in `_app_views_rooms_index_html_erb__542667102__617594798_0'
+  app/controllers/rooms_controller.rb:11:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1871.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (1921.9ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 18:27:25 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 409ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 18:27:44 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 425ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home" for 127.0.0.1 at Sat Jan 22 18:27:53 +0100 2011
+
+ActionController::RoutingError (No route matches "/home"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/opos/home" for 127.0.0.1 at Sat Jan 22 18:27:59 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home"}
+Rendered rooms/index.html.erb within layouts/application (0.4ms)
+Completed   in 429ms
+
+ActionView::Template::Error (undefined method `path' for nil:NilClass):
+    1: <%= @rooms.room_backend.path %>
+    2: <br>
+    3: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:1:in `_app_views_rooms_index_html_erb__542667102__617266858_0'
+  app/controllers/rooms_controller.rb:11:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2377.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (2449.2ms)
+
+
+Started GET "/opos/home" for 127.0.0.1 at Sat Jan 22 18:28:29 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 430ms (Views: 6.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home" for 127.0.0.1 at Sat Jan 22 18:29:02 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home"}
+Rendered rooms/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 362ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home" for 127.0.0.1 at Sat Jan 22 18:29:14 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home"}
+Rendered rooms/index.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 368ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Jan 22 18:29:20 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 368ms (Views: 6.3ms | ActiveRecord: 0.0ms)
