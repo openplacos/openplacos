@@ -16,7 +16,7 @@
 
 module Openplacos
   class Client # client for openplacos server 
-    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls
+    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
     def initialize
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
@@ -31,7 +31,8 @@ module Openplacos
         #discover all objects of server
         @initial_room = Room.new(nil, "/")   
         @objects = get_objects(@service.root, @initial_room)
-   
+        @rooms = (@initial_room.tree)
+
         
         #get sensors and actuators
         @sensors = get_sensors
@@ -44,11 +45,6 @@ module Openplacos
       
     
     end  
-    
-    def get_rooms()
-      return @initial_room
-    end
-    
     
     def get_objects(nod, father_) #get objects from a node, ignore Debug objects
       obj = Hash.new
@@ -139,7 +135,7 @@ module Openplacos
       @path = path_
       @childs = Array.new
       @objects = Hash.new
-    end
+   end
 
     def push_child (value_)
       children = Room.new(self, self.path  + value_ + "/")
@@ -152,12 +148,13 @@ module Openplacos
     end
     
     def tree()
-      array = Array.new
-      array << @path
+      hash = Hash.new
+      hash.store(@path, self)
       @childs.each { |child|
-        array.concat(child.tree)
+        hash.merge!(child.tree)
       }
-      return array
+      return hash
     end
+
   end
 end
