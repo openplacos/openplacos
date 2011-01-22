@@ -15,13 +15,7 @@
 #
 
 # lib include
-require 'dbus'
 include REXML
-if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  Bus = DBus::SessionBus.instance
-else
-  Bus = DBus::SystemBus.instance
-end
 
 # local include
 require 'Dbus-interfaces.rb'
@@ -31,7 +25,7 @@ class Driver
   attr_reader :objects, :path_dbus
 
   #1 Name of service
-  def initialize(card_ ) # Constructor
+  def initialize(card_, top_) # Constructor
 
     # Class variables
     @name = card_["name"]
@@ -44,7 +38,12 @@ class Driver
       next if object_path.nil?
 
       # Get object proxy
-      obj_proxy = Bus.introspect(@path_dbus, pin)
+      begin
+        obj_proxy = Bus.introspect(@path_dbus, pin)
+      rescue
+        raise "Can't find #{pin} for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
+        top_.dbus_plugins.error("Can't find #{pin} for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
+      end
       @objects[pin]=obj_proxy
       
       # Welcome to Real Informatik

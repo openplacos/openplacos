@@ -13,18 +13,17 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'dbus'
 
-module LibClient
-  class Server #openplacos server 
-    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms
+module Openplacos
+  class Client # client for openplacos server 
+    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls
     
     def initialize
-      
-@bus = DBus::system_bus
-if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  @bus =  DBus::session_bus
-end
+      if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+        @bus =  DBus::SessionBus.instance
+      else
+        @bus =  DBus::SystemBus.instance
+      end
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")
         @service.introspect
@@ -36,6 +35,7 @@ end
         #get sensors and actuators
         @sensors = get_sensors
         @actuators = get_actuators
+        @reguls = get_reguls
       else
         puts "Can't find OpenplacOS server"
         Process.exit 1
@@ -47,7 +47,7 @@ end
     def get_rooms(nod)
       room = Array.new
       nod.each_pair{ |key,value|
-       if not(key=="Debug" or key=="server") #ignore debug objects
+       if not(key=="Debug" or key=="server" or key=="plugins") #ignore debug objects
          if value.object.nil?
           room.push(key)
          end
@@ -91,6 +91,29 @@ end
       sensors  
     end
     
+    def is_regul(sensor)
+      # get dbus object of sensor
+      key = get_sensors.index(sensor)
+      if (key == nil)
+        return false
+      end
+
+      # Test interface
+      if (@objects[key].has_iface?('org.openplacos.server.regul'))
+        return true
+      else
+        return false
+      end
+    end
+
+    def get_regul_iface(sensor)
+      if (is_regul(sensor)==nil)
+        return nil
+      end
+      key = get_sensors.index(sensor)
+      return @objects[key]['org.openplacos.server.regul']
+    end
+
     def get_actuators
       actuators = Hash.new
       @objects.each_pair{ |key, value|
@@ -100,5 +123,16 @@ end
       }
       actuators
     end
+    
+    def get_reguls
+      reguls = Hash.new
+      @objects.each_pair{ |key, value|
+        if value.has_iface?('org.openplacos.server.regul')
+          reguls[key] = value['org.openplacos.server.regul']
+        end
+      }
+      reguls
+    end
+    
   end
 end

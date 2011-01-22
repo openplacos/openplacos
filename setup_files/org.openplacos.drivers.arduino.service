@@ -1,6 +1,6 @@
 [D-BUS Service]
 Name=org.openplacos.drivers.arduino
-Exec=/usr/lib/ruby/openplacos/drivers/libdriver/Arduino_Mega_example.rb
+Exec=/usr/lib/ruby/openplacos/drivers/Arduino/Arduino_Mega_example.rb
 User=openplacos
 
 

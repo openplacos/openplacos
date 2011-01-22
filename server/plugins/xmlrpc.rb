@@ -14,50 +14,47 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
-
-require 'dbus'
+require "rubygems"
 require 'xmlrpc/server'
-require 'pathname'
-if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
-else 
-  PATH = File.expand_path(File.dirname(__FILE__))
-end
-require "#{PATH}/../../libclient/libclient.rb"
+require "openplacos"
 
+plugin = Openplacos::Plugin.new("xmlrpc")
 
+puts "wait for opos server be ready"
+plugin.nonblock_run
+sleep 2
+puts "ok"
+port = 8080
 
-if ARGV.include?("-p")
-  port = ARGV[ ARGV.index("-p") + 1]
-else
-  port = 8080
-end
+opos = Openplacos::Client.new
 
-opos = LibClient::Server.new
-server = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
+serverxml = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
 
-server.add_handler("sensors") do
+serverxml.add_handler("sensors") do
     opos.sensors.keys
 end
 
-server.add_handler("actuators") do
+serverxml.add_handler("actuators") do
     opos.actuators.keys
 end
 
-server.add_handler("actuators.methods") do |path|
+serverxml.add_handler("actuators.methods") do |path|
     opos.actuators[path].methods.keys
 end
 
-server.add_handler("objects") do
+serverxml.add_handler("objects") do
     opos.objects.keys
 end
 
-server.add_handler("get") do |path|
+serverxml.add_handler("get") do |path|
     opos.sensors[path].value[0]
 end
 
-server.add_handler("set") do |path, meth|
+serverxml.add_handler("set") do |path, meth|
     eval "opos.actuators[\"#{path}\"].#{meth}"
 end
+serverxml.serve
 
-server.serve
+
+
+

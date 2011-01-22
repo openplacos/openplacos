@@ -1,4 +1,5 @@
-#!/usr/bin/env ruby
+#!/bin/sh
+
 #
 #    This file is part of Openplacos.
 #
@@ -15,14 +16,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-#    command line client using libclient
-#    ./cmd-opos-client.rb <device_name> <method_name>
 
-require '../libclient.rb'
+path=`dirname $0`
+temp_dir=`mktemp -d`
 
-opos = LibClient::Server.new
+cd $temp_dir
 
+git clone https://github.com/mvidner/ruby-dbus.git 
+cd $temp_dir/ruby-dbus
+git checkout -b multithreading origin/multithreading 
+git reset --hard 89843b67e85a941317049d523a545042a4fddb07
+rake gem
+gem install $temp_dir/ruby-dbus/pkg/ruby-dbus-0.6.0.gem --no-ri --no-rdoc
+rm -r -f $temp_dir
 
-puts opos.sensors[ARGV[0]].method(ARGV[1]).call if opos.sensors[ARGV[0]]
-puts opos.actuators[ARGV[0]].method(ARGV[1]).call if opos.actuators[ARGV[0]]
 

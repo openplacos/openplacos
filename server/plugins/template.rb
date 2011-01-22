@@ -1,5 +1,5 @@
-#!/usr/bin/env ruby
-#
+#!/usr/bin/ruby -w
+
 #    This file is part of Openplacos.
 #
 #    Openplacos is free software: you can redistribute it and/or modify
@@ -15,18 +15,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-#    Exemple of a client using libclient
+require "rubygems"
+require "openplacos"
 
-require '../libclient.rb'
+plugin = Openplacos::Plugin.new("test")
 
-opos = LibClient::Server.new
+plugin.opos.on_signal("create_measure") do |name,config|
+  # do stuff when a measure is created
+end
 
-#puts server.objects.keys
+plugin.opos.on_signal("create_actuator") do |name,config|
+  # do stuff when an actuator is created
+end
 
-puts opos.sensors["/home/Hygro_in"].value
-puts opos.sensors["/home/Temperature_indoor"].value
+plugin.opos.on_signal("new_measure") do |name, value, option|
+  # do stuff when a measure is done
+end
 
-opos.actuators["/home/Light"].on
+plugin.opos.on_signal("new_order") do |name, order, option|
+  # do stuff when a order is send
+end
 
-puts opos.rooms
-
+plugin.run

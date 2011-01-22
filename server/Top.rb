@@ -19,10 +19,13 @@
 # $INSTALL_PATH = File.dirname(__FILE__) + "/"
  $INSTALL_PATH = '/usr/lib/ruby/openplacos/server/'
 $LOAD_PATH << $INSTALL_PATH 
+ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
+
 
 # List of library include
 require 'yaml' 
 require 'rubygems'
+require 'dbus'
 require 'active_record' #database desactivate until it was fix
 
 # List of local include
@@ -34,18 +37,17 @@ require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
 require 'Regulation.rb'
-
+require 'Plugin.rb'
 
 #DBus
-
-
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  bus =  DBus::session_bus
+  Bus = DBus::SessionBus.instance
   $INSTALL_PATH = File.dirname(__FILE__) + "/"
 else
-  bus = DBus::system_bus  
+  Bus = DBus::SystemBus.instance
 end
-service    = bus.request_service("org.openplacos.server")
+
+service = Bus.request_service("org.openplacos.server")
 
 #Global functions
 $global = Global.new
@@ -53,7 +55,7 @@ $global = Global.new
 
 class Top
 
-  attr_reader :drivers, :objects
+  attr_reader :drivers, :objects, :plugins, :dbus_plugins
   
   #1 Config file path
   #2 Dbus session reference
@@ -68,7 +70,32 @@ class Top
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
     @objects = Hash.new
+    @plugins = Hash.new
+
+    @dbus_plugins = Dbus_Plugin.new
+    @service.export(@dbus_plugins)  
     
+    # Launch required plugins
+    if @config["plugins"]
+      #export the dbus object for plugins 
+
+      @plugin_main = DBus::Main.new
+      @plugin_main << @service.bus
+    
+      # start a thread to listen on bus for reception of message
+      plug_thread = Thread.new { @plugin_main.run }
+      
+      @config["plugins"].each do |plugin|
+        @plugins.store(plugin["name"], Plugin.new(plugin, self))
+      end
+      
+      @plugin_main.quit
+      plug_thread.terminate
+      @plugin_main = nil
+      
+    end
+    
+
     # Create measures
     @config["objects"].each do |object|
     
@@ -106,7 +133,7 @@ class Top
     @config["card"].each { |card|
 
       # Create driver proxy with standard acquisition card iface
-      @drivers.store(card["name"], Driver.new(card))
+      @drivers.store(card["name"], Driver.new(card,self))
 
       # Push driver in DBus server config
       # Stand for debug
@@ -197,9 +224,20 @@ end
 # Construct Top
 top = Top.new(ARGV[0], service)
 
-# Let's Dbus have execution control
+# quit the plugins when server quit
+trap('INT') do 
+  top.dbus_plugins.quit
+  Process.exit(0)
+end
 
+# server is now ready, send the information to plugin
+Thread.new do
+  sleep 1
+  top.dbus_plugins.ready
+end
+
+# Let's Dbus have execution control
 main = DBus::Main.new
-main << bus
+main << Bus
 main.run
 
