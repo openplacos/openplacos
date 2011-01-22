@@ -1,0 +1,270 @@
+
+
+Started GET "/room" for 127.0.0.1 at Sat Jan 22 12:51:25 +0100 2011
+
+ActionController::RoutingError (No route matches "/room"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.4ms)
+
+
+Started GET "/rooms" for 127.0.0.1 at Sat Jan 22 12:51:29 +0100 2011
+  Processing by RoomsController#index as HTML
+Rendered rooms/_room.html.erb (2.2ms)
+Rendered rooms/_room.html.erb (1.8ms)
+Rendered rooms/_room.html.erb (10.2ms)
+Rendered rooms/_room.html.erb (14.8ms)
+Rendered rooms/index.html.erb within layouts/application (20.8ms)
+Completed 200 OK in 1490ms (Views: 29.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home" for 127.0.0.1 at Sat Jan 22 12:51:41 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home"}
+Rendered rooms/_room.html.erb (1.4ms)
+Rendered rooms/_room.html.erb (1.5ms)
+Rendered rooms/_room.html.erb (8.1ms)
+Rendered rooms/index.html.erb within layouts/application (13.4ms)
+Completed 200 OK in 1570ms (Views: 21.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/outdoor" for 127.0.0.1 at Sat Jan 22 12:51:45 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/outdoor"}
+Rendered rooms/_room.html.erb (1.7ms)
+Rendered rooms/index.html.erb within layouts/application (8.6ms)
+Completed 200 OK in 1464ms (Views: 18.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Jan 22 12:51:51 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/_room.html.erb (1.9ms)
+Rendered rooms/index.html.erb within layouts/application (9.0ms)
+Completed 200 OK in 1570ms (Views: 21.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexions" for 127.0.0.1 at Sat Jan 22 13:05:21 +0100 2011
+
+ActionController::RoutingError (No route matches "/connexions"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.2ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:05:24 +0100 2011
+
+ActionController::RoutingError (No route matches "/connexion"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.5ms)
+
+
+Started GET "/connexions.xml" for 127.0.0.1 at Sat Jan 22 13:07:04 +0100 2011
+
+ActionController::RoutingError (No route matches "/connexions.xml"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.3ms)
+
+
+Started GET "/connexions.xml" for 127.0.0.1 at Sat Jan 22 13:08:28 +0100 2011
+
+ActionController::RoutingError (No route matches "/connexions.xml"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.2ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:08:34 +0100 2011
+
+ActionController::RoutingError (uninitialized constant ConnexionsController):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.2ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:09:43 +0100 2011
+
+ActionController::RoutingError (uninitialized constant ConnexionsController):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.2ms)
+
+
+Started GET "/opos" for 127.0.0.1 at Sat Jan 22 13:09:47 +0100 2011
+  Processing by RoomsController#index as HTML
+Rendered rooms/_room.html.erb (1.6ms)
+Rendered rooms/_room.html.erb (1.6ms)
+Rendered rooms/_room.html.erb (9.2ms)
+Rendered rooms/_room.html.erb (12.9ms)
+Rendered rooms/index.html.erb within layouts/application (18.4ms)
+Completed 200 OK in 1543ms (Views: 30.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:09:53 +0100 2011
+
+ActionController::RoutingError (uninitialized constant ConnexionsController):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.5ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:11:04 +0100 2011
+  Processing by ConnexionController#index as HTML
+Rendered connexion/index.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 12ms (Views: 11.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:12:21 +0100 2011
+  Processing by ConnexionController#index as HTML
+Completed   in 35ms
+
+ActionView::MissingTemplate (Missing template connexion/index with {:formats=>[:html], :locale=>[:en, :en], :handlers=>[:rxml, :builder, :erb, :rjs, :rhtml]} in view paths "/home/kirsh/OpenplacOS/Git/openplacos/client/rorplacos/app/views"):
+  app/controllers/connexion_controller.rb:3:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (1.1ms)
+
+
+Started GET "/connexion.xml" for 127.0.0.1 at Sat Jan 22 13:13:03 +0100 2011
+  Processing by ConnexionController#index as XML
+Completed   in 6ms
+
+ActionView::MissingTemplate (Missing template connexion/index with {:formats=>[:xml], :locale=>[:en, :en], :handlers=>[:rxml, :builder, :erb, :rjs, :rhtml]} in view paths "/home/kirsh/OpenplacOS/Git/openplacos/client/rorplacos/app/views"):
+  app/controllers/connexion_controller.rb:5:in `index'
+  app/controllers/connexion_controller.rb:3:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.9ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:15:02 +0100 2011
+  Processing by ConnexionController#index as HTML
+Completed   in 1753ms
+
+ActionView::MissingTemplate (Missing template connexion/index with {:formats=>[:html], :locale=>[:en, :en], :handlers=>[:rxml, :builder, :erb, :rjs, :rhtml]} in view paths "/home/kirsh/OpenplacOS/Git/openplacos/client/rorplacos/app/views"):
+  app/controllers/connexion_controller.rb:4:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.9ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:15:38 +0100 2011
+  Processing by ConnexionController#index as HTML
+Completed   in 1442ms
+
+ActionView::MissingTemplate (Missing template connexion/index with {:formats=>[:html], :locale=>[:en, :en], :handlers=>[:rxml, :builder, :erb, :rjs, :rhtml]} in view paths "/home/kirsh/OpenplacOS/Git/openplacos/client/rorplacos/app/views"):
+  app/controllers/connexion_controller.rb:4:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (1.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:15:57 +0100 2011
+  Processing by ConnexionController#index as HTML
+Completed   in 1545ms
+
+ActionView::MissingTemplate (Missing template connexion/index with {:formats=>[:html], :locale=>[:en, :en], :handlers=>[:rxml, :builder, :erb, :rjs, :rhtml]} in view paths "/home/kirsh/OpenplacOS/Git/openplacos/client/rorplacos/app/views"):
+  app/controllers/connexion_controller.rb:4:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (1.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:16:18 +0100 2011
+
+ActionController::RoutingError (uninitialized constant ConnexionsController):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (1.2ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:17:28 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 1556ms (Views: 11.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:19:09 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 1834ms (Views: 10.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:19:23 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (35.6ms)
+Completed   in 1565ms
+
+ActionView::Template::Error (undefined method `sensors' for #<Connexion:0x7faf2958e118>):
+    1: <% @client.sensors.keys%>
+  app/views/connexions/index.html.erb:1:in `_app_views_connexions_index_html_erb___2131991316_70195145648320_0'
+  app/controllers/connexions_controller.rb:4:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.8ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (355.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (371.7ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:20:14 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (4.8ms)
+Completed 200 OK in 1562ms (Views: 86.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:20:30 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.1ms)
+Completed 200 OK in 1443ms (Views: 10.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:21:17 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.6ms)
+Completed 200 OK in 1443ms (Views: 11.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion.xml" for 127.0.0.1 at Sat Jan 22 13:25:36 +0100 2011
+  Processing by ConnexionsController#index as XML
+Completed 200 OK in 1439ms (Views: 3.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:25:49 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 1428ms (Views: 10.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:28:04 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 1430ms (Views: 11.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:28:18 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (0.9ms)
+Completed   in 1524ms
+
+ActionView::Template::Error (undefined method `keys' for ["home"]:Array):
+    1: <%= @client.rooms.keys %>
+  app/views/connexions/index.html.erb:1:in `_app_views_connexions_index_html_erb___2131991316_70195145165920_0'
+  app/controllers/connexions_controller.rb:4:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.9ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (841.8ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (923.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 13:28:46 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 1306ms (Views: 11.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 14:52:07 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 1330ms (Views: 11.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/connexion" for 127.0.0.1 at Sat Jan 22 14:52:42 +0100 2011
+  Processing by ConnexionsController#index as HTML
+Rendered connexions/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 1827ms (Views: 11.2ms | ActiveRecord: 0.0ms)

@@ -50,6 +50,7 @@ module Openplacos
        if not(key=="Debug" or key=="server" or key=="plugins") #ignore debug objects
          if value.object.nil?
           room.push(key)
+          room.push get_rooms(value)
          end
        end
       }

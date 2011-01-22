@@ -39,6 +39,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    openplacos (0.0.2)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -70,6 +71,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  openplacos
   rails (= 3.0.3)
   ruby-dbus
   sqlite3-ruby

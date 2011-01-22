@@ -4,9 +4,12 @@ Rorplacos::Application.routes.draw do
   resources :actuators
 
   resources :sensors
+  
+  #resources :connexions
 
   match 'opos' => 'rooms#index'
   match 'opos/*path' => 'rooms#index'
+  match 'connexion' => 'connexions#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
