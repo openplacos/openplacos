@@ -114,16 +114,6 @@ module Openplacos
       return @objects[key]['org.openplacos.server.regul']
     end
 
-    def get_reguls
-      reguls = Hash.new
-      @objects.each_pair{ |key, value|
-        if value.has_iface?('org.openplacos.server.regul')
-          sensors[key] = value['org.openplacos.server.regul']
-        end
-      }
-      reguls  
-    end
-    
     def get_actuators
       actuators = Hash.new
       @objects.each_pair{ |key, value|
