@@ -17,7 +17,7 @@
 class Regulation
   
   attr_reader :action_down, :action_up
-  
+
   def initialize(config_,measure_)
       
       @measure     = measure_
@@ -38,7 +38,7 @@ class Regulation
 	    @hysteresis = config_["hysteresis"]
 	  end
 	  
-      Thread.abort_on_exception = true
+      Thread.abort_on_exception = true # Thread.current is not better ?
       
       @thread = Thread.new{
         loop do
@@ -80,6 +80,10 @@ class Regulation
   
   def unset
     @is_regul_on = false
+  end
+
+  def state
+    return @is_regul_on
   end
 
 end

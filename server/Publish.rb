@@ -46,6 +46,9 @@ class Dbus_measure < DBus::Object
     dbus_method :unset do 
       [@meas.regul.unset]
     end  
+    dbus_method :state, "out return:v" do
+      [@meas.regul.state]
+    end 
   end 
 
   def initialize (meas_)
