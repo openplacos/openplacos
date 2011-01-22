@@ -31,7 +31,7 @@ module Openplacos
         #discover all objects of server
         @initial_room = Room.new(nil, "/")   
         @objects = get_objects(@service.root, @initial_room)
-        @rooms = (@initial_room.tree)
+        @rooms = @initial_room.tree
 
         
         #get sensors and actuators
@@ -128,7 +128,7 @@ module Openplacos
   end
 
   class Room
-    attr_accessor :father, :childs, :path
+    attr_accessor :father, :childs, :path, :objects
 
     def initialize(father_, path_)
       @father = father_

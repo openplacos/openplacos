@@ -3,10 +3,10 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.xml
   def index
-    service = DBus::SessionBus.instance.service("org.openplacos.server")
-    service.introspect
-    params[:path] ||= ''
-    @rooms = Room.new(service, '/' + params[:path])
+    # service = DBus::SessionBus.instance.service("org.openplacos.server")
+    # service.introspect
+    path = '/'+ params[:path] ||= ""
+    @rooms = Room.new(Connexion.new,path)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @rooms }
