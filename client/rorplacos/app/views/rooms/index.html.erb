@@ -1,6 +1,10 @@
-<%= @rooms.room_backend.objects.keys %>
 <br>
-<%= "Connexion object id :" + @rooms.connect.object_id.to_s%>
+<%=  "Path:" + @rooms.room_backend.path + "\n"%>
 <br>
+<%  @rooms.sensors.each_pair{ |key, sensor| %>
+   <%=   "Objects: "  + sensor.class.to_s %>
+   <%= link_to 'VasyRoger', sensor  %>
+<br>
+<%  } %>
 <!-- <%= @rooms.room_backend.path%> -->
 
