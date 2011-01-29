@@ -6,7 +6,7 @@ class RoomsController < ApplicationController
     # service = DBus::SessionBus.instance.service("org.openplacos.server")
     # service.introspect
     path = '/'+ params[:path] ||= ""
-    @connexion = Connexion.new
+    @connexion = Opos_Connexion.instance
     @rooms = Room.new(@connexion,path)
     respond_to do |format|
       format.html # index.html.erb

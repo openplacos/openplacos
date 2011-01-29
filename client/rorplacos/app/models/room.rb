@@ -1,6 +1,6 @@
 class Room
     
-    attr_accessor :path, :sensors, :actuators, :room_backend
+    attr_accessor :path, :sensors, :actuators, :room_backend, :connect
     
     def initialize(connection, path)
       @connect = connection
