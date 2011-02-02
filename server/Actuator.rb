@@ -111,32 +111,37 @@ class Actuator
           methdef = """
           def #{method["name"]}
             write( #{value}, #{option})
-             @state['name'] = \"#{method['name']}\"
+                  @state['name'] = \"#{method['name']}\"
              @state['value'] = \"#{value}\"
              @state['option'] = \"#{option}\"
           end
           """
-          self.instance_eval(methdef)
-          @methods[method["name"]] = method["name"]
-    }
-    end
-    if model_["driver"]["option"]
-      @option = model_["driver"]["option"].dup
-    else
-      @option = Hash.new
-    end    
+                  self.instance_eval(methdef)
+                  @methods[method["name"]] = method["name"]
+                }
+      end
+      if model_["driver"]["option"]
+        @option = model_["driver"]["option"].dup
+      else
+        @option = Hash.new
+      end    
     }
   end
   
   def write( value_, option_)
-  ret = safe_write( value_, option_)    
-    if defined? $database
-      if $database.is_traced(self.path)     
-        mes = {"kind" => "actuator", "date" => Time.new , "name" => self.path , "value" => to_float(value_) }
-        $database.push mes
+    puts @top.users
+    if (@top.users == nil || @top.users[option_["login"]].is_me == true) 
+      ret = safe_write( value_, option_)    
+      if defined? $database
+        if $database.is_traced(self.path)     
+          mes = {"kind" => "actuator", "date" => Time.new , "name" => self.path , "value" => to_float(value_) }
+          $database.push mes
+        end
       end
+    else
+      puts "Error when identiying user !"
     end
-       
+    
     # tell to plugins that a new order has been treat
     @top.dbus_plugins.new_order(@name, to_float(value_), option_)
 

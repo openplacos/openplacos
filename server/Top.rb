@@ -38,6 +38,7 @@ require 'Publish.rb'
 require 'globals.rb'
 require 'Regulation.rb'
 require 'Plugin.rb'
+require 'User.rb'
 
 #DBus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
@@ -55,7 +56,7 @@ $global = Global.new
 
 class Top
 
-  attr_reader :drivers, :objects, :plugins, :dbus_plugins
+  attr_reader :drivers, :objects, :plugins, :dbus_plugins, :users
   
   #1 Config file path
   #2 Dbus session reference
@@ -71,6 +72,7 @@ class Top
     # the hash key is the dbus path
     @objects = Hash.new
     @plugins = Hash.new
+    @users   = Hash.new
 
     @dbus_plugins = Dbus_Plugin.new
     @service.export(@dbus_plugins)  
@@ -95,6 +97,13 @@ class Top
       
     end
     
+    # Create users
+    if  @config["users"]
+      @config["users"].each do |user|
+        @users.store(user["login"], User.new(user, self))
+      end
+    end
+      
 
     # Create measures
     @config["objects"].each do |object|
