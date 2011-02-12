@@ -25,3 +25,32 @@
 <%  } %>
 </table>
 
+<h1>Listing Actuators</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Metods</th>
+  </tr>
+
+<%  @rooms.actuators.each_pair{ |key, actuator| %>
+<% meth = actuator.backend.methods.keys %>
+<% meth.delete("state")%>
+<% state = actuator.backend.state[0]["name"] %>
+<% if state.nil?%>
+<%   state= "NA" %>
+<%end%>
+<tr>
+   <td><%=  link_to actuator.path, actuator.path %></td>
+   <td>
+   <% meth.each { |m| %>
+      <% if m==state %>
+        <% color = "green" %>
+      <% else %>
+        <% color = "white" %>
+      <% end %>
+   <span style="background:<%=color%>"><%=m + " "%></span>
+  <% } %></td>
+</tr>
+<%  } %>
+</table>
