@@ -1,15 +1,15 @@
 class Room
     
-    attr_accessor :path, :sensors, :actuators, :room_backend, :connect
+    attr_accessor :path, :sensors, :actuators, :backend, :connect
     
     def initialize(connection, path)
       @connect = connection
       @path = path + "/"
-      @room_backend = connection.rooms[@path]
+      @backend = connection.rooms[@path]
       @sensors = Hash.new
       @actuators = Hash.new
 
-      @room_backend.objects.each_pair{ |key, value|
+      @backend.objects.each_pair{ |key, value|
         if value.has_iface? 'org.openplacos.server.measure'
           @sensors.store(value,  Sensor.new(value))
           puts "measure!"

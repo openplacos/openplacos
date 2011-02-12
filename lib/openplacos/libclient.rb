@@ -27,7 +27,6 @@ module Openplacos
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")
         @service.introspect
-        #@server_mutex = Mutex.new
         #discover all objects of server
         @initial_room = Room.new(nil, "/")   
         @objects = get_objects(@service.root, @initial_room)

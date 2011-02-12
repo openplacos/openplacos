@@ -7549,3 +7549,2884 @@ ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
 Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
 Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (526.4ms)
 Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (537.9ms)
+
+
+Started GET "/home" for 127.0.0.1 at Sat Feb 12 05:17:38 +0100 2011
+
+ActionController::RoutingError (No route matches "/home"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/home/" for 127.0.0.1 at Sat Feb 12 05:17:43 +0100 2011
+
+ActionController::RoutingError (No route matches "/home"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/home/indoor" for 127.0.0.1 at Sat Feb 12 05:17:49 +0100 2011
+
+ActionController::RoutingError (No route matches "/home/indoor"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/opos.home/indoor" for 127.0.0.1 at Sat Feb 12 05:19:21 +0100 2011
+
+ActionController::RoutingError (No route matches "/opos.home/indoor"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:19:25 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.8ms)
+Completed   in 15ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__617273278_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617273278_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (823.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (872.1ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:21:35 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__617077478_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617077478_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (774.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (818.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:21:38 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__617094118_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617094118_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (720.3ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (763.9ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:21:45 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 14ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <!-- <%= link_to 'VasyRoger', sensor  %> -->
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__617082658_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617082658_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (686.9ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (697.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:21:47 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <!-- <%= link_to 'VasyRoger', sensor  %> -->
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__617080248_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617080248_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (647.6ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (656.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:22:02 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 14ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:22:13 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__617128808_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617128808_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (667.9ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (678.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:33:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__617110598_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617110598_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (700.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (714.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:33:28 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1353.5ms)
+Completed   in 1375ms
+
+ActionView::Template::Error (undefined local variable or method `sensor' for #<#<Class:0xb66fd9b4>:0xb66fcaf0>):
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6: <br>
+    7: <%  } %>
+    8:    <!-- <%= link_to 'VasyRoger', sensor  %> -->
+    9: 
+    10: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:8:in `_app_views_rooms_index_html_erb__542667102__617095418_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (592.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (671.1ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:33:59 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1282.8ms)
+Completed   in 1295ms
+
+ActionView::Template::Error (undefined local variable or method `sensor' for #<#<Class:0xb6701410>:0xb67002cc>):
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6: <br>
+    7: <%  } %>
+    8:    <!-- <%= link_to 'VasyRoger', sensor  %> -->
+    9: 
+    10: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:8:in `_app_views_rooms_index_html_erb__542667102__617088568_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (595.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (606.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:34:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1193.4ms)
+Completed   in 1206ms
+
+ActionView::Template::Error (undefined local variable or method `sensor' for #<#<Class:0xb6704048>:0xb6703184>):
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6: <br>
+    7: <%  } %>
+    8:    <!-- <%= link_to 'VasyRoger', sensor  %> -->
+    9: 
+    10: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:8:in `_app_views_rooms_index_html_erb__542667102__617082288_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (620.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (629.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:34:29 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 14ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:34:55 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.6ms)
+Completed   in 12ms
+
+ActionView::Template::Error (can't convert Class into String):
+    1: <br>
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n" +  @rooms.class %>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+  app/views/rooms/index.html.erb:2:in `+'
+  app/views/rooms/index.html.erb:2:in `_app_views_rooms_index_html_erb__542667102__618264798_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (573.8ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (651.5ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 05:35:14 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 14ms (Views: 6.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:00:52 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 14ms (Views: 6.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sensors" for 127.0.0.1 at Sat Feb 12 06:00:55 +0100 2011
+  Processing by SensorsController#index as HTML
+Completed   in 3ms
+
+NoMethodError (undefined method `all' for Sensor:Class):
+  app/controllers/sensors_controller.rb:5:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (4.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.1ms)
+
+
+Started GET "/rooms" for 127.0.0.1 at Sat Feb 12 06:02:33 +0100 2011
+  Processing by RoomsController#index as HTML
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (274.6ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (280.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:02:59 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 14ms (Views: 6.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:08:25 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 12ms
+
+ActionView::Template::Error (undefined method `model_name' for Sensor:Class):
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.class.to_s %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+    9: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:6:in `_app_views_rooms_index_html_erb__542667102__619234658_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__619234658_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (583.6ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (594.2ms)
+
+
+Started GET "/sensors" for 127.0.0.1 at Sat Feb 12 06:08:50 +0100 2011
+  Processing by SensorsController#index as HTML
+Completed   in 3ms
+
+NoMethodError (undefined method `all' for Sensor:Class):
+  app/controllers/sensors_controller.rb:5:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.3ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (4.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (9.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:08:53 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.6ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `name' for #<Sensor:0xb6667798 @path="/home/indoor/Temperature">):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.name %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+  app/views/rooms/index.html.erb:5:in `_app_views_rooms_index_html_erb__542667102__617440558_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617440558_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (589.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (600.1ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:08:55 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.6ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `name' for #<Sensor:0xb65aa120 @path="/home/indoor/Temperature">):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.name %>
+    6:    <%= link_to 'VasyRoger', sensor  %>
+    7: <br>
+    8: <%  } %>
+  app/views/rooms/index.html.erb:5:in `_app_views_rooms_index_html_erb__542667102__617850098_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617850098_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (573.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (583.8ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:09:00 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.6ms)
+Completed   in 12ms
+
+ActionView::Template::Error (undefined method `name' for #<Sensor:0xb70d3f10 @path="/home/indoor/Temperature">):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor.name %>
+    6: <br>
+    7: <%  } %>
+    8: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:5:in `_app_views_rooms_index_html_erb__542667102__612017128_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__612017128_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (597.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (678.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:10:44 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 15ms (Views: 6.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor/Temperature" for 127.0.0.1 at Sat Feb 12 06:10:51 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor/Temperature"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.2ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (272.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (278.6ms)
+
+
+Started GET "/opos/home/indoor/Temperature" for 127.0.0.1 at Sat Feb 12 06:11:39 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor/Temperature"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (266.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (272.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:11:44 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1158.2ms)
+Completed   in 1171ms
+
+ActionView::Template::Error (undefined local variable or method `sensors' for #<#<Class:0xb665d310>:0xb665c438>):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensors %>
+    6: <br>
+    7: <%  } %>
+    8: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:5:in `_app_views_rooms_index_html_erb__542667102__617423958_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__617423958_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (584.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (595.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:11:55 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 14ms (Views: 6.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/rooms" for 127.0.0.1 at Sat Feb 12 06:12:24 +0100 2011
+  Processing by RoomsController#index as HTML
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (269.3ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (275.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:14:52 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.5ms)
+Completed   in 12ms
+
+ActionView::Template::Error (can't convert Sensor into String):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + sensor %>
+    6: <br>
+    7: <%  } %>
+    8: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:5:in `+'
+  app/views/rooms/index.html.erb:5:in `_app_views_rooms_index_html_erb__542667102__619054998_0'
+  app/views/rooms/index.html.erb:4:in `each_pair'
+  app/views/rooms/index.html.erb:4:in `_app_views_rooms_index_html_erb__542667102__619054998_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (595.9ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (606.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:15:04 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 13ms (Views: 6.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:15:19 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 14ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:15:50 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 14ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home/indoor/Temperature" for 127.0.0.1 at Sat Feb 12 06:15:53 +0100 2011
+
+ActionController::RoutingError (No route matches "/home/indoor/Temperature"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.8ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:16:29 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+ERROR: compiling _app_views_rooms_index_html_erb__542667102__617542538_0 RAISED compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting kDO or '{' or '('
+... "Objects: "  + link_to sensor.path, sensor.path );@output_b...
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected ')', expecting '='
+..._to sensor.path, sensor.path );@output_buffer.safe_concat('
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:7: syntax error, unexpected '}', expecting ')'
+');  } 
+      ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:11: syntax error, unexpected kENSURE, expecting ')'
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13: syntax error, unexpected kEND, expecting ')'
+Function body:           def _app_views_rooms_index_html_erb__542667102__617542538_0(local_assigns)
+            _old_virtual_path, @_virtual_path = @_virtual_path, "rooms/index";_old_output_buffer = @output_buffer;;@output_buffer = ActionView::OutputBuffer.new;@output_buffer.safe_concat('<br>
+');@output_buffer.append= (  "Path:" + @rooms.room_backend.path + "\n");@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  @rooms.sensors.each_pair{ |key, sensor| 
+@output_buffer.safe_concat('   ');@output_buffer.append= (   "Objects: "  + link_to sensor.path, sensor.path );@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  } 
+@output_buffer.safe_concat('<!-- ');@output_buffer.append= ( @rooms.room_backend.path);@output_buffer.safe_concat(' -->
+
+');@output_buffer.to_s
+          ensure
+            @_virtual_path, @output_buffer = _old_virtual_path, _old_output_buffer
+          end
+Backtrace: /home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13:in `compile'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:134:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:54:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:127:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:59:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:56:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:26:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:114:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:108:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:101:in `render_to_string'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:92:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:17:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:39:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:261:in `retrieve_response_from_mimes'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `respond_to'
+/home/flagos/Projets/openplacos/client/rorplacos/app/controllers/rooms_controller.rb:12:in `index'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:151:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:11:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:18:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:435:in `_run__424683224__process_action__199225275__callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `_run_process_action_callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `run_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rescue.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:120:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:40:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:138:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:178:in `action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:27:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:148:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:93:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:75:in `optimized_each'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:92:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:139:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:492:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/cookies.rb:295:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:32:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:12:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:31:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/connection_pool.rb:353:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/show_exceptions.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/logger.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `synchronize'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:168:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `send'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `method_missing'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:13:in `run'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/server.rb:213:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands/server.rb:65:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:30
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27:in `tap'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting kDO or '{' or '('
+... "Objects: "  + link_to sensor.path, sensor.path );@output_b...
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected ')', expecting '='
+..._to sensor.path, sensor.path );@output_buffer.safe_concat('
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:7: syntax error, unexpected '}', expecting ')'
+');  } 
+      ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:11: syntax error, unexpected kENSURE, expecting ')'
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13: syntax error, unexpected kEND, expecting ')'):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + link_to sensor.path, sensor.path %>
+    6: <br>
+    7: <%  } %>
+    8: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:13:in `compile'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (599.8ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (610.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:16:52 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+ERROR: compiling _app_views_rooms_index_html_erb__542667102__617075128_0 RAISED compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting kDO or '{' or '('
+... "Objects: "  + link_to sensor.path.to_s, sensor.path );@out...
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected ')', expecting '='
+...ensor.path.to_s, sensor.path );@output_buffer.safe_concat('
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:7: syntax error, unexpected '}', expecting ')'
+');  } 
+      ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:11: syntax error, unexpected kENSURE, expecting ')'
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13: syntax error, unexpected kEND, expecting ')'
+Function body:           def _app_views_rooms_index_html_erb__542667102__617075128_0(local_assigns)
+            _old_virtual_path, @_virtual_path = @_virtual_path, "rooms/index";_old_output_buffer = @output_buffer;;@output_buffer = ActionView::OutputBuffer.new;@output_buffer.safe_concat('<br>
+');@output_buffer.append= (  "Path:" + @rooms.room_backend.path + "\n");@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  @rooms.sensors.each_pair{ |key, sensor| 
+@output_buffer.safe_concat('   ');@output_buffer.append= (   "Objects: "  + link_to sensor.path.to_s, sensor.path );@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  } 
+@output_buffer.safe_concat('<!-- ');@output_buffer.append= ( @rooms.room_backend.path);@output_buffer.safe_concat(' -->
+
+');@output_buffer.to_s
+          ensure
+            @_virtual_path, @output_buffer = _old_virtual_path, _old_output_buffer
+          end
+Backtrace: /home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13:in `compile'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:134:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:54:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:127:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:59:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:56:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:26:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:114:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:108:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:101:in `render_to_string'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:92:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:17:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:39:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:261:in `retrieve_response_from_mimes'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `respond_to'
+/home/flagos/Projets/openplacos/client/rorplacos/app/controllers/rooms_controller.rb:12:in `index'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:151:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:11:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:18:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:435:in `_run__424683224__process_action__199225275__callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `_run_process_action_callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `run_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rescue.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:120:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:40:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:138:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:178:in `action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:27:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:148:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:93:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:75:in `optimized_each'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:92:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:139:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:492:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/cookies.rb:295:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:32:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:12:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:31:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/connection_pool.rb:353:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/show_exceptions.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/logger.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `synchronize'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:168:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `send'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `method_missing'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:13:in `run'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/server.rb:213:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands/server.rb:65:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:30
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27:in `tap'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+Rendered rooms/index.html.erb within layouts/application (0.8ms)
+Completed   in 13ms
+
+ActionView::Template::Error (compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting kDO or '{' or '('
+... "Objects: "  + link_to sensor.path.to_s, sensor.path );@out...
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected ')', expecting '='
+...ensor.path.to_s, sensor.path );@output_buffer.safe_concat('
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:7: syntax error, unexpected '}', expecting ')'
+');  } 
+      ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:11: syntax error, unexpected kENSURE, expecting ')'
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13: syntax error, unexpected kEND, expecting ')'):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + link_to sensor.path.to_s, sensor.path %>
+    6: <br>
+    7: <%  } %>
+    8: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:13:in `compile'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (586.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (597.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:17:06 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+ERROR: compiling _app_views_rooms_index_html_erb__542667102__617168378_0 RAISED compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tSTRING_BEG, expecting kDO or '{' or '('
+...= (   "Objects: "  + link_to 'truc', sensor.path );@output_b...
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected ',', expecting ')'
+..."Objects: "  + link_to 'truc', sensor.path );@output_buffer....
+                              ^
+Function body:           def _app_views_rooms_index_html_erb__542667102__617168378_0(local_assigns)
+            _old_virtual_path, @_virtual_path = @_virtual_path, "rooms/index";_old_output_buffer = @output_buffer;;@output_buffer = ActionView::OutputBuffer.new;@output_buffer.safe_concat('<br>
+');@output_buffer.append= (  "Path:" + @rooms.room_backend.path + "\n");@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  @rooms.sensors.each_pair{ |key, sensor| 
+@output_buffer.safe_concat('   ');@output_buffer.append= (   "Objects: "  + link_to 'truc', sensor.path );@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  } 
+@output_buffer.safe_concat('<!-- ');@output_buffer.append= ( @rooms.room_backend.path);@output_buffer.safe_concat(' -->
+
+');@output_buffer.to_s
+          ensure
+            @_virtual_path, @output_buffer = _old_virtual_path, _old_output_buffer
+          end
+Backtrace: /home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13:in `compile'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:134:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:54:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:127:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:59:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:56:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:26:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:114:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:108:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:101:in `render_to_string'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:92:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:17:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:39:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:261:in `retrieve_response_from_mimes'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `respond_to'
+/home/flagos/Projets/openplacos/client/rorplacos/app/controllers/rooms_controller.rb:12:in `index'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:151:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:11:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:18:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:435:in `_run__424683224__process_action__199225275__callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `_run_process_action_callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `run_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rescue.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:120:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:40:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:138:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:178:in `action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:27:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:148:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:93:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:75:in `optimized_each'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:92:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:139:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:492:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/cookies.rb:295:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:32:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:12:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:31:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/connection_pool.rb:353:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/show_exceptions.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/logger.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `synchronize'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:168:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `send'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `method_missing'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:13:in `run'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/server.rb:213:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands/server.rb:65:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:30
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27:in `tap'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tSTRING_BEG, expecting kDO or '{' or '('
+...= (   "Objects: "  + link_to 'truc', sensor.path );@output_b...
+                              ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected ',', expecting ')'
+..."Objects: "  + link_to 'truc', sensor.path );@output_buffer....
+                              ^):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "  + link_to 'truc', sensor.path %>
+    6: <br>
+    7: <%  } %>
+    8: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:13:in `compile'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (572.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (583.8ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:17:19 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+ERROR: compiling _app_views_rooms_index_html_erb__542667102__619916578_0 RAISED compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting ')'
+...end= (   "Objects: "   link_to 'truc', sensor.path );@output...
+                              ^
+Function body:           def _app_views_rooms_index_html_erb__542667102__619916578_0(local_assigns)
+            _old_virtual_path, @_virtual_path = @_virtual_path, "rooms/index";_old_output_buffer = @output_buffer;;@output_buffer = ActionView::OutputBuffer.new;@output_buffer.safe_concat('<br>
+');@output_buffer.append= (  "Path:" + @rooms.room_backend.path + "\n");@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  @rooms.sensors.each_pair{ |key, sensor| 
+@output_buffer.safe_concat('   ');@output_buffer.append= (   "Objects: "   link_to 'truc', sensor.path );@output_buffer.safe_concat('
+');@output_buffer.safe_concat('<br>
+');  } 
+@output_buffer.safe_concat('<!-- ');@output_buffer.append= ( @rooms.room_backend.path);@output_buffer.safe_concat(' -->
+
+');@output_buffer.to_s
+          ensure
+            @_virtual_path, @output_buffer = _old_virtual_path, _old_output_buffer
+          end
+Backtrace: /home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:13:in `compile'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:134:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:54:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:127:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:59:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:56:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:26:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:114:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:108:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:101:in `render_to_string'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:92:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:17:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:39:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:261:in `retrieve_response_from_mimes'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `respond_to'
+/home/flagos/Projets/openplacos/client/rorplacos/app/controllers/rooms_controller.rb:12:in `index'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:151:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:11:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:18:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:435:in `_run__424683224__process_action__199225275__callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `_run_process_action_callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `run_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rescue.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:120:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:40:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:138:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:178:in `action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:27:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:148:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:93:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:75:in `optimized_each'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:92:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:139:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:492:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/cookies.rb:295:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:32:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:12:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:31:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/connection_pool.rb:353:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/show_exceptions.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/logger.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `synchronize'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:168:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `send'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `method_missing'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:13:in `run'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/server.rb:213:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands/server.rb:65:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:30
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27:in `tap'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 12ms
+
+ActionView::Template::Error (compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:5: syntax error, unexpected tIDENTIFIER, expecting ')'
+...end= (   "Objects: "   link_to 'truc', sensor.path );@output...
+                              ^):
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    5:    <%=   "Objects: "   link_to 'truc', sensor.path %>
+    6: <br>
+    7: <%  } %>
+    8: <!-- <%= @rooms.room_backend.path%> -->
+  app/views/rooms/index.html.erb:13:in `compile'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (598.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (609.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:17:39 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 14ms (Views: 6.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:17:55 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 14ms (Views: 6.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:18:09 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 15ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:18:53 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 14ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:19:12 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 13ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:19:17 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 13ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:19:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 14ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:19:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 15ms (Views: 6.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:19:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (15.1ms)
+Completed 200 OK in 40ms (Views: 28.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:19:19 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 17ms (Views: 6.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:19:40 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 13ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home/indoor/Temperature" for 127.0.0.1 at Sat Feb 12 06:23:13 +0100 2011
+
+ActionController::RoutingError (No route matches "/home/indoor/Temperature"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/home/indoor/Temperature" for 127.0.0.1 at Sat Feb 12 06:23:19 +0100 2011
+
+ActionController::RoutingError (No route matches "/home/indoor/Temperature"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:25:49 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `name' for #<Sensor:0xb611f420 @path="/home/indoor/Temperature">):
+    17:   </tr>
+    18: 
+    19: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    20:   <td><%= sensor.name %></td>
+    21:   <td><%= sensor.value %></td>
+    22:   <td><%= sensor.room_id %></td>
+    23:   <td><%=  link_to sensor.path, sensor.path %></td>
+  app/views/rooms/index.html.erb:20:in `_app_views_rooms_index_html_erb__542667102__620206348_0'
+  app/views/rooms/index.html.erb:19:in `each_pair'
+  app/views/rooms/index.html.erb:19:in `_app_views_rooms_index_html_erb__542667102__620206348_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (612.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (623.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:25:59 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.6ms)
+Completed   in 12ms
+
+ActionView::Template::Error (undefined method `room_id' for #<Sensor:0xb70d4604 @path="/home/indoor/Temperature">):
+    19: <%  @rooms.sensors.each_pair{ |key, sensor| %>
+    20:   <td><%= sensor.path %></td>
+    21:   <td><%= sensor.value %></td>
+    22:   <td><%= sensor.room_id %></td>
+    23:   <td><%=  link_to sensor.path, sensor.path %></td>
+    24:   <td></td>
+    25:   <td></td>
+  app/views/rooms/index.html.erb:22:in `_app_views_rooms_index_html_erb__542667102__612016718_0'
+  app/views/rooms/index.html.erb:19:in `each_pair'
+  app/views/rooms/index.html.erb:19:in `_app_views_rooms_index_html_erb__542667102__612016718_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (610.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (620.5ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:28:25 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 13ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:28:47 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 97ms (Views: 6.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:29:31 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 14ms (Views: 6.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:16 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 13ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:17 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 14ms (Views: 6.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:17 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 16ms (Views: 6.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:17 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 20ms (Views: 7.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 28ms (Views: 7.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 15ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 17ms (Views: 7.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:30:18 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 14ms (Views: 6.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:31:09 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 13ms (Views: 5.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:35:57 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.7ms)
+Completed   in 14ms
+
+ActionView::Template::Error (undefined method `node' for #<Sensor:0xb720ab68>):
+    21:    <td><%=  link_to sensor.path, sensor.path %></td>
+    22:    <td><%=  link_to sensor.path, sensor.path %></td>
+    23: </tr>
+    24:  <%= sensor.node.class.to_s %>
+    25: <%  } %>
+    26: </table>
+  app/views/rooms/index.html.erb:24:in `_app_views_rooms_index_html_erb__542667102__611434468_0'
+  app/views/rooms/index.html.erb:17:in `each_pair'
+  app/views/rooms/index.html.erb:17:in `_app_views_rooms_index_html_erb__542667102__611434468_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (633.8ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (644.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:36:24 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 14ms (Views: 5.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:00 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (218.9ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (226.5ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:23 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (278.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (286.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:26 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (280.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (287.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:26 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (283.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (291.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:27 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (281.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (289.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:27 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (281.2ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (288.9ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:27 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (285.6ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (293.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:28 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (289.2ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (296.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:28 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (221.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (288.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:28 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (220.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (227.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:29 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (279.2ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (286.8ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:29 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 3ms
+
+NoMethodError (undefined method `objects' for nil:NilClass):
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (276.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (283.9ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:38:56 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (117.6ms)
+Completed   in 129ms
+
+ActionView::Template::Error (undefined method `room_backend' for #<Room:0xb62d4554>):
+    1: <br>
+    2: <%=  "Path:" + @rooms.room_backend.path + "\n"%>
+    3: <br>
+    4:    <%=   "Sensors: " %>
+    5: <br>
+  app/views/rooms/index.html.erb:2:in `_app_views_rooms_index_html_erb__542667102__619342998_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (537.3ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (619.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:39:39 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1.8ms)
+Completed   in 15ms
+
+ActionView::Template::Error (undefined method `node' for #<Sensor:0xb6718c64>):
+    21:    <td><%=  link_to sensor.path, sensor.path %></td>
+    22:    <td><%=  sensor.backend.methods %></td>
+    23: </tr>
+    24:  <%= sensor.node.class.to_s %>
+    25: <%  } %>
+    26: </table>
+  app/views/rooms/index.html.erb:24:in `_app_views_rooms_index_html_erb__542667102__617074038_0'
+  app/views/rooms/index.html.erb:17:in `each_pair'
+  app/views/rooms/index.html.erb:17:in `_app_views_rooms_index_html_erb__542667102__617074038_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (538.9ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (620.5ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:39:57 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 15ms (Views: 6.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:40:45 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 12ms
+
+ActionView::Template::Error (undefined method `value' for DBus interface `' on object `/home/indoor/Temperature'):
+    19:    <td><%= sensor.path %></td>
+    20:    <td><%= sensor.value %></td>
+    21:    <td><%=  link_to sensor.path, sensor.path %></td>
+    22:    <td><%=  sensor.backend.value %></td>
+    23: </tr>
+    24: <%  } %>
+    25: </table>
+  app/views/rooms/index.html.erb:22:in `_app_views_rooms_index_html_erb__542667102__617465258_0'
+  app/views/rooms/index.html.erb:17:in `each_pair'
+  app/views/rooms/index.html.erb:17:in `_app_views_rooms_index_html_erb__542667102__617465258_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (542.8ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (624.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 06:42:00 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 13ms
+
+ActionView::Template::Error (undefined method `value' for DBus interface `' on object `/home/indoor/Temperature'):
+    19:    <td><%= sensor.path %></td>
+    20:    <td><%= sensor.value %></td>
+    21:    <td><%=  link_to sensor.path, sensor.path %></td>
+    22:    <td><%=  sensor.backend.value.to_s %></td>
+    23: </tr>
+    24: <%  } %>
+    25: </table>
+  app/views/rooms/index.html.erb:22:in `_app_views_rooms_index_html_erb__542667102__617073858_0'
+  app/views/rooms/index.html.erb:17:in `each_pair'
+  app/views/rooms/index.html.erb:17:in `_app_views_rooms_index_html_erb__542667102__617073858_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (538.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (548.9ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:27:50 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 14ms
+
+ActionView::Template::Error (undefined method `value' for DBus interface `' on object `/home/indoor/Temperature'):
+    19:    <td><%= sensor.path %></td>
+    20:    <td><%= sensor.value %></td>
+    21:    <td><%=  link_to sensor.path, sensor.path %></td>
+    22:    <td><%=  sensor.backend.value.to_s %></td>
+    23: </tr>
+    24: <%  } %>
+    25: </table>
+  app/views/rooms/index.html.erb:22:in `_app_views_rooms_index_html_erb__542667102__617085148_0'
+  app/views/rooms/index.html.erb:17:in `each_pair'
+  app/views/rooms/index.html.erb:17:in `_app_views_rooms_index_html_erb__542667102__617085148_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (540.7ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (551.7ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:27:52 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 12ms
+
+ActionView::Template::Error (undefined method `value' for DBus interface `' on object `/home/indoor/Temperature'):
+    19:    <td><%= sensor.path %></td>
+    20:    <td><%= sensor.value %></td>
+    21:    <td><%=  link_to sensor.path, sensor.path %></td>
+    22:    <td><%=  sensor.backend.value.to_s %></td>
+    23: </tr>
+    24: <%  } %>
+    25: </table>
+  app/views/rooms/index.html.erb:22:in `_app_views_rooms_index_html_erb__542667102__610311698_0'
+  app/views/rooms/index.html.erb:17:in `each_pair'
+  app/views/rooms/index.html.erb:17:in `_app_views_rooms_index_html_erb__542667102__610311698_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (539.9ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (551.5ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:47:53 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (0.7ms)
+Completed   in 12ms
+
+ActionView::Template::Error (undefined method `mathods' for DBus interface `' on object `/home/indoor/Temperature'):
+    19:    <td><%= sensor.path %></td>
+    20:    <td><%= sensor.value %></td>
+    21:    <td><%=  link_to sensor.path, sensor.path %></td>
+    22:    <td><%=  sensor.backend.mathods.to_s %></td>
+    23: </tr>
+    24: <%  } %>
+    25: </table>
+  app/views/rooms/index.html.erb:22:in `_app_views_rooms_index_html_erb__542667102__609756988_0'
+  app/views/rooms/index.html.erb:17:in `each_pair'
+  app/views/rooms/index.html.erb:17:in `_app_views_rooms_index_html_erb__542667102__609756988_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (538.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (549.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:48:02 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 14ms (Views: 6.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:48:25 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 14ms (Views: 6.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:50:07 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 15ms (Views: 6.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:53:20 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 14ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:55:00 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 13ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:56:39 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 6ms
+
+NoMethodError (undefined method `path' for #<DBus::ProxyObjectInterface:0xb72efb3c>):
+  app/models/actuator.rb:6:in `initialize'
+  app/models/room.rb:17:in `new'
+  app/models/room.rb:17:in `initialize'
+  app/models/room.rb:12:in `each_pair'
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (213.6ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (294.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:57:17 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 7ms
+
+NoMethodError (undefined method `path' for #<DBus::ProxyObjectInterface:0xb72efb3c>):
+  app/models/actuator.rb:6:in `initialize'
+  app/models/room.rb:17:in `new'
+  app/models/room.rb:17:in `initialize'
+  app/models/room.rb:12:in `each_pair'
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (218.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (225.6ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:57:30 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 6ms
+
+NoMethodError (undefined method `path' for #<DBus::ProxyObjectInterface:0xb72efb3c>):
+  app/models/actuator.rb:6:in `initialize'
+  app/models/room.rb:17:in `new'
+  app/models/room.rb:17:in `initialize'
+  app/models/room.rb:12:in `each_pair'
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (282.8ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (290.5ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:57:31 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 6ms
+
+NoMethodError (undefined method `path' for #<DBus::ProxyObjectInterface:0xb72efb3c>):
+  app/models/actuator.rb:6:in `initialize'
+  app/models/room.rb:17:in `new'
+  app/models/room.rb:17:in `initialize'
+  app/models/room.rb:12:in `each_pair'
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (278.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (285.8ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:57:33 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Completed   in 6ms
+
+NoMethodError (undefined method `path' for #<DBus::ProxyObjectInterface:0xb72efb3c>):
+  app/models/actuator.rb:6:in `initialize'
+  app/models/room.rb:17:in `new'
+  app/models/room.rb:17:in `initialize'
+  app/models/room.rb:12:in `each_pair'
+  app/models/room.rb:12:in `initialize'
+  app/controllers/rooms_controller.rb:10:in `new'
+  app/controllers/rooms_controller.rb:10:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (281.2ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (288.8ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:58:17 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.9ms)
+Completed 200 OK in 29ms (Views: 21.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home/indoor/Temperature" for 127.0.0.1 at Sat Feb 12 07:58:25 +0100 2011
+
+ActionController::RoutingError (No route matches "/home/indoor/Temperature"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.9ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:59:14 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.1ms)
+Completed 200 OK in 29ms (Views: 21.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:59:15 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.1ms)
+Completed 200 OK in 29ms (Views: 21.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 07:59:23 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (18.3ms)
+Completed 200 OK in 30ms (Views: 22.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:06:09 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1214.6ms)
+Completed   in 1226ms
+
+ActionView::Template::Error (undefined local variable or method `regul_status' for #<#<Class:0xb7237834>:0xb72361dc>):
+    15:    if (@connexion.is_regul(sensor))
+    16:    regul_status = "OK"
+    17:    end
+    18:    <td><%=  regul_status %></td>
+    19: </tr>
+    20: <%  } %>
+    21: </table>
+  app/views/rooms/index.html.erb:18:in `_app_views_rooms_index_html_erb__542667102__611214908_0'
+  app/views/rooms/index.html.erb:10:in `each_pair'
+  app/views/rooms/index.html.erb:10:in `_app_views_rooms_index_html_erb__542667102__611214908_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (603.5ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (614.5ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:07:50 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (18.1ms)
+Completed 200 OK in 30ms (Views: 22.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:08:38 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (9.2ms)
+Completed   in 22ms
+
+ActionView::Template::Error (undefined method `node' for #<Sensor:0xb674f200>):
+    12:    <td><%=  link_to sensor.path, sensor.path %></td>
+    13:    <td><%= sensor.backend.value %></td>
+    14:    <% regul_status = "NA" %> 
+    15:    <% if (@connexion.is_regul(sensor.node)) %>
+    16:    <%  regul_status = "OK" %>
+    17:    <% end %>
+    18:    <td><%=  regul_status %></td>
+  app/views/rooms/index.html.erb:15:in `_app_views_rooms_index_html_erb__542667102__616982238_0'
+  app/views/rooms/index.html.erb:10:in `each_pair'
+  app/views/rooms/index.html.erb:10:in `_app_views_rooms_index_html_erb__542667102__616982238_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (567.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (579.1ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:09:02 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (51.9ms)
+Completed 200 OK in 65ms (Views: 56.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:10:48 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.7ms)
+Completed 200 OK in 30ms (Views: 21.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:14 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (18.6ms)
+Completed 200 OK in 30ms (Views: 22.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:16 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.3ms)
+Completed 200 OK in 29ms (Views: 21.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:16 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (21.2ms)
+Completed 200 OK in 34ms (Views: 26.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:16 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (22.7ms)
+Completed 200 OK in 46ms (Views: 27.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:16 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (11.9ms)
+Completed 200 OK in 32ms (Views: 16.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:16 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (12.9ms)
+Completed 200 OK in 25ms (Views: 17.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:26 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.9ms)
+Completed 200 OK in 29ms (Views: 21.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:27 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.6ms)
+Completed 200 OK in 29ms (Views: 21.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:44 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (19.7ms)
+Completed 200 OK in 32ms (Views: 23.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:45 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (18.5ms)
+Completed 200 OK in 30ms (Views: 22.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:45 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.2ms)
+Completed 200 OK in 32ms (Views: 21.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:46 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (19.8ms)
+Completed 200 OK in 34ms (Views: 24.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:46 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (24.6ms)
+Completed 200 OK in 38ms (Views: 29.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:46 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (19.1ms)
+Completed 200 OK in 34ms (Views: 24.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:47 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.0ms)
+Completed 200 OK in 28ms (Views: 21.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:56 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.7ms)
+Completed 200 OK in 30ms (Views: 21.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:57 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (18.0ms)
+Completed 200 OK in 30ms (Views: 22.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:57 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.3ms)
+Completed 200 OK in 29ms (Views: 21.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:58 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (23.6ms)
+Completed 200 OK in 41ms (Views: 31.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:58 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (29.7ms)
+Completed 200 OK in 44ms (Views: 35.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:58 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (11.4ms)
+Completed 200 OK in 24ms (Views: 15.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:58 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (27.8ms)
+Completed 200 OK in 46ms (Views: 33.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:12:58 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.9ms)
+Completed 200 OK in 35ms (Views: 23.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:13:16 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (1408.7ms)
+Completed   in 1421ms
+
+ActionView::Template::Error (undefined local variable or method `regul_status' for #<#<Class:0xb73c1eac>:0xb73bda8c>):
+    13:    <td><%=  link_to sensor.path, sensor.path %></td>
+    14:    <td><%= sensor.backend.value %></td>
+    15: 
+    16:    <td><%=  regul_status %></td>
+    17:     <td><%= puts "toto" %></td>
+    18: </tr>
+    19: <%  } %>
+  app/views/rooms/index.html.erb:16:in `_app_views_rooms_index_html_erb__542667102__610414178_0'
+  app/views/rooms/index.html.erb:11:in `each_pair'
+  app/views/rooms/index.html.erb:11:in `_app_views_rooms_index_html_erb__542667102__610414178_0'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (728.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (740.3ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:13:43 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.3ms)
+Completed 200 OK in 29ms (Views: 21.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:14:10 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (24.7ms)
+Completed 200 OK in 37ms (Views: 28.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:14:30 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (16.8ms)
+Completed 200 OK in 29ms (Views: 20.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:14:49 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (27.9ms)
+Completed 200 OK in 39ms (Views: 31.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:15:21 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.3ms)
+Completed 200 OK in 29ms (Views: 21.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:41:38 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (60.3ms)
+Completed 200 OK in 72ms (Views: 64.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:42:58 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.9ms)
+Completed 200 OK in 30ms (Views: 22.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:44:51 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.1ms)
+Completed 200 OK in 29ms (Views: 21.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:44:52 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.5ms)
+Completed 200 OK in 29ms (Views: 21.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:47:44 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+ERROR: compiling _app_views_rooms_index_html_erb__542667102__616916718_0 RAISED compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:16: syntax error, unexpected kEND, expecting ')'
+    end 
+       ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:23: syntax error, unexpected '}', expecting ')'
+');  } 
+      ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:27: syntax error, unexpected kENSURE, expecting ')'
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:29: syntax error, unexpected kEND, expecting ')'
+Function body:           def _app_views_rooms_index_html_erb__542667102__616916718_0(local_assigns)
+            _old_virtual_path, @_virtual_path = @_virtual_path, "rooms/index";_old_output_buffer = @output_buffer;;@output_buffer = ActionView::OutputBuffer.new;@output_buffer.safe_concat('<h1>Listing sensors</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Regulation Status</th>
+    <th>Debug</th> 
+  </tr>
+
+');  @rooms.sensors.each_pair{ |key, sensor| 
+ connexion = Opos_Connexion.instance 
+    regul_status = "NA"  
+    if (connexion.is_regul(sensor.backend) 
+     regul_status = "OK" 
+    end 
+@output_buffer.safe_concat(' <tr>
+   <td>');@output_buffer.append= (  link_to sensor.path, sensor.path );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= ( sensor.backend.value );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= (  regul_status );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= (  sensor.node.class.to_s );@output_buffer.safe_concat('</td>
+</tr>
+');  } 
+@output_buffer.safe_concat('</table>
+
+');@output_buffer.to_s
+          ensure
+            @_virtual_path, @output_buffer = _old_virtual_path, _old_output_buffer
+          end
+Backtrace: /home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:29:in `compile'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:134:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:54:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:127:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:59:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:56:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:26:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:114:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:108:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:101:in `render_to_string'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:92:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:17:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:39:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:261:in `retrieve_response_from_mimes'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `respond_to'
+/home/flagos/Projets/openplacos/client/rorplacos/app/controllers/rooms_controller.rb:12:in `index'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:151:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:11:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:18:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:435:in `_run__424683224__process_action__199225275__callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `_run_process_action_callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `run_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rescue.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:120:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:40:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:138:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:178:in `action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:27:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:148:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:93:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:75:in `optimized_each'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:92:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:139:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:492:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/cookies.rb:295:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:32:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:12:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:31:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/connection_pool.rb:353:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/show_exceptions.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/logger.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `synchronize'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:168:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `send'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `method_missing'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:13:in `run'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/server.rb:213:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands/server.rb:65:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:30
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27:in `tap'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+Rendered rooms/index.html.erb within layouts/application (0.9ms)
+Completed   in 13ms
+
+ActionView::Template::Error (compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:16: syntax error, unexpected kEND, expecting ')'
+    end 
+       ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:23: syntax error, unexpected '}', expecting ')'
+');  } 
+      ^
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:27: syntax error, unexpected kENSURE, expecting ')'
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:29: syntax error, unexpected kEND, expecting ')'):
+    13:    <% regul_status = "NA" %> 
+    14:    <% if (connexion.is_regul(sensor.backend) %>
+    15:    <%  regul_status = "OK" %>
+    16:    <% end %>
+    17:  <tr>
+    18:    <td><%=  link_to sensor.path, sensor.path %></td>
+    19:    <td><%= sensor.backend.value %></td>
+  app/views/rooms/index.html.erb:29:in `compile'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (771.4ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (783.9ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 08:47:56 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (17.2ms)
+Completed 200 OK in 29ms (Views: 21.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 14:29:09 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+ERROR: compiling _app_views_rooms_index_html_erb__542667102__618918278_0 RAISED compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:16: syntax error, unexpected '<'
+   <%   regul_status = "ON" 
+    ^
+Function body:           def _app_views_rooms_index_html_erb__542667102__618918278_0(local_assigns)
+            _old_virtual_path, @_virtual_path = @_virtual_path, "rooms/index";_old_output_buffer = @output_buffer;;@output_buffer = ActionView::OutputBuffer.new;@output_buffer.safe_concat('<h1>Listing sensors</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Regulation Status</th>
+    <th>Debug</th> 
+  </tr>
+
+');  @rooms.sensors.each_pair{ |key, sensor| 
+ connexion = Opos_Connexion.instance 
+    regul_status = "NA"  
+    if (connexion.is_regul(sensor.backend)) 
+   if (connexion.get_regul_iface(sensor.backend).state )
+   <%   regul_status = "ON" 
+    else 
+      regul_status = "OFF" 
+    end 
+    end 
+@output_buffer.safe_concat(' <tr>
+   <td>');@output_buffer.append= (  link_to sensor.path, sensor.path );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= ( sensor.backend.value );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= (  regul_status );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= (  sensor.node.class.to_s );@output_buffer.safe_concat('</td>
+</tr>
+');  } 
+@output_buffer.safe_concat('</table>
+
+');@output_buffer.to_s
+          ensure
+            @_virtual_path, @output_buffer = _old_virtual_path, _old_output_buffer
+          end
+Backtrace: /home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:33:in `compile'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:134:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:54:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:127:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:59:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:56:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:26:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:114:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:108:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:101:in `render_to_string'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:92:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:17:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:39:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:261:in `retrieve_response_from_mimes'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `respond_to'
+/home/flagos/Projets/openplacos/client/rorplacos/app/controllers/rooms_controller.rb:12:in `index'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:151:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:11:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:18:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:435:in `_run__424683224__process_action__199225275__callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `_run_process_action_callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `run_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rescue.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:120:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:40:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:138:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:178:in `action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:27:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:148:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:93:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:75:in `optimized_each'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:92:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:139:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:492:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/cookies.rb:295:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:32:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:12:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:31:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/connection_pool.rb:353:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/show_exceptions.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/logger.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `synchronize'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:168:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `send'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `method_missing'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:13:in `run'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/server.rb:213:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands/server.rb:65:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:30
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27:in `tap'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+Rendered rooms/index.html.erb within layouts/application (0.9ms)
+Completed   in 13ms
+
+ActionView::Template::Error (compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:16: syntax error, unexpected '<'
+   <%   regul_status = "ON" 
+    ^):
+    13:    <% regul_status = "NA" %> 
+    14:    <% if (connexion.is_regul(sensor.backend)) %>
+    15:   <% if (connexion.get_regul_iface(sensor.backend).state )
+    16:    <%   regul_status = "ON" %>
+    17:    <% else %>
+    18:    <%   regul_status = "OFF" %>
+    19:    <% end %>
+  app/views/rooms/index.html.erb:33:in `compile'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (785.1ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (798.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 14:29:11 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+ERROR: compiling _app_views_rooms_index_html_erb__542667102__619290628_0 RAISED compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:16: syntax error, unexpected '<'
+   <%   regul_status = "ON" 
+    ^
+Function body:           def _app_views_rooms_index_html_erb__542667102__619290628_0(local_assigns)
+            _old_virtual_path, @_virtual_path = @_virtual_path, "rooms/index";_old_output_buffer = @output_buffer;;@output_buffer = ActionView::OutputBuffer.new;@output_buffer.safe_concat('<h1>Listing sensors</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Regulation Status</th>
+    <th>Debug</th> 
+  </tr>
+
+');  @rooms.sensors.each_pair{ |key, sensor| 
+ connexion = Opos_Connexion.instance 
+    regul_status = "NA"  
+    if (connexion.is_regul(sensor.backend)) 
+   if (connexion.get_regul_iface(sensor.backend).state )
+   <%   regul_status = "ON" 
+    else 
+      regul_status = "OFF" 
+    end 
+    end 
+@output_buffer.safe_concat(' <tr>
+   <td>');@output_buffer.append= (  link_to sensor.path, sensor.path );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= ( sensor.backend.value );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= (  regul_status );@output_buffer.safe_concat('</td>
+   <td>');@output_buffer.append= (  sensor.node.class.to_s );@output_buffer.safe_concat('</td>
+</tr>
+');  } 
+@output_buffer.safe_concat('</table>
+
+');@output_buffer.to_s
+          ensure
+            @_virtual_path, @output_buffer = _old_virtual_path, _old_output_buffer
+          end
+Backtrace: /home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:33:in `compile'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:134:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:54:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/template.rb:127:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:59:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:56:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_view/render/rendering.rb:26:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:114:in `_render_template'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:108:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/renderers.rb:47:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/compatibility.rb:55:in `render_to_body'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:101:in `render_to_string'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:92:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:17:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/core_ext/benchmark.rb:5:in `ms'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:40:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:78:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/railties/controller_runtime.rb:15:in `cleanup_view_runtime'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:39:in `render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:261:in `retrieve_response_from_mimes'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/mime_responds.rb:192:in `respond_to'
+/home/flagos/Projets/openplacos/client/rorplacos/app/controllers/rooms_controller.rb:12:in `index'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/implicit_render.rb:4:in `send_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:151:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rendering.rb:11:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:18:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:435:in `_run__424683224__process_action__199225275__callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:409:in `_run_process_action_callbacks'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `send'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:93:in `run_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/callbacks.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/notifications.rb:52:in `instrument'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/instrumentation.rb:29:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rescue.rb:17:in `process_action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/base.rb:120:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/abstract_controller/rendering.rb:40:in `process'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:138:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal/rack_delegation.rb:14:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_controller/metal.rb:178:in `action'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:62:in `dispatch'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:27:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:148:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:93:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:75:in `optimized_each'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/code_generation.rb:92:in `recognize'
+/usr/lib/ruby/gems/1.8/gems/rack-mount-0.6.13/lib/rack/mount/route_set.rb:139:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/routing/route_set.rb:492:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/head.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/cookies.rb:295:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:32:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:12:in `cache'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/query_cache.rb:31:in `call'
+/usr/lib/ruby/gems/1.8/gems/activerecord-3.0.3/lib/active_record/connection_adapters/abstract/connection_pool.rb:353:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/show_exceptions.rb:46:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/logger.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/activesupport-3.0.3/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `synchronize'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/static.rb:30:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:168:in `call'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `send'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/application.rb:77:in `method_missing'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/rack/log_tailer.rb:14:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/handler/webrick.rb:13:in `run'
+/usr/lib/ruby/gems/1.8/gems/rack-1.2.1/lib/rack/server.rb:213:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands/server.rb:65:in `start'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:30
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27:in `tap'
+/usr/lib/ruby/gems/1.8/gems/railties-3.0.3/lib/rails/commands.rb:27
+script/rails:6:in `require'
+script/rails:6
+Rendered rooms/index.html.erb within layouts/application (0.9ms)
+Completed   in 13ms
+
+ActionView::Template::Error (compile error
+/home/flagos/Projets/openplacos/client/rorplacos/app/views/rooms/index.html.erb:16: syntax error, unexpected '<'
+   <%   regul_status = "ON" 
+    ^):
+    13:    <% regul_status = "NA" %> 
+    14:    <% if (connexion.is_regul(sensor.backend)) %>
+    15:   <% if (connexion.get_regul_iface(sensor.backend).state )
+    16:    <%   regul_status = "ON" %>
+    17:    <% else %>
+    18:    <%   regul_status = "OFF" %>
+    19:    <% end %>
+  app/views/rooms/index.html.erb:33:in `compile'
+  app/controllers/rooms_controller.rb:12:in `index'
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (861.3ms)
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (874.2ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 14:29:27 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (22.5ms)
+Completed 200 OK in 35ms (Views: 26.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/opos/home/indoor" for 127.0.0.1 at Sat Feb 12 14:30:35 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered rooms/index.html.erb within layouts/application (25.9ms)
+Completed 200 OK in 38ms (Views: 30.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home/indoor/Hygro" for 127.0.0.1 at Sat Feb 12 14:30:41 +0100 2011
+
+ActionController::RoutingError (No route matches "/home/indoor/Hygro"):
+  
+
+Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (0.7ms)

@@ -1,10 +1,27 @@
-<br>
-<%=  "Path:" + @rooms.room_backend.path + "\n"%>
-<br>
+<h1>Listing sensors</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Regulation Status</th>
+  </tr>
+
 <%  @rooms.sensors.each_pair{ |key, sensor| %>
-   <%=   "Objects: "  + sensor.class.to_s %>
-   <%= link_to 'VasyRoger', sensor  %>
-<br>
+<% connexion = Opos_Connexion.instance %>
+   <% regul_status = "NA" %> 
+   <% if (connexion.is_regul(sensor.backend)) %>
+  <% if (connexion.get_regul_iface(sensor.backend).state ) %>
+   <%   regul_status = "ON" %>
+   <% else %>
+   <%   regul_status = "OFF" %>
+   <% end %>
+   <% end %>
+ <tr>
+   <td><%=  link_to sensor.path, sensor.path %></td>
+   <td><%= sensor.backend.value %></td>
+   <td><%=  regul_status %></td>
+</tr>
 <%  } %>
-<!-- <%= @rooms.room_backend.path%> -->
+</table>
 
