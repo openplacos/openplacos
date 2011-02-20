@@ -1,11 +1,11 @@
 class Actuator
 
-    attr_reader :path, :state, :backend, :node
+    attr_reader :path,:backend
 
-    def initialize(node)
-        @path = node.path
-        @node = node
-        @backend = node['org.openplacos.server.actuator']
+    def initialize(connection, path)
+       @connect = connection
+       @path = path
+       @backend = connection.actuators[@path]
         # @state = node.object['org.openplacos.server.actuator'].state[0]['name']
         # @state ||= "unknown"
         # @methods = node.object['org.openplacos.server.actuator'].methods.keys

@@ -1,27 +1,8 @@
-<h1>Listing actuators</h1>
-
 <table>
   <tr>
     <th>Name</th>
-    <th>State</th>
-    <th>Room</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Metods</th>
   </tr>
 
-<% @actuators.each do |actuator| %>
-  <tr>
-    <td><%= actuator.name %></td>
-    <td><%= actuator.state %></td>
-    <td><%= actuator.room_id %></td>
-    <td><%= link_to 'Show', actuator %></td>
-    <td><%= link_to 'Edit', edit_actuator_path(actuator) %></td>
-    <td><%= link_to 'Destroy', actuator, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+ <%= render :partial => "abstract",:locals => { :actuator => @actuator }%>
 </table>
-
-<br />
-
-<%= link_to 'New Actuator', new_actuator_path %>

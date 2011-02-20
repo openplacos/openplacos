@@ -1,27 +1,11 @@
-<h1>Listing sensors</h1>
-
 <table>
   <tr>
     <th>Name</th>
     <th>Value</th>
-    <th>Room</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Regulation Status</th>
   </tr>
 
-<% @sensors.each do |sensor| %>
-  <tr>
-    <td><%= sensor.name %></td>
-    <td><%= sensor.value %></td>
-    <td><%= sensor.room_id %></td>
-    <td><%= link_to 'Show', sensor %></td>
-    <td><%= link_to 'Edit', edit_sensor_path(sensor) %></td>
-    <td><%= link_to 'Destroy', sensor, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
+
+<%= render :partial => "abstract",:locals => { :sensor => @sensor }%>
+
 </table>
-
-<br />
-
-<%= link_to 'New Sensor', new_sensor_path %>

@@ -2,7 +2,9 @@ class SensorsController < ApplicationController
   # GET /sensors
   # GET /sensors.xml
   def index
-    @sensors = Sensor.all
+    path = '/'+ params[:path] ||= ""
+    @connexion = Opos_Connexion.instance
+    @sensor = Sensor.new(@connexion,path)
 
     respond_to do |format|
       format.html # index.html.erb
