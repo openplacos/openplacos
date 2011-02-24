@@ -27,7 +27,7 @@
 #	option ==> Hash
 #	"temp" ==> value of temperature
 
-require 'dbus'
+require 'dbus-openplacos'
 
 class Conversion < DBus::Object
 
