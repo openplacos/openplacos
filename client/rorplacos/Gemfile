@@ -30,5 +30,5 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 #   gem 'webrat'
 # end
 
-gem 'ruby-dbus'
+gem 'ruby-dbus-openplacos'
 gem 'openplacos'

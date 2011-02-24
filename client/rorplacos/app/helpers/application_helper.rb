@@ -1,5 +1,5 @@
 module ApplicationHelper
 
-require 'dbus'
+require 'dbus-openplacos'
 
 end
