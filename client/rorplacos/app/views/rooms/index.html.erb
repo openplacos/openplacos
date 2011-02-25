@@ -24,3 +24,23 @@
  <%= render :partial => "actuators/abstract",:locals => { :actuator => actuator }%>
 <%  } %>
 </table>
+
+<h1>Listing Rooms</h1>
+
+<table>
+  
+    <% parent = @rooms.path.split("/"); parent.pop ; parent = parent.join("/") + "/"%>
+    <tr>Parent : <%= link_to parent , "/opos" + parent %></tr>
+ <% if not @rooms.backend.childs.empty? %>
+
+  <tr>
+     <td>Childs :</td> 
+
+  <%@rooms.backend.childs.each { |ch| %>
+  <td>
+    <%= link_to ch.path, "/opos" + ch.path %>
+  </td>
+  <%}%>
+  </tr>
+  <%end%>
+</table>
