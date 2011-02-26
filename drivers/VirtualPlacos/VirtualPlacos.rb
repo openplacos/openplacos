@@ -19,7 +19,7 @@
 #    Virtual placos for tests
 
 require 'rubygems'
-require 'dbus'
+require 'dbus-openplacos'
 require 'thread'
 require 'yaml' # Assumed in future examples
 require 'pathname'

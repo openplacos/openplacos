@@ -26,7 +26,7 @@ INTERUPT_PIN = {2,3,21,20,19,18} # interupt number 0 1 2 3 4 5
 
 require 'rubygems'
 require 'serialport'
-require 'dbus'
+require 'dbus-openplacos'
 
 require 'arduino_analog_pin.rb'
 require 'arduino_digital_pin.rb'

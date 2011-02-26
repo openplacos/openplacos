@@ -15,7 +15,7 @@
 #
 
 
-require 'dbus'
+require 'dbus-openplacos'
 include REXML
 
 # List of local include

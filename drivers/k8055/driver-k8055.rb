@@ -17,7 +17,7 @@
 #
 
 
-require 'dbus'
+require 'dbus-openplacos'
 require 'rubyk8055'
 require 'thread'
 

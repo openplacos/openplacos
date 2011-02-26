@@ -25,7 +25,7 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 # List of library include
 require 'yaml' 
 require 'rubygems'
-require 'dbus'
+require 'dbus-openplacos'
 require 'active_record' #database desactivate until it was fix
 
 # List of local include
