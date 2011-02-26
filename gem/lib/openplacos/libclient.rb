@@ -16,7 +16,7 @@
 
 module Openplacos
   class Client # client for openplacos server 
-    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls
+    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
     def initialize
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
@@ -27,10 +27,11 @@ module Openplacos
       if @bus.service("org.openplacos.server").exists?
         @service = @bus.service("org.openplacos.server")
         @service.introspect
-        #@server_mutex = Mutex.new
         #discover all objects of server
-        @objects = get_objects(@service.root)
-        @rooms = get_rooms(@service.root)
+        @initial_room = Room.new(nil, "/")   
+        @objects = get_objects(@service.root, @initial_room)
+        @rooms = @initial_room.tree
+
         
         #get sensors and actuators
         @sensors = get_sensors
@@ -44,27 +45,16 @@ module Openplacos
     
     end  
     
-    def get_rooms(nod)
-      room = Array.new
-      nod.each_pair{ |key,value|
-       if not(key=="Debug" or key=="server" or key=="plugins") #ignore debug objects
-         if value.object.nil?
-          room.push(key)
-         end
-       end
-      }
-      room.uniq
-    end
-    
-    
-    def get_objects(nod) #get objects from a node, ignore Debug objects
+    def get_objects(nod, father_) #get objects from a node, ignore Debug objects
       obj = Hash.new
       nod.each_pair{ |key,value|
        if not(key=="Debug" or key=="server") #ignore debug objects
          if not value.object.nil?
-          obj[value.object.path] = value.object
+           obj[value.object.path] = value.object
+           father_.push_object(value.object)
          else
-          obj.merge!(get_objects(value))
+           children = father_.push_child(key)
+           obj.merge!(get_objects(value, children))
          end
        end
       }
@@ -134,5 +124,36 @@ module Openplacos
       reguls
     end
     
+  end
+
+  class Room
+    attr_accessor :father, :childs, :path, :objects
+
+    def initialize(father_, path_)
+      @father = father_
+      @path = path_
+      @childs = Array.new
+      @objects = Hash.new
+   end
+
+    def push_child (value_)
+      children = Room.new(self, self.path  + value_ + "/")
+      @childs << children
+      return children
+    end
+
+    def push_object(obj_)
+      @objects.store(obj_.path, obj_)
+    end
+    
+    def tree()
+      hash = Hash.new
+      hash.store(@path, self)
+      @childs.each { |child|
+        hash.merge!(child.tree)
+      }
+      return hash
+    end
+
   end
 end

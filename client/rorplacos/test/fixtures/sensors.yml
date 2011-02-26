@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  value: 1.5
+  room_id: 1
+
+two:
+  name: MyString
+  value: 1.5
+  room_id: 1
