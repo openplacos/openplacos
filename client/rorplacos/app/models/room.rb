@@ -5,7 +5,6 @@ class Room
     def initialize(connection, path)
       @connect = connection
       @path = path + "/"
-      puts connection.rooms.class
       @backend = connection.rooms[@path]
       @sensors = Hash.new
       @actuators = Hash.new
