@@ -98,5 +98,6 @@ else
 fi
 
 installation
+post_installation
 start
 
