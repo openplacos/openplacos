@@ -1,18 +1,16 @@
-<% meth = actuator.backend.methods.keys %>
-<% meth.delete("state")%>
-<% state = actuator.backend.state[0]["name"] %>
-<% if state.nil?%>
-<%   state= "NA" %>
-<%end%>
-<tr>
-   <td><%=  link_to actuator.path, "/actuators#{actuator.path}" %></td>
-   <td>
-   <% meth.each { |m| %>
-      <% if m==state %>
-        <% color = "green" %>
-      <% else %>
-        <% color = "white" %>
-      <% end %>
-   <span style="background:<%=color%>"><%=link_to m + " ", "/actuators" + actuator.path + "/method/" + m%></span>
-  <% } %></td>
-</tr>
+<div class="actuator">
+  <div class="name">
+    <%=  link_to actuator.path, "/actuators#{actuator.path}" %>
+  </div>
+  <% actuator.get_methods.each { |m| %>
+    <% if m==actuator.state %>
+      <active_method>
+        <%=link_to m + " ", "/actuators" + actuator.path + "/method/" + m%>
+      </active_method>
+    <% else %>
+      <method>
+        <%=link_to m + " ", "/actuators" + actuator.path + "/method/" + m%>
+      </method>      
+    <% end %>
+  <% } %>
+</div>

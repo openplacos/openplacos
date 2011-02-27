@@ -1,0 +1,25 @@
+
+div.actuator {
+  width: 450px;
+  padding: 10px;
+  background: #988AF5;
+  border: 2px solid #11046C;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+div.actuator active_method{
+  font: bold 20px sans-serif;
+  padding: 10px;
+}
+
+div.actuator method{
+  font: bold 14px sans-serif;
+  padding: 10px;
+}
+
+div.actuator .name{
+
+}
+

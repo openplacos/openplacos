@@ -8,32 +8,21 @@
 <% if not @rooms.sensors.empty? %>
 <h2>Listing sensors</h2>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Regulation Status</th>
-  </tr>
-
 <%  @rooms.sensors.each_pair{ |key, sensor| %>
  <%= render :partial => "sensors/abstract",:locals => { :sensor => sensor }%>
+ <br>
 <%  } %>
-</table>
 <%end%>
 
 <% if not @rooms.actuators.empty? %>
 <h2>Listing Actuators</h2>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Metods</th>
-  </tr>
 
 <%  @rooms.actuators.each_pair{ |key, actuator| %>
  <%= render :partial => "actuators/abstract",:locals => { :actuator => actuator }%>
+ <br>
 <%  } %>
-</table>
+
 <%end%>
 
 <h2>Listing Rooms</h2>

@@ -1,0 +1,23 @@
+
+div.sensor {
+  width: 450px;
+  padding: 10px;
+  background: #9DEF6D;
+  border: 2px solid #3B8B38;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+div.sensor .value{
+  font: bold 20px sans-serif;
+  margin-left: 300px;
+}
+
+div.sensor .name{
+
+}
+
+div.sensor .regul{
+  margin-left: 300px;
+}
