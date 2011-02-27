@@ -5,11 +5,11 @@
   <% actuator.get_methods.each { |m| %>
     <% if m==actuator.state %>
       <active_method>
-        <%=link_to m + " ", "/actuators" + actuator.path + "/method/" + m%>
+        <%=link_to m, "/actuators" + actuator.path + "/method/" + m%>
       </active_method>
     <% else %>
       <method>
-        <%=link_to m + " ", "/actuators" + actuator.path + "/method/" + m%>
+        <%=link_to m, "/actuators" + actuator.path + "/method/" + m%>
       </method>      
     <% end %>
   <% } %>

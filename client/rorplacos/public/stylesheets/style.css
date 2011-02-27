@@ -1,0 +1,73 @@
+
+body {
+    background-color: #242424;
+    color: white;
+    margin-top: 20px;
+    font-family: "DejaVuSansMono", "ShareTechMonoRegular", monospace;
+    font-size: 12px;
+}
+
+div#page {
+    width: 600px;
+    margin-left: -300px;
+    left: 50%;
+    position: absolute;
+}
+
+h1 { margin-top: 40px; }
+h1 a { color: white; text-decoration: none; }
+h1 a:hover { color: yellow; }
+
+img#avatar { float: right; margin-top: -80px;}
+
+div#frame {
+    margin: 30px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+div#frame li a:link { color: white; text-decoration: none;}
+div#frame li a:visited { color: white; text-decoration: none;}
+div#frame li a:hover { color: yellow; text-decoration: underline;}
+
+div#footer {
+    margin: 10px -10px -10px -10px;
+    padding: 0px;
+    background: black;
+    text-align: right; 
+    font-size: x-small;
+    clear: both;
+}
+
+div#opos {  }
+
+div#opos h2 {
+    color: yellow;
+    clear: both;
+}
+div#opos h3 {
+    font-size: medium;
+    color: orange;
+    margin: 5px 10px;
+}
+
+div#opos ul { font-weight: bold; color: yellow;}
+div#opos ul li { font-weight: normal; color: white;}
+
+div#opos span.green { color: green; }
+div#opos span.yellow { color: yellow; }
+div#opos span.red { color: red; }
+div#opos span.white { color: white; }
+div#opos span.cyan { color: cyan; }
+div#opos span.blue { color: blue; }
+
+div#opos table { width: 400px; margin: 0 0 0 10px;}
+div#opos table td { margin: 0; padding: 0; }
+div#opos table td a { color: white; }
+div#opos table td a:hover { text-decoration: none; }
+div#opos table td#name { border-bottom: 1px solid black; }
+div#opos table td#value { width: 60px; text-align: right; border-bottom: 1px solid black;}
+div#opos table td#value.on { text-align: center; background: green; color: white; }
+div#opos table td#value.off { text-align: center; background: red; color: black; }
+div#opos table td#value.unknown { background: grey; color: black; }
+div#opos table td#action { width: 60px; text-align: center; }

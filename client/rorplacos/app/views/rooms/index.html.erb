@@ -1,10 +1,5 @@
-<center>
-<table border=1 align=center width=60%>
-<th>
 <h1>Room <%=@rooms.path%></h1>
-</th>
-<tr>
-<td>
+
 <% if not @rooms.sensors.empty? %>
 <h2>Listing sensors</h2>
 
@@ -27,13 +22,13 @@
 
 <h2>Listing Rooms</h2>
 
-<table>
+
   
     <% parent = @rooms.path.split("/"); parent.pop ; parent = parent.join("/") + "/"%>
     <tr><td>Parent : <%= link_to parent , "/opos" + parent %></td></tr>
  <% if not @rooms.backend.childs.empty? %>
 
-  <tr>
+  <br>
      <td>Childs :</td> 
 
   <%@rooms.backend.childs.each { |ch| %>
@@ -41,11 +36,7 @@
     <%= link_to ch.path, "/opos" + ch.path %>
   </td>
   <%}%>
-  </tr>
+
   <%end%>
-</table>
-</td>
-</tr>
-</table>
-</center>
+
 

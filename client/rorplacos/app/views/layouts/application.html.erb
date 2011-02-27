@@ -7,8 +7,13 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
+<div id="page">
+    <h1><a href="/opos/">OpenplacOS</a></h1>
+    <img id="avatar" src="/images/palmtree.png" width="240" />
+    <div id="frame">
+      <%= yield %>
+    </div>
 
-<%= yield %>
-
+</div>
 </body>
 </html>

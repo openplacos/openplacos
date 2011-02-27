@@ -2,24 +2,28 @@
 div.actuator {
   width: 450px;
   padding: 10px;
-  background: #B5ACF5;
-  border: 2px solid #11046C;
+  background: #49494E;
+  border: 2px solid #9149EF;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
 }
 
 div.actuator active_method{
-  font: bold 20px sans-serif;
+  font-size: 20px;
+  font-weight: bold;
   padding: 10px;
 }
 
 div.actuator method{
-  font: bold 14px sans-serif;
+  font-size: 14px;
   padding: 10px;
 }
 
 div.actuator .name{
-
+ margin-left: 0px;
 }
 
+div.actuator a { color: #FFF; }
+div.actuator  a:visited { color: #FFF; }
+div.actuator  a:hover { color: #FFF; background-color:#000; }

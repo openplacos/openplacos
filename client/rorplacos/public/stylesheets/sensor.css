@@ -2,7 +2,7 @@
 div.sensor {
   width: 450px;
   padding: 10px;
-  background: #9DEF6D;
+  background: #494E4A;
   border: 2px solid #3B8B38;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -10,14 +10,19 @@ div.sensor {
 }
 
 div.sensor .value{
-  font: bold 20px sans-serif;
-  margin-left: 300px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 270px;
 }
 
 div.sensor .name{
-
+ margin-left: 0px;
 }
 
 div.sensor .regul{
-  margin-left: 300px;
+  margin-left: 270px;
 }
+
+div.sensor a { color: #FFF; }
+div.sensor  a:visited { color: #FFF; }
+div.sensor  a:hover { color: #FFF; background-color:#000; }
