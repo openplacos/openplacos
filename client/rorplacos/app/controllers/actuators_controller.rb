@@ -17,7 +17,7 @@ class ActuatorsController < ApplicationController
    @connexion = Opos_Connexion.instance
    @actuator = Actuator.new(@connexion,path)
    @actuator.backend.method(meth).call
-   redirect_to "/actuators#{path}"
+   redirect_to :back
   end
 
   # GET /actuators/1

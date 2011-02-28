@@ -12,10 +12,8 @@ class Room
       @backend.objects.each_pair{ |key, value|
         if value.has_iface? 'org.openplacos.server.measure'
           @sensors.store(value,  Sensor.new(@connect,key))
-          puts "measure!"
         elsif value.has_iface? 'org.openplacos.server.actuator'
           @actuators.store(value,  Actuator.new(@connect,key))
-          puts "actu!"
         end
       }
 
