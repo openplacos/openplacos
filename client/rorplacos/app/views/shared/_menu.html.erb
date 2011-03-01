@@ -1,0 +1,9 @@
+<div class="menu_with_path">
+    <%  path.split('/').each { |step|%>
+    <% if (step != "" ) %>
+    <div class="step">
+      <%= step  %>
+    </div>
+    <% end %>
+    <% } %>
+</div>
