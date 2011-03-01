@@ -1,6 +1,6 @@
 
 body {
-    background-color: #242424;
+    background: #ececec url('../images/bg_all.png') repeat-x top left;
     color: white;
     margin-top: 20px;
     font-family: "DejaVuSansMono", "ShareTechMonoRegular", monospace;
@@ -8,15 +8,49 @@ body {
 }
 
 div#page {
-    width: 600px;
-    margin-left: -300px;
-    left: 50%;
-    position: absolute;
+    width: 900px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    background: white;
+    border-bottom: 3px solid #649913;
+    border-left:   3px solid #649913;
+    border-right:  3px solid #649913;
+    border-top:    3px solid #649913;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius:      10px 10px 10px 10px;
+    background: #edfcd3 url('../images/bg_page.jpg') repeat-x top left;
 }
 
 h1 { margin-top: 40px; }
 h1 a { color: white; text-decoration: none; }
 h1 a:hover { color: yellow; }
+
+div.step {
+    float: left;
+    width: 150px;
+    color: black;
+    display:block;
+    margin-top: 118px; 
+}
+
+div#menu {
+    float: left;
+    width: 892px;
+}
+
+div.menu_with_path {
+    float: left;
+    width: 590px;
+}
+
+div.logo_div {
+    width: 300px;
+    margin-top: 40px;
+    float: left;
+    vertical-align:bottom; 
+}
+
 
 img#avatar { float: right; margin-top: -80px;}
 
@@ -24,6 +58,8 @@ div#frame {
     margin: 30px;
     padding: 10px;
     border: 1px solid black;
+    background: white;
+    color: black;
 }
 
 div#frame li a:link { color: white; text-decoration: none;}
@@ -39,35 +75,4 @@ div#footer {
     clear: both;
 }
 
-div#opos {  }
 
-div#opos h2 {
-    color: yellow;
-    clear: both;
-}
-div#opos h3 {
-    font-size: medium;
-    color: orange;
-    margin: 5px 10px;
-}
-
-div#opos ul { font-weight: bold; color: yellow;}
-div#opos ul li { font-weight: normal; color: white;}
-
-div#opos span.green { color: green; }
-div#opos span.yellow { color: yellow; }
-div#opos span.red { color: red; }
-div#opos span.white { color: white; }
-div#opos span.cyan { color: cyan; }
-div#opos span.blue { color: blue; }
-
-div#opos table { width: 400px; margin: 0 0 0 10px;}
-div#opos table td { margin: 0; padding: 0; }
-div#opos table td a { color: white; }
-div#opos table td a:hover { text-decoration: none; }
-div#opos table td#name { border-bottom: 1px solid black; }
-div#opos table td#value { width: 60px; text-align: right; border-bottom: 1px solid black;}
-div#opos table td#value.on { text-align: center; background: green; color: white; }
-div#opos table td#value.off { text-align: center; background: red; color: black; }
-div#opos table td#value.unknown { background: grey; color: black; }
-div#opos table td#action { width: 60px; text-align: center; }

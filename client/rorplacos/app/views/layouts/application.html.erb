@@ -6,13 +6,20 @@
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
-<div id="page">
-    <h1><a href="/opos/">OpenplacOS</a></h1>
-    <img id="avatar" src="/images/palmtree.png" width="240" />
-    <div id="frame">
-      <%= yield %>
-    </div>
 
+<div id="page">
+  <div id="menu">
+      <div class="logo_div">
+	<img id="logo" src="/images/logo.png"  />
+      </div>
+      <%= yield :menu %>
+  </div>
+  <h1><a href="/opos/">OpenplacOS</a></h1>
+  <img id="avatar" src="/images/palmtree.png" width="240" />
+  <div id="frame">
+    <%= yield %>
+  </div>
+  
 </div>
 </body>
 </html>
