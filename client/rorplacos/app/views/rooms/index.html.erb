@@ -2,6 +2,10 @@
   <%= render :partial => "shared/menu" , :locals => { :path => @rooms.path }%>
 <% end %>
 
+<% content_for :menu_left do %>
+  <%= render :partial => "shared/menu_left" , :locals => { :path => @rooms.path }%>
+<% end %>
+
 <h1><%=t(:room) + " " + @rooms.path%></h1>
 
 <% if not @rooms.sensors.empty? %>

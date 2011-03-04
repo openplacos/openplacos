@@ -138,8 +138,15 @@ div#main{
     clear: left;
 }
 
-div#tomato {
-    width: 152px;
+div#menu_left {
+    width: 280px;
     float: left;
     margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+div#menu_left ul, ol {
+	margin: 10px 30px;
+	padding: 0 15px;	
+	color: #72A545;	
 }
