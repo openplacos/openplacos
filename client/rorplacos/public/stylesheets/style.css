@@ -25,15 +25,6 @@ h1 { margin-top: 40px; }
 h1 a { color: white; text-decoration: none; }
 h1 a:hover { color: yellow; }
 
-div.step {
-    float: left;
-    width: 100px;
-    height: 40px;
-    color: black;
-    display:block;
-    text-align: center;
-    vertical-align: inherit;
-}
 
 div#menu {
     float: left;
@@ -43,11 +34,50 @@ div#menu {
     vertical-align: middle; /* FIXME */
 }
 
-div.menu_with_path {
+div#menu_navigation {
     float: left;
-    width: 590px;
+    width: 570px;
     vertical-align: inherit;
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+div#menu_navigation ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    height:30px;
+    overflow:hidden;
+}
+
+div#menu_navigation li {
+    float:right;
+    text-transform:uppercase;
+    text-align: center;
+    width: 100px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+div#menu_navigation a {
+    background-color:#729038;
+    display:block;
+}
+
+div#menu_navigation a:hover {
+    background-color:#32C306;
+    display:block;
+}
+
+div#menu_navigation .menu_item {
+    float: left;
+    width: 100px;
+    height: 30px;
+    color: black;
+    display:block;
+    text-align: center;
+    vertical-align: inherit;
+    background: #729038;
 }
 
 div.logo_div {
@@ -60,18 +90,16 @@ div.logo_div {
 img#avatar { float: right; margin-top: -80px;}
 
 div#frame {
-    margin: 30px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    width:565px;
     margin-left: 300px;
-    border: 3px solid black;
+    border: 3px solid #834D06;
     background: #729038;
     color: black;
     -moz-border-radius: 10px;
     border-radius: 10px;
 }
-
-div#frame li a:link { color: white; text-decoration: none;}
-div#frame li a:visited { color: white; text-decoration: none;}
-div#frame li a:hover { color: yellow; text-decoration: underline;}
 
 div#footer {
     margin: 10px -10px -10px -10px;
@@ -83,17 +111,19 @@ div#footer {
 }
 
 div.sensor{
-    width: 500px;
+    width: 520px;
     padding: 10px;
     background: #eeebe1;
-    border: 1px solid blue;
+    border: 2px solid black;
     margin-left: 10px;
+    box-shadow: 10px 10px 5px #888888;
 }
 
 div.sensor .value{
   font-size: 20px;
   font-weight: bold;
   margin-left: 300px;
+  text-shadow: 3px 3px 5px #385130;
 }
 
 div.sensor .name{
@@ -105,10 +135,10 @@ div.sensor .regul{
 }
 
 div.actuator {
-    width: 500px;
+    width: 520px;
     padding: 10px;
     background: white;
-    border: 1px solid red;
+    border: 2px solid black;
     margin-left: 10px;
     background: #eeebe1;
 }
@@ -119,6 +149,7 @@ div.actuator active_method{
   padding: 10px;
   width: 30px;
   margin-right: 15px;
+  text-shadow: 3px 3px 5px #385130;
 }
 
 div.actuator method{
@@ -139,7 +170,10 @@ div#main{
 }
 
 div#menu_left {
-    width: 280px;
+/*
+    position: absolute;
+*/
+    width: 270px;
     float: left;
     margin-bottom: 0px;
     margin-left: 10px;
@@ -149,6 +183,13 @@ div#menu_left ul, ol {
 	margin: 10px 30px;
 	padding: 0 15px;	
 	color: #72A545;	
+  margin-left:15px;
+}
+
+div#menu_left .current_room {
+  text-shadow: 3px 3px 5px #385130;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 div#room_navigator {
@@ -158,3 +199,7 @@ div#room_navigator {
   margin-top: 10px;
   margin-bottom:10px;
 }
+
+ a:link { color: black; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+ a:hover { color: white; text-decoration: underline; background: black;}

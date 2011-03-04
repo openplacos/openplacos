@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :menu_left do %>
-  <%= render :partial => "shared/menu_left"%>
+  <%= render :partial => "shared/menu_left", :locals => { :path => @rooms.path }%>
 <% end %>
 
 <div id="room_navigator">

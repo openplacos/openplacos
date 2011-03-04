@@ -1,3 +1,4 @@
 <ul>
-<%= raw(room_tree(Opos_Connexion.instance.initial_room)) %>
+<h2><%=t(:list_rooms)%></h2>
+<%= raw(room_tree(Opos_Connexion.instance.initial_room,path)) %>
 </ul>

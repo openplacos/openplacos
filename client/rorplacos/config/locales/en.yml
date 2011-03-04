@@ -3,7 +3,10 @@
 
 en:
   hello: "Hello world"
-  list_sensors: "Listing Sensors"
-  list_actuators: "Listing Actuators"
-  room: "Room"
-  
+  list_sensors: "Sensors list"
+  list_actuators: "Actuators list"
+  list_rooms: "Rooms list"
+  rooms: "Rooms"
+  user: "User"
+  blog: "Blog"
+  profile: "Profile"
