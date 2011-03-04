@@ -1,6 +1,6 @@
 
 body {
-    background: #ececec url('../images/bg_all.png') repeat-x top left;
+    background: #eaeaea url('../images/bg_all.png') repeat-x top left;
     color: white;
     margin-top: 20px;
     font-family: "DejaVuSansMono", "ShareTechMonoRegular", monospace;
@@ -12,14 +12,13 @@ div#page {
     margin-right: auto;
     margin-left: auto;
     margin-top: 20px;
-    background: white;
+    background: #eeebe1;
     border-bottom: 3px solid #649913;
     border-left:   3px solid #649913;
     border-right:  3px solid #649913;
     border-top:    3px solid #649913;
     -moz-border-radius: 10px 10px 10px 10px;
     border-radius:      10px 10px 10px 10px;
-    background: #edfcd3 url('../images/bg_page.jpg') repeat-x top left;
 }
 
 h1 { margin-top: 40px; }
@@ -28,27 +27,33 @@ h1 a:hover { color: yellow; }
 
 div.step {
     float: left;
-    width: 150px;
+    width: 100px;
+    height: 40px;
     color: black;
     display:block;
-    margin-top: 118px; 
+    text-align: center;
+    vertical-align: inherit;
 }
 
 div#menu {
     float: left;
     width: 892px;
+    margin-left: 10px;
+    margin-top: 40px;
+    vertical-align: middle; /* FIXME */
 }
 
 div.menu_with_path {
     float: left;
     width: 590px;
+    vertical-align: inherit;
+    margin-top: 30px;
 }
 
 div.logo_div {
     width: 300px;
-    margin-top: 40px;
     float: left;
-    vertical-align:bottom; 
+    vertical-align: inherit;
 }
 
 
@@ -56,11 +61,12 @@ img#avatar { float: right; margin-top: -80px;}
 
 div#frame {
     margin: 30px;
-    margin-left: 100px;
-    padding: 10px;
-    border: 1px solid black;
-    background: white;
+    margin-left: 300px;
+    border: 3px solid black;
+    background: #729038;
     color: black;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 
 div#frame li a:link { color: white; text-decoration: none;}
@@ -76,4 +82,64 @@ div#footer {
     clear: both;
 }
 
+div.sensor{
+    width: 500px;
+    padding: 10px;
+    background: #eeebe1;
+    border: 1px solid blue;
+    margin-left: 10px;
+}
 
+div.sensor .value{
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 300px;
+}
+
+div.sensor .name{
+ margin-left: 0px;
+}
+
+div.sensor .regul{
+  margin-left: 300px;
+}
+
+div.actuator {
+    width: 500px;
+    padding: 10px;
+    background: white;
+    border: 1px solid red;
+    margin-left: 10px;
+    background: #eeebe1;
+}
+
+div.actuator active_method{
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  width: 30px;
+  margin-right: 15px;
+}
+
+div.actuator method{
+  font-size: 14px;
+  padding: 10px;
+  width: 30px;
+  margin-right: 15px;
+}
+
+div.actuator .name{
+ margin-left: 0px;
+ clear: left;
+ width: 200px;
+}
+
+div#main{
+    clear: left;
+}
+
+div#tomato {
+    width: 152px;
+    float: left;
+    margin-bottom: 0px;
+}
