@@ -4,8 +4,13 @@ class Room
     
     def initialize(connection, path)
       @connect = connection
-      @path = path + "/"
+      if not path=="/"
+        @path = path + "/" 
+      else
+        @path = path
+      end
       @backend = connection.rooms[@path]
+      puts @path
       @sensors = Hash.new
       @actuators = Hash.new
 
