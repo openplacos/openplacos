@@ -3,3 +3,7 @@
 
 en:
   hello: "Hello world"
+  list_sensors: "Listing Sensors"
+  list_actuators: "Listing Actuators"
+  room: "Room"
+  

@@ -2,10 +2,10 @@
   <%= render :partial => "shared/menu" , :locals => { :path => @rooms.path }%>
 <% end %>
 
-<h1>Room <%=@rooms.path%></h1>
+<h1><%=t(:room) + " " + @rooms.path%></h1>
 
 <% if not @rooms.sensors.empty? %>
-<h2>Listing sensors</h2>
+<h2><%=t :list_sensors%></h2>
 
 <%  @rooms.sensors.each_pair{ |key, sensor| %>
  <%= render :partial => "sensors/abstract",:locals => { :sensor => sensor }%>
@@ -14,7 +14,7 @@
 <%end%>
 
 <% if not @rooms.actuators.empty? %>
-<h2>Listing Actuators</h2>
+<h2><%=t(:list_actuators)%></h2>
 
 
 <%  @rooms.actuators.each_pair{ |key, actuator| %>
