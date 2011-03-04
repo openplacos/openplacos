@@ -3,10 +3,18 @@
 <% end %>
 
 <% content_for :menu_left do %>
-  <%= render :partial => "shared/menu_left" , :locals => { :path => @rooms.path }%>
+  <%= render :partial => "shared/menu_left"%>
 <% end %>
 
-<h1><%=t(:room) + " " + @rooms.path%></h1>
+<div id="room_navigator">
+  <%= link_to "/", "/opos"%>
+  <%  room_split = @rooms.path.split("/")
+      room_split.delete_at(0)
+      room_split.each_index { |id| %>
+        >
+        <%= link_to room_split[id], "/opos/" + room_split[0..id].join("/") %>
+      <% } %>
+</div>
 
 <% if not @rooms.sensors.empty? %>
 <h2><%=t :list_sensors%></h2>
@@ -27,24 +35,4 @@
 <%  } %>
 
 <%end%>
-
-<h2>Listing Rooms</h2>
-
-
-  
-    <% parent = @rooms.path.split("/"); parent.pop ; parent = parent.join("/") + "/"%>
-    <tr><td>Parent : <%= link_to parent , "/opos" + parent %></td></tr>
- <% if not @rooms.backend.childs.empty? %>
-
-  <br>
-     <td>Childs :</td> 
-
-  <%@rooms.backend.childs.each { |ch| %>
-  <td>
-    <%= link_to ch.path, "/opos" + ch.path %>
-  </td>
-  <%}%>
-
-  <%end%>
-
 
