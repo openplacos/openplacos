@@ -14,5 +14,4 @@ module ApplicationHelper
       #str << "</li>\n"
       return str  
   end
-
 end

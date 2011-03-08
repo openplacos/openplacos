@@ -1,5 +1,7 @@
-class Sensor
-
+class Sensor < ActiveRecord::Base
+    belongs_to :device
+    has_many :measures
+    
     attr_reader :path, :backend, :config
 
     def initialize(connection, path)

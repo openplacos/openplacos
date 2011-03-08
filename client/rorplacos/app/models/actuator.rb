@@ -1,5 +1,7 @@
-class Actuator
-
+class Actuator < ActiveRecord::Base
+    belongs_to :devices
+    has_many :instructions
+    
     attr_reader :path,:backend
 
     def initialize(connection, path)
