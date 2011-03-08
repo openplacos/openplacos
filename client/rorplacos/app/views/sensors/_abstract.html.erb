@@ -1,14 +1,11 @@
-<% connexion = Opos_Connexion.instance %>
-   <% regul_status = "NA" %> 
-   <% if (connexion.is_regul(sensor.backend)) %>
-  <% if (connexion.get_regul_iface(sensor.backend).state ) %>
-   <%   regul_status = "ON" %>
-   <% else %>
-   <%   regul_status = "OFF" %>
-   <% end %>
-   <% end %>
- <tr>
-   <td><%=  link_to sensor.path,"/sensors#{sensor.path}" %></td>
-   <td><%= sensor.backend.value %></td>
-   <td><%=  regul_status %></td>
-</tr>
+<div class="sensor">
+  <div class="name">
+    <%=  link_to sensor.path,"/sensors#{sensor.path}" %>
+  </div>
+  <div class="value">
+    <%= sensor.value + " " + sensor.unit%>
+  </div>
+  <div class="regul">
+    Regul : <%=  sensor.regul_status %>
+  </div>
+</div>

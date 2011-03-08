@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Rorplacos</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
+  <head>
+    <title>Rorplacos</title>
+    <%= stylesheet_link_tag @style %>
+    <%= javascript_include_tag :defaults %>
+    <%= csrf_meta_tag %>
+  </head>
 
-<%= yield %>
-
+  <div id="page">
+    <div id="menu">
+      <div class="logo_div">
+        <img id="logo" src="/images/logo2.png" WIDTH=300  />
+      </div>
+      <%= yield :menu %>
+    </div>
+    <div id="main">
+<!--
+      <img id="avatar" src="/images/palmtree.png" width="240" />
+-->
+      <div id="menu_left">
+        <%= yield :menu_left %>
+<!--
+        <img id="tomato_img" src="/images/tomato.png"    width="150"  />
+-->
+      </div>
+      <div id="frame">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,62 +1,38 @@
-<center>
-<table border=1 align=center width=60%>
-<th>
-<h1>Room <%=@rooms.path%></h1>
-</th>
-<tr>
-<td>
-<% if not @rooms.sensors.empty? %>
-<h2>Listing sensors</h2>
+<% content_for :menu do %>
+  <%= render :partial => "shared/menu" , :locals => { :path => @rooms.path }%>
+<% end %>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Regulation Status</th>
-  </tr>
+<% content_for :menu_left do %>
+  <%= render :partial => "shared/menu_left", :locals => { :path => @rooms.path }%>
+<% end %>
+
+<div id="room_navigator">
+  <%= link_to "/", "/opos"%>
+  <%  room_split = @rooms.path.split("/")
+      room_split.delete_at(0)
+      room_split.each_index { |id| %>
+        >
+        <%= link_to room_split[id], "/opos/" + room_split[0..id].join("/") %>
+      <% } %>
+</div>
+
+<% if not @rooms.sensors.empty? %>
+<h2><%=t :list_sensors%></h2>
 
 <%  @rooms.sensors.each_pair{ |key, sensor| %>
  <%= render :partial => "sensors/abstract",:locals => { :sensor => sensor }%>
+ <br>
 <%  } %>
-</table>
 <%end%>
 
 <% if not @rooms.actuators.empty? %>
-<h2>Listing Actuators</h2>
+<h2><%=t(:list_actuators)%></h2>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Metods</th>
-  </tr>
 
 <%  @rooms.actuators.each_pair{ |key, actuator| %>
  <%= render :partial => "actuators/abstract",:locals => { :actuator => actuator }%>
+ <br>
 <%  } %>
-</table>
+
 <%end%>
-
-<h2>Listing Rooms</h2>
-
-<table>
-  
-    <% parent = @rooms.path.split("/"); parent.pop ; parent = parent.join("/") + "/"%>
-    <tr><td>Parent : <%= link_to parent , "/opos" + parent %></td></tr>
- <% if not @rooms.backend.childs.empty? %>
-
-  <tr>
-     <td>Childs :</td> 
-
-  <%@rooms.backend.childs.each { |ch| %>
-  <td>
-    <%= link_to ch.path, "/opos" + ch.path %>
-  </td>
-  <%}%>
-  </tr>
-  <%end%>
-</table>
-</td>
-</tr>
-</table>
-</center>
 

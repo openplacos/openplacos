@@ -1,13 +1,36 @@
 class Sensor
 
-    attr_reader :path, :backend
+    attr_reader :path, :backend, :config
 
     def initialize(connection, path)
       @connect = connection
       @path = path
       @backend = connection.sensors[@path]
-        # @value = node.object['org.openplacos.server.measure'].value[0]
-        # @unit = node.object['org.openplacos.server.config'].getConfig['informations']['unit']
+      @config = connection.objects[@path]['org.openplacos.server.config'].getConfig[0]
     end
-
+  
+    def value
+      val = @backend.value[0]
+      if val.is_a?(Float)
+        val = val.round(2)
+      end
+      return val.to_s
+    end
+    
+    def unit
+      return @config["informations"]["unit"] if not @config["informations"]["unit"].nil?
+      return " " # return an empty string if no unit is defined
+    end
+    
+    def regul_status
+      status = "NA"
+      if (@connect.is_regul(@backend))
+        if (@connect.get_regul_iface(@backend).state[0] )
+          status = "ON"
+        else 
+          status = "OFF"
+        end
+      end
+      return status
+    end
 end
