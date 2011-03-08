@@ -35,26 +35,35 @@ class Dbus_measure < DBus::Object
     end  
   end 
 
-  # ++++
-  # FIXME : create interface only if has a regul 
-  # ----
-
-  dbus_interface "org.openplacos.server.regul" do
-    dbus_method :set, "in option:a{sv}" do |option|
-      [@meas.regul.set(option)]
-    end  
-    dbus_method :unset do 
-      [@meas.regul.unset]
-    end  
-  end 
 
   def initialize (meas_)
     # DBus constructor
    
     @meas = meas_
     super(@meas.path)
+    if (meas_.regul)
+      dbus_regul_iface()
+    end
 
   end # End of initialize
+
+  def dbus_regul_iface()
+    
+    methdef =    'dbus_interface "org.openplacos.server.regul" do
+    dbus_method :set, "in option:a{sv}" do |option|
+      [@meas.regul.set(option)]
+    end  
+    dbus_method :unset do 
+      [@meas.regul.unset]
+    end  
+    dbus_method :state, "out return:v" do
+      [@meas.regul.state]
+    end 
+  end '
+
+    # evualates methdef
+    self.singleton_class.instance_eval(methdef)
+  end
 
 end # End of class Dbus_debug_measure 
 

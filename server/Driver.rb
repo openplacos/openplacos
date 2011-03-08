@@ -31,6 +31,13 @@ class Driver
     @name = card_["name"]
     @path_dbus = "org.openplacos.drivers." + card_["name"].downcase
     
+    #launch the driver with dbus autolaunch
+    begin
+      Bus.service(@path_dbus) 
+    rescue
+      top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
+      raise "Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
+    end
     @objects = Hash.new
 
     card_["plug"].each_pair do |pin,object_path|
@@ -41,8 +48,8 @@ class Driver
       begin
         obj_proxy = Bus.introspect(@path_dbus, pin)
       rescue
-        raise "Can't find #{pin} for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
         top_.dbus_plugins.error("Can't find #{pin} for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
+        raise "Can't find #{pin} for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
       end
       @objects[pin]=obj_proxy
       

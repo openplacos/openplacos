@@ -53,15 +53,15 @@ plugins:
 - name: sql
   method: fork
   exec: plugins/sql.rb
-  config:
-    adapter: sqlite3
-    database: /tmp/opos.sql
+  #~ config:
+    #~ adapter: sqlite3
+    #~ database: /tmp/opos.sql
   # Database config for mysql
-  #config:
-  # name: opos_VP
-  # adapter: mysql
-  # host: localhost
-  # user: root
+  config:
+   database: opos
+   adapter: mysql
+   host: localhost
+   user: root
   # Please set password in $OPOS_PASS
 
 - name: xmlrpc

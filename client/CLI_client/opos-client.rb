@@ -16,30 +16,34 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 
+$LIB_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
+$LOAD_PATH << $LIB_PATH 
 
 
 require "rubygems"
 require "openplacos"
 
+
 opos = Openplacos::Client.new
 
 
-def get_adjust(size_)
-  if (size_ < 8)
-    return "\t\t"
-  end 
-  if (size_ < 16)
-    return "\t"
-  end 
-  return ""
+def get_adjust(string_len_, size_=2)
+  if (string_len_ >= size_*8)
+    return "" 
+  end
+  str = "\t"*(size_-(string_len_/8))
+  return str
 end
 
 def usage()
 
 puts "Usage: "
-puts "opos-client list              # Return sensor and actuator list and corresponding interface "
-puts "opos-client get  <sensor>     # Make a read access on this sensor"
-puts "opos-client set  <actuator>   # Make a write access on this actuator"
+puts "opos-client list               # Return sensor and actuator list and corresponding interface "
+puts "opos_client status             # Return a status of your placos"
+puts "opos-client get  <sensor>      # Make a read access on this sensor"
+puts "opos-client set  <actuator>    # Make a write access on this actuator"
+puts "opos-client regul <sensor> -threeshold <threeshold>   \n   # Setup up a regul on this sensor with this threeshold"
+
 end
 
 
@@ -51,18 +55,32 @@ end
 
 
 if( ARGV[0] == "list")
-  puts "Actuators\t"+ get_adjust("Actuators".length) +"   Interface"
+  puts "Actuators\t"+ get_adjust("Actuators".length) +"\t   Interface"
   opos.actuators.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length) # Cosmetic
-    puts key +":\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
+    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
   }
-  puts "\nSensor\t"+ get_adjust("Sensor".length)+ "   Interface"
+  puts "\nSensor\t"+ get_adjust("Sensor".length)+ "\t   Interface" + "\t   Regul"
   opos.sensors.each_pair{|key, value|
-    adjust = get_adjust(key.to_str.length)
-     puts key +":\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
+    adjust = get_adjust(key.to_str.length)    
+    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '') +  "\t" +  opos.is_regul(value).to_s
   }
   
 end # Eof 'list'
+
+if( ARGV[0] == "status")
+  opos.sensors.each_pair{|key, sensor|
+    regul_enabled = "NA"
+    if opos.is_regul(sensor)
+      if(opos.get_regul_iface(sensor).state )
+        regul_enabled = "enabled"
+      else
+        regul_enabled = "disabled"
+      end
+    end
+    puts key + get_adjust(key.length, 5) + sensor.value().to_s + get_adjust(10)+ regul_enabled
+  }
+end
 
 if( ARGV[0] == "set")
   if( ARGV.length < 3)

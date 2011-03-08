@@ -21,7 +21,7 @@
 
 ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'rubygems'
-require 'dbus'
+require 'dbus-openplacos'
 
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
   bus =  DBus::session_bus
