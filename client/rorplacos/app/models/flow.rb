@@ -1,4 +1,3 @@
 class Flow < ActiveRecord::Base 
-  belongs_to :measure
-  belongs_to :instruction
+  has_one :measure
 end

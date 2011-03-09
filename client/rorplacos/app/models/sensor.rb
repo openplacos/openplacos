@@ -1,6 +1,7 @@
 class Sensor < ActiveRecord::Base
     belongs_to :device
     has_many :measures
+    has_many :flows , :through => :measures
     
     attr_reader :path, :backend, :config
 
@@ -34,5 +35,16 @@ class Sensor < ActiveRecord::Base
         end
       end
       return status
+    end
+    
+    def generate_graph
+      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows
+      val = meas.collect{ |m| m.value}
+      
+      g = Gruff::Line.new
+      g.title = @path
+
+      g.data(@path, val)
+      g.write("public/images/#{@path.delete("/")}.png")
     end
 end

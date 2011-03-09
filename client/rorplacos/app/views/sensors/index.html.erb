@@ -1,1 +1,3 @@
 <%= render :partial => "abstract",:locals => { :sensor => @sensor }%>
+
+<img class="graph" src="/images/<%=@sensor.path.delete("/")%>.png" WIDTH=500  />

@@ -89,6 +89,8 @@ div.logo_div {
 
 img#avatar { float: right; margin-top: -80px;}
 
+img.graph { margin:10px;}
+
 div#frame {
     margin-right: 10px;
     margin-bottom: 30px;
@@ -180,9 +182,9 @@ div#menu_left {
 }
 
 div#menu_left ul, ol {
-	margin: 10px 30px;
-	padding: 0 15px;	
-	color: #72A545;	
+  margin: 10px 30px;
+  padding: 0 15px;  
+  color: #72A545; 
   margin-left:15px;
 }
 

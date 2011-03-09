@@ -9,6 +9,9 @@ class SensorsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @sensors }
     end
+    
+    @sensor.generate_graph
+    
   end
 
   # GET /sensors/1
