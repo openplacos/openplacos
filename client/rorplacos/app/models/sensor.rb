@@ -40,6 +40,7 @@ class Sensor < ActiveRecord::Base
     def generate_graph
       meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows
       val = meas.collect{ |m| m.value}
+      date = meas.collect{ |m| m.date}
       
       g = Gruff::Line.new
       g.title = @path
