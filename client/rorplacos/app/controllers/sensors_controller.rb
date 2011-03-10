@@ -15,10 +15,15 @@ class SensorsController < ApplicationController
   end
 
   def set_regul
+
     path = params[:path]
     regul = Opos_Connexion.instance.reguls[path]
     option = {"threshold" => params[:th].to_f, "hysteresis" => params[:hy].to_f, "frequency" => params[:fe].to_f}
-    regul.set(option)
+    if params[:act]  
+      regul.set(option)
+    else
+      regul.unset
+    end
     redirect_to :back
   end
   
