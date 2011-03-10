@@ -38,7 +38,7 @@ class Sensor < ActiveRecord::Base
     end
     
     def generate_graph
-      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows
+      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.order("date DESC").limit(500)
       val = meas.collect{ |m| m.value}
       date = meas.collect{ |m| m.date}
       

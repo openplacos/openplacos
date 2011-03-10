@@ -10,3 +10,7 @@ fr:
   user: "Utilisateur"
   blog: "Blog"
   profile: "Profil"
+  threshold: "Seuil"
+  hysteresis: "Hysteresis"
+  send: "Envoyer"
+  frequency: "Fréquence"

@@ -1,0 +1,15 @@
+
+<div class="regul">
+<%= form_tag("/sensors/set_regul", :method => "post") do %>
+  <%= hidden_field_tag(:path, sensor.path) %>
+  <%= label_tag(:th, t(:threshold)) %>
+  <%= text_field_tag(:th) %>
+  <br>
+  <%= label_tag(:hy, t(:hysteresis)) %>
+  <%= text_field_tag(:hy) %>
+  <br>
+  <%= label_tag(:fe, t(:frequency)) %>
+  <%= text_field_tag(:fe) %>
+  <%= submit_tag(t(:send)) %>
+<% end %>
+</div>

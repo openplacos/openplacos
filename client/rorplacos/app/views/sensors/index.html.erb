@@ -1,3 +1,5 @@
 <%= render :partial => "abstract",:locals => { :sensor => @sensor }%>
 
+<%= render :partial => "regul_form",:locals => { :sensor => @sensor }%>
+
 <img class="graph" src="/images/<%=@sensor.path.delete("/")%>.png" WIDTH=500  />

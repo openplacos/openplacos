@@ -10,3 +10,7 @@ en:
   user: "User"
   blog: "Blog"
   profile: "Profile"
+  threshold: "Threshold"
+  hysteresis: "Hysteresis"
+  send: "Send"
+  frequency: "Frequency"
