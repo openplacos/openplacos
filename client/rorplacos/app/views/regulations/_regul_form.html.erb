@@ -1,10 +1,10 @@
 
 <div class="regul">
-<%= form_tag("/sensors/set_regul", :method => "post") do %>
+  <%= form_tag({:controller => "regulations" ,:action => "set"}, :method => "post") do %>
   <%= label_tag(:act, t(:active)) %>
   <%= check_box_tag(:act) %>
   <br>
-  <%= hidden_field_tag(:path, sensor.path) %>
+  <%= hidden_field_tag(:path, path) %>
   <%= label_tag(:th, t(:threshold)) %>
   <%= text_field_tag(:th) %>
   <br>

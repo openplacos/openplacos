@@ -1,17 +1,16 @@
 Rorplacos::Application.routes.draw do
-  resources :rooms
 
-  resources :actuators
+  root :to => 'rooms#index'
+  match 'rooms' => 'rooms#index'
+  match 'rooms/*path' => 'rooms#index'
 
-  resources :sensors
+  match 'regulations/set' => 'regulations#set'
+  match 'regulations/unset' => 'regulations#unset'
+
   
-  #resources :connexions
-
-  match 'opos' => 'rooms#index'
-  match 'opos/*path' => 'rooms#index'
-  match 'sensors/set_regul' => 'sensors#set_regul'
   match 'sensors/*path' => 'sensors#index'
-  match 'actuators/*path/method/:method' => 'actuators#call'
+
+  match 'actuators/call' => 'actuators#call'
   match 'actuators/*path' => 'actuators#index'
 
   # The priority is based upon order of creation:

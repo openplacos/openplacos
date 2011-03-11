@@ -8,7 +8,7 @@
       room_split.delete_at(0)
       room_split.each_index { |id| %>
         >
-        <%= link_to room_split[id], "/opos/" + room_split[0..id].join("/") %>
+        <%= link_to room_split[id], "/rooms/" + room_split[0..id].join("/") %>
       <% } %>
 </div>
 

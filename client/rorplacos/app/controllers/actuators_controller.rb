@@ -12,11 +12,10 @@ class ActuatorsController < ApplicationController
   end
   
   def call
-   path = '/'+ params[:path] ||= ""
-   meth = params[:method]
-   @connexion = Opos_Connexion.instance
-   @actuator = Actuator.new(@connexion,path)
-   @actuator.backend.method(meth).call
+   path = params[:path]
+   meth = params[:meth]
+   actuator = regul = Opos_Connexion.instance.actuators[path]
+   actuator.method(meth).call
    redirect_to :back
   end
 
