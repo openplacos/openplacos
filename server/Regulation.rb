@@ -74,6 +74,9 @@ class Regulation
     if !option_["hysteresis"].nil?
       @hysteresis = option_["hysteresis"]
     end
+    if !option_["frequency"].nil?
+      @frequency = option_["frequency"]
+    end
     @is_regul_on = true
     @thread.wakeup
   end
