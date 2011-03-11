@@ -3,7 +3,7 @@
 <% end %>
 
 <div id="room_navigator">
-  <%= link_to "/", "/opos"%>
+  <%= link_to "/", "/rooms"%>
   <%  room_split = @rooms.path.split("/")
       room_split.delete_at(0)
       room_split.each_index { |id| %>
