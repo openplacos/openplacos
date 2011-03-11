@@ -24,6 +24,8 @@ objects:
   regul:
     action-: /home/indoor/Fan
     frequency: 0.5
+  plugin_fill_sql_frequency: 2
+
     
 - name: Light
   path: /home/indoor/Light
@@ -45,18 +47,14 @@ card:
 
 plugins:
 
-- name: log
-  method: thread
-  exec: plugins/log.rb
-  file: /tmp/opos.log
-  
+#~ - name: log
+  #~ method: thread
+  #~ exec: plugins/log.rb
+  #~ file: /tmp/opos.log
+  #~ 
 - name: sql
   method: fork
   exec: plugins/sql.rb
-  #~ config:
-    #~ adapter: sqlite3
-    #~ database: /tmp/opos.sql
-  # Database config for mysql
   config:
    database: opos
    adapter: mysql
@@ -64,13 +62,16 @@ plugins:
    user: root
   # Please set password in $OPOS_PASS
 
-- name: xmlrpc
-  method: fork
-  exec: plugins/xmlrpc.rb
-  port: 8080
-  
-- name: soap
-  method: thread
-  exec: plugins/soap.rb
-  port: 8081
+#~ - name: xmlrpc
+  #~ method: fork
+  #~ exec: plugins/xmlrpc.rb
+  #~ port: 8080
+  #~ 
+#~ - name: soap
+  #~ method: thread
+  #~ exec: plugins/soap.rb
+  #~ port: 8081
 
+- name: fill_sql
+  method: thread
+  exec: plugins/fill_sql.rb
