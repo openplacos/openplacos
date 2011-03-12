@@ -55,12 +55,6 @@ plugins:
 - name: sql
   method: fork
   exec: plugins/sql.rb
-  config:
-   database: opos
-   adapter: mysql
-   host: localhost
-   user: root
-  # Please set password in $OPOS_PASS
 
 #~ - name: xmlrpc
   #~ method: fork

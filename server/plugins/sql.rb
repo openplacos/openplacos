@@ -15,17 +15,17 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-require 'active_record' #database desactivate until it was fix
+require 'active_record' 
 require "rubygems"
 require "openplacos"
 
 plugin = Openplacos::Plugin.new("sql")
 
-options = Hash.new
-plugin.config['config'].each_pair do |key,value|
-  options[key.to_sym] = value
-end
-options[:password] = ENV['OPOS_PASS'] if ENV['OPOS_PASS']
+options = { "adapter" => "mysql2",
+            "encoding" => "utf8",
+            "database" => "openplacos",
+            "username" => "openplacos",
+            "password" => "opospass"}
 
 ActiveRecord::Base.establish_connection( options )
 
