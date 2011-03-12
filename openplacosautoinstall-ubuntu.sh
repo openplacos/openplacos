@@ -48,6 +48,16 @@ installation() {
   cp $path/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
 }
 
+mysql_install() {
+
+    apt-get install mysql-server
+    echo "----------------------------------------------------"
+    echo "Process database configuration" 
+    echo "Please provide MySQL root password" 
+    echo "----------------------------------------------------"  
+    mysql -u root -p < $path/setup_files/install.sql
+}
+
 post_installation() {
   # User openplacos
   adduser openplacos --system -disabled-login -no-create-home
@@ -95,6 +105,15 @@ else
 fi
 
 installation
+
+
+echo "Do you want to proceed an easy and automatic MySQL install [y/n]"
+read answer
+
+if [ "$answer" = "y" ]
+then
+    mysql_install
+fi
 post_installation
 start
 
