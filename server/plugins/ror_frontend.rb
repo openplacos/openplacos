@@ -46,7 +46,7 @@ require 'rubygems'
 version = ">= 0"
 
 gem 'rails', version
-ARGV[0] = "server" # I love this Gem API, yeah!
+ARGV[0] = "server" # I looooooove this Gem API, yeah!
 
 load Gem.bin_path('rails', 'rails', version)
 
