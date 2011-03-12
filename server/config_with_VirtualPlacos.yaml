@@ -75,3 +75,6 @@ plugins:
 - name: fill_sql
   method: thread
   exec: plugins/fill_sql.rb
+
+- name: ror_frontend
+  exec: plugins/ror_frontend.rb
