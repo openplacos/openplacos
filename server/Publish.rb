@@ -139,24 +139,34 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :quit,""
     dbus_signal :ready,""
     dbus_signal :error,"in error:s, in options:a{sv}"
-    # dbus_method :plugin_is_ready, "in path:s, out id:i" do |name|
-    #   @ready_queue.push name
-    # end
+    dbus_method :plugin_is_ready, "in name:s, in id:s" do |name, id|
+      # just for debug info
+      puts "Plugin named "+ name + "is started with id " + id 
+    end
     dbus_method :is_server_ready, "" do 
     end   
     dbus_method :register_plug, "in path:s, out id:i" do |path|
-      return 0
+      @last_id +=1
+      @path_to_config.each { |p2config| # p2config is a Hash
+        if p2config.path == path
+          @id_to_config.push(p2config.config)
+          @path_to_config.delete(p2config)
+          return @last_id
+        end
+      }
+      return @last_id
     end
     dbus_method :getConfig, "in id:i, out config:a{sv}" do
-      return [@config_queue.pop]
+      return [@config[id]]
     end  
     
   end
   
   def initialize
     super("/plugins")
-    @ready_queue = Queue.new
-    @config_queue = Queue.new 
+    @id_to_config   = Array.new 
+    @path_to_config = Array.new 
+    @last_id = 0
   end
 
 end

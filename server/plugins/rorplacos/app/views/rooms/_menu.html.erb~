@@ -1,0 +1,4 @@
+<div class="menu">
+  ici simone !
+<%= puts path %>
+</div>
