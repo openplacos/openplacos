@@ -139,10 +139,15 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :quit,""
     dbus_signal :ready,""
     dbus_signal :error,"in error:s, in options:a{sv}"
-    dbus_method :plugin_is_ready, "in name:s" do |name|
-      @ready_queue.push name
+    # dbus_method :plugin_is_ready, "in path:s, out id:i" do |name|
+    #   @ready_queue.push name
+    # end
+    dbus_method :is_server_ready, "" do 
+    end   
+    dbus_method :register_plug, "in path:s, out id:i" do |path|
+      return 0
     end
-    dbus_method :getConfig, "out config:a{sv}" do
+    dbus_method :getConfig, "in id:i, out config:a{sv}" do
       return [@config_queue.pop]
     end  
     
