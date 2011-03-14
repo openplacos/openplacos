@@ -1,4 +1,4 @@
-#    This file is part of Openplacos.
+3#    This file is part of Openplacos.
 #
 #    Openplacos is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -129,7 +129,7 @@ class Server < DBus::Object
 end
 
 class Dbus_Plugin < DBus::Object
-  attr_accessor :ready_queue, :config_queue
+  attr_accessor :ready_queue, :path_to_config
 
   dbus_interface "org.openplacos.plugins" do
     dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
