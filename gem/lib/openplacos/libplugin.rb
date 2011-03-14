@@ -14,13 +14,16 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 
+ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
+require 'dbus-openplacos'
+
 module Openplacos
 
   class Plugin
-    attr_reader :name, :opos ,:main ,:config
-    def initialize(name_)
+    attr_reader :path, :opos ,:main ,:config
+    def initialize(path_)
       @server_ready_queue = Queue.new
-      @name = name_
+      @path = path__
       #DBus
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
         @clientbus =  DBus::SessionBus.instance
@@ -34,7 +37,7 @@ module Openplacos
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
       
-      @config = @opos.getConfig[0]
+#      @config = @opos.getConfig[0]
       
       @opos.on_signal("quit") do
         self.quit

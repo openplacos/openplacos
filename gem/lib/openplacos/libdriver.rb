@@ -13,6 +13,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
+require 'dbus-openplacos'
+
+
 module Openplacos
   module Driver
   
