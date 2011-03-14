@@ -31,7 +31,7 @@ class Plugin
     @class  = plugin_["name"].to_s.capitalize
     @exec   = PATH + "/" + plugin_["exec"] # To be patched with Patchname class
     
-    top_.dbus_plugins.path_to_config.push ( Hash["path" =>@exec, "config" => plugin_])
+    top_.dbus_plugins.path_to_config.push(Hash["path" =>@exec, "config" => plugin_])
     
     if (@method == "thread")
       Thread.new{
