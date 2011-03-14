@@ -31,7 +31,7 @@ class Plugin
     @class  = plugin_["name"].to_s.capitalize
     @exec   = PATH + "/" + plugin_["exec"] # To be patched with Patchname class
     
-    top_.dbus_plugins.config_queue.push plugin_
+    top_.dbus_plugins.path_to_config.push ( Hash["path" =>@exec, "config" => plugin_])
     
     if (@method == "thread")
       Thread.new{
@@ -61,16 +61,16 @@ class Plugin
       Process.detach(p) # otherwise p will be zombified by OS
     end
     
-    begin # if plugin don't start within the next 10 seconds, go ahead.
-      Timeout::timeout(10) do 
-        name = top_.dbus_plugins.ready_queue.pop
-        puts "Plugin named #{name} is started"
-      end
-    rescue Timeout::Error
-      top_.dbus_plugins.config_queue.clear
-      top_.dbus_plugins.error("Plugin #{@name} do not respond in time, try the next plugin",{})
-      puts "Plugin #{@name} do not respond in time, try the next plugin"
-    end
+    # begin # if plugin don't start within the next 10 seconds, go ahead.
+    #   Timeout::timeout(10) do 
+    #     name = top_.dbus_plugins.ready_queue.pop
+    #     puts "Plugin named #{name} is started"
+    #   end
+    # rescue Timeout::Error
+    #   top_.dbus_plugins.config_queue.clear
+    #   top_.dbus_plugins.error("Plugin #{@name} do not respond in time, try the next plugin",{})
+    #   puts "Plugin #{@name} do not respond in time, try the next plugin"
+    # end
 
   end
   
