@@ -36,17 +36,22 @@ module Openplacos
       @opos = server.object("/plugins")
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
-      
-      #      @config = @opos.getConfig[0]
-      
+
+      puts "COU"    
+     
+      @id =  @opos.register_plug(@path)[0]
+      puts @id.to_i.class
+      @config = @opos.getConfig(@id)[0]
+      puts "COU2"    
+
       @opos.on_signal("quit") do
         self.quit
       end
-      
+  
       @opos.on_signal("ready") do
         @server_ready_queue.push "Go"
       end
-      
+
     end
     
     def run

@@ -66,6 +66,6 @@ card:
 plugins:
 
 - name: log
-  method: thread
+  method: disable
   exec: plugins/log.rb
   file: /tmp/opos.log

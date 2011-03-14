@@ -145,19 +145,20 @@ class Dbus_Plugin < DBus::Object
     end
     dbus_method :is_server_ready, "" do 
     end   
-    dbus_method :register_plug, "in path:s, out id:i" do |path|
+    dbus_method :register_plug, "in path:s, out id:v" do |path|
       @last_id +=1
       @path_to_config.each { |p2config| # p2config is a Hash
-        if p2config.path == path
-          @id_to_config.push(p2config.config)
-          @path_to_config.delete(p2config)
+        if p2config["path"] == path
+          @id_to_config.push(p2config["config"])
+        ##  @path_to_config.delete(p2config)
           return @last_id
         end
       }
-      return @last_id
+      return [@last_id]
     end
-    dbus_method :getConfig, "in id:i, out config:a{sv}" do
-      return [@config[id]]
+    dbus_method :getConfig, "in id:i, out config:a{sv}" do |id|
+      puts "OKKKKK "+ id
+      return [@id_to_config[id]]
     end  
     
   end
@@ -166,7 +167,7 @@ class Dbus_Plugin < DBus::Object
     super("/plugins")
     @id_to_config   = Array.new 
     @path_to_config = Array.new 
-    @last_id = 0
+    @last_id = -1
   end
 
 end

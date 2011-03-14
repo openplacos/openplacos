@@ -24,9 +24,11 @@ else
 end
 
 
-plugin = Openplacos::Plugin.new("test")
+plugin = Openplacos::Plugin.new(__FILE__)
+puts "COUCOU"
 
 file = plugin.config['file']
+puts "FILE: "+ plugin.config['file']
 if File.exists? file
   $log_file = File.open(file, "a+") 
 else

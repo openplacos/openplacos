@@ -33,34 +33,36 @@ class Plugin
     
     top_.dbus_plugins.path_to_config.push(Hash["path" =>@exec, "config" => plugin_])
     
-    if (@method == "thread")
-      Thread.new{
-         start_plug_thread()
-      }
-    else
-      p = Process.fork{ # First fork
-     
-        # Double fork method
-        # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
-        raise 'First fork failed' if (pid = fork) == -1
-        exit unless pid.nil?
+    if (@method != "disable")
+      if (@method == "thread")
+        Thread.new{
+          start_plug_thread()
+        }
+      else
+        p = Process.fork{ # First fork
+          
+          # Double fork method
+          # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
+          raise 'First fork failed' if (pid = fork) == -1
+          exit unless pid.nil?
 
-        Process.setsid
-        raise 'Second fork failed' if (pid = fork) == -1
-        exit unless pid.nil?
-        
-        Dir.chdir '/'
-        File.umask 0000
+          Process.setsid
+          raise 'Second fork failed' if (pid = fork) == -1
+          exit unless pid.nil?
+          
+          Dir.chdir '/'
+          File.umask 0000
 
-        STDIN.reopen '/dev/null'
-        STDOUT.reopen '/dev/null', 'a'
-        STDERR.reopen STDOUT
+          STDIN.reopen '/dev/null'
+          STDOUT.reopen '/dev/null', 'a'
+          STDERR.reopen STDOUT
 
-        start_plug_fork()
-      }
-      Process.detach(p) # otherwise p will be zombified by OS
+          start_plug_fork()
+        }
+        Process.detach(p) # otherwise p will be zombified by OS
+      end
     end
-    
+
     # begin # if plugin don't start within the next 10 seconds, go ahead.
     #   Timeout::timeout(10) do 
     #     name = top_.dbus_plugins.ready_queue.pop
