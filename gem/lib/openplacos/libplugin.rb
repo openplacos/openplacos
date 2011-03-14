@@ -23,7 +23,7 @@ module Openplacos
     attr_reader :path, :opos ,:main ,:config
     def initialize(path_)
       @server_ready_queue = Queue.new
-      @path = path__
+      @path = path_
       #DBus
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
         @clientbus =  DBus::SessionBus.instance
