@@ -37,7 +37,7 @@ module Openplacos
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
       
-#      @config = @opos.getConfig[0]
+      #      @config = @opos.getConfig[0]
       
       @opos.on_signal("quit") do
         self.quit
@@ -60,7 +60,7 @@ module Openplacos
       @main.quit
       Process.exit(0)
     end
-
+    
     def nonblock_run
       @mainthread = Thread.new{
         @main = DBus::Main.new

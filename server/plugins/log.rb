@@ -24,7 +24,7 @@ else
 end
 
 
-plugin = Openplacos::Plugin.new("log")
+plugin = Openplacos::Plugin.new("test")
 
 file = plugin.config['file']
 if File.exists? file

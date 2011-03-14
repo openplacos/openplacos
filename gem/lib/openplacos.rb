@@ -14,7 +14,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Please keep as if, each file should be included separetly
+# Please keep as it, each file should be included separetly
 require 'openplacos/libplugin'
 require 'openplacos/libclient'
 require 'openplacos/libdriver'
