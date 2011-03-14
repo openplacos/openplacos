@@ -38,7 +38,7 @@ class Regulation
 	    @hysteresis = config_["hysteresis"]
 	  end
 	  
-      Thread.abort_on_exception = true # Thread.current is not better ?
+      Thread.current.abort_on_exception = true
       
       @thread = Thread.new{
         loop do
