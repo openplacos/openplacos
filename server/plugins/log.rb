@@ -17,7 +17,7 @@
 #
 
 require "rubygems"
-if (ENV["DEBUG_LIB"])
+if (ENV["DEBUG_OPOS"])
   require '../../gem/lib/openplacos/libplugin.rb'
 else
   require "openplacos"
