@@ -28,11 +28,10 @@ class Plugin
     @name   = plugin_["name"]
     @path   = plugin_["path"]
     @method = plugin_["method"]
-    @class  = plugin_["name"].to_s.capitalize
     @exec   = PATH + "/" + plugin_["exec"] # To be patched with Patchname class
     
     top_.dbus_plugins.path_to_config.push(Hash["path" =>@exec, "config" => plugin_])
-    
+    sleep 0.01 # need to wait that config hash is pushed
     if (@method != "disable")
       if (@method == "thread")
         Thread.new{
@@ -81,8 +80,7 @@ class Plugin
     @string_eval << "module "+ @name.capitalize
     @string_eval << File.open(@exec).read
     @string_eval << "end # end of module " + @name
-
-    eval @string_eval
+    eval(@string_eval,TOPLEVEL_BINDING,@exec) # eval in an empty binding
   end
   
   def start_plug_fork()

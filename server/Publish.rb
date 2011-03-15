@@ -150,7 +150,7 @@ class Dbus_Plugin < DBus::Object
       @path_to_config.each { |p2config| # p2config is a Hash
         if p2config["path"] == path
           @id_to_config.push(p2config["config"])
-          ## @path_to_config.delete(p2config) # Sert a depiler pour gerer le multi instance
+          @path_to_config.delete(p2config) # Sert a depiler pour gerer le multi instance
           next # ends loop
         end
       }

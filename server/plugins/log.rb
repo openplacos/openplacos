@@ -17,12 +17,11 @@
 #
 
 require "rubygems"
-if (ENV["DEBUG_OPOS"])
-  require '../../gem/lib/openplacos/libplugin.rb'
-else
+#if (ENV["DEBUG_OPOS"])
+  #require '../../gem/lib/openplacos/libplugin.rb'
+#else
   require "openplacos"
-end
-
+#end
 
 plugin = Openplacos::Plugin.new(__FILE__)
 

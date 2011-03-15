@@ -68,7 +68,7 @@ module Openplacos
       @mainthread = Thread.new{
         @main = DBus::Main.new
         @main << @clientbus
-        @opos.plugin_is_ready(@name)
+        @opos.plugin_is_ready(@name, @id)
         @main.run
       }
       @server_ready_queue.pop

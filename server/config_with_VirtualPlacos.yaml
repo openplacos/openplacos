@@ -66,6 +66,21 @@ card:
 plugins:
 
 - name: log
-  method: disable
+  method: thread
   exec: plugins/log.rb
   file: /tmp/opos.log
+  
+- name: log2
+  method: thread
+  exec: plugins/log.rb
+  file: /tmp/opos2.log
+
+- name: xmlrpc
+  method: fork
+  exec: plugins/xmlrpc.rb
+  port: 8081
+  
+- name: soap
+  method: disable
+  exec: plugins/soap.rb
+  port: 8080
