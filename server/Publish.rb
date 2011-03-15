@@ -139,9 +139,9 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :quit,""
     dbus_signal :ready,""
     dbus_signal :error,"in error:s, in options:a{sv}"
-    dbus_method :plugin_is_ready, "in name:s, in id:s" do |name, id|
+    dbus_method :plugin_is_ready, "in name:s, in id:i" do |name, id|
       # just for debug info
-      puts "Plugin named "+ name + "is started with id " + id 
+      puts "Plugin named "+ name + " is started with id " + id.to_s
     end
     dbus_method :is_server_ready, "" do 
     end   
