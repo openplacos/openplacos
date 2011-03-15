@@ -51,7 +51,7 @@ service = Bus.request_service("org.openplacos.server")
 
 #Global functions
 $global = Global.new
-
+$server_ready = false
 
 class Top
 
@@ -234,6 +234,7 @@ end
 Thread.new do
   sleep 1
   top.dbus_plugins.ready
+  $server_ready  = true
 end
 
 # Let's Dbus have execution control

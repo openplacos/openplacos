@@ -143,7 +143,8 @@ class Dbus_Plugin < DBus::Object
       # just for debug info
       puts "Plugin named "+ name + " is started with id " + id.to_s
     end
-    dbus_method :is_server_ready, "" do 
+    dbus_method :is_server_ready, "out ready:b" do 
+      return $server_ready
     end   
     dbus_method :register_plug, "in path:s, out id:v" do |path|
       @last_id +=1

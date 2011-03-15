@@ -61,7 +61,8 @@ module Openplacos
     
     def quit
       @main.quit
-      Process.exit(0)
+      puts "Quitting"
+      Process.exit!(true)
     end
     
     def nonblock_run
@@ -71,7 +72,9 @@ module Openplacos
         @opos.plugin_is_ready(@name, @id)
         @main.run
       }
-      @server_ready_queue.pop
+      if not @opos.is_server_ready[0]
+        @server_ready_queue.pop
+      end
     end
 
   end
