@@ -150,14 +150,13 @@ class Dbus_Plugin < DBus::Object
       @path_to_config.each { |p2config| # p2config is a Hash
         if p2config["path"] == path
           @id_to_config.push(p2config["config"])
-        ##  @path_to_config.delete(p2config)
-          return @last_id
+          ## @path_to_config.delete(p2config) # Sert a depiler pour gerer le multi instance
+          next # ends loop
         end
       }
       return [@last_id]
     end
     dbus_method :getConfig, "in id:i, out config:a{sv}" do |id|
-      puts "OKKKKK "+ id
       return [@id_to_config[id]]
     end  
     

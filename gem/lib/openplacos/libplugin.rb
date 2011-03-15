@@ -23,7 +23,7 @@ module Openplacos
     attr_reader :path, :opos ,:main ,:config
     def initialize(path_)
       @server_ready_queue = Queue.new
-      @path = path_
+      @path = File.expand_path(path_)
       #DBus
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
         @clientbus =  DBus::SessionBus.instance
@@ -37,12 +37,10 @@ module Openplacos
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
 
-      puts "COU"    
-     
       @id =  @opos.register_plug(@path)[0]
-      puts @id.to_i.class
+      puts "My plug ID: "+ @id.to_s
       @config = @opos.getConfig(@id)[0]
-      puts "COU2"    
+      @name = @config["name"]
 
       @opos.on_signal("quit") do
         self.quit
@@ -57,7 +55,7 @@ module Openplacos
     def run
       @main = DBus::Main.new
       @main << @clientbus
-      @opos.plugin_is_ready(@name)
+      @opos.plugin_is_ready(@name, @id)
       @main.run
     end
     
