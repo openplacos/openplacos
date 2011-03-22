@@ -17,5 +17,10 @@
 #
 
 class User
+  attr_reader :login, :hash 
+  def initialize(cfg_)
+    @login = cfg_["login"]
+    @hash = cfg_["hash"]
+  end
 
 end

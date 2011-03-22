@@ -155,3 +155,32 @@ class Dbus_Plugin < DBus::Object
   end
 
 end
+
+class Authenticate < DBus::Object
+
+  def initialize(users_)
+    @users = users_
+    super("/Authenticate")
+  end
+  dbus_interface "org.openplacos.authenticate" do
+    dbus_method :authenticate, "in login:s, in hash:s, out valid:b, out permissions:a{sv}" do |login,hash|
+      
+      valid = false
+      permissions = Hash.new
+      
+      if login == "anonymous"
+        valid = true
+        permissions = Hash.new
+      end
+      
+      if @users[login]
+        if @users[login].hash == hash
+          valid = true
+          permissions = Hash.new
+        end
+      end
+      return  [valid,permissions]
+    end  
+  end
+
+end

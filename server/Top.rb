@@ -174,8 +174,15 @@ class Top
       # store config if not done before
       $database.store_config( @drivers, measures, actuators)
     end
-
-
+    
+    # Create users and export autenticate service
+    @users = Hash.new
+    @config['user'].each do |user|
+      @users.store(user["login"],User.new(user))
+    end
+        
+    @service.export(Authenticate.new(@users))
+    
     @service.export(Server.new)
 
   end # End of init

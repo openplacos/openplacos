@@ -82,10 +82,12 @@ plugins:
 
 user:
 
+- login: anonymous
+
 - login: flagos
   hash: test
   
 - login: kirsh
-  hash: 6c2841d9c77cf2501d091cce164d847517e6f5c4
+  hash: "6c2841d9c77cf2501d091cce164d847517e6f5c4"
 
 
