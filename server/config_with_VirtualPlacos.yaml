@@ -62,21 +62,23 @@ card:
   profile: measures, actuators, users
   include:
   exclude:  Temperature_outdoor, Hygro_out
-#~ 
-#~ plugins:
-#~ 
+
+plugins:
+
 #~ - name: log
   #~ method: thread
   #~ exec: plugins/log.rb
+  #~ file: /tmp/opos.log
   #~ 
 #~ - name: xmlrpc
   #~ method: fork
   #~ exec: plugins/xmlrpc.rb
+  #~ port: 8080
   #~ 
 #~ - name: soap
   #~ method: thread
   #~ exec: plugins/soap.rb
-
+  #~ port: 8081
 
 user:
 
@@ -85,3 +87,5 @@ user:
   
 - login: kirsh
   hash: 6c2841d9c77cf2501d091cce164d847517e6f5c4
+
+

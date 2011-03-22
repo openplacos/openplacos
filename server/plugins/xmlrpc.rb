@@ -20,11 +20,9 @@ require "openplacos"
 
 plugin = Openplacos::Plugin.new("xmlrpc")
 
-puts "wait for opos server be ready"
+port = plugin.config["port"]
+
 plugin.nonblock_run
-sleep 2
-puts "ok"
-port = 8080
 
 opos = Openplacos::Client.new
 

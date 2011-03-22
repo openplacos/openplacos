@@ -77,7 +77,7 @@ if( ARGV[0] == "status")
       else
         regul_enabled = "disabled"
       end
-    end    
+    end
     puts key + get_adjust(key.length, 5) + sensor.value().to_s + get_adjust(10)+ regul_enabled
   }
 end
