@@ -170,13 +170,13 @@ class Authenticate < DBus::Object
       
       if login == "anonymous"
         valid = true
-        permissions = Hash.new
+        permissions = @users["anonymous"].permissions
       end
       
       if @users[login]
         if @users[login].hash == hash
           valid = true
-          permissions = Hash.new
+          permissions = @users[login].permissions
         end
       end
       return  [valid,permissions]

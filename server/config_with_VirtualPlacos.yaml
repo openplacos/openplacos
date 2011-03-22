@@ -83,11 +83,20 @@ plugins:
 user:
 
 - login: anonymous
+  permissions:
+    read: measures
+    exclude: /home/indoor/Temperature
 
 - login: flagos
   hash: test
+  permissions:
+    read: measures,actuators
   
 - login: kirsh
   hash: "6c2841d9c77cf2501d091cce164d847517e6f5c4"
+  permissions:
+    read: all
+    write: all
+    
 
 
