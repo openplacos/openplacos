@@ -63,22 +63,25 @@ card:
   include:
   exclude:  Temperature_outdoor, Hygro_out
 #~ 
-plugins:
-
-- name: log
-  method: thread
-  exec: plugins/log.rb
-  
-- name: xmlrpc
-  method: fork
-  exec: plugins/xmlrpc.rb
-  
-- name: soap
-  method: thread
-  exec: plugins/soap.rb
+#~ plugins:
+#~ 
+#~ - name: log
+  #~ method: thread
+  #~ exec: plugins/log.rb
+  #~ 
+#~ - name: xmlrpc
+  #~ method: fork
+  #~ exec: plugins/xmlrpc.rb
+  #~ 
+#~ - name: soap
+  #~ method: thread
+  #~ exec: plugins/soap.rb
 
 
 user:
 
 - login: flagos
   hash: test
+  
+- login: kirsh
+  hash: 6c2841d9c77cf2501d091cce164d847517e6f5c4
