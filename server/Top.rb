@@ -51,7 +51,6 @@ service = Bus.request_service("org.openplacos.server")
 
 #Global functions
 $global = Global.new
-$server_ready = false
 
 class Top
 
