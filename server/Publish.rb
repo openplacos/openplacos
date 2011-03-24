@@ -129,7 +129,7 @@ class Server < DBus::Object
 end
 
 class Dbus_Plugin < DBus::Object
-  attr_accessor :ready_queue, :path_to_config
+  attr_accessor :ready_queue, :path_to_config, :server_ready
 
   dbus_interface "org.openplacos.plugins" do
     dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
@@ -144,7 +144,7 @@ class Dbus_Plugin < DBus::Object
       puts "Plugin named "+ name + " is started with id " + id.to_s
     end
     dbus_method :is_server_ready, "out ready:b" do 
-      return $server_ready
+      return @server_ready
     end   
     dbus_method :register_plug, "in path:s, out id:v" do |path|
       @last_id +=1
@@ -161,10 +161,13 @@ class Dbus_Plugin < DBus::Object
       return [@id_to_config[id]]
     end  
     
+    
+    
   end
   
   def initialize
     super("/plugins")
+    @server_ready = false
     @id_to_config   = Array.new 
     @path_to_config = Array.new 
     @last_id = -1

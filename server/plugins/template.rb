@@ -18,7 +18,7 @@
 require "rubygems"
 require "openplacos"
 
-plugin = Openplacos::Plugin.new("test")
+plugin = Openplacos::Plugin.new(__FILE__)
 
 plugin.opos.on_signal("create_measure") do |name,config|
   # do stuff when a measure is created

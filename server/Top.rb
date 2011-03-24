@@ -233,8 +233,8 @@ end
 # server is now ready, send the information to plugin
 Thread.new do
   sleep 1
+  top.dbus_plugins.server_ready = true
   top.dbus_plugins.ready
-  $server_ready  = true
 end
 
 # Let's Dbus have execution control
