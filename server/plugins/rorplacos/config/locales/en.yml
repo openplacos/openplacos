@@ -1,0 +1,17 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  list_sensors: "Sensors list"
+  list_actuators: "Actuators list"
+  list_rooms: "Rooms list"
+  rooms: "Rooms"
+  user: "User"
+  blog: "Blog"
+  profile: "Profile"
+  threshold: "Threshold"
+  hysteresis: "Hysteresis"
+  send: "Send"
+  frequency: "Frequency"
+  active: "Active"
