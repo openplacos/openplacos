@@ -5094,3 +5094,182 @@ DBus::Error (The name org.openplacos.server was not provided by any .service fil
 Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.0ms)
 Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (440.6ms)
 Rendered /usr/lib/ruby/gems/1.8/gems/actionpack-3.0.3/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (538.1ms)
+
+
+Started GET "/" for 127.0.0.1 at Thu Mar 24 20:52:09 +0100 2011
+  Processing by RoomsController#index as HTML
+Rendered shared/_menu_left.html.erb (16.6ms)
+Rendered shared/_menu.html.erb (1.2ms)
+Rendered rooms/index.html.erb within layouts/application (26.9ms)
+Completed 200 OK in 41ms (Views: 35.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/rooms/home/" for 127.0.0.1 at Thu Mar 24 20:52:11 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home"}
+Rendered shared/_menu_left.html.erb (0.9ms)
+Rendered shared/_menu.html.erb (1.2ms)
+Rendered rooms/index.html.erb within layouts/application (11.3ms)
+Completed 200 OK in 26ms (Views: 19.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/rooms/home/outdoor/" for 127.0.0.1 at Thu Mar 24 20:52:14 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/outdoor"}
+Rendered shared/_menu_left.html.erb (0.8ms)
+Rendered sensors/_abstract.html.erb (14.5ms)
+Rendered sensors/_abstract.html.erb (15.1ms)
+Rendered shared/_menu.html.erb (1.2ms)
+Rendered rooms/index.html.erb within layouts/application (45.7ms)
+Completed 200 OK in 117ms (Views: 53.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sensors/home/outdoor/Temperature" for 127.0.0.1 at Thu Mar 24 20:52:16 +0100 2011
+  Processing by SensorsController#index as HTML
+  Parameters: {"path"=>"home/outdoor/Temperature"}
+Rendered sensors/_abstract.html.erb (13.3ms)
+Rendered shared/_menu.html.erb (1.2ms)
+Rendered sensors/index.html.erb within layouts/application (25.2ms)
+  [1m[36mSQL (0.5ms)[0m  [1mSHOW TABLES[0m
+  [1m[35mDevice Load (0.4ms)[0m  SELECT `devices`.* FROM `devices` WHERE (`devices`.`config_name` = '/home/outdoor/Temperature') LIMIT 1
+  [1m[36mSensor Load (0.5ms)[0m  [1mSELECT `sensors`.* FROM `sensors` WHERE (`sensors`.device_id = 2) LIMIT 1[0m
+  [1m[35mFlow Load (43.7ms)[0m  SELECT `flows`.* FROM `flows` INNER JOIN `measures` ON `flows`.id = `measures`.flow_id WHERE ((`measures`.sensor_id = 2)) ORDER BY date DESC LIMIT 500
+Completed 200 OK in 862ms (Views: 33.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sensors/home/outdoor/Temperature" for 127.0.0.1 at Thu Mar 24 20:52:20 +0100 2011
+  Processing by SensorsController#index as HTML
+  Parameters: {"path"=>"home/outdoor/Temperature"}
+Rendered sensors/_abstract.html.erb (15.0ms)
+Rendered shared/_menu.html.erb (1.1ms)
+Rendered sensors/index.html.erb within layouts/application (25.3ms)
+  [1m[36mDevice Load (0.2ms)[0m  [1mSELECT `devices`.* FROM `devices` WHERE (`devices`.`config_name` = '/home/outdoor/Temperature') LIMIT 1[0m
+  [1m[35mSensor Load (0.2ms)[0m  SELECT `sensors`.* FROM `sensors` WHERE (`sensors`.device_id = 2) LIMIT 1
+  [1m[36mFlow Load (2.5ms)[0m  [1mSELECT `flows`.* FROM `flows` INNER JOIN `measures` ON `flows`.id = `measures`.flow_id WHERE ((`measures`.sensor_id = 2)) ORDER BY date DESC LIMIT 500[0m
+Completed 200 OK in 497ms (Views: 33.3ms | ActiveRecord: 45.2ms)
+
+
+Started GET "/rooms/" for 127.0.0.1 at Thu Mar 24 20:52:23 +0100 2011
+  Processing by RoomsController#index as HTML
+Rendered shared/_menu_left.html.erb (0.8ms)
+Rendered shared/_menu.html.erb (1.2ms)
+Rendered rooms/index.html.erb within layouts/application (10.7ms)
+Completed 200 OK in 24ms (Views: 18.5ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/rooms/home/indoor/" for 127.0.0.1 at Thu Mar 24 20:52:24 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered shared/_menu_left.html.erb (1.0ms)
+Rendered sensors/_abstract.html.erb (25.5ms)
+Rendered sensors/_abstract.html.erb (51.9ms)
+Rendered actuators/_abstract.html.erb (13.2ms)
+Rendered actuators/_abstract.html.erb (13.7ms)
+Rendered shared/_menu.html.erb (89.1ms)
+Rendered rooms/index.html.erb within layouts/application (214.1ms)
+Completed 200 OK in 274ms (Views: 222.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sensors/home/indoor/Temperature" for 127.0.0.1 at Thu Mar 24 20:52:28 +0100 2011
+  Processing by SensorsController#index as HTML
+  Parameters: {"path"=>"home/indoor/Temperature"}
+Rendered sensors/_abstract.html.erb (22.4ms)
+Rendered regulations/_regul_form.html.erb (3.9ms)
+Rendered shared/_menu.html.erb (1.1ms)
+Rendered sensors/index.html.erb within layouts/application (42.4ms)
+  [1m[35mDevice Load (0.3ms)[0m  SELECT `devices`.* FROM `devices` WHERE (`devices`.`config_name` = '/home/indoor/Temperature') LIMIT 1
+  [1m[36mSensor Load (0.4ms)[0m  [1mSELECT `sensors`.* FROM `sensors` WHERE (`sensors`.device_id = 1) LIMIT 1[0m
+  [1m[35mFlow Load (9.3ms)[0m  SELECT `flows`.* FROM `flows` INNER JOIN `measures` ON `flows`.id = `measures`.flow_id WHERE ((`measures`.sensor_id = 1)) ORDER BY date DESC LIMIT 500
+Completed 200 OK in 493ms (Views: 50.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/actuators/call?meth=on&method=post&path=%2Fhome%2Findoor%2FFan" for 127.0.0.1 at Thu Mar 24 20:52:33 +0100 2011
+  Processing by ActuatorsController#call as HTML
+  Parameters: {"meth"=>"on", "method"=>"post", "path"=>"/home/indoor/Fan"}
+Redirected to http://localhost:3000/rooms/home/indoor/
+Completed 302 Found in 14ms
+
+
+Started GET "/rooms/home/indoor/" for 127.0.0.1 at Thu Mar 24 20:52:33 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered shared/_menu_left.html.erb (0.8ms)
+Rendered sensors/_abstract.html.erb (25.0ms)
+Rendered sensors/_abstract.html.erb (13.3ms)
+Rendered actuators/_abstract.html.erb (16.2ms)
+Rendered actuators/_abstract.html.erb (12.9ms)
+Rendered shared/_menu.html.erb (1.3ms)
+Rendered rooms/index.html.erb within layouts/application (87.8ms)
+Completed 200 OK in 149ms (Views: 95.7ms | ActiveRecord: 10.0ms)
+
+
+Started GET "/actuators/call?meth=on&method=post&path=%2Fhome%2Findoor%2FLight" for 127.0.0.1 at Thu Mar 24 20:52:35 +0100 2011
+  Processing by ActuatorsController#call as HTML
+  Parameters: {"meth"=>"on", "method"=>"post", "path"=>"/home/indoor/Light"}
+Redirected to http://localhost:3000/rooms/home/indoor/
+Completed 302 Found in 13ms
+
+
+Started GET "/rooms/home/indoor/" for 127.0.0.1 at Thu Mar 24 20:52:35 +0100 2011
+  Processing by RoomsController#index as HTML
+  Parameters: {"path"=>"home/indoor"}
+Rendered shared/_menu_left.html.erb (0.8ms)
+Rendered sensors/_abstract.html.erb (26.0ms)
+Rendered sensors/_abstract.html.erb (14.9ms)
+Rendered actuators/_abstract.html.erb (15.6ms)
+Rendered actuators/_abstract.html.erb (15.4ms)
+Rendered shared/_menu.html.erb (1.1ms)
+Rendered rooms/index.html.erb within layouts/application (92.5ms)
+Completed 200 OK in 157ms (Views: 101.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sensors/home/indoor/Hygro" for 127.0.0.1 at Thu Mar 24 20:52:37 +0100 2011
+  Processing by SensorsController#index as HTML
+  Parameters: {"path"=>"home/indoor/Hygro"}
+Rendered sensors/_abstract.html.erb (29.1ms)
+Rendered regulations/_regul_form.html.erb (90.9ms)
+Rendered shared/_menu.html.erb (1.3ms)
+Rendered sensors/index.html.erb within layouts/application (140.6ms)
+  [1m[36mDevice Load (0.4ms)[0m  [1mSELECT `devices`.* FROM `devices` WHERE (`devices`.`config_name` = '/home/indoor/Hygro') LIMIT 1[0m
+  [1m[35mSensor Load (0.5ms)[0m  SELECT `sensors`.* FROM `sensors` WHERE (`sensors`.device_id = 4) LIMIT 1
+  [1m[36mFlow Load (8.0ms)[0m  [1mSELECT `flows`.* FROM `flows` INNER JOIN `measures` ON `flows`.id = `measures`.flow_id WHERE ((`measures`.sensor_id = 4)) ORDER BY date DESC LIMIT 500[0m
+Completed 200 OK in 689ms (Views: 148.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sensors/home/indoor/Hygro" for 127.0.0.1 at Thu Mar 24 20:52:42 +0100 2011
+  Processing by SensorsController#index as HTML
+  Parameters: {"path"=>"home/indoor/Hygro"}
+Rendered sensors/_abstract.html.erb (25.9ms)
+Rendered regulations/_regul_form.html.erb (90.2ms)
+Rendered shared/_menu.html.erb (1.2ms)
+Rendered sensors/index.html.erb within layouts/application (134.4ms)
+  [1m[35mDevice Load (0.2ms)[0m  SELECT `devices`.* FROM `devices` WHERE (`devices`.`config_name` = '/home/indoor/Hygro') LIMIT 1
+  [1m[36mSensor Load (0.3ms)[0m  [1mSELECT `sensors`.* FROM `sensors` WHERE (`sensors`.device_id = 4) LIMIT 1[0m
+  [1m[35mFlow Load (7.9ms)[0m  SELECT `flows`.* FROM `flows` INNER JOIN `measures` ON `flows`.id = `measures`.flow_id WHERE ((`measures`.sensor_id = 4)) ORDER BY date DESC LIMIT 500
+Completed 200 OK in 584ms (Views: 142.1ms | ActiveRecord: 8.9ms)
+
+
+Started GET "/sensors/home/indoor/Hygro" for 127.0.0.1 at Thu Mar 24 20:52:44 +0100 2011
+  Processing by SensorsController#index as HTML
+  Parameters: {"path"=>"home/indoor/Hygro"}
+Rendered sensors/_abstract.html.erb (25.9ms)
+Rendered regulations/_regul_form.html.erb (3.7ms)
+Rendered shared/_menu.html.erb (1.2ms)
+Rendered sensors/index.html.erb within layouts/application (46.4ms)
+  [1m[36mDevice Load (0.1ms)[0m  [1mSELECT `devices`.* FROM `devices` WHERE (`devices`.`config_name` = '/home/indoor/Hygro') LIMIT 1[0m
+  [1m[35mSensor Load (0.1ms)[0m  SELECT `sensors`.* FROM `sensors` WHERE (`sensors`.device_id = 4) LIMIT 1
+  [1m[36mFlow Load (7.6ms)[0m  [1mSELECT `flows`.* FROM `flows` INNER JOIN `measures` ON `flows`.id = `measures`.flow_id WHERE ((`measures`.sensor_id = 4)) ORDER BY date DESC LIMIT 500[0m
+Completed 200 OK in 506ms (Views: 54.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/sensors/home/indoor/Hygro" for 127.0.0.1 at Thu Mar 24 20:52:48 +0100 2011
+  Processing by SensorsController#index as HTML
+  Parameters: {"path"=>"home/indoor/Hygro"}
+Rendered sensors/_abstract.html.erb (27.1ms)
+Rendered regulations/_regul_form.html.erb (3.7ms)
+Rendered shared/_menu.html.erb (1.1ms)
+Rendered sensors/index.html.erb within layouts/application (47.0ms)
+  [1m[35mDevice Load (0.2ms)[0m  SELECT `devices`.* FROM `devices` WHERE (`devices`.`config_name` = '/home/indoor/Hygro') LIMIT 1
+  [1m[36mSensor Load (0.1ms)[0m  [1mSELECT `sensors`.* FROM `sensors` WHERE (`sensors`.device_id = 4) LIMIT 1[0m
+  [1m[35mFlow Load (7.5ms)[0m  SELECT `flows`.* FROM `flows` INNER JOIN `measures` ON `flows`.id = `measures`.flow_id WHERE ((`measures`.sensor_id = 4)) ORDER BY date DESC LIMIT 500
+Completed 200 OK in 575ms (Views: 55.1ms | ActiveRecord: 8.3ms)

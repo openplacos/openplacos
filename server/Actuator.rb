@@ -111,26 +111,27 @@ class Actuator
           methdef = """
           def #{method["name"]}
             write( #{value}, #{option})
-             @state['name'] = \"#{method['name']}\"
+                  @state['name'] = \"#{method['name']}\"
              @state['value'] = \"#{value}\"
              @state['option'] = \"#{option}\"
           end
           """
-          self.instance_eval(methdef)
-          @methods[method["name"]] = method["name"]
-    }
-    end
-    if model_["driver"]["option"]
-      @option = model_["driver"]["option"].dup
-    else
-      @option = Hash.new
-    end    
+                  self.instance_eval(methdef)
+                  @methods[method["name"]] = method["name"]
+                }
+      end
+      if model_["driver"]["option"]
+        @option = model_["driver"]["option"].dup
+      else
+        @option = Hash.new
+      end    
     }
   end
   
   def write( value_, option_)
+
     ret = safe_write( value_, option_)    
-      
+
     # tell to plugins that a new order has been treat
     @top.dbus_plugins.new_order(@path, to_float(value_), option_)
 
