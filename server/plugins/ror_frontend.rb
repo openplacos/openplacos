@@ -18,30 +18,13 @@
 require "rubygems"
 require "openplacos"
 
-plugin = Openplacos::Plugin.new("ror_frontend")
-
-plugin.opos.on_signal("create_measure") do |name,config|
-  # do stuff when a measure is created
-end
-
-plugin.opos.on_signal("create_actuator") do |name,config|
-  # do stuff when an actuator is created
-end
-
-plugin.opos.on_signal("new_measure") do |name, value, option|
-  # do stuff when a measure is done
-end
-
-plugin.opos.on_signal("new_order") do |name, order, option|
-  # do stuff when a order is send
-end
+plugin = Openplacos::Plugin.new(__FILE__)
 
 Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/")+ "/" + "rorplacos")
 plugin.nonblock_run
 
 
 ## Inspirated from /usr/bin/rails
-require 'rubygems'
 
 version = ">= 0"
 
@@ -49,5 +32,4 @@ gem 'rails', version
 ARGV[0] = "server" # I looooooove this Gem API, yeah!
 
 load Gem.bin_path('rails', 'rails', version)
-
 

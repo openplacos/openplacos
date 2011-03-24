@@ -51,7 +51,6 @@ service = Bus.request_service("org.openplacos.server")
 #Global functions
 $global = Global.new
 
-
 class Top
 
   attr_reader :drivers, :objects, :plugins, :dbus_plugins
@@ -226,6 +225,7 @@ end
 # server is now ready, send the information to plugin
 Thread.new do
   sleep 1
+  top.dbus_plugins.server_ready = true
   top.dbus_plugins.ready
 end
 

@@ -17,9 +17,14 @@
 #
 
 require "rubygems"
-require "openplacos"
+#if (ENV["DEBUG_OPOS"])
+  #require '../../gem/lib/openplacos/libplugin.rb'
+#else
+  require "openplacos"
+#end
 
-plugin = Openplacos::Plugin.new("log")
+plugin = Openplacos::Plugin.new(__FILE__)
+
 
 file = plugin.config['file']
 if File.exists? file

@@ -129,7 +129,7 @@ class Server < DBus::Object
 end
 
 class Dbus_Plugin < DBus::Object
-  attr_accessor :ready_queue, :config_queue
+  attr_accessor :ready_queue, :path_to_config, :server_ready
 
   dbus_interface "org.openplacos.plugins" do
     dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
@@ -140,19 +140,38 @@ class Dbus_Plugin < DBus::Object
     dbus_signal :quit,""
     dbus_signal :ready,""
     dbus_signal :error,"in error:s, in options:a{sv}"
-    dbus_method :plugin_is_ready, "in name:s" do |name|
-      @ready_queue.push name
+    dbus_method :plugin_is_ready, "in name:s, in id:i" do |name, id|
+      # just for debug info
+      puts "Plugin named "+ name + " is started with id " + id.to_s
     end
-    dbus_method :getConfig, "out config:a{sv}" do
-      return [@config_queue.pop]
+    dbus_method :is_server_ready, "out ready:b" do 
+      return @server_ready
+    end   
+    dbus_method :register_plug, "in path:s, out id:v" do |path|
+      @last_id +=1
+      @path_to_config.each { |p2config| # p2config is a Hash
+        if p2config["path"] == path
+          @id_to_config.push(p2config["config"])
+          @path_to_config.delete(p2config) # If there multi instances
+          next # ends loop
+        end
+      }
+      return [@last_id]
+    end
+    dbus_method :getConfig, "in id:i, out config:a{sv}" do |id|
+      return [@id_to_config[id]]
     end  
+    
+    
     
   end
   
   def initialize
     super("/plugins")
-    @ready_queue = Queue.new
-    @config_queue = Queue.new 
+    @server_ready = false
+    @id_to_config   = Array.new 
+    @path_to_config = Array.new 
+    @last_id = -1
   end
 
 end

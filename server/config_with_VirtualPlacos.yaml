@@ -47,28 +47,29 @@ card:
 
 plugins:
 
-#~ - name: log
-  #~ method: thread
-  #~ exec: plugins/log.rb
-  #~ file: /tmp/opos.log
-  #~ 
 - name: sql
   method: fork
   exec: plugins/sql.rb
-
-#~ - name: xmlrpc
-  #~ method: fork
-  #~ exec: plugins/xmlrpc.rb
-  #~ port: 8080
-  #~ 
-#~ - name: soap
-  #~ method: thread
-  #~ exec: plugins/soap.rb
-  #~ port: 8081
 
 - name: fill_sql
   method: thread
   exec: plugins/fill_sql.rb
 
 - name: ror_frontend
+  method: disable
   exec: plugins/ror_frontend.rb
+
+- name: log
+  method: disable
+  exec: plugins/log.rb
+  file: /tmp/opos.log
+  
+- name: xmlrpc
+  method: fork
+  exec: plugins/xmlrpc.rb
+  port: 8081
+  
+- name: soap
+  method: disable
+  exec: plugins/soap.rb
+  port: 8080

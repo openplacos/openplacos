@@ -18,7 +18,7 @@ require "rubygems"
 require 'xmlrpc/server'
 require "openplacos"
 
-plugin = Openplacos::Plugin.new("xmlrpc")
+plugin = Openplacos::Plugin.new(__FILE__)
 
 port = plugin.config["port"]
 

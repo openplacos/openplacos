@@ -14,13 +14,16 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 
+ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
+require 'dbus-openplacos'
+
 module Openplacos
 
   class Plugin
-    attr_reader :name, :opos ,:main ,:config
-    def initialize(name_)
+    attr_reader :path, :opos ,:main ,:config
+    def initialize(path_)
       @server_ready_queue = Queue.new
-      @name = name_
+      @path = File.expand_path(path_)
       #DBus
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
         @clientbus =  DBus::SessionBus.instance
@@ -33,39 +36,45 @@ module Openplacos
       @opos = server.object("/plugins")
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
-      
-      @config = @opos.getConfig[0]
-      
+
+      @id =  @opos.register_plug(@path)[0]
+      puts "My plug ID: "+ @id.to_s
+      @config = @opos.getConfig(@id)[0]
+      @name = @config["name"]
+
       @opos.on_signal("quit") do
         self.quit
       end
-      
+  
       @opos.on_signal("ready") do
         @server_ready_queue.push "Go"
       end
-      
+
     end
     
     def run
       @main = DBus::Main.new
       @main << @clientbus
-      @opos.plugin_is_ready(@name)
+      @opos.plugin_is_ready(@name, @id)
       @main.run
     end
     
     def quit
       @main.quit
-      Process.exit(0)
+      puts "Quitting"
+      Process.exit!
     end
-
+    
     def nonblock_run
       @mainthread = Thread.new{
         @main = DBus::Main.new
         @main << @clientbus
-        @opos.plugin_is_ready(@name)
+        @opos.plugin_is_ready(@name, @id)
         @main.run
       }
-      @server_ready_queue.pop
+      if not @opos.is_server_ready[0]
+        @server_ready_queue.pop
+      end
     end
 
   end

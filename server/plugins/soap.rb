@@ -18,7 +18,7 @@ require 'rubygems'
 require "soap/rpc/standaloneServer"
 require "openplacos"
 
-plugin = Openplacos::Plugin.new("soap")
+plugin = Openplacos::Plugin.new(__FILE__)
 
 port = plugin.config["port"]
 
