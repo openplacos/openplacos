@@ -35,8 +35,8 @@ class User
       }
     end
     
-    @permissions["read"].flatten!
-    @permissions["read"].uniq!
+    @permissions["read"].flatten! 
+    @permissions["read"].uniq! # remove similar keys
     
     #set write permission
     @permissions["write"] = Array.new

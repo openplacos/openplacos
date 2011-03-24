@@ -179,6 +179,9 @@ class Authenticate < DBus::Object
           permissions = @users[login].permissions
         end
       end
+      if valid == false
+        sleep rand
+      end
       return  [valid,permissions]
     end  
   end
