@@ -22,9 +22,10 @@ $LOAD_PATH << $LIB_PATH
 
 require "rubygems"
 require "openplacos"
+require 'scanf.rb'
 
 
-opos = Openplacos::Client.new
+$opos = Openplacos::Client.new
 
 
 def get_adjust(string_len_, size_=2)
@@ -38,41 +39,41 @@ end
 def usage()
 
 puts "Usage: "
-puts "opos-client list               # Return sensor and actuator list and corresponding interface "
-puts "opos_client status             # Return a status of your placos"
-puts "opos-client get  <sensor>      # Make a read access on this sensor"
-puts "opos-client set  <actuator>    # Make a write access on this actuator"
-puts "opos-client regul <sensor> -threeshold <threeshold>   \n   # Setup up a regul on this sensor with this threeshold"
+puts "list               # Return sensor and actuator list and corresponding interface "
+puts "status             # Return a status of your placos"
+puts "get  <sensor>      # Make a read access on this sensor"
+puts "set  <actuator>    # Make a write access on this actuator"
+puts "regul <sensor> -threeshold <threeshold>   \n   # Setup up a regul on this sensor with this threeshold"
 
 end
 
-
-if (ARGV[0] == nil)
+def process(arg_)
+if (arg_[0] == nil)
 puts "Please specify an action"
 usage()
-Process.exit 1
+return
 end
 
 
-if( ARGV[0] == "list")
+if( arg_[0] == "list")
   puts "Actuators\t"+ get_adjust("Actuators".length) +"\t   Interface"
-  opos.actuators.each_pair{|key, value|
+  $opos.actuators.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length) # Cosmetic
     puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
   }
   puts "\nSensor\t"+ get_adjust("Sensor".length)+ "\t   Interface" + "\t   Regul"
-  opos.sensors.each_pair{|key, value|
+  $opos.sensors.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length)    
-    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '') +  "\t" +  opos.is_regul(value).to_s
+    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '') +  "\t" +  $opos.is_regul(value).to_s
   }
-  
+  return
 end # Eof 'list'
 
-if( ARGV[0] == "status")
-  opos.sensors.each_pair{|key, sensor|
+if( arg_[0] == "status")
+  $opos.sensors.each_pair{|key, sensor|
     regul_enabled = "NA"
-    if opos.is_regul(sensor)
-      if(opos.get_regul_iface(sensor).state )
+    if $opos.is_regul(sensor)
+      if($opos.get_regul_iface(sensor).state )
         regul_enabled = "enabled"
       else
         regul_enabled = "disabled"
@@ -80,56 +81,73 @@ if( ARGV[0] == "status")
     end
     puts key + get_adjust(key.length, 5) + sensor.value().to_s + get_adjust(10)+ regul_enabled
   }
+  return
 end
 
-if( ARGV[0] == "set")
-  if( ARGV.length < 3)
+if( arg_[0] == "set")
+  if( arg_.length < 3)
     puts "Please specify an actuator"
     usage()
-    Process.exit 1
+    return
   end
   
   act_hash = Hash.new
-  1.upto( ARGV.length - 2 ){ |i|
-    if (opos.actuators[ARGV[i]] == nil)
-      puts "No actuators called " + ARGV[i]
-      Process.exit 1
+  1.upto( arg_.length - 2 ){ |i|
+    if ($opos.actuators[arg_[i]] == nil)
+      puts "No actuators called " + arg_[i]
+      return
     end
-    act_hash.store(ARGV[i], opos.actuators[ARGV[i]])
+    act_hash.store(arg_[i], $opos.actuators[arg_[i]])
   }
 
-  if (ARGV[ARGV.length - 1].downcase == "on")
+  if (arg_[arg_.length - 1].downcase == "on")
     act_hash.each_value { |act|
       act.on
     }
   else
-    if (ARGV[ARGV.length - 1].downcase == "off")
+    if (arg_[arg_.length - 1].downcase == "off")
       act_hash.each_value { |act|
         act.off
       }
     end
   end
+  return
 end #Eof 'set'
 
 
-if( ARGV[0] == "get")
-  if( ARGV.length < 2)
+if( arg_[0] == "get")
+  if( arg_.length < 2)
     puts "Please specify a sensor"
     usage()
-    Process.exit 1
+    return
   end
   
   sens_hash = Hash.new
-  1.upto( ARGV.length - 1 ){ |i|
-    if (opos.sensors[ARGV[i]] == nil)
-      puts "No sensor called " + ARGV[i]
-      Process.exit 1
+  1.upto( arg_.length - 1 ){ |i|
+    if ($opos.sensors[arg_[i]] == nil)
+      puts "No sensor called " + arg_[i]
+      return
     end
-    sens_hash.store(ARGV[i], opos.sensors[ARGV[i]])
+    sens_hash.store(arg_[i], $opos.sensors[arg_[i]])
   }
 
   sens_hash.each_pair { |key, sens|
     puts key + ": " + sens.value[0].to_s
   }
-   
+  return
 end #Eof 'get'
+
+puts "Action not recognized"
+usage()
+end # process
+
+
+while 1 do
+  STDOUT.write "> "
+  STDOUT.flush
+  array = STDIN.gets.split(' ')
+  if array[0] == "exit" || array[0] == "quit" 
+      Process.exit 0 
+  end
+  process(array)
+end
