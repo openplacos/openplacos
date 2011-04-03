@@ -68,7 +68,7 @@ plugins:
 - name: xmlrpc
   method: fork
   exec: plugins/xmlrpc.rb
-  port: 8081
+  port: 8080
   
 #- name: soap
  # method: disable

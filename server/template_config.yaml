@@ -1,0 +1,28 @@
+objects:
+
+- name: #name of your object
+  path: #dbus path for the object (ex: /home/indoor/temperature)
+  model: #name of the model, see components directory for a component list
+
+card:
+
+- name: #name of the card (ex: arduino)
+  plug: 
+    /Pin_1: #path to the targeted object
+
+
+plugins:
+
+- name: #name of your plugin
+  method: # execution method (thread / fork / disable )
+  exec: # file path of the plugins ( ex: plugins/log.rb )
+ 
+user:
+
+- login: anonymous 
+  permissions:
+    read: measures
+    write:
+    exclude:
+
+
