@@ -32,7 +32,7 @@ dependencies() {
   apt-get install ruby ruby1.8-dev rubygems 
   gem install rubygems-update --no-ri --no-rdoc
   /var/lib/gems/1.8/bin/update_rubygems 
-  gem update --no-ri --no-rdoc
+#  gem update --no-ri --no-rdoc
   echo "----------------------------------------------------"
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
@@ -90,6 +90,11 @@ start() {
   echo "URL administration: http://localhost:3000"
 }
 
+# For testing only
+print_help_infos () {
+    echo ""
+}
+
 # Main
 if [ "$(id -u)" != "0" ]; then
 	echo "Root permission needed"
@@ -97,23 +102,38 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-if [ "$1" = "-nodep" ]
+echo "Do you want to install dependencies on your system ? [Y/n]"
+read dep
+if [ "$dep" = n ]
 then
     echo "No dep installed"
 else
    dependencies 
 fi
 
-installation
+echo "Do you want to copy files on your system ? [Y/n]"
+read copy
+if [ "$copy" = "n" ]
+then
+    echo ""
+else
+    installation
+fi
 
-
-echo "Do you want to proceed an easy and automatic MySQL install [y/n]"
+echo "Do you want to proceed an easy and automatic MySQL install [y/N]"
 read answer
-
 if [ "$answer" = "y" ]
 then
     mysql_install
 fi
-post_installation
-start
+
+if [ "$copy" = "y" ]
+then
+    post_installation
+    start
+else
+    echo "You choose no integration - please launch by hand"
+    print_help_infos
+fi
+
 
