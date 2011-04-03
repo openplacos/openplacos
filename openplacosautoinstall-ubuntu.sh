@@ -30,6 +30,7 @@ path=`dirname $0`
 dependencies() {
   # Pre-requis
   apt-get install ruby ruby1.8-dev rubygems libmysqlclient-dev 
+  gem update --system 1.6.2
   #gem install rubygems-update --no-ri --no-rdoc
   #/var/lib/gems/1.8/bin/update_rubygems 
   #gem update --no-ri --no-rdoc
