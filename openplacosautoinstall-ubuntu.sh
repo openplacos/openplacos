@@ -29,10 +29,10 @@ path=`dirname $0`
 # Fonction: installation
 dependencies() {
   # Pre-requis
-  apt-get install ruby ruby1.8-dev rubygems 
-  gem install rubygems-update --no-ri --no-rdoc
-  /var/lib/gems/1.8/bin/update_rubygems 
-  gem update --no-ri --no-rdoc
+  apt-get install ruby ruby1.8-dev rubygems libmysqlclient-dev 
+  #gem install rubygems-update --no-ri --no-rdoc
+  #/var/lib/gems/1.8/bin/update_rubygems 
+  #gem update --no-ri --no-rdoc
   echo "----------------------------------------------------"
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
