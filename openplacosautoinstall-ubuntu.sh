@@ -115,7 +115,7 @@ echo "Do you want to copy files on your system ? [Y/n]"
 read copy
 if [ "$copy" = "n" ]
 then
-    echo ""
+    echo "http://openplacos.tuxfamily.org/V1.0/?q=content/launch-openplacos-debug-mode"
 else
     installation
 fi

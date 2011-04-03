@@ -55,6 +55,10 @@ plugins:
   method: thread
   exec: plugins/fill_sql.rb
 
+- name: ror_frontend
+  method: disable
+  exec: plugins/ror_frontend.rb
+
 - name: log
   method: disable
   exec: plugins/log.rb
