@@ -47,13 +47,18 @@ card:
 
 plugins:
 
-- name: sql
-  method: fork
-  exec: plugins/sql.rb
+#- name: sql
+#  method: fork
+#  exec: plugins/sql.rb
 
-- name: fill_sql
-  method: thread
-  exec: plugins/fill_sql.rb
+#- name: fill_sql
+ # method: thread
+ # exec: plugins/fill_sql.rb
+
+
+#- name: ror_frontend
+#  method: disable
+#  exec: plugins/ror_frontend.rb
 
 - name: log
   method: disable
@@ -65,10 +70,10 @@ plugins:
   exec: plugins/xmlrpc.rb
   port: 8081
   
-- name: soap
-  method: disable
-  exec: plugins/soap.rb
-  port: 8080
+#- name: soap
+ # method: disable
+ # exec: plugins/soap.rb
+ # port: 8080
 
 user:
 
@@ -77,14 +82,4 @@ user:
     read: measures
     exclude: /home/indoor/Temperature
 
-- login: flagos
-  hash: test
-  permissions:
-    read: measures,actuators
-  
-- login: kirsh
-  hash: "6c2841d9c77cf2501d091cce164d847517e6f5c4"
-  permissions:
-    read: all
-    write: all
 
