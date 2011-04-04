@@ -101,6 +101,7 @@ module Openplacos
     
     def initialize(path_, write_intfs_, read_intfs_) # path name , an array of string of interface wich write methods, an array of 
       @init = ""
+      @input = ""
 
       (write_intfs_ & read_intfs_).each { |iface|
         self.add_read_and_write(iface)

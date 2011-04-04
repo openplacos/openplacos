@@ -171,12 +171,13 @@ class Top
  
     # Create users and export autenticate service
     @users = Hash.new
-    @config['user'].each do |user|
-      @users.store(user["login"],User.new(user,self))
+    if @config['user']
+      @config['user'].each do |user|
+        @users.store(user["login"],User.new(user,self))
+      end
+          
+      @service.export(Authenticate.new(@users))
     end
-        
-    @service.export(Authenticate.new(@users))
-
     @service.export(Server.new)
 
   end # End of init
