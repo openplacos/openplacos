@@ -79,8 +79,7 @@ class Launcher
     }
 
     # http://ruby.about.com/od/advancedruby/a/The-Exec-Method.htm
-#    exec "#{@command_string}"
-    puts "#{@command_string}"
+    exec "#{@command_string}"
   end
 
 end

@@ -14,6 +14,8 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 require 'timeout'
+require 'Launcher.rb'
+
 if File.symlink?(__FILE__)
   PATH =  File.dirname(File.readlink(__FILE__))
 else 
@@ -27,7 +29,7 @@ class Plugin < Launcher
   def initialize(plugin_, top_) # Constructor
     @name   = plugin_["name"]
     @method = plugin_["method"]
-    @path   = PATH + "/" + plugin_["path"] # To be patched with Patchname class
+    @path   = PATH + "/" + plugin_["exec"] 
     plugin_.delete("name")
     plugin_.delete("method")
     super(@path, @method, plugin_, top_)
