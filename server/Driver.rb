@@ -39,7 +39,6 @@ class Driver < Launcher
     @path   = PATH + "/" + card_["exec"] 
     @plug = card_["plug"]
     @path_dbus = "org.openplacos.drivers." + @name.downcase
-    card_.delete("name")
     card_.delete("method")
     card_.delete("exec")
     card_.delete("plug")
