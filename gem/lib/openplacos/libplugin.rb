@@ -37,11 +37,6 @@ module Openplacos
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
 
-      @id =  @opos.register_plug(@path)[0]
-      puts "My plug ID: "+ @id.to_s
-      @config = @opos.getConfig(@id)[0]
-      @name = @config["name"]
-
       @opos.on_signal("quit") do
         self.quit
       end
@@ -55,7 +50,6 @@ module Openplacos
     def run
       @main = DBus::Main.new
       @main << @clientbus
-      @opos.plugin_is_ready(@name, @id)
       @main.run
     end
     
@@ -69,7 +63,6 @@ module Openplacos
       @mainthread = Thread.new{
         @main = DBus::Main.new
         @main << @clientbus
-        @opos.plugin_is_ready(@name, @id)
         @main.run
       }
       if not @opos.is_server_ready[0]
