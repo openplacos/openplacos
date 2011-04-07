@@ -26,6 +26,11 @@ class Launcher
     @launch_config = launch_config_
     @command_string = ""
 
+    if (!File.exists?(@path))
+        top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
+    end
+      
+
     if (@method != "disable")
       if (@method == "thread")
         Thread.new{
@@ -60,11 +65,11 @@ class Launcher
   def start_plug_thread()
     @argv_string = "ARGV[] = ["
     @launch_config.each { |key, value|
-      @argv_string << "--#{key}=#{value}, "
+      @argv_string << "\"--#{key}=#{value}\", "
     }
     @argv_string << "]"
     @string_eval = ""
-    @string_eval << "module "+ @name.capitalize
+    @string_eval << "module "+ @name.capitalize + "\n"
     @string_eval << @argv_string
     @string_eval << File.open(@path).read
     @string_eval << "end # end of module " + @name
