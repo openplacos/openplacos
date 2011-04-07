@@ -34,6 +34,7 @@ class Launcher
     if (@method != "disable")
       if (@method == "thread")
         Thread.new{
+        Thread.abort_on_exception = true
           start_plug_thread()
         }
       else

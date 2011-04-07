@@ -17,16 +17,29 @@
 require "rubygems"
 require 'xmlrpc/server'
 require "openplacos"
+require "choice"
+
+Choice.options do
+    header ''
+    header 'Specific options:'
+
+    option :port do
+      short '-p'
+      long '--port=PORT'
+      desc 'The port to listen on (default 8080)'
+      cast Integer
+      default 8080
+    end
+end
 
 plugin = Openplacos::Plugin.new(__FILE__)
 
-port = plugin.config["port"]
 
 plugin.nonblock_run
 
 opos = Openplacos::Client.new
 
-serverxml = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
+serverxml = XMLRPC::Server.new(Choice.choices[:port], '0.0.0.0')#, 150, $stderr)
 
 serverxml.add_handler("sensors") do
     opos.sensors.keys
