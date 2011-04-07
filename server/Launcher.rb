@@ -65,7 +65,7 @@ class Launcher
     @argv_string << "]"
     @string_eval = ""
     @string_eval << "module "+ @name.capitalize
-    @string_eval << "module "+ @name.capitalize
+    @string_eval << @argv_string
     @string_eval << File.open(@path).read
     @string_eval << "end # end of module " + @name
     eval(@string_eval,TOPLEVEL_BINDING,@path) # eval in an empty binding
