@@ -23,6 +23,26 @@ require 'dbus-openplacos'
 require 'thread'
 require 'yaml' # Assumed in future examples
 require 'pathname'
+require "choice"
+
+Choice.options do
+    header ''
+    header 'Specific options:'
+
+    option :name do
+      short '-n'
+      long '--name=NAME'
+      desc 'The Name of the service (default virtualplacos)'
+      default "virtualplacos"
+    end
+    
+    option :config do
+      short '-c'
+      long '--config=CONFIG'
+      desc 'The config file (default config.yaml)'
+      default "config.yaml"
+    end
+end
 
 Thread.abort_on_exception = true
 
@@ -254,24 +274,8 @@ def my_notify(message)
     puts message
 end
 
-if (ARGV[0] == nil)
- ARGV[0] = File.dirname(__FILE__) + '/config.yaml'
-end
-
-if (! File.exist?(ARGV[0]))
-  puts "Config file " +ARGV[0]+" doesn't exist"
-  Process.exit
-end
-
-
-if (! File.readable?(ARGV[0]))
-  puts "Config file " +ARGV[0]+" not readable"
-  Process.exit
-end
-
-
 #Load and parse config file
-config =  YAML::load(File.read(ARGV[0]))
+config =  YAML::load(File.read(Choice.choices[:config]))
 
 config_placos = config['placos']
 
@@ -298,7 +302,7 @@ end
 
 #publish methods on dbus
 
-service = bus.request_service("org.openplacos.drivers.virtualplacos")
+service = bus.request_service("org.openplacos.drivers.#{Choice.choices[:name].downcase}")
 
 #create pin objects
 config_pins = config['pins']

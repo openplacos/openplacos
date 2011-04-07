@@ -31,6 +31,7 @@ Choice.options do
       default 3000
     end
 end
+
 plugin = Openplacos::Plugin.new
 
 Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/")+ "/" + "rorplacos")
