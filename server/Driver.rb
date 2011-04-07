@@ -21,7 +21,13 @@ include REXML
 require 'Dbus-interfaces.rb'
 
 
-class Driver
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
+end
+
+class Driver < Launcher
   attr_reader :objects, :path_dbus
 
   #1 Name of service
@@ -29,18 +35,27 @@ class Driver
 
     # Class variables
     @name = card_["name"]
-    @path_dbus = "org.openplacos.drivers." + card_["name"].downcase
+    @method = card_["method"]
+    @path   = PATH + "/" + card_["exec"] 
+    @plug = card_["plug"]
+    @path_dbus = "org.openplacos.drivers." + @name.downcase
+    card_.delete("method")
+    card_.delete("exec")
+    card_.delete("plug")
     
     #launch the driver with dbus autolaunch
     begin
       Bus.service(@path_dbus) 
     rescue
-      top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
-      raise "Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
+# Deprecated policy
+#      top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
+#      raise "Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
+      super(@path, @method, card_, top_)
+
     end
     @objects = Hash.new
 
-    card_["plug"].each_pair do |pin,object_path|
+    @plug.each_pair do |pin,object_path|
       
       next if object_path.nil?
 
