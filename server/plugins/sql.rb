@@ -19,7 +19,7 @@ require 'active_record'
 require "rubygems"
 require "openplacos"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+plugin = Openplacos::Plugin.new
 
 options = { "adapter" => "mysql2",
             "encoding" => "utf8",

@@ -32,8 +32,7 @@ Choice.options do
     end
 end
 
-plugin = Openplacos::Plugin.new(__FILE__)
-
+plugin = Openplacos::Plugin.new
 
 plugin.nonblock_run
 

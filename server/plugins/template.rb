@@ -17,8 +17,22 @@
 #
 require "rubygems"
 require "openplacos"
+require "choice"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+Choice.options do
+    header ''
+    header 'Specific options:'
+
+    option :port do
+      short '-p'
+      long '--port=PORT'
+      desc 'The port to listen on (default 3000)'
+      cast Integer
+      default 3000
+    end
+end
+
+plugin = Openplacos::Plugin.new
 
 plugin.opos.on_signal("create_measure") do |name,config|
   # do stuff when a measure is created

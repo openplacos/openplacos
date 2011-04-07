@@ -17,10 +17,23 @@
 require 'rubygems'
 require "soap/rpc/standaloneServer"
 require "openplacos"
+require "choice"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+Choice.options do
+    header ''
+    header 'Specific options:'
 
-port = plugin.config["port"]
+    option :port do
+      short '-p'
+      long '--port=PORT'
+      desc 'The port to listen on (default 8081)'
+      cast Integer
+      default 8081
+    end
+end
+plugin = Openplacos::Plugin.new
+
+
 
 plugin.nonblock_run
 
@@ -68,7 +81,7 @@ begin
   opos = Openplacos::Client.new
 
   server = MySoapServer.new(opos,"MySoapServer", 
-            'urn:ruby:opos', '0.0.0.0', port)
+            'urn:ruby:opos', '0.0.0.0', Choice.choices[:port])
   server.start
 rescue => err
   puts err.message

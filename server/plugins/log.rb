@@ -22,11 +22,25 @@ require "rubygems"
 #else
   require "openplacos"
 #end
+require "choice"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+Choice.options do
+    header ''
+    header 'Specific options:'
+
+    option :file do
+      short '-f'
+      long '--file=FILE'
+      desc 'The file to log (default /tmp/log.txt)'
+      default "/tmp/log.txt"
+    end
+end
 
 
-file = plugin.config['file']
+plugin = Openplacos::Plugin.new
+
+
+file = Choice.choices[:file]
 if File.exists? file
   $log_file = File.open(file, "a+") 
 else

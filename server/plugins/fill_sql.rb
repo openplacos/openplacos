@@ -31,7 +31,7 @@ class Pulling_thread < Thread
   end
 end
 
-plugin = Openplacos::Plugin.new(__FILE__)
+plugin = Openplacos::Plugin.new
 
 sensor_list = Array.new
 
