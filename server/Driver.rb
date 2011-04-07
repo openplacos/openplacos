@@ -17,17 +17,19 @@
 # lib include
 include REXML
 
+
 # local include
 require 'Dbus-interfaces.rb'
-
-
-if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
-else 
-  PATH = File.expand_path(File.dirname(__FILE__))
-end
+require 'Launcher.rb'
 
 class Driver < Launcher
+
+	if File.symlink?(__FILE__)
+	  PATH =  File.dirname(File.readlink(__FILE__))
+	else 
+	  PATH = File.expand_path(File.dirname(__FILE__))
+	end
+
   attr_reader :objects, :path_dbus
 
   #1 Name of service
@@ -36,7 +38,10 @@ class Driver < Launcher
     # Class variables
     @name = card_["name"]
     @method = card_["method"]
-    @path   = PATH + "/" + card_["exec"] 
+    if card_["exec"]
+		#file can be find
+		@path   = PATH + "/" + card_["exec"]
+	end
     @plug = card_["plug"]
     @path_dbus = "org.openplacos.drivers." + @name.downcase
     card_.delete("method")
@@ -46,10 +51,12 @@ class Driver < Launcher
     #launch the driver with dbus autolaunch
     begin
       Bus.service(@path_dbus) 
+      Bus.introspect(@path_dbus)
     rescue
 # Deprecated policy
 #      top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
 #      raise "Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
+      puts "launch"
       super(@path, @method, card_, top_)
 
     end

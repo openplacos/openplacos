@@ -275,6 +275,7 @@ def my_notify(message)
 end
 
 #Load and parse config file
+puts ARGV
 config =  YAML::load(File.read(Choice.choices[:config]))
 
 config_placos = config['placos']

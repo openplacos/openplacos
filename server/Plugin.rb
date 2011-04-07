@@ -16,13 +16,13 @@
 require 'timeout'
 require 'Launcher.rb'
 
-if File.symlink?(__FILE__)
-  PATH =  File.dirname(File.readlink(__FILE__))
-else 
-  PATH = File.expand_path(File.dirname(__FILE__))
-end
-
 class Plugin < Launcher
+  
+	if File.symlink?(__FILE__)
+	  PATH =  File.dirname(File.readlink(__FILE__))
+	else 
+	  PATH = File.expand_path(File.dirname(__FILE__))
+	end
   
   #1 Plugin definition in yaml config
   #2 Top reference

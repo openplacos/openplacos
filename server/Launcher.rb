@@ -74,7 +74,8 @@ class Launcher
     @string_eval << @argv_string
     @string_eval << File.open(@path).read
     @string_eval << "end # end of module " + @name
-    eval(@string_eval,TOPLEVEL_BINDING,@path) # eval in an empty binding
+    @binding = eval("binding",TOPLEVEL_BINDING)
+    eval(@string_eval,@binding,@path) # eval in an empty binding
   end
   
   def start_plug_fork()
