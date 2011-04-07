@@ -55,7 +55,6 @@ plugins:
  # method: thread
  # exec: plugins/fill_sql.rb
 
-
 #- name: ror_frontend
 #  method: disable
 #  exec: plugins/ror_frontend.rb
@@ -66,7 +65,7 @@ plugins:
   file: /tmp/opos.log
   
 - name: xmlrpc
-  method: fork
+  method: thread
   exec: plugins/xmlrpc.rb
   port: 8080
   
