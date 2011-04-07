@@ -63,7 +63,7 @@ class Launcher
   end
   
   def start_plug_thread()
-    @argv_string = "ARGV[] = ["
+    @argv_string = "ARGV = ["
     @launch_config.each { |key, value|
       @argv_string << "\"--#{key}=#{value}\", "
     }
