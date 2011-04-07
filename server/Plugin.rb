@@ -32,6 +32,7 @@ class Plugin < Launcher
     @path   = PATH + "/" + plugin_["exec"] 
     plugin_.delete("name")
     plugin_.delete("method")
+    plugin_.delete("exec")
     super(@path, @method, plugin_, top_)
     end
 end
