@@ -286,7 +286,7 @@ puts PATH
 begin
   config =  YAML::load(File.read(PATH + "/" + Choice.choices[:config].lstrip))
 rescue
-  exec "echo #{"Can't open file #{PATH + "/" + Choice.choices[:config].lstrip}."} > /tmp/test.txt"
+  exec "echo #{"Can't open file #{PATH + "/" + Choice.choices[:config].lstrip}."} > /var/log/openplacos.log"
   raise "Can't open file #{PATH + "/" + Choice.choices[:config].lstrip}."
 end
 

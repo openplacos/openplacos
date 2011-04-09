@@ -20,7 +20,35 @@
 require 'rubygems'
 require 'serialport'
 require 'openplacos'
+require 'choice'
 #Write module and function definition
+
+Choice.options do
+    header ''
+    header 'Specific options:'
+
+    option :name do
+      short '-n'
+      long '--name=NAME'
+      desc 'The Name of the service (default arduino)'
+      default "arduino"
+    end
+    
+    option :port do
+      short '-p'
+      long '--port=PORT'
+      desc 'The serial port  (default /dev/arduino)'
+      default "/dev/arduino"
+    end
+    
+    option :baup do
+      short '-b'
+      long '--baup=BAUPRATE'
+      desc 'The bauprate (default 115200)'
+      cast Integer
+      default 115200
+    end
+end
 
 module Module_write_analog 
   
@@ -104,8 +132,8 @@ end
 
 class Serial_Arduino
   
-  def initialize(port_)
-    @sp = SerialPort.new port_, 115200
+  def initialize(port_,baup_)
+    @sp = SerialPort.new port_, baup
   end
   
   def write(string_)
@@ -129,7 +157,8 @@ end
 # Live
 #
 
-SERIAL_PORT = "/dev/arduino"
+SERIAL_PORT = Choice.choices[:port]
+BAUPRATE = Choice.choices[:baup]
 NB_ANALOG_PIN = (0..5).to_a
 NB_DIGITAL_PIN = (0..13).to_a
 NB_PWM_PIN = {3,5,6,9,10,11}
@@ -137,13 +166,13 @@ NB_PWM_PIN = {3,5,6,9,10,11}
 #Interupt , array of pin in order of interupt number
 INTERUPT_PIN = {2,3} # interupt number 0 1
 
-$sp = Serial_Arduino.new(SERIAL_PORT)
+$sp = Serial_Arduino.new(SERIAL_PORT,BAUPRATE)
 
 bus = DBus::system_bus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
   bus =  DBus::session_bus
 end
-service = bus.request_service("org.openplacos.drivers.arduino")
+service = bus.request_service("org.openplacos.drivers.#{Choice.choices[:name].downcase}")
 
 digital_pin = Array.new
 analog_pin = Array.new
