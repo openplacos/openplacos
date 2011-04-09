@@ -38,7 +38,6 @@ objects:
 card:
 - name: VirtualPlacos
   exec: ../drivers/VirtualPlacos/VirtualPlacos.rb
-  method: fork
   config: config.yaml
   timeout: 2
   plug: 

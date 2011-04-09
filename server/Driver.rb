@@ -41,8 +41,8 @@ class Driver < Launcher
     @method = card_["method"]
     if card_["exec"]
 		#file can be find
-		@path   = PATH + "/" + card_["exec"]
-	end
+      @path   = PATH + "/" + card_["exec"]
+    end
     @plug = card_["plug"]
     @path_dbus = "org.openplacos.drivers." + @name.downcase
     
@@ -50,7 +50,6 @@ class Driver < Launcher
    
     @launch_config = card_.dup
     
-    @launch_config.delete("method")
     @launch_config.delete("exec")
     @launch_config.delete("plug")
     @launch_config.delete("timeout")
@@ -65,7 +64,7 @@ class Driver < Launcher
         rescue # driver is not present on the bus, launch it
           if !has_been_launched # wait until driver is ready
             puts "launch #{@path}"
-            super(@path, @method,  @launch_config, top_)
+            super(@path, "fork",  @launch_config, top_)
             has_been_launched = true
           else
             sleep 0.1
