@@ -38,8 +38,9 @@ objects:
 card:
 - name: VirtualPlacos
   exec: ../drivers/VirtualPlacos/VirtualPlacos.rb
-  method: thread
-  config: /home/kirsh/openplacos/drivers/VirtualPlacos/config.yaml 
+  method: fork
+  config: config.yaml
+  timeout: 2
   plug: 
     /Pin_1: /home/indoor/Temperature
     /Pin_2: /home/outdoor/Temperature
@@ -68,7 +69,7 @@ plugins:
   file: /tmp/opos.log
   
 - name: xmlrpc
-  method: thread
+  method: disable
   exec: plugins/xmlrpc.rb
   port: 8080
   

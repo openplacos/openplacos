@@ -21,6 +21,7 @@ include REXML
 # local include
 require 'Dbus-interfaces.rb'
 require 'Launcher.rb'
+require 'timeout'
 
 class Driver < Launcher
 
@@ -44,21 +45,37 @@ class Driver < Launcher
 	end
     @plug = card_["plug"]
     @path_dbus = "org.openplacos.drivers." + @name.downcase
-    card_.delete("method")
-    card_.delete("exec")
-    card_.delete("plug")
     
+    timeout = card_["timeout"] || 5 # default value 5 second
+   
+    @launch_config = card_.dup
+    
+    @launch_config.delete("method")
+    @launch_config.delete("exec")
+    @launch_config.delete("plug")
+    @launch_config.delete("timeout")
+    
+    has_been_launched = false
     #launch the driver with dbus autolaunch
     begin
-      Bus.service(@path_dbus) 
-      Bus.introspect(@path_dbus)
-    rescue
-# Deprecated policy
-#      top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
-#      raise "Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
-      puts "launch"
-      super(@path, @method, card_, top_)
-
+      Timeout::timeout(timeout) { # allow a maximum time of #timeout second for the driver launch
+        begin
+          driver = Bus.service(@path_dbus) 
+          driver.introspect
+        rescue # driver is not present on the bus, launch it
+          if !has_been_launched # wait until driver is ready
+            puts "launch #{@path}"
+            super(@path, @method,  @launch_config, top_)
+            has_been_launched = true
+          else
+            sleep 0.1
+          end
+          retry
+        end
+      }
+    rescue Timeout::Error 
+      top_.dbus_plugins.error("Autolaunch of  #{card_["name"]}, driver #{@path_dbus} failed",{})
+      raise "Autolaunch of  #{card_["name"]}, driver #{@path_dbus} failed"
     end
     @objects = Hash.new
 

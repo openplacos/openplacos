@@ -25,6 +25,12 @@ require 'yaml' # Assumed in future examples
 require 'pathname'
 require "choice"
 
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
+end
+
 Choice.options do
     header ''
     header 'Specific options:'
@@ -275,8 +281,14 @@ def my_notify(message)
 end
 
 #Load and parse config file
-puts ARGV
-config =  YAML::load(File.read(Choice.choices[:config]))
+puts PATH
+
+begin
+  config =  YAML::load(File.read(PATH + "/" + Choice.choices[:config].lstrip))
+rescue
+  exec "echo #{"Can't open file #{PATH + "/" + Choice.choices[:config].lstrip}."} > /tmp/test.txt"
+  raise "Can't open file #{PATH + "/" + Choice.choices[:config].lstrip}."
+end
 
 config_placos = config['placos']
 

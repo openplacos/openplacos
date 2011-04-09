@@ -27,7 +27,8 @@ class Launcher
     @command_string = ""
 
     if (!File.exists?(@path))
-        top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
+        top_.dbus_plugins.error("File #{@path} doesnt exists",{})
+        raise "File #{@path} doesnt exists"
     end
       
 

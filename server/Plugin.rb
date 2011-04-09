@@ -13,7 +13,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-require 'timeout'
 require 'Launcher.rb'
 
 class Plugin < Launcher
@@ -30,9 +29,11 @@ class Plugin < Launcher
     @name   = plugin_["name"]
     @method = plugin_["method"]
     @path   = PATH + "/" + plugin_["exec"] 
-    plugin_.delete("name")
-    plugin_.delete("method")
-    plugin_.delete("exec")
-    super(@path, @method, plugin_, top_)
+    
+    @launch_config = plugin_.dup
+    @launch_config.delete("name")
+    @launch_config.delete("method")
+    @launch_config.delete("exec")
+    super(@path, @method, @launch_config, top_)
     end
 end
