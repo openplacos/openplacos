@@ -5,6 +5,8 @@ objects:
   model: Generic_Celsius_Temperature
   regul:
     action-: /home/indoor/Fan
+    frequency: 2
+    type: "pwm_regul"
    
 - name: Temperature Outdoor
   path: /home/outdoor/Temperature
@@ -33,7 +35,7 @@ objects:
     
 - name: Fan
   path: /home/indoor/Fan
-  model: Generic_relay_NO
+  model: Generic_pwm
 
 card:
 - name: VirtualPlacos

@@ -5,13 +5,11 @@ Generic_pwm:
   driver:
     interface: pwm  
   methods: #shortcuts for command
-    - name: level0 
-      value: "0"  
-    - name: level1 
-      value: "0.25"
-    - name: level2
-      value : "0.5"
-    - name: level3 
-      value: "0.75"
-    - name: level4
-      value : "1"
+    - name: "on"
+      value: "1"
+    - name: "off"
+      value: "0"
+    - name: up
+      value: "@state['value'].to_f + 1.0/255"
+    - name: down
+      value: "@state['value'].to_f - 1.0/255"

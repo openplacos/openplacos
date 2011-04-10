@@ -112,8 +112,6 @@ class Actuator
           def #{method["name"]}
             write( #{value}, #{option})
                   @state['name'] = \"#{method['name']}\"
-             @state['value'] = \"#{value}\"
-             @state['option'] = \"#{option}\"
           end
           """
                   self.instance_eval(methdef)
@@ -129,7 +127,8 @@ class Actuator
   end
   
   def write( value_, option_)
-
+    @state['value'] = value_
+    @state['option'] = option_
     ret = safe_write( value_, option_)    
 
     # tell to plugins that a new order has been treat

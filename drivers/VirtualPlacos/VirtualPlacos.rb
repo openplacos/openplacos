@@ -115,7 +115,7 @@ class Virtualplacos
                 my_notify("Extinction de la ventillation")      
             else
                 @ventilation = true
-                @pwm_coeff_ventil = (state*255).to_i.to_f/255 + 1/255
+                @pwm_coeff_ventil = (state*255).to_i.to_f/255 + 1.0/255
                 my_notify("Allumage de la ventillation | coefficient #{state}")
             end
         end
@@ -132,7 +132,7 @@ class Virtualplacos
                 my_notify("Extinction de l'eclairage")
             else
                 @eclairage = true
-                @pwm_coeff_light = (state*255).to_i.to_f/255 + 1/255
+                @pwm_coeff_light = (state*255).to_i.to_f/255 + 1.0/255
                 my_notify("Allumage de l'eclairage | coefficient #{state}")
             end
         end
