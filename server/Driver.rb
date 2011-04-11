@@ -73,8 +73,8 @@ class Driver < Launcher
         end
       }
     rescue Timeout::Error 
-      top_.dbus_plugins.error("Autolaunch of  #{card_["name"]}, driver #{@path_dbus} failed",{})
-      raise "Autolaunch of  #{card_["name"]}, driver #{@path_dbus} failed"
+      top_.dbus_plugins.error("Autolaunch of  #{@name}, driver #{@path_dbus} failed",{})
+      raise "Autolaunch of  #{@name}, driver #{@path_dbus} failed"
     end
     @objects = Hash.new
 

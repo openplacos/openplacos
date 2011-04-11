@@ -39,27 +39,7 @@ class Launcher
           start_plug_thread()
         }
       else
-        p = Process.fork{ # First fork
-          
-          # Double fork method
-          # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
-          raise 'First fork failed' if (pid = fork) == -1
-          exit unless pid.nil?
 
-          Process.setsid
-          raise 'Second fork failed' if (pid = fork) == -1
-          exit unless pid.nil?
-          
-          Dir.chdir '/'
-          File.umask 0000
-
-          STDIN.reopen '/dev/null'
-          STDOUT.reopen '/dev/null', 'a'
-          STDERR.reopen STDOUT
-
-          start_plug_fork()
-        }
-        Process.detach(p) # otherwise p will be zombified by OS
       end
     end
   end
@@ -80,14 +60,34 @@ class Launcher
   end
   
   def start_plug_fork()
-    
-    @command_string = @path
-    @launch_config.each { |key, value|
-      @command_string << " --#{key}=#{value}"
-    }
+    p = Process.fork{ # First fork
+      
+      # Double fork method
+      # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
+      raise 'First fork failed' if (pid = fork) == -1
+      exit unless pid.nil?
 
-    # http://ruby.about.com/od/advancedruby/a/The-Exec-Method.htm
-    exec "#{@command_string}"
+      Process.setsid
+      raise 'Second fork failed' if (pid = fork) == -1
+      exit unless pid.nil?
+      
+      Dir.chdir '/'
+      File.umask 0000
+
+      STDIN.reopen '/dev/null'
+      STDOUT.reopen '/dev/null', 'a'
+      STDERR.reopen STDOUT
+
+      @command_string = @path
+      @launch_config.each { |key, value|
+        @command_string << " --#{key}=#{value}"
+      }
+
+      # http://ruby.about.com/od/advancedruby/a/The-Exec-Method.htm
+      exec "#{@command_string}"
+    }
+    Process.detach(p) # otherwise p will be zombified by OS
+    
   end
 
 end
