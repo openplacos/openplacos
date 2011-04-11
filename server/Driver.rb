@@ -46,7 +46,7 @@ class Driver < Launcher
     @plug = card_["plug"]
     @path_dbus = "org.openplacos.drivers." + @name.downcase
     
-    timeout = card_["timeout"] || 5 # default value 5 second
+    @timeout = card_["timeout"] || 5 # default value 5 second
    
     @launch_config = card_.dup
     
@@ -54,28 +54,12 @@ class Driver < Launcher
     @launch_config.delete("plug")
     @launch_config.delete("timeout")
     
-    has_been_launched = false
-    #launch the driver with dbus autolaunch
-    begin
-      Timeout::timeout(timeout) { # allow a maximum time of #timeout second for the driver launch
-        begin
-          driver = Bus.service(@path_dbus) 
-          driver.introspect
-        rescue # driver is not present on the bus, launch it
-          if !has_been_launched # wait until driver is ready
-            puts "launch #{@path}"
-            super(@path, "fork",  @launch_config, top_)
-            has_been_launched = true
-          else
-            sleep 0.1
-          end
-          retry
-        end
-      }
-    rescue Timeout::Error 
-      top_.dbus_plugins.error("Autolaunch of  #{@name}, driver #{@path_dbus} failed",{})
-      raise "Autolaunch of  #{@name}, driver #{@path_dbus} failed"
-    end
+    #create the launcher
+    super(@path, "fork",  @launch_config, top_)
+    
+    #launch th driver
+    launch_driver()
+    
     @objects = Hash.new
 
     @plug.each_pair do |pin,object_path|
@@ -114,6 +98,32 @@ class Driver < Launcher
     
 
   end #  End of initialize
+
+  def launch_driver()
+    has_been_launched = false
+    
+    begin
+      Timeout::timeout(@timeout) { # allow a maximum time of #timeout second for the driver launch
+        begin
+          #launch the driver with dbus autolaunch
+          driver = Bus.service(@path_dbus) 
+          driver.introspect
+        rescue # driver is not present on the bus, launch it
+          if !has_been_launched # wait until driver is ready
+            puts "launch #{@path}"
+            self.launch
+            has_been_launched = true
+          else
+            sleep 0.1
+          end
+          retry
+        end
+      }
+    rescue Timeout::Error 
+      top_.dbus_plugins.error("Autolaunch of  #{@name}, driver #{@path_dbus} failed",{})
+      raise "Autolaunch of  #{@name}, driver #{@path_dbus} failed"
+    end
+  end
 
 end # End of Driver
 

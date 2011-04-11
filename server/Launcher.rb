@@ -31,10 +31,35 @@ class Launcher
         top_.dbus_plugins.error("File #{@path} doesnt exists",{})
         raise "File #{@path} doesnt exists"
     end
-      
-    launch()
-    
+ 
   end
+  
+  def launch()
+    if (@method != "disable") #do nothing
+      if (@method == "thread") #launch in thread mode
+        if @thread.nil? #check if thread has been already launched
+          @thread = Thread.new{
+            start_plug_thread()
+          }
+        else # if thread has been launch, you attempt to relaunch
+          if @thread.alive? #check if thread are running (or sleeping)
+            # Alive thread relaunch id forbiden
+             top_.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
+             raise "Attempt to relaunch a alive thread : #{@path} | it's forbiden"
+          else
+            #relaunch the thread
+            @thread = Thread.new{
+              start_plug_thread()
+            }
+          end
+        end
+      else
+        start_plug_fork()
+      end
+    end
+  end
+  
+  private
   
   def start_plug_thread()
     @argv_string = "ARGV = ["
@@ -82,29 +107,5 @@ class Launcher
     
   end
   
-  def launch()
-    if (@method != "disable") #do nothing
-      if (@method == "thread") #launch in thread mode
-        if @thread.nil? #check if thread has been already launched
-          @thread = Thread.new{
-            start_plug_thread()
-          }
-        else # if thread has been launch, you attempt to relaunch
-          if @thread.alive? #check if thread are running (or sleeping)
-            # Alive thread relaunch id forbiden
-             top_.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
-             raise "Attempt to relaunch a alive thread : #{@path} | it's forbiden"
-          else
-            #relaunch the thread
-            @thread = Thread.new{
-              start_plug_thread()
-            }
-          end
-        end
-      else
-        start_plug_fork()
-      end
-    end
-  end
 
 end

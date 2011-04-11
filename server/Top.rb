@@ -26,6 +26,7 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'yaml' 
 require 'rubygems'
 require 'dbus-openplacos'
+require 'memprof'
 
 # List of local include
 require 'Driver.rb'
@@ -153,7 +154,7 @@ class Top
         
         # plug proxy with dbus objects
         if @objects[object_path]
-          @objects[object_path].plug(@drivers[card["name"]].objects[pin])
+          @objects[object_path].plug(@drivers[card["name"]],pin)
         end
         
         # For debug purposes

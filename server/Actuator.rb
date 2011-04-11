@@ -37,7 +37,12 @@ class Actuator
   end
 
   # Plug the actuator to the proxy with defined interface 
-  def plug(proxy_) 
+    def plug(driver_,pin_)
+    #1 proxy to card with defined interface
+    #2 card name
+    @driver = driver_
+    proxy_ = @driver.objects[pin_]
+    
     if not proxy_.has_iface? @interface.get_name
       puts "Error : No interface " + @interface.get_name + " availabable for actuator " + self.path
       Process.exit 1
@@ -138,12 +143,19 @@ class Actuator
   end
   
   def safe_write( value_, option_)
+    has_been_launch = false
     begin
       ret = @proxy_iface.write( value_, option_)
       return ret
-    rescue  
-      @top.dbus_plugins.error("Unable to contact driver for actuator #{ self.path}",{})
-      raise "Unable to contact driver for actuator #{ self.path}"
+    rescue DBus::Error
+      if !has_been_launch
+        @driver.launch_driver()
+        has_been_launch = true
+        retry
+      else  
+        @top.dbus_plugins.error("Unable to contact driver for actuator #{ self.path}",{})
+        raise "Unable to contact driver for actuator #{ self.path}"
+      end
     end
   end
   
