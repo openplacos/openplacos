@@ -43,7 +43,7 @@ plugin.nonblock_run
 version = ">= 0"
 
 gem 'rails', version
-ARGV << "server" # I looooooove this Gem API, yeah!
+ARGV.insert(0,"server")
 
 load Gem.bin_path('rails', 'rails', version)
 
