@@ -168,7 +168,7 @@ usage()
 end # process
 
 
-while 1 do
+loop do
   STDOUT.write "> "
   STDOUT.flush
   array = STDIN.gets.split(' ')
