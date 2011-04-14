@@ -43,7 +43,7 @@ puts "list               # Return sensor and actuator list and corresponding int
 puts "status             # Return a status of your placos"
 puts "get  <sensor>      # Make a read access on this sensor"
 puts "set  <actuator>    # Make a write access on this actuator"
-puts "regul <sensor> -threeshold <threeshold>   \n   # Setup up a regul on this sensor with this threeshold"
+puts "regul <sensor>  <threshold>   \n   # Setup up a regul on this sensor with this threeshold"
 
 end
 
@@ -73,7 +73,7 @@ if( arg_[0] == "status")
   $opos.sensors.each_pair{|key, sensor|
     regul_enabled = "NA"
     if $opos.is_regul(sensor)
-      if($opos.get_regul_iface(sensor).state )
+      if($opos.get_regul_iface(sensor).state[0])
         regul_enabled = "enabled"
       else
         regul_enabled = "disabled"
@@ -128,7 +128,7 @@ if( arg_[0] == "get")
       puts "No sensor called " + arg_[i]
       return
     end
-    sens_hash.store(arg_[i], $opos.sensors[arg_[i]])
+    sens_hash.store(arg_[i], $opos.sensors[arg_[i]])    
   }
 
   sens_hash.each_pair { |key, sens|
@@ -136,6 +136,32 @@ if( arg_[0] == "get")
   }
   return
 end #Eof 'get'
+
+if( arg_[0] == "regul")
+  if( arg_.length < 3)
+    puts "Please specify a sensor"
+    usage()
+    return
+  end
+  
+    if ($opos.reguls[arg_[1]] == nil)
+      puts "No regul called " + arg_[1]
+      return
+    end
+    regul = $opos.reguls[arg_[1]]
+
+  if (arg_[2]=="disable" || arg_[2]=="off")
+    regul.unset()
+    puts arg_[1]+" disabled" 
+    return
+  end
+  h = {"threshold"=>arg_[2]}
+  puts h.inspect
+  regul.set(h)
+  puts "Set "+arg_[1]+" to "+arg_[2]
+  return
+end #Eof 'regul'
+
 
 puts "Action not recognized"
 usage()
