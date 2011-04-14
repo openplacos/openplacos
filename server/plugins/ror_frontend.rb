@@ -19,19 +19,6 @@ require "rubygems"
 require "openplacos"
 require "choice"
 
-Choice.options do
-    header ''
-    header 'Specific options:'
-
-    option :port do
-      short '-p'
-      long '--port=PORT'
-      desc 'The port to listen on (default 3000)'
-      cast Integer
-      default 3000
-    end
-end
-
 plugin = Openplacos::Plugin.new
 
 Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/")+ "/" + "rorplacos")

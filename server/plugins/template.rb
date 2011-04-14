@@ -17,20 +17,15 @@
 #
 require "rubygems"
 require "openplacos"
-require "choice"
+require "micro-optparse"
 
-Choice.options do
-    header ''
-    header 'Specific options:'
+options = Parser.new do |p|
+  p.banner = "This is openplacos plugins template"
+  p.version = "template 1.0"
+  p.option :option, "some options", :default => "nothing"
+end.process!
 
-    option :port do
-      short '-p'
-      long '--port=PORT'
-      desc 'The port to listen on (default 3000)'
-      cast Integer
-      default 3000
-    end
-end
+opt = options[:option]
 
 plugin = Openplacos::Plugin.new
 
