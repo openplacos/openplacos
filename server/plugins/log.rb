@@ -15,7 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+Thread.current.abord_on_execption = true
 require "rubygems"
 #if (ENV["DEBUG_OPOS"])
   #require '../../gem/lib/openplacos/libplugin.rb'
@@ -32,10 +32,8 @@ end.process!
 
 
 plugin = Openplacos::Plugin.new
-
-
 file = options[:file]
-
+puts file
 if File.exists? file
   $log_file = File.open(file, "a+") 
 else

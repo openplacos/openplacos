@@ -35,5 +35,6 @@ class Plugin < Launcher
     @launch_config.delete("method")
     @launch_config.delete("exec")
     super(@path, @method, @launch_config, top_)
-    end
+    self.launch
+  end
 end

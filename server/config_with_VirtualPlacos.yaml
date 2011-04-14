@@ -65,19 +65,19 @@ plugins:
 #  exec: plugins/ror_frontend.rb
 
 - name: log
-  method: disable
+  method: thread
   exec: plugins/log.rb
-  file: /tmp/opos.log
+  file: /tmp/opos2.log
   
 - name: xmlrpc
   method: disable
   exec: plugins/xmlrpc.rb
   port: 8080
   
-#- name: soap
- # method: disable
- # exec: plugins/soap.rb
- # port: 8080
+- name: soap
+  method: thread
+  exec: plugins/soap.rb
+  port: 8081
 
 user:
 
