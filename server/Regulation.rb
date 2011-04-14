@@ -62,7 +62,9 @@ class Regulation
       @frequency = option_["frequency"]
     end
     @is_regul_on = true
-    @thread.wakeup
+    if @thread.stop?
+      @thread.wakeup
+    end
   end
   
   def unset
