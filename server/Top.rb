@@ -26,7 +26,6 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'yaml' 
 require 'rubygems'
 require 'dbus-openplacos'
-require 'memprof'
 
 # List of local include
 require 'Driver.rb'
