@@ -38,6 +38,7 @@ class Regulation
       Thread.current.abort_on_exception = true
       
       @thread = Thread.new{
+        Thread.current.abort_on_exception = true
         loop do
           Thread.stop if !@is_regul_on
           sleep(@frequency)
@@ -54,7 +55,7 @@ class Regulation
   end
   
   def set(option_)
-    @threshold = option_["threshold"]
+    @threshold = option_["threshold"].to_f
     if !option_["hysteresis"].nil?
       @hysteresis = option_["hysteresis"]
     end
@@ -97,7 +98,7 @@ class Regulation
     meas = @measure.get_value
     error = (meas - @threshold)
     gain = 0.1
-    previous_command = @measure.top.objects[@action_down].state['value']
+    previous_command = @measure.top.objects[@action_down].state['value'] || 0
     commande = previous_command + gain*error 
     if commande < 0
       commande = 0
