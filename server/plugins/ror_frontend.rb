@@ -17,8 +17,9 @@
 #
 require "rubygems"
 require "openplacos"
+require "choice"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+plugin = Openplacos::Plugin.new
 
 Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/")+ "/" + "rorplacos")
 plugin.nonblock_run
@@ -29,7 +30,7 @@ plugin.nonblock_run
 version = ">= 0"
 
 gem 'rails', version
-ARGV[0] = "server" # I looooooove this Gem API, yeah!
+ARGV.insert(0,"server")
 
 load Gem.bin_path('rails', 'rails', version)
 

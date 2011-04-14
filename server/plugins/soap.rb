@@ -17,10 +17,17 @@
 require 'rubygems'
 require "soap/rpc/standaloneServer"
 require "openplacos"
+require "micro-optparse"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+options = Parser.new do |p|
+  p.banner = "This is openplacos plugins for soap server"
+  p.version = "soap 1.0"
+  p.option :port, "the server port", :default => 8081
+end.process!
 
-port = plugin.config["port"]
+plugin = Openplacos::Plugin.new
+
+
 
 plugin.nonblock_run
 
@@ -68,7 +75,7 @@ begin
   opos = Openplacos::Client.new
 
   server = MySoapServer.new(opos,"MySoapServer", 
-            'urn:ruby:opos', '0.0.0.0', port)
+            'urn:ruby:opos', '0.0.0.0', options[:port])
   server.start
 rescue => err
   puts err.message

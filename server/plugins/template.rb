@@ -17,8 +17,17 @@
 #
 require "rubygems"
 require "openplacos"
+require "micro-optparse"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+options = Parser.new do |p|
+  p.banner = "This is openplacos plugins template"
+  p.version = "template 1.0"
+  p.option :option, "some options", :default => "nothing"
+end.process!
+
+opt = options[:option]
+
+plugin = Openplacos::Plugin.new
 
 plugin.opos.on_signal("create_measure") do |name,config|
   # do stuff when a measure is created

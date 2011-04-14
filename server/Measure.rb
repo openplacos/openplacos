@@ -16,6 +16,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'timeout'
 
 class Measure
 
@@ -67,10 +68,11 @@ class Measure
   end
 
   # Plug the measure to the proxy with defined interface 
-  def plug(proxy_)
+  def plug(driver_,pin_)
     #1 proxy to card with defined interface
     #2 card name
-
+    @driver = driver_
+    proxy_ = @driver.objects[pin_]
 
     if not proxy_.has_iface? @interface.get_name
       puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.path
@@ -119,12 +121,19 @@ class Measure
   
   #read a value on the driver and rescue if error
   def safe_read
+    has_been_launch = false
     begin
       ret = @proxy_iface.read(@option)[0]
       return ret
-    rescue
-      @top.dbus_plugins.error("Unable to contact driver for sensor #{ self.path}",{})
-      raise "Unable to contact driver for sensor #{ self.path}"
+    rescue DBus::Error
+      if !has_been_launch
+        @driver.launch_driver()
+        has_been_launch = true
+        retry
+      else
+        @top.dbus_plugins.error("Unable to contact driver for sensor #{ self.path}",{})
+        raise "Unable to contact driver for sensor #{ self.path}"
+      end
     end
   end
 

@@ -22,11 +22,20 @@ require "rubygems"
 #else
   require "openplacos"
 #end
+require "micro-optparse"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+options = Parser.new do |p|
+  p.banner = "This is openplacos plugins for log file"
+  p.version = "log 1.0"
+  p.option :file, "file to log", :default => "/var/log/openplacos.log"
+end.process!
 
 
-file = plugin.config['file']
+plugin = Openplacos::Plugin.new
+
+
+file = options[:file]
+
 if File.exists? file
   $log_file = File.open(file, "a+") 
 else

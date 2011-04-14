@@ -17,11 +17,20 @@
 # lib include
 include REXML
 
+
 # local include
 require 'Dbus-interfaces.rb'
+require 'Launcher.rb'
+require 'timeout'
 
+class Driver < Launcher
 
-class Driver
+	if File.symlink?(__FILE__)
+	  PATH =  File.dirname(File.readlink(__FILE__))
+	else 
+	  PATH = File.expand_path(File.dirname(__FILE__))
+	end
+
   attr_reader :objects, :path_dbus
 
   #1 Name of service
@@ -29,18 +38,31 @@ class Driver
 
     # Class variables
     @name = card_["name"]
-    @path_dbus = "org.openplacos.drivers." + card_["name"].downcase
-    
-    #launch the driver with dbus autolaunch
-    begin
-      Bus.service(@path_dbus) 
-    rescue
-      top_.dbus_plugins.error("Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable",{})
-      raise "Can't find driver for card #{card_["name"]}, driver #{@path_dbus} is maybe unavailable"
+    @method = card_["method"]
+    if card_["exec"]
+		#file can be find
+      @path   = PATH + "/" + card_["exec"]
     end
+    @plug = card_["plug"]
+    @path_dbus = "org.openplacos.drivers." + @name.downcase
+    
+    @timeout = card_["timeout"] || 5 # default value 5 second
+   
+    @launch_config = card_.dup
+    
+    @launch_config.delete("exec")
+    @launch_config.delete("plug")
+    @launch_config.delete("timeout")
+    
+    #create the launcher
+    super(@path, "fork",  @launch_config, top_)
+    
+    #launch th driver
+    launch_driver()
+    
     @objects = Hash.new
 
-    card_["plug"].each_pair do |pin,object_path|
+    @plug.each_pair do |pin,object_path|
       
       next if object_path.nil?
 
@@ -76,6 +98,32 @@ class Driver
     
 
   end #  End of initialize
+
+  def launch_driver()
+    has_been_launched = false
+    
+    begin
+      Timeout::timeout(@timeout) { # allow a maximum time of #timeout second for the driver launch
+        begin
+          #launch the driver with dbus autolaunch
+          driver = Bus.service(@path_dbus) 
+          driver.introspect
+        rescue # driver is not present on the bus, launch it
+          if !has_been_launched # wait until driver is ready
+            puts "launch #{@path}"
+            self.launch
+            has_been_launched = true
+          else
+            sleep 0.1
+          end
+          retry
+        end
+      }
+    rescue Timeout::Error 
+      top_.dbus_plugins.error("Autolaunch of  #{@name}, driver #{@path_dbus} failed",{})
+      raise "Autolaunch of  #{@name}, driver #{@path_dbus} failed"
+    end
+  end
 
 end # End of Driver
 

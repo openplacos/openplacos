@@ -23,6 +23,32 @@ require 'dbus-openplacos'
 require 'thread'
 require 'yaml' # Assumed in future examples
 require 'pathname'
+require "choice"
+
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
+end
+
+Choice.options do
+    header ''
+    header 'Specific options:'
+
+    option :name do
+      short '-n'
+      long '--name=NAME'
+      desc 'The Name of the service (default virtualplacos)'
+      default "virtualplacos"
+    end
+    
+    option :config do
+      short '-c'
+      long '--config=CONFIG'
+      desc 'The config file (default config.yaml)'
+      default "config.yaml"
+    end
+end
 
 Thread.abort_on_exception = true
 
@@ -50,12 +76,15 @@ class Virtualplacos
         @ConstEclairage = constEclairage
         @ConstVentilation = constVentilation
         
+        @pwm_coeff_ventil = 1;
+        @pwm_coeff_light = 1;
+        
         @ventilation_thread = Thread.new{
             loop do
                 sleep(@th_refresh_rate)
                 if @ventilation == true
-                    @inTemp = @inTemp + (@outTemp - @inTemp)*(@th_refresh_rate/@ConstVentilation) # 1 order system
-                    @inHygro = @inHygro + (@outHygro - @inHygro)*(@th_refresh_rate/@ConstVentilation) # 1 order system
+                    @inTemp = @inTemp + (@outTemp - @inTemp)*(@th_refresh_rate/(@ConstVentilation/@pwm_coeff_ventil)) # 1 order system
+                    @inHygro = @inHygro + (@outHygro - @inHygro)*(@th_refresh_rate/(@ConstVentilation/@pwm_coeff_ventil)) # 1 order system
                     @inHygroSensor = @inHygro + 0.1*@inTemp
                 end                 
             end
@@ -66,8 +95,8 @@ class Virtualplacos
             loop do
                 sleep(@th_refresh_rate)
                 if @eclairage == true
-                    @inTemp = @inTemp + (@maxInTemp - @inTemp)*(@th_refresh_rate/@ConstEclairage) # 1 order system
-                    @inHygro = @inHygro + (95 - @inHygro)*(@th_refresh_rate/@ConstEclairage) # 1 order system
+                    @inTemp = @inTemp + (@maxInTemp - @inTemp)*(@th_refresh_rate/(@ConstEclairage/@pwm_coeff_light)) # 1 order system
+                    @inHygro = @inHygro + (95 - @inHygro)*(@th_refresh_rate/(@ConstEclairage/@pwm_coeff_light)) # 1 order system
                     @inHygroSensor = @inHygro + 0.1*@inTemp
                 end
             end
@@ -78,11 +107,16 @@ class Virtualplacos
     def setVentilation(state)
         if state == true
             @ventilation = true
-            my_notify("Allumage de la ventillation")        
+            @pwm_coeff_ventil = 1 
+            my_notify("Allumage de la ventillation | coefficient #{state}")        
         else
             if state == false
                 @ventilation = false
                 my_notify("Extinction de la ventillation")      
+            else
+                @ventilation = true
+                @pwm_coeff_ventil = (state*255).to_i.to_f/255 + 1.0/255
+                my_notify("Allumage de la ventillation | coefficient #{state}")
             end
         end
     end
@@ -90,11 +124,16 @@ class Virtualplacos
     def setEclairage(state)
         if state == true
             @eclairage = true
-            my_notify("Allumage de l'eclairage")
+            @pwm_coeff_light = 1
+            my_notify("Allumage de l'eclairage | coefficient #{state}")
         else
             if state == false
                 @eclairage = false
                 my_notify("Extinction de l'eclairage")
+            else
+                @eclairage = true
+                @pwm_coeff_light = (state*255).to_i.to_f/255 + 1.0/255
+                my_notify("Allumage de l'eclairage | coefficient #{state}")
             end
         end
     end
@@ -168,6 +207,23 @@ class Actuator < DBus::Object
         end 
             
     end 
+    
+    dbus_interface "org.openplacos.driver.pwm" do
+
+        dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |value, option|
+            if value == 1
+              value = true
+            end
+            if value == 0
+              value = false
+            end
+            $placos.method(@method).call value
+            return true
+  
+        end 
+            
+    end 
+    
 end
 
 
@@ -207,6 +263,19 @@ class DebugState < DBus::Object
             end
           }
           [ret]           
+        end  
+        
+    end
+
+end
+
+class Driver < DBus::Object
+
+    
+    dbus_interface "org.openplacos.driver" do
+    
+        dbus_method :quit do 
+          Process.exit(0)       
         end  
         
     end
@@ -254,24 +323,15 @@ def my_notify(message)
     puts message
 end
 
-if (ARGV[0] == nil)
- ARGV[0] = File.dirname(__FILE__) + '/config.yaml'
-end
-
-if (! File.exist?(ARGV[0]))
-  puts "Config file " +ARGV[0]+" doesn't exist"
-  Process.exit
-end
-
-
-if (! File.readable?(ARGV[0]))
-  puts "Config file " +ARGV[0]+" not readable"
-  Process.exit
-end
-
-
 #Load and parse config file
-config =  YAML::load(File.read(ARGV[0]))
+puts PATH
+
+begin
+  config =  YAML::load(File.read(PATH + "/" + Choice.choices[:config].lstrip))
+rescue
+  exec "echo #{"Can't open file #{PATH + "/" + Choice.choices[:config].lstrip}."} > /var/log/openplacos.log"
+  raise "Can't open file #{PATH + "/" + Choice.choices[:config].lstrip}."
+end
 
 config_placos = config['placos']
 
@@ -298,7 +358,7 @@ end
 
 #publish methods on dbus
 
-service = bus.request_service("org.openplacos.drivers.virtualplacos")
+service = bus.request_service("org.openplacos.drivers.#{Choice.choices[:name].downcase}")
 
 #create pin objects
 config_pins = config['pins']
@@ -313,6 +373,9 @@ config_pins.each_pair { |pin_name , device_name|
 }
 debug = DebugState.new("Debug")
 service.export(debug)
+
+driver = Driver.new("Driver")
+service.export(driver)
 
 main = DBus::Main.new
 main << bus

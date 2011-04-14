@@ -20,23 +20,20 @@ class Regulation
 
   def initialize(config_,measure_)
       
+      @config = config_
       @measure     = measure_
       @action_up   = config_["action+"]
       @action_down = config_["action-"]
       @is_regul_on = false
       @order       = nil
       @threshold = nil
-      if config_["frequency"].nil?
-		@frequency = 1 #by default 
-	  else
-	    @frequency = config_["frequency"]
-	  end
-	  
-	  if config_["hysteresis"].nil?
-		@hysteresis = 1 #by default 
-	  else
-	    @hysteresis = config_["hysteresis"]
-	  end
+      
+      
+      @regul_type = config_["type"] || autoSelectRegulType
+        
+      @frequency = config_["frequency"] || 1
+      
+      @hysteresis = config_["hysteresis"] || 1
 	  
       Thread.current.abort_on_exception = true
       
@@ -52,21 +49,8 @@ class Regulation
   
   
   def regul
-    return if @threshold.nil?
-    meas = @measure.get_value
-    if meas > (@threshold + @hysteresis)
-      if (not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="on")))
-        @measure.top.objects[@action_down].on 
-      end
-      if (not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="off")))
-        @measure.top.objects[@action_up].off
-      end
-    end
-    if meas < (@threshold - @hysteresis)
-      @measure.top.objects[@action_down].off if ( not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="off")))
-      @measure.top.objects[@action_up].on if ( not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="on")))
-    end
-    
+    # call the right methode according to the regul type
+    self.method(@regul_type).call 
   end
   
   def set(option_)
@@ -87,6 +71,46 @@ class Regulation
 
   def state
     return @is_regul_on
+  end
+  
+  def boolean_regul
+    return if @threshold.nil?
+    meas = @measure.get_value
+    if meas > (@threshold + @hysteresis)
+      if (not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="on")))
+        @measure.top.objects[@action_down].on 
+      end
+      if (not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="off")))
+        @measure.top.objects[@action_up].off
+      end
+    end
+    if meas < (@threshold - @hysteresis)
+      @measure.top.objects[@action_down].off if ( not(@action_down.nil?) and (not(@measure.top.objects[@action_down].state["name"]=="off")))
+      @measure.top.objects[@action_up].on if ( not(@action_up.nil?) and (not(@measure.top.objects[@action_up].state["name"]=="on")))
+    end
+  end
+  
+  def pwm_regul
+    return if @threshold.nil?
+    meas = @measure.get_value
+    error = (meas - @threshold)
+    gain = 0.1
+    previous_command = @measure.top.objects[@action_down].state['value']
+    commande = previous_command + gain*error 
+    if commande < 0
+      commande = 0
+    end
+    if commande > 1
+      commande =1
+    end
+     @measure.top.objects[@action_down].write(commande,{})    
+  end
+
+  def autoSelectRegulType
+    #FIXME : Actuator are note yet create so it is impossible to detect the interface type
+    #puts @measure.top.objects[@action_down].config["driver"]["interface"]
+    type = :boolean_regul
+    return type
   end
 
 end

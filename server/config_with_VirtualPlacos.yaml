@@ -5,6 +5,8 @@ objects:
   model: Generic_Celsius_Temperature
   regul:
     action-: /home/indoor/Fan
+    frequency: 2
+    type: "pwm_regul"
    
 - name: Temperature Outdoor
   path: /home/outdoor/Temperature
@@ -33,10 +35,13 @@ objects:
     
 - name: Fan
   path: /home/indoor/Fan
-  model: Generic_relay_NO
+  model: Generic_pwm
 
 card:
 - name: VirtualPlacos
+  exec: ../drivers/VirtualPlacos/VirtualPlacos.rb
+  config: config.yaml
+  timeout: 2
   plug: 
     /Pin_1: /home/indoor/Temperature
     /Pin_2: /home/outdoor/Temperature
@@ -55,7 +60,6 @@ plugins:
  # method: thread
  # exec: plugins/fill_sql.rb
 
-
 #- name: ror_frontend
 #  method: disable
 #  exec: plugins/ror_frontend.rb
@@ -66,7 +70,7 @@ plugins:
   file: /tmp/opos.log
   
 - name: xmlrpc
-  method: fork
+  method: disable
   exec: plugins/xmlrpc.rb
   port: 8080
   

@@ -17,16 +17,21 @@
 require "rubygems"
 require 'xmlrpc/server'
 require "openplacos"
+require "micro-optparse"
 
-plugin = Openplacos::Plugin.new(__FILE__)
+options = Parser.new do |p|
+  p.banner = "This is openplacos plugins for xmlrpc server"
+  p.version = "xmlrpc 1.0"
+  p.option :port, "the server port", :default => 8080
+end.process!
 
-port = plugin.config["port"]
+plugin = Openplacos::Plugin.new
 
 plugin.nonblock_run
 
 opos = Openplacos::Client.new
 
-serverxml = XMLRPC::Server.new(port, '0.0.0.0')#, 150, $stderr)
+serverxml = XMLRPC::Server.new(options[:port], '0.0.0.0')#, 150, $stderr)
 
 serverxml.add_handler("sensors") do
     opos.sensors.keys
