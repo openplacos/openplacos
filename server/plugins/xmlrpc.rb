@@ -56,6 +56,11 @@ end
 serverxml.add_handler("set") do |path, meth|
     eval "opos.actuators[\"#{path}\"].#{meth}"
 end
+
+plugin.opos.on_signal("quit") do
+  serverxml.shutdown
+end
+
 serverxml.serve
 
 

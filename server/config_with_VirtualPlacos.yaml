@@ -70,7 +70,7 @@ plugins:
   file: /tmp/opos2.log
   
 - name: xmlrpc
-  method: disable
+  method: fork
   exec: plugins/xmlrpc.rb
   port: 8080
   

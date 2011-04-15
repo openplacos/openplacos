@@ -72,10 +72,20 @@ begin
 
   end
   
+
+  
   opos = Openplacos::Client.new
 
   server = MySoapServer.new(opos,"MySoapServer", 
             'urn:ruby:opos', '0.0.0.0', options[:port])
+  
+  plugin.opos.on_signal("quit") do
+    server.shutdown
+  end
+  Signal.trap('INT') {
+    server.shutdown
+  }
+  
   server.start
 rescue => err
   puts err.message

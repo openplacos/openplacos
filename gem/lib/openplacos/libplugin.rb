@@ -54,8 +54,6 @@ module Openplacos
     
     def quit
       @main.quit
-      puts "Quitting"
-      Process.exit!
     end
     
     def nonblock_run
