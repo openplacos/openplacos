@@ -20,7 +20,7 @@ require "rubygems"
 require "openplacos"
 require "micro-optparse"
 
-options = Parser.new do |p|
+options = Parser.new(ARGV) do |p|
   p.banner = "This is openplacos plugins for sql database"
   p.version = "sql 1.0"
   p.option :database, "the name of the database", :default => "openplacos"

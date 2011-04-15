@@ -75,7 +75,7 @@ plugins:
   port: 8080
   
 - name: soap
-  method: thread
+  method: disable
   exec: plugins/soap.rb
   port: 8081
 

@@ -19,7 +19,7 @@ require 'xmlrpc/server'
 require "openplacos"
 require "micro-optparse"
 
-options = Parser.new do |p|
+options = Parser.new(ARGV) do |p|
   p.banner = "This is openplacos plugins for xmlrpc server"
   p.version = "xmlrpc 1.0"
   p.option :port, "the server port", :default => 8080

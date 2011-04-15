@@ -234,11 +234,11 @@ end
 
 # Construct Top
 top = Top.new(ARGV[0], service)
-
+main = DBus::Main.new
 # quit the plugins when server quit
-trap('INT') do 
+Signal.trap('INT') do 
   top.dbus_plugins.quit
-  Process.exit(0)
+  main.quit
 end
 
 # server is now ready, send the information to plugin
@@ -249,7 +249,7 @@ Thread.new do
 end
 
 # Let's Dbus have execution control
-main = DBus::Main.new
+
 main << Bus
 main.run
 
