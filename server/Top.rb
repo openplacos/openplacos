@@ -40,7 +40,7 @@ require 'Regulation.rb'
 require 'Plugin.rb'
 require 'User.rb'
 
-options = Parser.new(ARGV) do |p|
+options = Parser.new do |p|
   p.banner = "The openplacos server"
   p.version = "0.0.1"
   p.option :file, "the config file", :default => "/etc/default/openplacos"
@@ -92,9 +92,25 @@ class Top
       # start a thread to listen on bus for reception of message
       plug_thread = Thread.new { @plugin_main.run }
       
+      disable = 0
       @config["plugins"].each do |plugin|
         @plugins.store(plugin["name"], Plugin.new(plugin, self))
+        disable += 1 if plugin["method"]=="disable"
       end
+      
+      #verify that all plugins have been launched
+      nb_plugin = @plugins.length - disable
+      begin 
+        Timeout::timeout(10) {
+          while (@dbus_plugins.plugin_count<nb_plugin)
+            sleep 0.1
+          end
+        }
+        puts "all plugins have been launched"
+      rescue Timeout::Error
+        puts "#{nb_plugin - @dbus_plugins.plugin_count} plugins are not lauched" 
+      end
+      
       
       @plugin_main.quit
       plug_thread.terminate

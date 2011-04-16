@@ -129,7 +129,7 @@ class Server < DBus::Object
 end
 
 class Dbus_Plugin < DBus::Object
-  attr_accessor :server_ready
+  attr_accessor :server_ready, :plugin_count
 
   dbus_interface "org.openplacos.plugins" do
     dbus_signal :create_measure, "in measure_name:s, in config:a{sv}"
@@ -143,6 +143,12 @@ class Dbus_Plugin < DBus::Object
 
     dbus_method :is_server_ready, "out ready:b" do 
       return @server_ready
+    end
+    
+    dbus_method :register, " out id:i" do
+      @plugin_count += 1
+      puts "Plugin count : #{@plugin_count}"
+      return @plugin_count
     end   
         
   end
@@ -150,6 +156,7 @@ class Dbus_Plugin < DBus::Object
   def initialize
     super("/plugins")
     @server_ready = false
+    @plugin_count = 0
   end
 
 end

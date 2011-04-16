@@ -65,7 +65,7 @@ plugins:
 #  exec: plugins/ror_frontend.rb
 
 - name: log
-  method: thread
+  method: fork
   exec: plugins/log.rb
   file: /tmp/opos2.log
   
