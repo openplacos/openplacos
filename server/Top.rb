@@ -26,6 +26,7 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'yaml' 
 require 'rubygems'
 require 'dbus-openplacos'
+require 'micro-optparse'
 
 # List of local include
 require 'Driver.rb'
@@ -38,6 +39,12 @@ require 'globals.rb'
 require 'Regulation.rb'
 require 'Plugin.rb'
 require 'User.rb'
+
+options = Parser.new(ARGV) do |p|
+  p.banner = "The openplacos server"
+  p.version = "0.0.1"
+  p.option :file, "the config file", :default => "/etc/default/openplacos"
+end.process!
 
 #DBus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
@@ -217,23 +224,21 @@ class Top
 end # End of Top
 
 # Config file basic verification
-if (ARGV[0] == nil)
-  ARGV[0] = '/etc/default/openplacos'
-end
+file = options[:file]
 
-if (! File.exist?(ARGV[0]))
-  puts "Config file " +ARGV[0]+" doesn't exist"
+if (! File.exist?(file))
+  puts "Config file " +file+" doesn't exist"
   Process.exit 1
 end
 
 
-if (! File.readable?(ARGV[0]))
-  puts "Config file " +ARGV[0]+" not readable"
+if (! File.readable?(file))
+  puts "Config file " +file+" not readable"
   Process.exit 1
 end
 
 # Construct Top
-top = Top.new(ARGV[0], service)
+top = Top.new(file, service)
 main = DBus::Main.new
 # quit the plugins when server quit
 Signal.trap('INT') do 

@@ -30,7 +30,7 @@ end.process!
 plugin = Openplacos::Plugin.new
 
 file = options[:file]
-puts file
+
 if File.exists? file
   $log_file = File.open(file, "a+") 
 else
