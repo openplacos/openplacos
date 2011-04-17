@@ -15,8 +15,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-require 'active_record' 
+
 require "rubygems"
+require 'active_record' 
 require "openplacos"
 require "micro-optparse"
 

@@ -7,8 +7,10 @@ Rorplacos::Application.routes.draw do
   match 'regulations/set' => 'regulations#set'
   match 'regulations/unset' => 'regulations#unset'
 
-  
+  match 'sensors/graph/*path.:format' => 'sensors#graph'
+  match 'sensors/*path.:format' => 'sensors#index'
   match 'sensors/*path' => 'sensors#index'
+
 
   match 'actuators/call' => 'actuators#call'
   match 'actuators/*path' => 'actuators#index'

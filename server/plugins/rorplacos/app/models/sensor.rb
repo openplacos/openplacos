@@ -3,13 +3,14 @@ class Sensor < ActiveRecord::Base
     has_many :measures
     has_many :flows , :through => :measures
     
-    attr_reader :path, :backend, :config
+    attr_reader :path, :backend, :config, :unit
 
     def initialize(connection, path)
       @connect = connection
       @path = path
       @backend = connection.sensors[@path]
       @config = connection.objects[@path]['org.openplacos.server.config'].getConfig[0]
+      @unit = @config["informations"]["unit"] || " "
     end
   
     def value
@@ -17,13 +18,9 @@ class Sensor < ActiveRecord::Base
       if val.is_a?(Float)
         val = val.round(2)
       end
-      return val.to_s
+      return val.to_s + " " + @unit
     end
     
-    def unit
-      return @config["informations"]["unit"] if not @config["informations"]["unit"].nil?
-      return " " # return an empty string if no unit is defined
-    end
     
     def regul_status
       status = "NA"
@@ -37,15 +34,10 @@ class Sensor < ActiveRecord::Base
       return status
     end
     
-    def generate_graph
-      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.order("date DESC").limit(500)
-      val = meas.collect{ |m| m.value}
-      date = meas.collect{ |m| m.date}
-      
-      g = Gruff::Line.new
-      g.title = @path
-
-      g.data(@path, val)
-      g.write("public/images/#{@path.delete("/")}.png")
+    def generate_graph(time)
+      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.where("date >= :start_date",{:start_date => time.hour.ago }).order("date DESC")
+      ret = Hash.new
+      ret = meas.collect{ |m| [m.date.to_f, m.value]}
+      return ret
     end
 end
