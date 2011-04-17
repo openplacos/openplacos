@@ -32,7 +32,6 @@ GEM
     builder (2.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    gruff (0.3.6)
     i18n (0.5.0)
     mail (2.2.12)
       activesupport (>= 2.3.6)
@@ -62,7 +61,6 @@ GEM
       rake (>= 0.8.7)
       thor (~> 0.14.4)
     rake (0.8.7)
-    rmagick (2.13.1)
     ruby-dbus-openplacos (0.6.1)
     thor (0.14.6)
     treetop (1.4.9)
@@ -73,9 +71,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  gruff
   mysql2
   openplacos
   rails (= 3.0.3)
-  rmagick
   ruby-dbus-openplacos
