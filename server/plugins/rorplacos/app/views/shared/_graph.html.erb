@@ -39,7 +39,7 @@ document.observe('dom:loaded', function(){
      * Return a new graph.
      */
     
-    new Ajax.Request('/sensors/graph<%=path%>.json', {
+    new Ajax.Request('<%=path%>.json', {
       method:'get',
       parameters: { time: t},
       onSuccess: function(transport){

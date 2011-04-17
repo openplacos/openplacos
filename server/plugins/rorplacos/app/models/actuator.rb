@@ -1,6 +1,7 @@
 class Actuator < ActiveRecord::Base
     belongs_to :devices
     has_many :instructions
+    has_many :flows , :through => :instructions
     
     attr_reader :path,:backend
 
@@ -22,10 +23,27 @@ class Actuator < ActiveRecord::Base
       return s
     end
     
+    def value
+      s = @backend.state[0]["value"]
+      if s.nil?
+        s = 0
+      end
+      return s
+    end
+    
     def get_methods
       meth = @backend.methods.keys
       meth.delete("state")
       return meth
     end
+    
+    def generate_graph(time)
+      inst = Device.find(:first, :conditions => {:config_name => @path}).actuator.flows.where("date >= :start_date",{:start_date => time.hour.ago }).order("date DESC")
+      ret = Array.new
+      ret << [Time.new.to_i, self.value]
+      ret = inst.collect{ |m| [m.date.to_i, m.value]}
+      return ret
+    end
+    
     
 end

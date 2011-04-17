@@ -1,4 +1,4 @@
 class Instruction < ActiveRecord::Base
   belongs_to :actuator
-  has_one :flow
+  belongs_to :flow
 end
