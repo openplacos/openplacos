@@ -17,7 +17,6 @@
 #
 require "rubygems"
 require "openplacos"
-require "choice"
 
 plugin = Openplacos::Plugin.new
 
