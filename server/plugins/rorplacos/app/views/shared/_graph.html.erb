@@ -1,4 +1,12 @@
+<div id="container" style="width:550px;height:400px;"></div>
 
+<p> <button id="reset-btn">Reset</button>
+    <button id="5_days">5 Days</button>
+    <button id="1_day">1 Day</button>
+    <button id="12_hours">12 Hours</button>
+    <button id="5_hours">5 Hours</button>
+    <button id="1_hour">1 Hour</button>
+</p>
 
 <script type="text/javascript"> 
 
@@ -82,12 +90,11 @@ document.observe('dom:loaded', function(){
    * object.
    */
   $('reset-btn').observe('click', function(){drawGraph()});
+  $('5_days').observe('click', function(){drawGraph({},120)});
   $('1_day').observe('click', function(){drawGraph({},24)});
   $('12_hours').observe('click', function(){drawGraph({},12)});
   $('5_hours').observe('click', function(){drawGraph({},5)});
-  $('1_hour').observe('click', function(){drawGraph({},1)});
-
-  
+  $('1_hour').observe('click', function(){drawGraph({},1)});  
 }); 
             
 </script> 

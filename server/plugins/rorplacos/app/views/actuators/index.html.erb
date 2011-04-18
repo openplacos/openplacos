@@ -1,9 +1,3 @@
- <%= render :partial => "abstract",:locals => { :actuator => @actuator }%>
-<div id="container" style="width:550px;height:400px;"></div>
+<%= render :partial => "abstract",:locals => { :actuator => @actuator }%>
 <%= render :partial => "shared/graph",:locals => {:path => "/actuators/graph#{@actuator.path}"}%>
-<p> <button id="reset-btn">Reset</button>
-    <button id="1_day">1 Day</button>
-    <button id="12_hours">12 Hours</button>
-    <button id="5_hours">5 Hours</button>
-    <button id="1_hour">1 Hour</button>
-</p>
+
