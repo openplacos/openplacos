@@ -82,9 +82,7 @@ begin
   plugin.opos.on_signal("quit") do
     server.shutdown
   end
-  Signal.trap('INT') {
-    server.shutdown
-  }
+
   
   server.start
 rescue => err
