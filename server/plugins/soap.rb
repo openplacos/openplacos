@@ -19,11 +19,11 @@ require "soap/rpc/standaloneServer"
 require "openplacos"
 require "micro-optparse"
 
-options = Parser.new(ARGV) do |p|
+options = Parser.new do |p|
   p.banner = "This is openplacos plugins for soap server"
   p.version = "soap 1.0"
   p.option :port, "the server port", :default => 8081
-end.process!
+end.process!(ARGV)
 
 plugin = Openplacos::Plugin.new
 

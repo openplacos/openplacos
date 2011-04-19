@@ -20,11 +20,11 @@ require "rubygems"
 require "openplacos"
 require "micro-optparse"
 
-options = Parser.new(ARGV) do |p|
+options = Parser.new do |p|
   p.banner = "This is openplacos plugins for log file"
   p.version = "log 1.0"
   p.option :file, "file to log", :default => "/var/log/openplacos.log"
-end.process!
+end.process!(ARGV)
 
 
 plugin = Openplacos::Plugin.new
