@@ -49,10 +49,13 @@ void messageReady() {
  if ( message.checkString("adc") ) {
    int pin = message.readInt();
    int val = analogRead(pin);    // read the input pin
+   for (int i=1;i<100;i++) {
+      val += analogRead(pin);
+   }
    blueToothSerial.print("adc ");
    blueToothSerial.print(pin);
    blueToothSerial.print(" ");
-   blueToothSerial.println(val);
+   blueToothSerial.println((float)val / 100.0);
    return;  
  }  
  
@@ -103,7 +106,7 @@ void setupBlueToothConnection()
     blueToothSerial.begin(BAUPRATE); //Set BluetoothBee BaudRate to default baud rate
     delay(1000);
     sendBlueToothCommand("\r\n+STWMOD=0\r\n");
-    sendBlueToothCommand("\r\n+STNA=SeeeduinoBluetooth\r\n");
+    sendBlueToothCommand("\r\n+STNA=OpenplacosBluetooth\r\n");
     //sendBlueToothCommand("\r\n+STBD=BAUPRATE\r\n");
     sendBlueToothCommand("\r\n+STAUTO=0\r\n");
     sendBlueToothCommand("\r\n+STOAUT=1\r\n");
