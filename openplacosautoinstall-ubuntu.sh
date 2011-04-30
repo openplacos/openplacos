@@ -63,7 +63,7 @@ post_installation() {
 
 
 # link into path
-  ln -s -f /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
+  ln -s -f /usr/lib/ruby/openplacos/server/main.rb /usr/bin/openplacos-server
   ln -s -f /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
   ln -s -f /usr/lib/ruby/openplacos/client/gtk/gtk.rb /usr/bin/openplacos-gtk
   ln -s -f /usr/lib/ruby/openplacos/client/xml-rpc/xml-rpc-client.rb  /usr/bin/openplacos-xmlrpc
