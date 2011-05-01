@@ -20,9 +20,10 @@ require 'dbus-openplacos'
 module Openplacos
 
   class Plugin
-    attr_reader :path, :opos ,:main ,:config
+    attr_reader  :opos ,:main ,:config
     def initialize
       @server_ready_queue = Queue.new
+      @id = nil
       #DBus
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
         @clientbus =  DBus::SessionBus.instance
@@ -47,6 +48,7 @@ module Openplacos
     end
     
     def run
+      @id = @opos.register
       @main = DBus::Main.new
       @main << @clientbus
       @main.run
@@ -54,11 +56,10 @@ module Openplacos
     
     def quit
       @main.quit
-      puts "Quitting"
-      Process.exit!
     end
     
     def nonblock_run
+      @id = @opos.register
       @mainthread = Thread.new{
         @main = DBus::Main.new
         @main << @clientbus

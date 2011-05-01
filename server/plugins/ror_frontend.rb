@@ -17,13 +17,12 @@
 #
 require "rubygems"
 require "openplacos"
-require "choice"
 
 plugin = Openplacos::Plugin.new
 
 Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/")+ "/" + "rorplacos")
-plugin.nonblock_run
 
+plugin.nonblock_run
 
 ## Inspirated from /usr/bin/rails
 

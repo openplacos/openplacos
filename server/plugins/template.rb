@@ -23,7 +23,7 @@ options = Parser.new do |p|
   p.banner = "This is openplacos plugins template"
   p.version = "template 1.0"
   p.option :option, "some options", :default => "nothing"
-end.process!
+end.process!(ARGV)
 
 opt = options[:option]
 

@@ -26,9 +26,10 @@ class Launcher
     @launch_config = launch_config_
     @command_string = ""
     @thread = nil
+    @top = top_
 
     if (!File.exists?(@path))
-        top_.dbus_plugins.error("File #{@path} doesnt exists",{})
+        @top.dbus_plugins.error("File #{@path} doesnt exists",{})
         raise "File #{@path} doesnt exists"
     end
  
@@ -44,7 +45,7 @@ class Launcher
         else # if thread has been launch, you attempt to relaunch
           if @thread.alive? #check if thread are running (or sleeping)
             # Alive thread relaunch id forbiden
-             top_.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
+             @top.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
              raise "Attempt to relaunch a alive thread : #{@path} | it's forbiden"
           else
             #relaunch the thread

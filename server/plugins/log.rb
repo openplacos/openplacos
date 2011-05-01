@@ -17,22 +17,17 @@
 #
 
 require "rubygems"
-#if (ENV["DEBUG_OPOS"])
-  #require '../../gem/lib/openplacos/libplugin.rb'
-#else
-  require "openplacos"
-#end
+require "openplacos"
 require "micro-optparse"
 
 options = Parser.new do |p|
   p.banner = "This is openplacos plugins for log file"
   p.version = "log 1.0"
   p.option :file, "file to log", :default => "/var/log/openplacos.log"
-end.process!
+end.process!(ARGV)
 
 
 plugin = Openplacos::Plugin.new
-
 
 file = options[:file]
 
@@ -79,6 +74,5 @@ plugin.opos.on_signal("create_card") do |name,config|
     $log_file.write date +":" + "Create card "+"#{name} #{config.inspect}" + "\n"
     $log_file.flush 
 end
-
 
 plugin.run

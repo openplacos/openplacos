@@ -23,7 +23,7 @@ options = Parser.new do |p|
   p.banner = "This is openplacos plugins for soap server"
   p.version = "soap 1.0"
   p.option :port, "the server port", :default => 8081
-end.process!
+end.process!(ARGV)
 
 plugin = Openplacos::Plugin.new
 
@@ -72,10 +72,18 @@ begin
 
   end
   
+
+  
   opos = Openplacos::Client.new
 
   server = MySoapServer.new(opos,"MySoapServer", 
             'urn:ruby:opos', '0.0.0.0', options[:port])
+  
+  plugin.opos.on_signal("quit") do
+    server.shutdown
+  end
+
+  
   server.start
 rescue => err
   puts err.message

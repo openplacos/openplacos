@@ -23,7 +23,7 @@ options = Parser.new do |p|
   p.banner = "This is openplacos plugins for xmlrpc server"
   p.version = "xmlrpc 1.0"
   p.option :port, "the server port", :default => 8080
-end.process!
+end.process!(ARGV)
 
 plugin = Openplacos::Plugin.new
 
@@ -56,6 +56,11 @@ end
 serverxml.add_handler("set") do |path, meth|
     eval "opos.actuators[\"#{path}\"].#{meth}"
 end
+
+plugin.opos.on_signal("quit") do
+  serverxml.shutdown
+end
+
 serverxml.serve
 
 

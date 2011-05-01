@@ -39,6 +39,7 @@ class Driver < Launcher
     # Class variables
     @name = card_["name"]
     @method = card_["method"]
+    @top = top_
     if card_["exec"]
 		#file can be find
       @path   = PATH + "/" + card_["exec"]
@@ -55,7 +56,7 @@ class Driver < Launcher
     @launch_config.delete("timeout")
     
     #create the launcher
-    super(@path, "fork",  @launch_config, top_)
+    super(@path, "fork",  @launch_config, @top)
     
     #launch th driver
     launch_driver()
@@ -120,7 +121,7 @@ class Driver < Launcher
         end
       }
     rescue Timeout::Error 
-      top_.dbus_plugins.error("Autolaunch of  #{@name}, driver #{@path_dbus} failed",{})
+      @top.dbus_plugins.error("Autolaunch of  #{@name}, driver #{@path_dbus} failed",{})
       raise "Autolaunch of  #{@name}, driver #{@path_dbus} failed"
     end
   end

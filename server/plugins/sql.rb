@@ -26,7 +26,7 @@ options = Parser.new do |p|
   p.option :database, "the name of the database", :default => "openplacos"
   p.option :username, "the name of the user", :default => "openplacos"
   p.option :password, "the password", :default => "opospass"
-end.process!
+end.process!(ARGV)
 
 
 plugin = Openplacos::Plugin.new
