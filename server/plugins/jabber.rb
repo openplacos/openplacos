@@ -23,8 +23,8 @@ require "micro-optparse"
 options = Parser.new do |p|
   p.banner = "This is openplacos plugins for jabber communication"
   p.version = "jabber 1.0"
-  p.option :login, "the jabber login"
-  p.option :password, "the password"
+  p.option :login, "the jabber login", :default => "none"
+  p.option :password, "the password", :default => "none"
 end.process!
 
 plugin = Openplacos::Plugin.new
