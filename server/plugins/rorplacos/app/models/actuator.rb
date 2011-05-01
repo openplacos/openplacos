@@ -41,7 +41,7 @@ class Actuator < ActiveRecord::Base
       inst = Device.find(:first, :conditions => {:config_name => @path}).actuator.flows.where("date >= :start_date",{:start_date => time.hour.ago }).order("date DESC")
       ret = Array.new
       ret << [Time.new.to_i, self.value]
-      ret = inst.collect{ |m| [m.date.to_i, m.value]}
+      ret = inst.collect{ |m| [m.date.to_i*1000, m.value]}
       return ret
     end
     

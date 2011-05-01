@@ -21,13 +21,13 @@ require 'active_record'
 require "openplacos"
 require "micro-optparse"
 
-options = Parser.new(ARGV) do |p|
+options = Parser.new do |p|
   p.banner = "This is openplacos plugins for sql database"
   p.version = "sql 1.0"
   p.option :database, "the name of the database", :default => "openplacos"
   p.option :username, "the name of the user", :default => "openplacos"
   p.option :password, "the password", :default => "opospass"
-end.process!
+end.process!(ARGV)
 
 
 plugin = Openplacos::Plugin.new

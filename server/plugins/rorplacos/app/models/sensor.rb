@@ -36,7 +36,7 @@ class Sensor < ActiveRecord::Base
     
     def generate_graph(time)
       meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.where("date >= :start_date",{:start_date => time.hour.ago }).order("date DESC")
-      ret = meas.collect{ |m| [m.date.to_f, m.value]}
+      ret = meas.collect{ |m| [m.date.to_i*1000, m.value]}
       return ret
     end
 end

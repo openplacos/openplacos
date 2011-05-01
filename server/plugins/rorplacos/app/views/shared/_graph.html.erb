@@ -15,11 +15,18 @@ document.observe('dom:loaded', function(){
   /**
    * Global options object.
    */
-   
+
+  function myDateFormater(inputTimeStamp) {
+    mydate = new Date();
+    mydate.setTime(inputTimeStamp);
+    return mydate.getUTCDate()+"/"+(mydate.getUTCMonth()+1)+" " + mydate.getUTCHours() + ":" + mydate.getUTCMinutes() + ":" + mydate.getUTCSeconds()
+  }
+
   var options = {
     color: '#ff0000',
     mouse:{track:true},
-		xaxis:{noTicks:10, tickDecimals:1},
+    xaxis: { noTicks : 5, tickFormatter: myDateFormater},
+    yaxis:{autoscaleMargin: 1},
     selection:{mode:'xy'},
     lines: {show: true,radius: 1},
     grid: {
@@ -78,7 +85,7 @@ document.observe('dom:loaded', function(){
      * you just made.
      */
     f = drawGraph({
-      xaxis: {min:area.x1, max:area.x2},
+      xaxis: {min:area.x1, max:area.x2, noTicks : 5, tickFormatter: myDateFormater},
       yaxis: {min:area.y1, max:area.y2}						
     });
   });
