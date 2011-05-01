@@ -3,4 +3,8 @@
 <% if not @sensor.regul_status=="NA" %>
   <%= render :partial => "regulations/regul_form",:locals => { :path => @sensor.path }%>
 <%end%>
-<img class="graph" src="/images/<%=@sensor.path.delete("/")%>.png" WIDTH=500  />
+<%= render :partial => "shared/graph",:locals => {:path => "/sensors/graph#{@sensor.path}"}%>
+
+
+
+

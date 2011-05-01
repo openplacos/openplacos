@@ -3,7 +3,9 @@
   <head>
     <title>Rorplacos</title>
     <%= stylesheet_link_tag @style %>
-    <%= javascript_include_tag :defaults %>
+    <!--[if IE]><%= javascript_include_tag 'excanvas' %><![endif]-->
+    <%= javascript_include_tag 'prototype' %>
+    <%= javascript_include_tag 'flotr' %>
     <%= csrf_meta_tag %>
   </head>
 

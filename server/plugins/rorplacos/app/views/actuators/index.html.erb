@@ -1,1 +1,3 @@
- <%= render :partial => "abstract",:locals => { :actuator => @actuator }%>
+<%= render :partial => "abstract",:locals => { :actuator => @actuator }%>
+<%= render :partial => "shared/graph",:locals => {:path => "/actuators/graph#{@actuator.path}"}%>
+
