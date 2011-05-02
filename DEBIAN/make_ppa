@@ -25,6 +25,8 @@ dir_version=openplacos-$version
 mkdir -p $temp_dir/$dir_version/usr/lib/ruby/
 cp -rf $path/../../openplacos $temp_dir/$dir_version/usr/lib/ruby/
 cp -rf $path/../DEBIAN $temp_dir/$dir_version/debian
+cp $path/../Makefile $temp_dir/$dir_version/Makefile
+rm -rf $temp_dir/$dir_version/usr/lib/ruby/openplacos/.git
 
 cd $temp_dir/$dir_version
 
