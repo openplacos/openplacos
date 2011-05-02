@@ -23,14 +23,13 @@ installation() {
     ln -s -f /usr/lib/ruby/openplacos/client/soap/soap-client.rb  /usr/bin/openplacos-soap
 
   # dbus integration
-    cp $path/setup_files/*.service /usr/share/dbus-1/system-services/
-    cp $path/setup_files/openplacos.conf /etc/dbus-1/system.d/
+    cp -f /usr/lib/ruby/openplacos/setup_files/openplacos.conf /etc/dbus-1/system.d/
 
   # reload dbus
     /etc/init.d/dbus reload
 
   # Start with system
-    cp $path/setup_files/openplacos /etc/init.d/
+    cp -f /usr/lib/ruby/openplacos/setup_files/openplacos /etc/init.d/
     update-rc.d openplacos defaults 98 02
 
 }
