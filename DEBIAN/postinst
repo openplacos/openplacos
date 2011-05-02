@@ -4,6 +4,9 @@ path=`dirname $0`
 
 # Fonction: installation
 installation() {
+  cp /etc/default/openplacos /etc/default/openplacos.back
+  cp /usr/lib/ruby/openplacos/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+
   # Pre-requis
   echo "----------------------------------------------------"
   echo "Ruby gem lib installation "
