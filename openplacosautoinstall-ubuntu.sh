@@ -36,7 +36,7 @@ dependencies() {
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport openplacos ruby-dbus-openplacos micro-optparse --no-ri --no-rdoc
+  gem install activerecord mysql serialport openplacos ruby-dbus-openplacos micro-optparse choice rails --no-ri --no-rdoc
 }
 
 installation() {
