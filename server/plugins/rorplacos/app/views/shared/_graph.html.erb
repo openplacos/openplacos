@@ -42,13 +42,15 @@ document.observe('dom:loaded', function(){
    * Function displays a graph in the 'container' element, extending
    * the global options object with the optionally passed options.
    */
-  function drawGraph(opts,time){
+  function drawGraph(opts,t1,t2){
     /**
      * Clone the options, so the 'options' variable always keeps intact.
      */
     
     var o = Object.extend(Object.clone(options), opts || {});
-    var t = time || 1;
+    /**var t1 = t1 || new Date();
+    var t2 = t2 || new Date();
+    */
     /**
     
      * Return a new graph.
@@ -56,7 +58,7 @@ document.observe('dom:loaded', function(){
     
     new Ajax.Request('<%=path%>.json', {
       method:'get',
-      parameters: { time: t},
+      parameters: { start_time: t1,end_time : t2},
       onSuccess: function(transport){
         var json = transport.responseText.evalJSON();
         f = Flotr.draw($('container'),[json],o);	
@@ -87,8 +89,28 @@ document.observe('dom:loaded', function(){
     f = drawGraph({
       xaxis: {min:area.x1, max:area.x2, noTicks : 5, tickFormatter: myDateFormater},
       yaxis: {min:area.y1, max:area.y2}						
-    });
+    },area.x1/1000,area.x2/1000);
   });
+  
+  
+  $('container').observe('flotr:click', function(evt){
+    /**
+     * Get the selected area coordinates passed as event memo.
+     */
+    var pos = evt.memo[0];
+    alert(pos.x2);
+    
+    /**
+     * What happens: empty the container element, and draw a new 
+     * graph with bounded axis. The axis correspond to the selection
+     * you just made.
+     */
+    f = drawGraph({
+      xaxis: {min:pos.x-10000, max:pos.x+10000, noTicks : 5, tickFormatter: myDateFormater},
+      yaxis: {min:pos.y-1, max:pos.y+1}						
+    },(pos.x-10000)/1000 ,(pos.x+10000)/1000);
+  });
+  
 
   /**
    * Observe click event on the reset-btn. Reset the graph when clicked.
@@ -103,5 +125,54 @@ document.observe('dom:loaded', function(){
   $('5_hours').observe('click', function(){drawGraph({},5)});
   $('1_hour').observe('click', function(){drawGraph({},1)});  
 }); 
-            
+
+function handle(delta) {
+        if (delta < 0)
+  alert("pos");
+        else
+  alert("negatif");
+}
+
+/** Event handler for mouse wheel event.
+ */
+function wheel(event){
+        var delta = 0;
+        if (!event) /* For IE. */
+                event = window.event;
+        if (event.wheelDelta) { /* IE/Opera. */
+                delta = event.wheelDelta/120;
+                /** In Opera 9, delta differs in sign as compared to IE.
+                 */
+                if (window.opera)
+                        delta = -delta;
+        } else if (event.detail) { /** Mozilla case. */
+                /** In Mozilla, sign of delta is different than in IE.
+                 * Also, delta is multiple of 3.
+                 */
+                delta = -event.detail/3;
+        }
+        /** If delta is nonzero, handle it.
+         * Basically, delta is now positive if wheel was scrolled up,
+         * and negative, if wheel was scrolled down.
+         */
+        if (delta)
+                handle(delta);
+        /** Prevent default actions caused by mouse wheel.
+         * That might be ugly, but we handle scrolls somehow
+         * anyway, so don't bother here..
+         */
+        if (event.preventDefault)
+                event.preventDefault();
+	event.returnValue = false;
+}
+
+/** Initialization code. 
+ * If you use your own event management code, change it as required.
+ */
+if ($('container').addEventListener)
+        /** DOMMouseScroll is for mozilla. */
+        $('container').addEventListener('DOMMouseScroll', wheel, false);
+/** IE/Opera. */
+$('container').onmousewheel =  wheel;
+
 </script> 

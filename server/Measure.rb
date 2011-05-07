@@ -88,8 +88,9 @@ class Measure
   
   #measure from sensor
   def get_value
-    if (Time.new.to_f - @last_mesure) > @ttl  # cache
-      @last_mesure = Time.new.to_f
+    time = Time.new.to_f;
+    if (time - @last_mesure) > @ttl  # cache
+      @last_mesure = time
       
       if self.methods.include?("convert") # if convert fonction exist ?
 

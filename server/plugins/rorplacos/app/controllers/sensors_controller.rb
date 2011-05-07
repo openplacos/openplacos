@@ -6,7 +6,6 @@ class SensorsController < ApplicationController
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
     @sensor = Sensor.new(@connexion,path)
-    @data = @sensor.generate_graph(1)
     
     respond_to do |format|
       format.html # index.html.erb
@@ -19,8 +18,17 @@ class SensorsController < ApplicationController
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
     @sensor = Sensor.new(@connexion,path)
-    time = params[:time].to_i || 1
-    @data = @sensor.generate_graph(time)
+    if not params[:start_date].nil?
+      start_date = Time.at(params[:start_date])
+    else
+      start_date = 1.hours.ago
+    end
+    if not params[:end_date].nil?
+      end_date = Time.at(params[:end_date])
+    else
+      end_date = Time.now 
+    end
+    @data = @sensor.generate_graph(start_date,end_date)
     
     respond_to do |format|
       format.json  { render :json => @data}
