@@ -52,17 +52,17 @@ card:
 
 plugins:
 
-#- name: sql
-#  method: fork
-#  exec: plugins/sql.rb
+- name: sql
+  method: disable
+  exec: plugins/sql.rb
 
-#- name: fill_sql
- # method: thread
- # exec: plugins/fill_sql.rb
+- name: fill_sql
+  method: disable
+  exec: plugins/fill_sql.rb
 
-#- name: ror_frontend
-#  method: disable
-#  exec: plugins/ror_frontend.rb
+- name: ror_frontend
+  method: disable
+  exec: plugins/ror_frontend.rb
 
 - name: log
   method: thread
