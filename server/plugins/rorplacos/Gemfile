@@ -32,4 +32,4 @@ gem 'rails', '3.0.3'
 
 gem 'ruby-dbus-openplacos'
 gem 'openplacos'
-gem 'mysql2'
+gem 'mysql'
