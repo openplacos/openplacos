@@ -5,8 +5,6 @@ path=`dirname $0`
 # Fonction: installation
 installation() {
 
-  cp /usr/lib/ruby/openplacos/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
-
   # Pre-requis
   echo "----------------------------------------------------"
   echo "Ruby gem lib installation "
@@ -25,14 +23,11 @@ installation() {
     ln -s -f /usr/lib/ruby/openplacos/client/xml-rpc/xml-rpc-client.rb  /usr/bin/openplacos-xmlrpc
     ln -s -f /usr/lib/ruby/openplacos/client/soap/soap-client.rb  /usr/bin/openplacos-soap
 
-  # dbus integration
-    cp -f /usr/lib/ruby/openplacos/setup_files/openplacos.conf /etc/dbus-1/system.d/
 
   # reload dbus
     /etc/init.d/dbus reload
 
   # Start with system
-    cp -f /usr/lib/ruby/openplacos/setup_files/openplacos /etc/init.d/
     update-rc.d openplacos defaults 98 02
 
 }
