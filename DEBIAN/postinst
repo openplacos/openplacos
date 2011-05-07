@@ -29,6 +29,21 @@ installation() {
 
   # Start with system
     update-rc.d openplacos defaults 98 02
+    
+  # rails bundle install
+    
+    echo "----------------------------------------------------"
+    echo "rails bundle installation "
+    echo "This could take about 10 min -- please wait"
+    echo "----------------------------------------------------"
+    
+    cd /usr/lib/ruby/openplacos/server/plugins/rorplacos/
+    bundle install
+    
+    mkdir tmp
+    chown -R openplacos tmp
+    chown -R openplacos log
+
 
 }
 

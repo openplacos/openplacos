@@ -7,7 +7,7 @@ Standards-Version: 3.9.1
 Homepage: http://sourceforge.net/projects/openplacos/
 
 Package: openplacos
-Version: 0.1.1
+Version: 0.0.1
 Architecture: all
 Depends: ruby, ruby1.8-dev, rubygems, libmysqlclient-dev 
 Description: Domotic server subsystem oriented
