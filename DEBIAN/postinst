@@ -4,35 +4,46 @@ path=`dirname $0`
 
 # Fonction: installation
 installation() {
-    # Pre-requis
-    echo "----------------------------------------------------"
-    echo "Ruby gem lib installation "
-    echo "This could take about 10 min -- please wait"
-    echo "----------------------------------------------------"
-    gem install activerecord mysql serialport openplacos micro-optparse choice rails --bindir /usr/bin --no-ri --no-rdoc
-    
+
+  # Pre-requis
+  echo "----------------------------------------------------"
+  echo "Ruby gem lib installation "
+  echo "This could take about 10 min -- please wait"
+  echo "----------------------------------------------------"
+  gem install activerecord mysql serialport openplacos micro-optparse choice rails --bindir /usr/bin --no-ri --no-rdoc
+   
   # User openplacos
     adduser openplacos --system -disabled-login -no-create-home
-    echo "openplacos user added"
 
-   # Files copies
 
-# link into path
-    ln -s /usr/lib/ruby/openplacos/server/Top.rb /usr/bin/openplacos-server
-    ln -s /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
-    ln -s /usr/lib/ruby/openplacos/client/soap/soap-client.rb /usr/bin/openplacos-soap
-    ln -s /usr/lib/ruby/openplacos/client/xml-rpc/xml-rpc-client.rb /usr/bin/openplacos-xmlrpc
+  # link into path
+    ln -s -f /usr/lib/ruby/openplacos/server/main.rb /usr/bin/openplacos-server
+    ln -s -f /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
+    ln -s -f /usr/lib/ruby/openplacos/client/deprecated/gtk/gtk.rb /usr/bin/openplacos-gtk
+    ln -s -f /usr/lib/ruby/openplacos/client/xml-rpc/xml-rpc-client.rb  /usr/bin/openplacos-xmlrpc
+    ln -s -f /usr/lib/ruby/openplacos/client/soap/soap-client.rb  /usr/bin/openplacos-soap
 
-# default config
-    cp  /usr/lib/ruby/openplacos/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
 
-# dbus integration
-    cp  /usr/lib/ruby/openplacos/setup_files/*.service /usr/share/dbus-1/system-services/
-    cp  /usr/lib/ruby/openplacos/setup_files/openplacos.conf /etc/dbus-1/system.d/
+  # reload dbus
+    /etc/init.d/dbus reload
 
-# Start with system
-    cp /usr/lib/ruby/openplacos/setup_files/openplacos /etc/init.d/
+  # Start with system
     update-rc.d openplacos defaults 98 02
+    
+  # rails bundle install
+    
+    echo "----------------------------------------------------"
+    echo "rails bundle installation "
+    echo "This could take about 10 min -- please wait"
+    echo "----------------------------------------------------"
+    
+    cd /usr/lib/ruby/openplacos/server/plugins/rorplacos/
+    bundle install
+    
+    mkdir tmp
+    chown -R openplacos tmp
+    chown -R openplacos log
+
 
 }
 

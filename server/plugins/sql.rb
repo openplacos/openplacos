@@ -32,7 +32,7 @@ end.process!(ARGV)
 
 plugin = Openplacos::Plugin.new
 
-options = { "adapter" => "mysql2",
+options = { "adapter" => "mysql",
             "encoding" => "utf8",
             "database" => options[:database],
             "username" => options[:username],
