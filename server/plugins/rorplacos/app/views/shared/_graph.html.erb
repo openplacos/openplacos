@@ -1,9 +1,5 @@
 <div id="container" style="width:550px;height:400px;"></div>
 
-<p> 
-  <button id="reset-btn">Reset</button>
-</p>
-
 <script type="text/javascript"> 
 
 document.observe('dom:loaded', function(){		
@@ -126,7 +122,6 @@ document.observe('dom:loaded', function(){
    * an Event object passed as first argument, while it expects an options
    * object.
    */
-  $('reset-btn').observe('click', function(){drawGraph()});
 
 function handle(delta) {
         if (delta > 0) {
