@@ -35,7 +35,7 @@ class Sensor < ActiveRecord::Base
     end
     
     def generate_graph(start_date,end_date)
-      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.where("date >= :start_date and date <= :end_date",{:start_date => start_date+Time.new.utc_offset, :end_date => end_date+Time.new.utc_offset}).order("date DESC")
+      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.where("date >= :start_date and date <= :end_date",{:start_date => start_date, :end_date => end_date}).order("date DESC")
       ret = meas.collect{ |m| [m.date.to_i*1000, m.value]}
       return ret
     end

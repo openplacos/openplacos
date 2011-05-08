@@ -19,14 +19,14 @@ class SensorsController < ApplicationController
     @connexion = Opos_Connexion.instance
     @sensor = Sensor.new(@connexion,path)
     if not params[:start_date].nil?
-      start_date = Time.at(params[:start_date])
+      start_date = Time.at(params[:start_date].to_i)
     else
-      start_date = 1.hours.ago
+      start_date = 1.hours.ago 
     end
     if not params[:end_date].nil?
-      end_date = Time.at(params[:end_date])
+      end_date = Time.at(params[:end_date].to_i)
     else
-      end_date = Time.now 
+      end_date = Time.now
     end
     @data = @sensor.generate_graph(start_date,end_date)
     

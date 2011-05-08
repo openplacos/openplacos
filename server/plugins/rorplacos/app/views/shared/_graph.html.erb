@@ -1,11 +1,7 @@
 <div id="container" style="width:550px;height:400px;"></div>
 
-<p> <button id="reset-btn">Reset</button>
-    <button id="5_days">5 Days</button>
-    <button id="1_day">1 Day</button>
-    <button id="12_hours">12 Hours</button>
-    <button id="5_hours">5 Hours</button>
-    <button id="1_hour">1 Hour</button>
+<p> 
+  <button id="reset-btn">Reset</button>
 </p>
 
 <script type="text/javascript"> 
@@ -25,7 +21,7 @@ document.observe('dom:loaded', function(){
   var options = {
     color: '#ff0000',
     mouse:{track:true},
-    xaxis: { noTicks : 5, tickFormatter: myDateFormater},
+    xaxis: {min: getMinDefaultTime(1)*1000, max: getMaxDefaultTime()*1000, noTicks : 5, tickFormatter: myDateFormater},
     yaxis:{autoscaleMargin: 1},
     selection:{mode:'xy'},
     lines: {show: true,radius: 1},
@@ -38,40 +34,52 @@ document.observe('dom:loaded', function(){
   };
   
   
+  function getMinDefaultTime(back) {
+    var now = new Date();
+    return (now.getTime()-back*3600000)/1000 - now.getTimezoneOffset()*60;
+  };
+  
+  function getMaxDefaultTime() {
+    var now = new Date();
+    return now.getTime()/1000 - now.getTimezoneOffset()*60;
+  };
+  
+   
   /**
    * Function displays a graph in the 'container' element, extending
    * the global options object with the optionally passed options.
    */
-  function drawGraph(opts,t1,t2){
+   
+  function drawGraph(opts){
     /**
      * Clone the options, so the 'options' variable always keeps intact.
      */
+
+    last_option = Object.extend(Object.clone(options), opts || {});
     
-    var o = Object.extend(Object.clone(options), opts || {});
-    /**var t1 = t1 || new Date();
-    var t2 = t2 || new Date();
-    */
-    /**
+    var t1 =  last_option.xaxis.min/1000 || getMinDefaultTime(1);
+    var t2 =  Math.min(last_option.xaxis.max/1000,getMaxDefaultTime()) || getMaxDefaultTime() ;
     
-     * Return a new graph.
-     */
+    last_option.xaxis.max = t2*1000;
+    last_option.xaxis.min = t1*1000;
     
     new Ajax.Request('<%=path%>.json', {
       method:'get',
-      parameters: { start_time: t1,end_time : t2},
+      parameters: { start_date: t1,end_date: t2},
       onSuccess: function(transport){
         var json = transport.responseText.evalJSON();
-        f = Flotr.draw($('container'),[json],o);	
+        f = Flotr.draw($('container'),[json],last_option);    
       }
     });
-    
+  
   };
-  /**
+  /**    alert(pos.x2);
+
    * Actually draw the graph.
    */
 
-  var f = drawGraph();			
-
+  var f = drawGraph();		
+  
   /**
    * Hook into the 'flotr:select' event.
    */
@@ -89,7 +97,7 @@ document.observe('dom:loaded', function(){
     f = drawGraph({
       xaxis: {min:area.x1, max:area.x2, noTicks : 5, tickFormatter: myDateFormater},
       yaxis: {min:area.y1, max:area.y2}						
-    },area.x1/1000,area.x2/1000);
+    });
   });
   
   
@@ -98,17 +106,17 @@ document.observe('dom:loaded', function(){
      * Get the selected area coordinates passed as event memo.
      */
     var pos = evt.memo[0];
-    alert(pos.x2);
+
     
     /**
      * What happens: empty the container element, and draw a new 
      * graph with bounded axis. The axis correspond to the selection
      * you just made.
      */
+    var range = (last_option.xaxis.max - last_option.xaxis.min)/4;
     f = drawGraph({
-      xaxis: {min:pos.x-10000, max:pos.x+10000, noTicks : 5, tickFormatter: myDateFormater},
-      yaxis: {min:pos.y-1, max:pos.y+1}						
-    },(pos.x-10000)/1000 ,(pos.x+10000)/1000);
+      xaxis: {min: (pos.x - range), max:(pos.x+range), noTicks : 5, tickFormatter: myDateFormater}
+    });
   });
   
 
@@ -119,18 +127,17 @@ document.observe('dom:loaded', function(){
    * object.
    */
   $('reset-btn').observe('click', function(){drawGraph()});
-  $('5_days').observe('click', function(){drawGraph({},120)});
-  $('1_day').observe('click', function(){drawGraph({},24)});
-  $('12_hours').observe('click', function(){drawGraph({},12)});
-  $('5_hours').observe('click', function(){drawGraph({},5)});
-  $('1_hour').observe('click', function(){drawGraph({},1)});  
-}); 
 
 function handle(delta) {
-        if (delta < 0)
-  alert("pos");
-        else
-  alert("negatif");
+        if (delta > 0) {
+          var range = (last_option.xaxis.max - last_option.xaxis.min)/4;
+          drawGraph({xaxis: {min: last_option.xaxis.min + range, max: last_option.xaxis.max - range, noTicks : 5, tickFormatter: myDateFormater} });
+        }
+        else {
+          var range = (last_option.xaxis.max - last_option.xaxis.min)/4;
+            drawGraph({xaxis: {min: last_option.xaxis.min - range, max: last_option.xaxis.max + range, noTicks : 5, tickFormatter: myDateFormater} });
+        
+        }
 }
 
 /** Event handler for mouse wheel event.
@@ -175,4 +182,5 @@ if ($('container').addEventListener)
 /** IE/Opera. */
 $('container').onmousewheel =  wheel;
 
+}); 
 </script> 
