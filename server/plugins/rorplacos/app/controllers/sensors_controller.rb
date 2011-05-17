@@ -10,7 +10,7 @@ class SensorsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json  { render :json => @sensor.value}
-      format.xml  { render :xml => @sensor.value}
+      format.xml  { render :xml => {"value" => @sensor.value}}
     end
   end
   
@@ -34,6 +34,7 @@ class SensorsController < ApplicationController
       format.json  { render :json => @data}
       format.xml  { render :xml => @data}
     end
+
   end
   
 

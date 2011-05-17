@@ -11,7 +11,12 @@ class ApplicationController < ActionController::Base
   end
   private
   def extract_locale_from_accept_language_header
-    request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+    req = request.env['HTTP_ACCEPT_LANGUAGE']
+    if not req.nil? 
+      return req.scan(/^[a-z]{2}/).first
+    else
+      return "en"
+    end
   end
   
   def set_style

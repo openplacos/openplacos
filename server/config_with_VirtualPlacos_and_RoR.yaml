@@ -4,7 +4,9 @@ objects:
   path: /home/indoor/Temperature
   model: Generic_Celsius_Temperature
   regul:
-    action-: /home/indoor/Fan
+    action-: /home/indoor/Fan    
+    frequency: 2
+    type: "pwm_regul"
    
 - name: Temperature Outdoor
   path: /home/outdoor/Temperature
@@ -59,7 +61,7 @@ plugins:
   exec: plugins/fill_sql.rb
 
 - name: ror_frontend
-  method: disable
+  method: fork
   exec: plugins/ror_frontend.rb
   
 
