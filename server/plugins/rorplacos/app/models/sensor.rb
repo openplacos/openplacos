@@ -34,9 +34,15 @@ class Sensor < ActiveRecord::Base
       return status
     end
     
-    def generate_graph(time)
-      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.where("date >= :start_date",{:start_date => time.hour.ago }).order("date DESC")
-      ret = meas.collect{ |m| [m.date.to_i*1000, m.value]}
+    def generate_graph(start_date,end_date)
+      meas = Device.find(:first, :conditions => {:config_name => @path}).sensor.flows.where("date >= :start_date and date <= :end_date",{:start_date => start_date, :end_date => end_date}).order("date DESC")
+      
+      slice_size = [meas.size/500,1].max.to_i
+      
+      ret = [];
+      
+      meas.each_slice(slice_size) { |m| ret.push([m[0].date.to_i*1000, m[0].value]) }
+    
       return ret
     end
 end

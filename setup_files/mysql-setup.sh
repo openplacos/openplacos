@@ -1,5 +1,4 @@
 #!/bin/sh
-
 #
 #    This file is part of Openplacos.
 #
@@ -17,20 +16,9 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-path=`dirname $0`
-version=$1
-temp_dir=`mktemp -d`
-dir_version=openplacos_$version
-
-mkdir -p $temp_dir/$dir_version
-cp -rf $path/../../openplacos $temp_dir/$dir_version
-mv $temp_dir/$dir_version/openplacos/DEBIAN $temp_dir/$dir_version/debian
-mv $temp_dir/$dir_version/openplacos/Makefile $temp_dir/$dir_version/Makefile
-
-rm -rf $temp_dir/$dir_version/openplacos/.git
-
-cd $temp_dir/$dir_version
-
-debuild -S -sa
-
-pwd
+apt-get install mysql-server
+echo "----------------------------------------------------"
+echo "Process database configuration" 
+echo "Please provide MySQL root password" 
+echo "----------------------------------------------------"  
+mysql -u root -p < install.sql
