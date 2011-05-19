@@ -7,15 +7,17 @@ objects:
 card:
 
 - name: #name of the card (ex: arduino)
+  exec: #path to driver binary
   plug: 
     /Pin_1: #path to the targeted object
 
 
 plugins:
 
-- name: #name of your plugin
-  method: # execution method (thread / fork / disable )
-  exec: # file path of the plugins ( ex: plugins/log.rb )
+# Uncomment to activate
+# - name: #name of your plugin
+#  method: # execution method (thread / fork / disable )
+#  exec: # file path of the plugins ( ex: plugins/log.rb )
  
 user:
 
