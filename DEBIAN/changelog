@@ -1,5 +1,5 @@
-openplacos (0.0.1-0ubuntu1) natty; urgency=low
+openplacos (0.1-0ubuntu2) natty; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release
 
- -- miaoufkirsh (launchpad) <miaoufkirsh@gmail.com>  Fri, 14 Jan 2011 11:08:25 +0100
+ -- miaoufkirsh (launchpad) <miaoufkirsh@gmail.com> Sat, 21 may 2011 16:00:00 +0100

@@ -4,10 +4,10 @@ Priority: optional
 Maintainer: flagos <flagospub@gmail.com>
 Build-Depends: debhelper 
 Standards-Version: 3.9.1
-Homepage: http://sourceforge.net/projects/openplacos/
+Homepage: http://openplacos.tuxfamily.org
 
 Package: openplacos
-Version: 0.0.1
+Version: 0.1
 Architecture: all
 Depends: ruby, ruby1.8-dev, rubygems, libmysqlclient-dev 
-Description: Domotic server subsystem oriented
+Description: Openplacos is an open source project for home automation, aquariophily and indoor gardens.
