@@ -82,7 +82,7 @@ class Actuator
         @name = param
       when "driver"
         if param["option"]
-          @option = value["option"].dup
+          @option = param["option"].dup
         else
           @option = Hash.new
         end

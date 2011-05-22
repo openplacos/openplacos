@@ -3,7 +3,7 @@ RfSwitch:
   informations:
     kind: Actuator
   driver:
-    interface: rfswitch 
+    interface: rcswitch 
     option: #option hash send for all methods
       target: "11111"
       group: 2 
