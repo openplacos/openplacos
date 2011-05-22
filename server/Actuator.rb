@@ -110,7 +110,7 @@ class Actuator
             option = method["option"].inspect
           else
             #if no option is defined, send an empty hash
-            option = @option
+            option = @option.inspect
           end
 
           methdef = """
