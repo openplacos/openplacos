@@ -86,7 +86,7 @@ module Module_write_digital
       puts "set out"
       @input = 0
     end
-    if @adress.nil? # not a remote switch 
+    if @adress.nil? # not a remote switch
       if (value_.class==TrueClass or value_==1)
         $sp.write("pin #{@number} 1")  
         return true
@@ -97,33 +97,13 @@ module Module_write_digital
       end
     else # it is a remote switch
       if (value_.class==TrueClass or value_==1)
-        $sp.write("rcswitchon #{@number} #{option_["target"]} #{option_["group"]}")  
+        $sp.write("rcswitchon #{@number} #{@adress} #{@group}")  
         return true
       end
       if (value_.class==FalseClass or value_==0)
-        $sp.write("rcswitchoff #{@number} #{option_["target"]} #{option_["group"]}")  
+        $sp.write("rcswitchoff #{@number} #{@adress} #{@group}")  
         return true
       end
-    end
-  end
-
-end
-
-module Module_write_rcswitch
-  
-  def write_rcswitch(value_,option_)
-    if (@input==nil or @input == 1 )
-      $sp.write("pin #{@number} output") # if pin is set as output, set it as input
-      puts "set out"
-      @input = 0
-    end    
-    if (value_.class==TrueClass or value_==1)
-      $sp.write("rcswitchon #{@number} #{option_["target"]} #{option_["group"]}")  
-      return true
-    end
-    if (value_.class==FalseClass or value_==0)
-      $sp.write("rcswitchoff #{@number} #{option_["target"]} #{option_["group"]}")  
-      return true
     end
   end
 
@@ -259,6 +239,7 @@ NB_DIGITAL_PIN.each { |number|
     pin = Openplacos::Driver::GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
   end
   digital_pin.push pin
+  pin.set_remotesw_adress nil
   pin.set_pin_number(number)
   service.export(pin)
 }
@@ -269,6 +250,7 @@ NB_ANALOG_PIN.each { |number|
   pin = Openplacos::Driver::GenericPin.new("/Analog_Pin#{number}", write_ifaces, read_ifaces)
   analog_pin.push pin
   pin.set_pin_number(number)
+  pin.set_remotesw_adress nil
   service.export(pin)
 }
 remoteswpin = Array.new
