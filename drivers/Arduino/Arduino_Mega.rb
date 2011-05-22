@@ -79,6 +79,27 @@ module Module_write_digital
 
 end
 
+module Module_write_rcswitch
+  
+  def write_rcswitch(value_,option_)
+    if (@input==nil or @input == 1 )
+      $sp.write("pin #{@number} output") # if pin is set as output, set it as input
+      puts "set out"
+      @input = 0
+    end    
+    if (value_.class==TrueClass or value_==1)
+      $sp.write("rcswitchon #{@number} #{option_["target"]} #{option_["group"]}")  
+      return true
+    end
+    if (value_.class==FalseClass or value_==0)
+      $sp.write("rcswitchoff #{@number} #{option_["target"]} #{option_["group"]}")  
+      return true
+    end
+  end
+
+end
+
+
 module Module_write_pwm
   
   def write_pwm(value_,option_)
@@ -179,7 +200,7 @@ digital_pin = Array.new
 analog_pin = Array.new
 
 NB_DIGITAL_PIN.each { |number|
-  write_ifaces = ["digital"]
+  write_ifaces = ["digital","rcswitch"]
   read_ifaces = ["digital"]
   if (NB_PWM_PIN).include?(number)
     write_ifaces.push "pwm"

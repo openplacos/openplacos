@@ -1,0 +1,14 @@
+# a generic Normaly open relay
+RfSwitch:
+  informations:
+    kind: Actuator
+  driver:
+    interface: rfswitch 
+    option: #option hash send for all methods
+      target: "11111"
+      group: 2 
+  methods: #shortcuts for command
+    - name: "on"
+      value: "1"
+    - name: "off"
+      value: "0"

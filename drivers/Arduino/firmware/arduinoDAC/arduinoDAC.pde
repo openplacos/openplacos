@@ -1,7 +1,11 @@
 #include <Messenger.h>
+#include <RCSwitch.h>
 
+RCSwitch mySwitch = RCSwitch();
+char target[6]; 
 // Instantiate Messenger object with the default separator (the space character)
 Messenger message = Messenger(); 
+
 
 // Create the callback function
 void messageReady() {
@@ -71,6 +75,26 @@ void messageReady() {
    return;  
  }  
  
+ if ( message.checkString("rcswitchon") ) {
+   int pin = message.readInt();
+   message.copyString(target,6);
+   int group = message.readInt();
+   
+   mySwitch.enableTransmit(pin);
+   mySwitch.switchOn(target,group);
+   delay(1000); 
+   return;  
+ }
+
+ if ( message.checkString("rcswitchoff") ) {
+   int pin = message.readInt();
+   message.copyString(target,6);
+   int group = message.readInt();
+   
+   mySwitch.enableTransmit(pin);
+   mySwitch.switchOff(target,group); 
+   return;  
+ }   
 
  message.readInt();
  }      

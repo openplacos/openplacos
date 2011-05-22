@@ -170,14 +170,16 @@ class Top
 
       # Push driver in DBus server config
       # Stand for debug
-      card["plug"].each_pair{ |pin, object_path|
+      card["plug"].each_pair{ |pin, object_paths|
 
-        next if object_path.nil?
-        
+        next if object_paths.nil?
         # plug proxy with dbus objects
+        object_paths.split(";").each { |object_path| # allow multiple object for one pin
+        
         if @objects[object_path]
           @objects[object_path].plug(@drivers[card["name"]],pin)
         end
+        }
         
         # For debug purposes
         #@service.export(Dbus_debug.new(object_path, @drivers[card["name"]].objects[object_path]))
