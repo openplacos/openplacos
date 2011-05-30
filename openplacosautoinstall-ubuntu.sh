@@ -44,7 +44,12 @@ installation() {
   cp -rf $path/../openplacos/ /usr/lib/ruby/
 
 # default config
+if [ -e /etc/default/openplacos ]
+then
+  echo "config file already exist"
+else  
   cp $path/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+fi 
 }
 
 mysql_install() {
