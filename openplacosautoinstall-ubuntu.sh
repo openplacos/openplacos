@@ -60,6 +60,7 @@ mysql_install() {
 post_installation() {
   # User openplacos
   adduser openplacos --system -disabled-login -no-create-home
+  adduser openplacos dialout
 
 
 # link into path
