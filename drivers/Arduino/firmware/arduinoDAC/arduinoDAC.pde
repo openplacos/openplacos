@@ -42,13 +42,10 @@ void messageReady() {
  if ( message.checkString("adc") ) {
    int pin = message.readInt();
    int val = analogRead(pin);    // read the input pin
-   for (int i=1;i<100;i++) {
-      val += analogRead(pin);
-   }
    Serial.print("adc ");
    Serial.print(pin);
    Serial.print(" ");
-   Serial.println((float)val / 100.0);
+   Serial.println(val);
    return;  
  }  
  
