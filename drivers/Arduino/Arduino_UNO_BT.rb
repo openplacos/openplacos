@@ -80,6 +80,7 @@ end
 module Module_write_pwm
   
   def write_pwm(value_,option_)
+    value_ = value_* 255
     if value_ > 255 
       value = 255
     else
