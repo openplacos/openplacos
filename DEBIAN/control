@@ -7,7 +7,7 @@ Standards-Version: 3.9.1
 Homepage: http://openplacos.tuxfamily.org
 
 Package: openplacos
-Version: 0.1
+Version: 0.1.1
 Architecture: all
 Depends: ruby, ruby1.8-dev, rubygems, libmysqlclient-dev 
 Description: Openplacos is an open source project for home automation, aquariophily and indoor gardens.
