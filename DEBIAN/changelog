@@ -1,4 +1,4 @@
-openplacos (0.1.1-0ubuntu2) natty; urgency=low
+openplacos (0.1.1-0ubuntu3) natty; urgency=low
 
   * Minor release
   * add openplacos user in dialout group
