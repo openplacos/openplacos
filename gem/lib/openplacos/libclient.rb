@@ -40,6 +40,8 @@ module Openplacos
         @sensors = get_sensors
         @actuators = get_actuators
         @reguls = get_reguls
+        
+        @permissions = Hash.new
       else
         puts "Can't find OpenplacOS server"
         Process.exit 1
@@ -51,7 +53,7 @@ module Openplacos
     def get_objects(nod, father_) #get objects from a node, ignore Debug objects
       obj = Hash.new
       nod.each_pair{ |key,value|
-       if not(key=="Debug" or key=="server") #ignore debug objects
+       if not(key=="Debug" or key=="server" or key=="plugins" or key=="Authenticate") #ignore debug objects
          if not value.object.nil?
            obj[value.object.path] = value.object
            father_.push_object(value.object)
@@ -127,6 +129,25 @@ module Openplacos
       reguls
     end
     
+    def auth(login_,password_)
+      authobj = @service.object("/Authenticate")["org.openplacos.authenticate"]
+      ack,perm = authobj.authenticate(login_,password_)
+      if ack==true
+        if @permissions[login_].nil?
+          @permissions[login_] = perm
+        end
+      end
+      return ack
+    end
+    
+    def readable?(path_,login_)
+      return @permissions[login_]["read"].include?(path_)
+    end
+    
+    def writeable?(path_,login_)
+      return @permissions[login_]["write"].include?(path_)
+    end
+    
   end
 
   class Room
@@ -157,6 +178,7 @@ module Openplacos
       }
       return hash
     end
-
+   
   end
+ 
 end

@@ -86,4 +86,10 @@ user:
     read: measures
     exclude: /home/indoor/Temperature
 
+- login: user1
+  hash: test
+  permissions:
+    read: measures
+    write: actuators
+    exclude: /home/indoor/Fan
 

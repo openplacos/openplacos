@@ -4,7 +4,7 @@ class ActuatorsController < ApplicationController
   def index
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
-    @actuator = Actuator.new(@connexion,path)
+    @actuator = Actuator.new(@connexion,path,session[:user])
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @actuators }
@@ -14,7 +14,7 @@ class ActuatorsController < ApplicationController
   def call
    path = params[:path]
    meth = params[:meth]
-   actuator = regul = Opos_Connexion.instance.actuators[path]
+   actuator = Opos_Connexion.instance.authactuators[session[:user]][path]
    actuator.method(meth).call
    redirect_to :back
   end
@@ -22,7 +22,7 @@ class ActuatorsController < ApplicationController
   def graph
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
-    @actuator = Actuator.new(@connexion,path)
+    @actuator = Actuator.new(@connexion,path,session[:user])
     maxtime = params[:time].to_i || 1
     @data = @actuator.generate_graph(maxtime)
     

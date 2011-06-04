@@ -23,4 +23,16 @@ class ApplicationController < ActionController::Base
   @style = params[:style] || "style.css"
   end
 
+
+  def authenticate
+    authenticate_or_request_with_http_basic do |user_name, password|
+      ack = Opos_Connexion.instance.auth(user_name,password)
+      if ack==true
+        session[:user] = user_name
+      end
+      return ack
+    end
+  end
+
+
 end

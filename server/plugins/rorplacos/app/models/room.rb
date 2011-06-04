@@ -9,11 +9,12 @@ class Room
       else
         @path = path
       end
+      
       @backend = connection.rooms[@path]
-      puts @path
+
       @sensors = Hash.new
       @actuators = Hash.new
-
+      puts @backend.objects.keys
       @backend.objects.each_pair{ |key, value|
         if value.has_iface? 'org.openplacos.server.measure'
           @sensors.store(value,  Sensor.new(@connect,key))
