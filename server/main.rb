@@ -106,9 +106,7 @@ class Top
             sleep 0.1
           end
         }
-        puts "all plugins have been launched"
       rescue Timeout::Error
-        puts "#{nb_plugin - @dbus_plugins.plugin_count} plugins are not lauched" 
       end
       
       

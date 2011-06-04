@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
   
   def set_style
-  @style = params[:style] || "style.css"
+    @style = params[:style] || "beach.css"
   end
 
 
