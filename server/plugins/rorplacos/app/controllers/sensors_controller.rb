@@ -19,7 +19,7 @@ class SensorsController < ApplicationController
       
     else
       respond_to do |format|
-        format.html {render :inline => "Permission denied"}# index.html.erb
+        format.html {render :partial => "shared/permission_denied"}
         format.json  { render :json => "Permission denied"}
         format.xml  { render :xml => {"value" => "Permission denied"}}
       end    

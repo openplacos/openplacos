@@ -28,7 +28,6 @@
 <% if not @rooms.actuators.empty? %>
 <h2><%=t(:list_actuators)%></h2>
 
-
 <%  @rooms.actuators.each_pair{ |key, actuator| %>
  <% if @connexion.readable?(actuator.path,session[:user]) %>
    <%= render :partial => "actuators/abstract",:locals => { :actuator => actuator }%>

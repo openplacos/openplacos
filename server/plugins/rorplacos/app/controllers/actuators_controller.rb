@@ -13,7 +13,7 @@ class ActuatorsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {render :inline => "Permission denied"}
+        format.html {render :partial => "shared/permission_denied"}
         format.xml  { render :xml =>  "Permission denied" }
       end
     end

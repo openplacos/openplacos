@@ -4,12 +4,20 @@ class RegulationsController < ApplicationController
   def index
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
-    @sensor = Regulation.new(@connexion,path)
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @sensors }
-    end
     
+    if @connexion.writeable?(path,session[:user]) # if actuator is readable
+
+      @regul = Regulation.new(@connexion,path)
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @regul }
+      end
+    else
+      respond_to do |format|
+        format.html {render :partial => "shared/permission_denied"}
+        format.xml  { render :xml => "permission denied" }
+      end
+    end
   end
 
   def set

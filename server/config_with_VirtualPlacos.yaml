@@ -93,3 +93,9 @@ user:
     write: actuators
     exclude: /home/indoor/Fan
 
+- login: admin
+  hash: password
+  permissions:
+    read: all
+    write: all
+
