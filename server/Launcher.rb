@@ -39,7 +39,7 @@ class Launcher
     }
 
     if (@method == "debug") 
-      $global.trace @command_string
+      puts @command_string
       @method = "disable"
     end
  
