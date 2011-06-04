@@ -32,12 +32,22 @@ class Launcher
         @top.dbus_plugins.error("File #{@path} doesnt exists",{})
         raise "File #{@path} doesnt exists"
     end
+
+    @command_string = @path
+    @launch_config.each { |key, value|
+      @command_string << " --#{key}=#{value}"
+    }
+
+    if (@method == "debug") 
+      $global.trace @command_string
+      @method = "disable"
+    end
  
   end
   
-  def launch()
-    if (@method != "disable") #do nothing
-      if (@method == "thread") #launch in thread mode
+  def launch() 
+    if (@method != "disable")  #do nothing
+      if (@method == "thread")  #launch in thread mode
         if @thread.nil? #check if thread has been already launched
           @thread = Thread.new{
             start_plug_thread()
@@ -47,18 +57,18 @@ class Launcher
             # Alive thread relaunch id forbiden
              @top.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
              raise "Attempt to relaunch a alive thread : #{@path} | it's forbiden"
-          else
+          else 
             #relaunch the thread
             @thread = Thread.new{
               start_plug_thread()
             }
-          end
-        end
-      else
+          end 
+        end 
+      else 
         start_plug_fork()
-      end
-    end
-  end
+      end 
+    end 
+  end 
   
   private
   
@@ -96,10 +106,6 @@ class Launcher
       STDOUT.reopen '/dev/null', 'a'
       STDERR.reopen STDOUT
 
-      @command_string = @path
-      @launch_config.each { |key, value|
-        @command_string << " --#{key}=#{value}"
-      }
 
       # http://ruby.about.com/od/advancedruby/a/The-Exec-Method.htm
       exec "#{@command_string}"
