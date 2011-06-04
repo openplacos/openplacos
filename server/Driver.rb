@@ -111,7 +111,6 @@ class Driver < Launcher
           driver.introspect
         rescue # driver is not present on the bus, launch it
           if !has_been_launched # wait until driver is ready
-            puts "launch #{@path}"
             self.launch
             has_been_launched = true
           else
