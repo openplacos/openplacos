@@ -148,7 +148,7 @@ class Dbus_Plugin < DBus::Object
     
     dbus_method :register, " out id:i" do
       @plugin_count += 1
-      trace "Plugin count : #{@plugin_count}"
+      $global.trace "Plugin count : #{@plugin_count}"
       return @plugin_count
     end   
         

@@ -22,7 +22,7 @@ class Global
 
   # Print trace when debug env var defined
   def trace(string_)
-    if ENV['DEBUG_OPOS'] != nil
+    if ENV['VERBOSE_OPOS'] != nil
       puts string_
     end
   end
