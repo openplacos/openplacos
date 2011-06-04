@@ -83,13 +83,13 @@ user:
 
 - login: anonymous
   permissions:
-    read: measures
+    read: all
     exclude: /home/indoor/Temperature
 
 - login: user1
   hash: test
   permissions:
-    read: measures
+    read: all
     write: actuators
     exclude: /home/indoor/Fan
 

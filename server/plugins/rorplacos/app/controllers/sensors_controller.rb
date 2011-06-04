@@ -31,7 +31,7 @@ class SensorsController < ApplicationController
     @connexion = Opos_Connexion.instance
     if @connexion.readable?(path,session[:user]) # if sensor is readable
 
-      @sensor = Sensor.new(@connexion,path,session[:user])
+      @sensor = Sensor.new(@connexion,path)
       if not params[:start_date].nil?
         start_date = Time.at(params[:start_date].to_i)
       else
