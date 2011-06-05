@@ -193,6 +193,13 @@ div.actuator {
     background: #eeebe1;
 }
 
+div.actuator .state{
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 300px;
+  text-shadow: 3px 3px 5px #385130;
+}
+
 div.actuator active_method{
   font-size: 14px;
   padding: 10px;

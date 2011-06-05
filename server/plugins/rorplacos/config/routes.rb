@@ -14,7 +14,10 @@ Rorplacos::Application.routes.draw do
 
   match 'actuators/call' => 'actuators#call'
   match 'actuators/graph/*path.:format' => 'actuators#graph'
+  match 'actuators/*path.:format' => 'actuators#index'
   match 'actuators/*path' => 'actuators#index'
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

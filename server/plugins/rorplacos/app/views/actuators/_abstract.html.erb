@@ -2,15 +2,22 @@
   <div class="name">
     <%=  link_to actuator.path, "/actuators#{actuator.path}" %>
   </div>
+  <div class="state" id="<%=actuator.path%>">
+    <%= actuator.state%>
+  </div>
   <% actuator.get_methods.each { |m| %>
-    <% if m==actuator.state %>
-      <active_method>
-        <%=link_to m, :controller => "actuators" , :action => "call", :method => "post", :path => actuator.path, :meth => m%>
-      </active_method>
-    <% else %>
       <method>
         <%=link_to m, :controller => "actuators" , :action => "call", :method => "post", :path => actuator.path, :meth => m%>
       </method>      
-    <% end %>
   <% } %>
 </div>
+
+<script type="text/javascript"> 
+
+
+  new Ajax.PeriodicalUpdater('<%=actuator.path%>', '<%="/actuators#{actuator.path}.json"%>', {
+    method: 'get', frequency: 10, decay: 2
+  });
+  
+
+</script>
