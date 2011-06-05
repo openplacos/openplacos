@@ -275,3 +275,8 @@ div#footer {
 #    margin-top: -100px;
     position: relative;
 }
+
+div#avatar {
+  float: right;
+  margin-right: 20px;
+}

@@ -4,7 +4,9 @@
 <p class="notice"><%= notice %></p>
 
 <h1><%=t(:profile)%></h1>
-
+<div id="avatar">
+  <img src="<%=@avatar%>"></img>
+</div>
 login : <%=@user.login%></br>
 first name : <%=@user.first_name%></br>
 last name : <%=@user.last_name%></br>
@@ -12,4 +14,5 @@ email : <%=@user.email%></br>
 language : <%=@user.language%></br>
 css : <%=@user.style%></br>
 </td>
+
 
