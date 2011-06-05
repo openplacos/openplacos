@@ -1,0 +1,12 @@
+<h1>Login</h1>
+<div class="login">
+  <%= form_tag({:controller => "logins" ,:action => "auth"}, :method => "post") do %>
+  <%= label_tag(:login, "login") %>
+  <%= text_field_tag(:login) %>
+  <br>
+  <%= label_tag(:password, t(:password)) %>
+  <%= password_field_tag(:password) %>
+  <br>
+  <%= submit_tag(t(:send)) %>
+<% end %>
+</div>

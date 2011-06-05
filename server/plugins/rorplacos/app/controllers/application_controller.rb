@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
   def set_locale
     if params[:locale]
       I18n.locale=params[:locale]
-    else
+    elsif session[:locale]
+      I18n.locale=session[:locale]
+    else 
       I18n.locale = extract_locale_from_accept_language_header
     end
   end
@@ -20,19 +22,22 @@ class ApplicationController < ActionController::Base
   end
   
   def set_style
-    @style = params[:style] || "beach.css"
-  end
-
-
-  def authenticate
-    authenticate_or_request_with_http_basic do |user_name, password|
-      ack = Opos_Connexion.instance.auth(user_name,password)
-      if ack==true
-        session[:user] = user_name
-      end
-      return ack
+    if session[:style]
+      @style = session[:style] 
+    else
+      @style = params[:style] || "beach.css"
     end
   end
 
+
+  def authenticated
+    if session[:user].nil?
+      redirect_to "/login"
+    end
+  end
+  
+  def authenticated?
+    return !session[:user].nil?
+  end
 
 end

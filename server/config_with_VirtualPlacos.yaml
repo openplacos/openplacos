@@ -81,20 +81,23 @@ plugins:
 
 user:
 
+#no password
 - login: anonymous
   permissions:
     read: all
     exclude: /home/indoor/Temperature
 
+# password : test
 - login: user1
-  hash: test
+  hash: "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" 
   permissions:
     read: all
     write: actuators
     exclude: /home/indoor/Fan
 
+# password : password
 - login: admin
-  hash: password
+  hash: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
   permissions:
     read: all
     write: all

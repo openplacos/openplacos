@@ -1,0 +1,26 @@
+<h2><%=@user.login%></h2>
+<%= form_for(@user) do |f| %>
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name %>
+  </div>
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :language %><br />
+    <%= f.select(:language,options_for_select([['English', 'en'], ['Francais', 'fr']])) %>
+  </div>
+  <div class="field">
+    <%= f.label :style %><br />
+    <%= f.select(:style,options_for_select([['beach', 'beach.css'],['old style','style.css']])) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

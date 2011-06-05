@@ -15,3 +15,8 @@ en:
   send: "Send"
   frequency: "Frequency"
   active: "Active"
+  edit_profile: "Edit profile"
+  logout: "Logout"
+  login: "Login"
+  password: "Password"
+  connect: "Login"

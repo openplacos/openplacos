@@ -1,5 +1,5 @@
 class SensorsController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticated
 
   # GET /sensors
   # GET /sensors.xml

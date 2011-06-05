@@ -1,4 +1,5 @@
 class RegulationsController < ApplicationController
+  before_filter :authenticated
   # GET /sensors
   # GET /sensors.xml
   def index

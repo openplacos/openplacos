@@ -187,10 +187,10 @@ div.sensor .regul{
 div.actuator {
     width: 520px;
     padding: 10px;
-    background: white;
+    background: #eeebe1;
     border: 2px solid black;
     margin-left: 10px;
-    background: #eeebe1;
+   # box-shadow: 10px 10px 5px #888888;
 }
 
 div.actuator .state{
@@ -218,8 +218,6 @@ div.actuator method{
 
 div.actuator .name{
  margin-left: 0px;
- clear: left;
- width: 200px;
 }
 
 div#main{

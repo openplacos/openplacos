@@ -1,4 +1,5 @@
 class ActuatorsController < ApplicationController
+  before_filter :authenticated
   # GET /actuators
   # GET /actuators.xml
   def index

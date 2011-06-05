@@ -5,11 +5,15 @@
   <div class="state" id="<%=actuator.path%>">
     <%= actuator.state%>
   </div>
+  <% if Opos_Connexion.instance.writeable?(actuator.path,session[:user]) %>
+  <tr>  
   <% actuator.get_methods.each { |m| %>
-      <method>
+      <td>
         <%=link_to m, :controller => "actuators" , :action => "call", :method => "post", :path => actuator.path, :meth => m%>
-      </method>      
+      </td>      
   <% } %>
+  </tr>
+  <%end%>
 </div>
 
 <script type="text/javascript"> 
