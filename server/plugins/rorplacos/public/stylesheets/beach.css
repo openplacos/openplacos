@@ -149,7 +149,6 @@ div#frame a{
 }
 
 div#footer {
-    margin: 10px -10px -10px -10px;
     padding: 0px;
     background: black;
     text-align: right; 
@@ -192,6 +191,13 @@ div.actuator {
     border: 2px solid black;
     margin-left: 10px;
     background: #eeebe1;
+}
+
+div.actuator .state{
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 300px;
+  text-shadow: 3px 3px 5px #385130;
 }
 
 div.actuator active_method{

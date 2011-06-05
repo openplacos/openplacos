@@ -9,7 +9,8 @@ class ActuatorsController < ApplicationController
       @actuator = Actuator.new(@connexion,path)
       respond_to do |format|
         format.html # index.html.erb
-        format.xml  { render :xml => @actuators }
+        format.xml  { render :xml => {"state" => @actuator.state }}
+        format.json { render :json => @actuator.state}
       end
     else
       respond_to do |format|
