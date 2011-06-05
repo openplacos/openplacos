@@ -35,9 +35,5 @@ class ApplicationController < ActionController::Base
       redirect_to "/login"
     end
   end
-  
-  def authenticated?
-    return !session[:user].nil?
-  end
 
 end
