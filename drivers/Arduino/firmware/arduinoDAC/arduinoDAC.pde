@@ -1,6 +1,8 @@
-#include <Messenger.h>
-#include <RCSwitch.h>
+#include "Messenger.h"
+#include "RCSwitch.h"
+#include "dht11.h"
 
+dht11 DHT11;
 RCSwitch mySwitch = RCSwitch();
 char target[6]; 
 // Instantiate Messenger object with the default separator (the space character)
@@ -45,14 +47,7 @@ void messageReady() {
 
  if ( message.checkString("adc") ) {
    int pin = message.readInt();
-   int val = analogRead(pin);    // read the input pin
-   for (int i=1;i<100;i++) {
-      val += analogRead(pin);
-   }
-   Serial.print("adc ");
-   Serial.print(pin);
-   Serial.print(" ");
-   Serial.println((float)val / 100.0);
+   analogReadCallback(pin);
    return;  
  }  
  
@@ -96,6 +91,12 @@ void messageReady() {
    return;  
  }   
 
+ if ( message.checkString("dht11") ) {
+   int pin = message.readInt();
+   dht11readCallback(pin);
+   return;  
+ }  
+
  message.readInt();
  }      
 
@@ -113,4 +114,26 @@ void setup() {
 void loop() {
   // The following line is the most effective way of using Serial and Messenger's callback
   while ( Serial.available() )  message.process(Serial.read () );
+}
+
+void dht11readCallback(int pin) {
+  int chk = DHT11.read(pin);
+
+   Serial.print("dht11 ");
+   Serial.print(pin);
+   Serial.print(" ");
+   Serial.print((float)DHT11.humidity, 2);
+   Serial.print(" ");
+   Serial.println((float)DHT11.temperature, 2);
+}
+
+void analogReadCallback(int pin) {
+  long val = analogRead(pin);    // read the input pin
+   for (int i=1;i<100;i++) {
+      val += analogRead(pin);
+   }
+   Serial.print("adc ");
+   Serial.print(pin);
+   Serial.print(" ");
+   Serial.println((float)val / 100.0);
 }
