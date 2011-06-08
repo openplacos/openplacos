@@ -1,0 +1,9 @@
+# a generic celsius temperature sensor. no conversion are needed since sensor returns directly the temperature
+DHT11_Temperature:
+  informations:
+    kind: Sensor
+    unit: Celsius
+  driver:
+    interface: dht11
+    ttl: 1
+  conversion: "%self[0]"

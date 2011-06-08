@@ -1,0 +1,9 @@
+# The VirtualPlacos Hygro sensor
+DHT11_Hygro:
+  informations:
+    kind: Sensor
+    unit: %RH
+  driver:
+    interface: dht11
+    ttl: 1
+  conversion: "%self[1]"
