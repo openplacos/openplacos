@@ -108,8 +108,13 @@ class Measure
             dep = {}
         end
         @value = self.convert(self.safe_read,dep)
+        if !@value.nil?
+          return @value
+        else
+          return "Error"
+        end
       else
-        @value = self.safe_read
+        return @value = self.safe_read
       end   
     
     end
@@ -175,8 +180,8 @@ class Measure
       eq.each_with_index { |block, index|
 
         if block.include? "%"
-          if block=="%self"
-            eq[index] = "raw_value"
+          if block.match("%self")
+            eq[index] = block.gsub("%self","raw_value")
           else 
             eq[index] = "depends['" + block.delete!("%")+ "']"
           end

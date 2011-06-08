@@ -134,6 +134,16 @@ module Module_read_analog
 
 end
 
+module Module_read_dht11
+  
+  def read_dht11(option_)
+    $sp.write("dht11 #{@number}")
+    ret = $sp.read.split.reverse[0..1] # first value = temperature, seconde value hygro
+    return [ret]
+  end
+
+end
+
 module Module_read_digital
   
   def read_digital(option_)
@@ -231,7 +241,7 @@ analog_pin = Array.new
 
 NB_DIGITAL_PIN.each { |number|
   write_ifaces = ["digital"]
-  read_ifaces = ["digital"]
+  read_ifaces = ["digital","dht11"]
   if (NB_PWM_PIN).include?(number)
     write_ifaces.push "pwm"
     pin =  Openplacos::Driver::GenericPin.new("/Digital_Pin#{number}",write_ifaces,read_ifaces)
