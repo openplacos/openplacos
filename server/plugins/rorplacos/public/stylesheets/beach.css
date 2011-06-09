@@ -193,10 +193,10 @@ div.actuator {
    # box-shadow: 10px 10px 5px #888888;
 }
 
-div.actuator .state{
+div.actuator .state_digital{
   font-size: 20px;
   font-weight: bold;
-  margin-left: 300px;
+  margin-left: 400px;
   text-shadow: 3px 3px 5px #385130;
 }
 
@@ -281,6 +281,10 @@ div#avatar {
   margin-right: 20px;
 }
 
+
+input#checkbox1 {
+    text-align: right;
+}
 
 // Jquery style
 

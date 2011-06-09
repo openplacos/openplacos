@@ -2,9 +2,8 @@
   <div class="name">
     <%=  link_to actuator.path, "/actuators#{actuator.path}" %>
   </div>
-   <input id="checkbox1" name="checkbox.1.1" type="checkbox"  <%= "checked" if actuator.state=="on" %>  <%= "disabled" if !Opos_Connexion.instance.writeable?(actuator.path,session[:user]) %> onclick="new Ajax.Request('/actuators/call<%=actuator.path%>', { method: 'post', parameters: { method: jQuery('#checkbox1').attr('checked')? 'on' : 'off'} });">
-  <div class="state" id="<%=actuator.path%>">
-    <%= actuator.state%>
+   <div class="state_digital" id="<%=actuator.path%>">
+   <input id="<%=actuator.path.delete('/')%>_input" name="checkbox.1.1" type="checkbox"  <%= "checked" if actuator.state=="on" %>  <%= "disabled" if !Opos_Connexion.instance.writeable?(actuator.path,session[:user]) %> onclick="new Ajax.Request('/actuators/call<%=actuator.path%>', { method: 'post', parameters: { method: jQuery('#<%=actuator.path.delete('/')%>_input').attr('checked')? 'on' : 'off'} });">
   </div>
 </div>
 
@@ -12,8 +11,13 @@
 
 
   new Ajax.PeriodicalUpdater('<%=actuator.path%>', '<%="/actuators#{actuator.path}.json"%>', {
-    method: 'get', frequency: 10, decay: 2
+    method: 'get', frequency: 5, decay: 1
+<!-- ,  onSuccess:  function(transport){ -->
+<!--         var json = transport.responseText; -->
+<!--    jQuery('#<%=actuator.path.delete('/')%>_input').attr('checked',json=='off'?  false : true); -->
+<!--   } -->
   });
   
+ 
 
 </script>
