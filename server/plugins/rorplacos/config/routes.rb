@@ -19,7 +19,7 @@ Rorplacos::Application.routes.draw do
   match 'sensors/*path' => 'sensors#index'
 
 
-  match 'actuators/call' => 'actuators#call'
+  match 'actuators/call/*path' => 'actuators#call'
   match 'actuators/graph/*path.:format' => 'actuators#graph'
   match 'actuators/*path.:format' => 'actuators#index'
   match 'actuators/*path' => 'actuators#index'

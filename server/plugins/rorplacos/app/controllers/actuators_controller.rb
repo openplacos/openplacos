@@ -22,15 +22,19 @@ class ActuatorsController < ApplicationController
   end
   
   def call
-   path = params[:path]
-   meth = params[:meth]
+   path = '/'+ params[:path] ||= ""
+   meth = params[:method]
    connexion = Opos_Connexion.instance
    if connexion.writeable?(path,session[:user])
      actuator = connexion.actuators[path]
      actuator.method(meth).call
    end 
-   redirect_to :back
-     
+   #~ respond_to do |format|
+        #~ format.html { render :nothing}
+        #~ format.xml  { render :nothing}
+        #~ format.json { render :nothing}
+   #~ end
+   render :nothing => true
   end
   
   def graph
@@ -42,6 +46,7 @@ class ActuatorsController < ApplicationController
       maxtime = params[:time].to_i || 1
       @data = @actuator.generate_graph(maxtime)
       
+
       respond_to do |format|
         format.json  { render :json => @data}
         format.xml  { render :xml => @data}
