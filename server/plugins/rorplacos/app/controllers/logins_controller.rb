@@ -1,5 +1,6 @@
 class LoginsController < ApplicationController
   # "Create" a login, aka "log the user in"
+  before_filter :authenticated, :except => [:login, :auth]
   
   def login
     respond_to do |format|

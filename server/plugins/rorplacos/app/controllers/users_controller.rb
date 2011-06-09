@@ -1,7 +1,7 @@
 require 'digest/md5'
 
 class UsersController < ApplicationController
-  before_filter :authenticated, :except => :auth
+  before_filter :authenticated
 
   def index
 
