@@ -28,6 +28,8 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(session[:user_id])
+    session[:style] = @user.style
+    session[:locale] = @user.language
  
     respond_to do |format|
       if @user.update_attributes(params[:user])
