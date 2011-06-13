@@ -1,9 +1,11 @@
-openplacos (0.1.1-0ubuntu3) natty; urgency=low
+openplacos (0.2-0ubuntu1) natty; urgency=low
 
-  * Minor release
-  * add openplacos user in dialout group
-  * don't copy default config file if it already exist
-  * fix arduino bug in oversampling (firmware)
-  * fix arduino bug in pwm (driver)
+  * add user and authentification system
+  * New CSS for web plugin
+  * User profile in web plugin
+  * arduino firmaware/driver support DHT11 T/H sensors and RF remote switch
+  * fix oversampling issues in arduino firmware
+  * releasing a new openplacos gem (0.0.7)
+  * and a lot of awsome things ...
 
- -- miaoufkirsh (launchpad) <miaoufkirsh@gmail.com> Mon, 30 may 2011 20:00:00 +0100
+ -- miaoufkirsh (launchpad) <miaoufkirsh@gmail.com> Mon, 13 june 2011 20:00:00 +0100

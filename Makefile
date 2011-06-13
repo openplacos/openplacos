@@ -14,7 +14,6 @@ install:
 	
 	install COPYING $(DESTDIR)/usr/lib/ruby/openplacos/COPYING
 	install README $(DESTDIR)/usr/lib/ruby/openplacos/README
-
 	
 	@cp -R server $(DESTDIR)/usr/lib/ruby/openplacos
 	@cp -R clients $(DESTDIR)/usr/lib/ruby/openplacos
