@@ -28,7 +28,7 @@ class Plugin < Launcher
   def initialize(plugin_, top_) # Constructor
     @name   = plugin_["name"]
     @method = plugin_["method"]
-    @path   = PATH + "/" + plugin_["exec"] 
+    @path   = PATH + "/../plugins/" + plugin_["exec"] 
     
     @launch_config = plugin_.dup
     @launch_config.delete("name")

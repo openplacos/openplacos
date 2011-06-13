@@ -44,7 +44,7 @@ installation() {
     echo "This could take about 10 min -- please wait"
     echo "----------------------------------------------------"
     
-    cd /usr/lib/ruby/openplacos/server/plugins/rorplacos/
+    cd /usr/lib/ruby/openplacos/plugins/rorplacos/
     bundle install
     
     mkdir tmp
@@ -52,9 +52,9 @@ installation() {
     chown -R openplacos log
     
     #remove Gemfile.lock
-    if [ -e /usr/lib/ruby/openplacos/server/plugins/rorplacos/Gemfile.lock ]
+    if [ -e /usr/lib/ruby/openplacos/plugins/rorplacos/Gemfile.lock ]
     then
-      rm -f /usr/lib/ruby/openplacos/server/plugins/rorplacos/Gemfile.lock
+      rm -f /usr/lib/ruby/openplacos/plugins/rorplacos/Gemfile.lock
     fi 
 
 }

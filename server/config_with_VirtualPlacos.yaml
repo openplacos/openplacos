@@ -37,9 +37,10 @@ objects:
   path: /home/indoor/Fan
   model: Generic_pwm
 
+# drivers are in drivers folder
 card:
 - name: VirtualPlacos
-  exec: ../drivers/VirtualPlacos/VirtualPlacos.rb
+  exec: VirtualPlacos/VirtualPlacos.rb
   config: config.yaml
   timeout: 2
   plug: 
@@ -50,33 +51,34 @@ card:
     /Pin_5: /home/outdoor/Hygro
     /Pin_6: /home/indoor/Hygro
 
+# plugins are in plugins folder
 plugins:
 
 - name: sql
   method: fork
-  exec: plugins/sql.rb
+  exec: sql.rb
 
 - name: fill_sql
   method: disable
-  exec: plugins/fill_sql.rb
+  exec: fill_sql.rb
 
 - name: ror_frontend
   method: disable
-  exec: plugins/ror_frontend.rb
+  exec: ror_frontend.rb
 
 - name: log
   method: thread
-  exec: plugins/log.rb
+  exec: log.rb
   file: /tmp/opos2.log
   
 - name: xmlrpc
   method: fork
-  exec: plugins/xmlrpc.rb
+  exec: xmlrpc.rb
   port: 8080
   
 - name: soap
   method: disable
-  exec: plugins/soap.rb
+  exec: soap.rb
   port: 8081
 
 user:

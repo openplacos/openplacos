@@ -42,7 +42,7 @@ class Driver < Launcher
     @top = top_
     if card_["exec"]
 		#file can be find
-      @path   = PATH + "/" + card_["exec"]
+      @path   = PATH + "/../drivers/" + card_["exec"]
     end
     if card_["method"] == "debug"
       @method = "debug"
