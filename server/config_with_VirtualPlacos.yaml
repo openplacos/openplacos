@@ -89,7 +89,7 @@ user:
 
 # password : test
 - login: user1
-  hash: "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" 
+  hash: '325636066ccb24500a9f1a0df376965118e59230'
   permissions:
     read: all
     write: actuators
@@ -97,8 +97,7 @@ user:
 
 # password : password
 - login: admin
-  hash: "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
+  hash: '5e38fb24e0314e2b3ec2caa2931c147442960ed4'
   permissions:
     read: all
     write: all
-
