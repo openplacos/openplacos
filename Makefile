@@ -17,7 +17,7 @@ install:
 
 	
 	@cp -R server $(DESTDIR)/usr/lib/ruby/openplacos
-	@cp -R client $(DESTDIR)/usr/lib/ruby/openplacos
+	@cp -R clients $(DESTDIR)/usr/lib/ruby/openplacos
 	@cp -R components $(DESTDIR)/usr/lib/ruby/openplacos
 	@cp -R drivers $(DESTDIR)/usr/lib/ruby/openplacos
 
