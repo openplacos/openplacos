@@ -18,8 +18,6 @@
 <%  @rooms.sensors.each_pair{ |key, sensor| %>
  <% if @connexion.readable?(sensor.path,session[:user]) %>
    <%= render :partial => "sensors/abstract",:locals => { :sensor => sensor }%>
- <%else%>
-   <%= render :partial => "sensors/abstract_not_readable",:locals => { :sensor => sensor }%>
  <%end%>
  <br>
 <%  } %>
@@ -31,8 +29,6 @@
 <%  @rooms.actuators.each_pair{ |key, actuator| %>
  <% if @connexion.readable?(actuator.path,session[:user]) %>
    <%= render :partial => "actuators/abstract",:locals => { :actuator => actuator }%>
- <%else%>
-   <%= render :partial => "actuators/abstract_not_readable",:locals => { :actuator => actuator }%>
  <%end%>
  <br>
 <%  } %>
