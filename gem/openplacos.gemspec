@@ -17,5 +17,5 @@ GEMSPEC = Gem::Specification.new do |s|
   s.files = FileList["{lib}/**/*", "openplacos.gemspec", "VERSION"].to_a.sort
   s.require_path = "lib"
   s.has_rdoc = false
-  s.add_dependency('ruby-dbus-openplacos', '>= 0.6.0')
+  s.add_dependency('ruby-dbus-openplacos', '>= 0.6.2')
 end

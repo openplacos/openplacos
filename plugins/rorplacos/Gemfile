@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
+gem "rails", "~> 3.0.8"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -30,6 +30,6 @@ gem 'rails', '3.0.3'
 #   gem 'webrat'
 # end
 
-gem 'ruby-dbus-openplacos'
-gem 'openplacos'
+gem "openplacos", "~> 0.0.7"
+gem "ruby-dbus-openplacos", "~> 0.6.2"
 gem 'mysql'

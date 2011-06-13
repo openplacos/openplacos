@@ -10,8 +10,10 @@ installation() {
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport openplacos micro-optparse choice rails --bindir /usr/bin --no-ri --no-rdoc
-   
+  gem install bundler --bindir /usr/bin --no-ri --no-rdoc
+  cd /usr/lib/ruby/openplacos
+  bundle install
+  
   # User openplacos
     adduser openplacos --system -disabled-login -no-create-home
     adduser openplacos dialout
@@ -43,13 +45,6 @@ installation() {
     echo "rails bundle installation "
     echo "This could take about 10 min -- please wait"
     echo "----------------------------------------------------"
-    
-        
-    #remove Gemfile.lock
-    if [ -e /usr/lib/ruby/openplacos/plugins/rorplacos/Gemfile.lock ]
-    then
-      rm -f /usr/lib/ruby/openplacos/plugins/rorplacos/Gemfile.lock
-    fi 
     
     cd /usr/lib/ruby/openplacos/plugins/rorplacos/
     bundle install
