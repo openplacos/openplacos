@@ -18,19 +18,19 @@
 #
 
 path=`dirname $0`
-version=$1
 temp_dir=`mktemp -d`
-dir_version=openplacos_$version
 
-mkdir -p $temp_dir/$dir_version
-cp -rf $path/../../openplacos $temp_dir/$dir_version
-mv $temp_dir/$dir_version/openplacos/DEBIAN $temp_dir/$dir_version/debian
-mv $temp_dir/$dir_version/openplacos/Makefile $temp_dir/$dir_version/Makefile
+mkdir -p $temp_dir/
+cp -rf $path/../../openplacos $temp_dir
 
-rm -rf $temp_dir/$dir_version/openplacos/.git
+rm -rf $temp_dir/openplacos/.git
 
-cd $temp_dir/$dir_version
+cd $temp_dir/openplacos
 
 debuild -S -sa
 
 pwd
+
+echo "try to build package"
+
+dpkg-buildpackage -rfakeroot
