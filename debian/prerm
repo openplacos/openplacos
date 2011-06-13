@@ -21,5 +21,5 @@ fi
 
 if [ "$1" = "purge" ] ; then
     rm /etc/default/openplacos
-    rm -rf /usr/lib/ruby/openplacos
+    rm /usr/bin/openplacos*
 fi
