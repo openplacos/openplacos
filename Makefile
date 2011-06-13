@@ -9,12 +9,12 @@ install:
 	install -d $(DESTDIR)/etc/dbus-1/system.d/
 	install -d $(DESTDIR)/etc/init.d/
 	
-	install setup_files/openplacos.conf $(DESTDIR)/etc/dbus-1/system.d/openplacos.conf
-	install setup_files/openplacos $(DESTDIR)/etc/init.d/openplacos
+	@cp setup_files/openplacos.conf $(DESTDIR)/etc/dbus-1/system.d/openplacos.conf
+	@cp setup_files/openplacos $(DESTDIR)/etc/init.d/openplacos
 	
-	install COPYING $(DESTDIR)/usr/lib/ruby/openplacos/COPYING
-	install README $(DESTDIR)/usr/lib/ruby/openplacos/README
-	install Gemfile $(DESTDIR)/usr/lib/ruby/openplacos/Gemfile
+	@cp COPYING $(DESTDIR)/usr/lib/ruby/openplacos/COPYING
+	@cp README $(DESTDIR)/usr/lib/ruby/openplacos/README
+	@cp Gemfile $(DESTDIR)/usr/lib/ruby/openplacos/Gemfile
 	
 	@cp -R server $(DESTDIR)/usr/lib/ruby/openplacos
 	@cp -R clients $(DESTDIR)/usr/lib/ruby/openplacos
