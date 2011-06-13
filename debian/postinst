@@ -14,7 +14,15 @@ installation() {
    
   # User openplacos
     adduser openplacos --system -disabled-login -no-create-home
+    adduser openplacos dialout
 
+  # default config
+  if [ -e /etc/default/openplacos ]
+  then
+    echo "config file already exist"
+  else  
+    cp /usr/lib/ruby/openplacos/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+  fi 
 
   # link into path
     ln -s -f /usr/lib/ruby/openplacos/server/main.rb /usr/bin/openplacos-server
