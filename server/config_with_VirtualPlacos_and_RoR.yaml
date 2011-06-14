@@ -54,30 +54,30 @@ plugins:
 
 - name: sql
   method: fork
-  exec: plugins/sql.rb
+  exec: sql.rb
 
 - name: fill_sql
   method: thread
-  exec: plugins/fill_sql.rb
+  exec: fill_sql.rb
 
 - name: ror_frontend
   method: fork
-  exec: plugins/ror_frontend.rb
+  exec: ror_frontend.rb
   
 
 - name: log
   method: debug
-  exec: plugins/log.rb
+  exec: log.rb
   file: /tmp/opos.log
   
 - name: xmlrpc
   method: fork
-  exec: plugins/xmlrpc.rb
+  exec: xmlrpc.rb
   port: 8081
   
 - name: soap
   method: disable
-  exec: plugins/soap.rb
+  exec: soap.rb
   port: 8080
 
 user:

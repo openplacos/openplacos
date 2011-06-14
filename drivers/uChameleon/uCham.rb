@@ -21,6 +21,20 @@ require 'openplacos'
 require 'serialport'
 #Write module and function definition
 
+
+class Driver < DBus::Object
+
+  dbus_interface "org.openplacos.driver" do
+    dbus_method :quit do 
+      Thread.new {
+        sleep 2
+        Process.exit(0)       
+      }
+    end  
+  end
+end
+
+
 module Module_write_analog 
   
   def write_analog(value_,option_)
@@ -193,7 +207,8 @@ OTHERS_PIN.each { |number|
   service.export(pin)
 }
 
-
+driver = Driver.new("Driver")
+service.export(driver)
 
 main = DBus::Main.new
 main << bus

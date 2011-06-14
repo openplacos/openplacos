@@ -257,9 +257,17 @@ end
 top = Top.new(file, service)
 main = DBus::Main.new
 # quit the plugins when server quit
+
 Signal.trap('INT') do 
   top.dbus_plugins.quit
   main.quit
+  top.drivers.each_pair do |name,driver|
+    iface = "org.openplacos.driver"
+    if (!driver.objects["/Driver"].nil?)
+      driver.objects["/Driver"][iface].quit()
+    end
+  end
+  Process.exit 0
 end
 
 # server is now ready, send the information to plugin

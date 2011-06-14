@@ -72,14 +72,14 @@ class Measure
     #1 proxy to card with defined interface
     #2 card name
     @driver = driver_
-    proxy_ = @driver.objects[pin_]
+    proxy = @driver.objects[pin_]
 
-    if not proxy_.has_iface? @interface.get_name
+    if not proxy.has_iface? @interface.get_name
       puts "Error : No interface " + @interface.get_name + " avalaibable for measure " + self.path
       Process.exit 1
     end
-    if proxy_[@interface.get_name].methods["read"]
-      @proxy_iface = proxy_[@interface.get_name]
+    if proxy[@interface.get_name].methods["read"]
+      @proxy_iface = proxy[@interface.get_name]
     else
       puts "Error : No read method in interface " + @interface.get_name + "to plug with sensor" + self.path
       Process.exit 1
