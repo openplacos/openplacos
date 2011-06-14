@@ -19,8 +19,36 @@
 require 'rubygems'
 require 'openplacos'
 require 'serialport'
+require 'choice'
+
 #Write module and function definition
 
+Choice.options do
+    header ''
+    header 'Specific options:'
+
+    option :name do
+      short '-n'
+      long '--name=NAME'
+      desc 'The Name of the service (default uchameleon)'
+      default "uchameleon"
+    end
+    
+    option :port do
+      short '-p'
+      long '--port=PORT'
+      desc 'The serial port (default /dev/ttyUSB0)'
+      default "/dev/ttyUSB0"
+    end
+    
+    option :baup do
+      short '-b'
+      long '--baup=BAUPRATE'
+      desc 'The bauprate (default 115200)'
+      cast Integer
+      default 115200
+    end
+end
 
 class Driver < DBus::Object
 
@@ -125,8 +153,8 @@ end
 
 class Serial_uCham
 
-  def initialize(port_)
-    @sp = SerialPort.new port_, 115200
+  def initialize(port_,baup_)
+    @sp = SerialPort.new port_, baup_
   end
   
   def write(string_)
@@ -160,18 +188,20 @@ end
 # Live
 #
 
-SERIAL_PORT = "/dev/ttyUSB0"
 NB_ANALOG_PIN = (1..8).to_a
 NB_PWM_PIN = (9..12).to_a
 OTHERS_PIN = (13..18).to_a
+
+SERIAL_PORT = Choice.choices[:port]
+BAUPRATE = Choice.choices[:baup]
 
 bus = DBus::system_bus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
   bus =  DBus::session_bus
 end
-service = bus.request_service("org.openplacos.drivers.uchameleon")
+service = bus.request_service("org.openplacos.drivers.#{Choice.choices[:name].downcase}")
 
-$sp = Serial_uCham.new(SERIAL_PORT)
+$sp = Serial_uCham.new(SERIAL_PORT,BAUPRATE)
 
 analog_pin = Array.new
 pwm_pin = Array.new
