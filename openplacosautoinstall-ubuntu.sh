@@ -27,29 +27,58 @@ openplacos_core_subversion="0.1"
 path=`dirname $0`
 
 # Fonction: installation
-dependencies() {
+apt_dependencies() {
   # Pre-requis
 
   apt-get install ruby ruby1.8-dev rubygems libmysqlclient-dev 
 
+}
+
+gem_dependencies() {
+  # opos bundle install
   echo "----------------------------------------------------"
   echo "Ruby gem lib installation "
   echo "This could take about 10 min -- please wait"
   echo "----------------------------------------------------"
-  gem install activerecord mysql serialport openplacos ruby-dbus-openplacos micro-optparse choice rails --bindir /usr/bin --no-ri --no-rdoc
+
+  gem install bundler --bindir /usr/bin --no-ri --no-rdoc
+  cd /usr/lib/ruby/openplacos
+  bundle install
+
+  # rails bundle install
+  echo "----------------------------------------------------"
+  echo "rails bundle installation "
+  echo "This could take about 10 min -- please wait"
+  echo "----------------------------------------------------"
+
+  cd /usr/lib/ruby/openplacos/plugins/rorplacos/
+  bundle install
 }
 
 installation() {
   # Files copies
-  cp -rf $path/../openplacos/ /usr/lib/ruby/
+  mkdir /usr/lib/ruby/openplacos
+  cp -f COPYING /usr/lib/ruby/openplacos/COPYING
+	cp -f README /usr/lib/ruby/openplacos/README
+	cp -f Gemfile /usr/lib/ruby/openplacos/Gemfile
+	
+	cp -rf server /usr/lib/ruby/openplacos
+	cp -rf clients /usr/lib/ruby/openplacos
+	cp -rf components /usr/lib/ruby/openplacos
+	cp -rf plugins /usr/lib/ruby/openplacos
+	cp -rf drivers /usr/lib/ruby/openplacos
+  
+  # default config
+  if [ -e /etc/default/openplacos ]
+  then
+    echo "config file already exist"
+  else  
+    cp $path/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
+  fi 
 
-# default config
-if [ -e /etc/default/openplacos ]
-then
-  echo "config file already exist"
-else  
-  cp $path/server/config_with_VirtualPlacos.yaml /etc/default/openplacos
-fi 
+  mkdir /usr/lib/ruby/openplacos/plugins/rorplacos/tmp
+  chown -R openplacos /usr/lib/ruby/openplacos/plugins/rorplacos/tmp
+  chown -R openplacos /usr/lib/ruby/openplacos/plugins/rorplacos/log
 }
 
 mysql_install() {
@@ -69,11 +98,10 @@ post_installation() {
 
 
 # link into path
-  ln -s -f /usr/lib/ruby/openplacos/server/main.rb /usr/bin/openplacos-server
-  ln -s -f /usr/lib/ruby/openplacos/client/CLI_client/opos-client.rb /usr/bin/openplacos
-  ln -s -f /usr/lib/ruby/openplacos/client/deprecated/gtk/gtk.rb /usr/bin/openplacos-gtk
-  ln -s -f /usr/lib/ruby/openplacos/client/xml-rpc/xml-rpc-client.rb  /usr/bin/openplacos-xmlrpc
-  ln -s -f /usr/lib/ruby/openplacos/client/soap/soap-client.rb  /usr/bin/openplacos-soap
+    ln -s -f /usr/lib/ruby/openplacos/server/main.rb /usr/bin/openplacos-server
+    ln -s -f /usr/lib/ruby/openplacos/clients/CLI_client/opos-client.rb /usr/bin/openplacos
+    ln -s -f /usr/lib/ruby/openplacos/clients/xml-rpc/xml-rpc-client.rb  /usr/bin/openplacos-xmlrpc
+    ln -s -f /usr/lib/ruby/openplacos/clients/soap/soap-client.rb  /usr/bin/openplacos-soap
 
 # dbus integration
   cp $path/setup_files/*.service /usr/share/dbus-1/system-services/
@@ -107,13 +135,13 @@ if [ "$(id -u)" != "0" ]; then
 	exit 1
 fi
 
-echo "Do you want to install dependencies on your system ? [Y/n]"
+echo "Do you want to install apt dependencies on your system ? [Y/n]"
 read dep
 if [ "$dep" = n ]
 then
     echo "No dep installed"
 else
-   dependencies 
+   apt_dependencies 
 fi
 
 echo "Do you want to copy files on your system ? [Y/n]"
@@ -123,6 +151,15 @@ then
     echo "http://openplacos.tuxfamily.org/V1.0/?q=content/launch-openplacos-debug-mode"
 else
     installation
+fi
+
+echo "Do you want to install gem dependencies on your system ? [Y/n]"
+read dep
+if [ "$dep" = n ]
+then
+    echo "No dep installed"
+else
+   gem_dependencies 
 fi
 
 echo "Do you want to proceed an easy and automatic MySQL install [y/N]"
