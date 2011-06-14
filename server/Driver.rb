@@ -70,6 +70,12 @@ class Driver < Launcher
     
     @objects = Hash.new
 
+    begin
+        obj_proxy = Bus.introspect(@path_dbus, "/Driver")
+      rescue
+      end
+    @objects["/Driver"]= obj_proxy
+
     @plug.each_pair do |pin,object_path|
       
       next if object_path.nil?

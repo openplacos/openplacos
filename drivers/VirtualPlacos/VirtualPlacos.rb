@@ -272,15 +272,18 @@ end
 class Driver < DBus::Object
 
     
-    dbus_interface "org.openplacos.driver" do
+  dbus_interface "org.openplacos.driver" do
     
-        dbus_method :quit do 
-          Process.exit(0)       
-        end  
-        
+    dbus_method :quit do 
+      Thread.new {
+        sleep 2
+        Process.exit(0)       
+      }
+      end  
+      
     end
-
-end
+    
+  end
 
 class Interupt < DBus::Object
         
