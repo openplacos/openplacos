@@ -6,4 +6,4 @@ Simple_LM335:
   driver:
     interface: analog
     ttl: 0.1   
-  conversion: 100*( %self * 5 - 2.78 )
+  conversion: 100*( %self * 5 - 2.73 )

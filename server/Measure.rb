@@ -109,12 +109,12 @@ class Measure
         end
         @value = self.convert(self.safe_read,dep)
         if !@value.nil?
-          return @value
+          @value
         else
           return "Error"
         end
       else
-        return @value = self.safe_read
+        @value = self.safe_read
       end   
     
     end
