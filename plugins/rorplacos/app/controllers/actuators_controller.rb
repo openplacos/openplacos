@@ -32,7 +32,7 @@ class ActuatorsController < ApplicationController
    #~ respond_to do |format|
         #~ format.html { render :nothing}
         #~ format.xml  { render :nothing}
-        #~ format.json { render :nothing}
+        #~ format.json { render :json => actuator.state}
    #~ end
    render :nothing => true
   end

@@ -3,7 +3,7 @@
     <%=  link_to actuator.path, "/actuators#{actuator.path}" %>
   </div>
    <div class="state_digital" id="<%=actuator.path%>">
-   <input id="<%=actuator.path.delete('/')%>_input" name="checkbox.1.1" type="checkbox"  <%= "checked" if actuator.state=="on" %>  <%= "disabled" if !Opos_Connexion.instance.writeable?(actuator.path,session[:user]) %> onclick="new Ajax.Request('/actuators/call<%=actuator.path%>', { method: 'post', parameters: { method: jQuery('#<%=actuator.path.delete('/')%>_input').attr('checked')? 'on' : 'off'} })">
+   <input id="<%=actuator.path.delete('/')%>_input" name="checkbox.1.1" type="checkbox"  <%= "checked" if actuator.state=="on" %>  <%= "disabled" if !Opos_Connexion.instance.writeable?(actuator.path,session[:user]) %> onclick="new Ajax.Request('/actuators/call<%=actuator.path%>', { method: 'get', parameters: { method: jQuery('#<%=actuator.path.delete('/')%>_input').attr('checked')? 'on' : 'off'} })">
   </div>
 </div>
 
