@@ -40,7 +40,7 @@ options = { "adapter" => "mysql",
 
 ActiveRecord::Base.establish_connection( options )
 
-ActiveRecord::Migrator.migrate('db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
+ActiveRecord::Migration.migrate('db/migrate' )
 
 
 class User < ActiveRecord::Base
