@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
 
 
   def authenticated
-    if session[:user].nil?
+    if Opos_Connexion.instance.instance_variable_get("@permissions")[session[:user]].nil?
       redirect_to "/login"
     end
   end

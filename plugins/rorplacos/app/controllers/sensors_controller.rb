@@ -7,7 +7,7 @@ class SensorsController < ApplicationController
   def index
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
-    
+
     if @connexion.readable?(path,session[:user]) # if sensor is readable
       @sensor = Sensor.new(@connexion,path)
       
