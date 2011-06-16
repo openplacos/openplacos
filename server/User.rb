@@ -32,6 +32,7 @@ class User
         @permissions["read"].push(top_.objects.keys) if item == "all"
         @permissions["read"].push(top_.measures.keys) if item == "measures"
         @permissions["read"].push(top_.actuators.keys) if item == "actuators"
+        @permissions["read"].push(item) if (top_.actuators.keys.include?(item) or top_.measures.keys.include?(item))
       }
     end
     
@@ -46,6 +47,7 @@ class User
         @permissions["write"].push(top_.objects.keys) if item == "all"
         @permissions["write"].push(top_.measures.keys) if item == "measures"
         @permissions["write"].push(top_.actuators.keys) if item == "actuators"
+        @permissions["write"].push(item) if (top_.actuators.keys.include?(item) or top_.measures.keys.include?(item))
       }
     end
     
@@ -59,7 +61,13 @@ class User
         @permissions["write"].delete(item)
       }
     end
-
+  
+    if cfg_["permissions"]["include"]
+      cfg_["permissions"]["include"].split(",").each { |item|
+        @permissions["read"].push(item)
+        @permissions["write"].push(item)
+      }
+    end
     
     
   end
