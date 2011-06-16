@@ -239,6 +239,18 @@ class Top
 
 end # End of Top
 
+def quit(top_, main_)
+  top_.dbus_plugins.quit
+  top_.drivers.each_pair do |name,driver|
+    iface = "org.openplacos.driver"
+    if (!driver.objects["/Driver"].nil?)
+      driver.objects["/Driver"][iface].quit()
+    end
+  end
+  main_.quit
+  Process.exit 0  
+end
+
 # Config file basic verification
 file = options[:file]
 
@@ -258,17 +270,14 @@ top = Top.new(file, service)
 main = DBus::Main.new
 # quit the plugins when server quit
 
-Signal.trap('INT') do 
-  top.dbus_plugins.quit
-  main.quit
-  top.drivers.each_pair do |name,driver|
-    iface = "org.openplacos.driver"
-    if (!driver.objects["/Driver"].nil?)
-      driver.objects["/Driver"][iface].quit()
-    end
-  end
-  Process.exit 0
+Signal.trap('TERM') do 
+ quit(top, main)
 end
+
+Signal.trap('INT') do 
+ quit(top, main)
+end
+
 
 # server is now ready, send the information to plugin
 Thread.new do
