@@ -87,6 +87,7 @@ user:
 - login: anonymous
   permissions:
     read: all
+    write: /home/indoor/Fan
     exclude: /home/indoor/Temperature
 
 # password : test
