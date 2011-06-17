@@ -16,13 +16,8 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 require "rubygems"
-require "openplacos"
-
-plugin = Openplacos::Plugin.new
 
 Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/")+ "/" + "rorplacos")
-
-plugin.nonblock_run
 
 ## Inspirated from /usr/bin/rails
 
