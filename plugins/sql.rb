@@ -40,72 +40,7 @@ options = { "adapter" => "mysql",
 
 ActiveRecord::Base.establish_connection( options )
 
-ActiveRecord::Schema.define do
-  if !ActiveRecord::Base.connection.table_exists?('users')
-    create_table :users do |table|
-      table.column :login, :string, :limit => 80, :null => false
-      table.column :first_name, :string, :limit => 80
-      table.column :last_name, :string, :limit => 80
-      table.column :email, :string, :limit => 80
-      table.column :language, :string, :limit => 80
-      table.column :style, :string, :limit => 80
-    end
-  end
-  
-  if !ActiveRecord::Base.connection.table_exists?('cards')
-    create_table :cards do |table|
-      table.column :config_name, :string, :limit => 80
-      table.column :model, :string, :limit => 80
-      table.column :usb_id, :integer
-      table.column :path_dbus, :string
-    end
-  end
-
-  if !ActiveRecord::Base.connection.table_exists?('devices')
-    create_table :devices do |table|
-      table.column :config_name, :string, :limit => 80
-      table.column :model, :string, :limit => 80
-      table.column :path_dbus, :string
-      table.references(:card) 
-    end
-  end
-
-  if !ActiveRecord::Base.connection.table_exists?('sensors')
-    create_table :sensors do |table|
-      table.column :unit, :string, :limit => 80
-      table.references(:device) 
-    end    
-  end
-
-  if !ActiveRecord::Base.connection.table_exists?('actuators')
-    create_table :actuators do |table|
-      table.column :interface, :string, :limit => 80
-      table.references(:device) 
-    end            
-  end
-
-  if !ActiveRecord::Base.connection.table_exists?('flows')
-    create_table :flows do |table|
-      table.column :date, :datetime 
-      table.column :value, :float, :null => false
-      table.references(:user) 
-    end   
-  end
-  
-  if !ActiveRecord::Base.connection.table_exists?('measures')
-    create_table :measures do |table|
-      table.references(:flow, :sensor) 
-    end
-  end    
-
-  if !ActiveRecord::Base.connection.table_exists?('instructions')
-    create_table :instructions do |table|
-      table.references(:flow, :actuator) 
-    end
-  end          
-end
-
-
+ActiveRecord::Migrator.migrate('db/migrate')
 
 
 class User < ActiveRecord::Base

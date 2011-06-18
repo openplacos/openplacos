@@ -55,7 +55,7 @@ card:
 plugins:
 
 - name: sql
-  method: disable
+  method: debug
   exec: sql.rb
 
 - name: fill_sql
