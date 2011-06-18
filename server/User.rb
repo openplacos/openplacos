@@ -28,47 +28,75 @@ class User
     @permissions["read"] = Array.new
     
     if cfg_["permissions"]["read"]
-      cfg_["permissions"]["read"].split(",").each { |item|
+      cfg_["permissions"]["read"].split(";").each { |item|
+        #parse shortcut
         @permissions["read"].push(top_.objects.keys) if item == "all"
         @permissions["read"].push(top_.measures.keys) if item == "measures"
         @permissions["read"].push(top_.actuators.keys) if item == "actuators"
-        @permissions["read"].push(item) if (top_.actuators.keys.include?(item) or top_.measures.keys.include?(item))
+        #parse other keys
+        if (top_.actuators.keys.include?(item) or top_.measures.keys.include?(item))
+          #parse objects path name
+          @permissions["read"].push(item) 
+        else
+          #parse room names
+          allkey = (top_.actuators.keys.dup << top_.measures.keys.dup).flatten
+          allkey.each { |key|
+            @permissions["read"] << key if key.match(item)
+          }
+        end
       }
     end
-    
-    @permissions["read"].flatten! 
-    @permissions["read"].uniq! # remove similar keys
     
     #set write permission
     @permissions["write"] = Array.new
     
     if cfg_["permissions"]["write"]
-      cfg_["permissions"]["write"].split(",").each { |item|
+      cfg_["permissions"]["write"].split(";").each { |item|
         @permissions["write"].push(top_.objects.keys) if item == "all"
         @permissions["write"].push(top_.measures.keys) if item == "measures"
         @permissions["write"].push(top_.actuators.keys) if item == "actuators"
-        @permissions["write"].push(item) if (top_.actuators.keys.include?(item) or top_.measures.keys.include?(item))
-      }
+        #parse other keys
+        if (top_.actuators.keys.include?(item) or top_.measures.keys.include?(item))
+          #parse objects path name
+          @permissions["write"].push(item) 
+        else
+          #parse room names
+          allkey = (top_.actuators.keys.dup << top_.measures.keys.dup).flatten
+          allkey.each { |key|
+            @permissions["write"] << key if key.match(item)
+          }
+        end      
+        }
     end
     
     @permissions["write"].flatten!
     @permissions["write"].uniq!
     
+    #write seed in 
+    @permissions["read"] << @permissions["write"]
+      
+    @permissions["read"].flatten! 
+    @permissions["read"].uniq! # remove similar keys
+    
     #remove exclude
     if cfg_["permissions"]["exclude"]
-      cfg_["permissions"]["exclude"].split(",").each { |item|
-        @permissions["read"].delete(item)
-        @permissions["write"].delete(item)
+      cfg_["permissions"]["exclude"].split(";").each { |item|
+        if (top_.actuators.keys.include?(item) or top_.measures.keys.include?(item))
+          #parse objects path name
+          @permissions["write"].delete(item) 
+          @permissions["read"].delete(item) 
+        else
+          #parse room names
+          allkey = (top_.actuators.keys.dup << top_.measures.keys.dup).flatten
+          allkey.each { |key|
+            if key.match(item)
+              @permissions["write"].delete(key) 
+              @permissions["read"].delete(key)
+            end
+          }
+        end   
       }
     end
-  
-    if cfg_["permissions"]["include"]
-      cfg_["permissions"]["include"].split(",").each { |item|
-        @permissions["read"].push(item)
-        @permissions["write"].push(item)
-      }
-    end
-    
     
   end
 
