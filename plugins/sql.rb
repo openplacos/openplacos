@@ -39,6 +39,7 @@ options = { "adapter" => "mysql",
             "password" => options[:password]}
 
 ActiveRecord::Base.establish_connection( options )
+Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/"))
 
 ActiveRecord::Migrator.migrate('db/migrate')
 
@@ -100,15 +101,15 @@ end
 plugin.opos.on_signal("new_measure") do |name, value, option|
     flow = Flow.create(:date  => Time.new.utc ,:value => value) 
     device =  Device.find(:first, :conditions => { :config_name => name })
-    sensor =  Sensor.find(:first, :conditions => { :device_id => device.object_id })
-    Measure.create(:flow_id => flow.id,:sensor_id => sensor.object_id) 
+    sensor =  Sensor.find(:first, :conditions => { :device_id => device.id })
+    Measure.create(:flow_id => flow.id,:sensor_id => sensor.id) 
 end
 
 plugin.opos.on_signal("new_order") do |name, order, option|
     flow = Flow.create(:date  => Time.new.utc ,:value => order) 
     device =  Device.find(:first, :conditions => { :config_name => name })
-    actuator = Actuator.find(:first, :conditions => { :device_id => device.object_id })
-    Instruction.create(:flow_id => flow.id,:actuator_id => actuator.object_id)
+    actuator = Actuator.find(:first, :conditions => { :device_id => device.id })
+    Instruction.create(:flow_id => flow.id,:actuator_id => actuator.id)
 end
 
 plugin.opos.on_signal("create_card") do |name,config|
