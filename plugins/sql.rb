@@ -43,6 +43,7 @@ Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/"))
 
 ActiveRecord::Migrator.migrate('db/migrate')
 
+MUT = Mutex.new
 
 class User < ActiveRecord::Base
   #has_many :flows
@@ -78,44 +79,54 @@ class Instruction < ActiveRecord::Base
 end
 
 plugin.opos.on_signal("create_measure") do |name,config|
-  if !Device.exists?(:config_name => config["path"])
-    dev = Device.create(:config_name => config["path"],
-                        :model => config["model"],
-                        :path_dbus => config["path"])
-                        #:card_id => Card.find(:first, :conditions => [ "config_name = ?",  meas.instance_variable_get(:@card_name)]))
-                        
-    Sensor.create(:device_id => dev.id, :unit => config["informations"]['unit'])
-  end
+  MUT.synchronize{
+    if !Device.exists?(:config_name => config["path"])
+      dev = Device.create(:config_name => config["path"],
+                          :model => config["model"],
+                          :path_dbus => config["path"])
+                          #:card_id => Card.find(:first, :conditions => [ "config_name = ?",  meas.instance_variable_get(:@card_name)]))
+                          
+      Sensor.create(:device_id => dev.id, :unit => config["informations"]['unit'])
+    end
+  }
 end
 
 plugin.opos.on_signal("create_actuator") do |name,config|
-  if !Device.exists?(:config_name => config["path"])
-    dev = Device.create(:config_name => config["path"],
-                        :model => config["model"],
-                        :path_dbus => config["path"])
-                        #:card_id => Card.find(:first, :conditions => [ "config_name = ?", act.instance_variable_get(:@card_name)])) 
-    Actuator.create(:device_id => dev.id, :interface => config["driver"]["interface"]) 
-  end
+  MUT.synchronize{
+    if !Device.exists?(:config_name => config["path"])
+      dev = Device.create(:config_name => config["path"],
+                          :model => config["model"],
+                          :path_dbus => config["path"])
+                          #:card_id => Card.find(:first, :conditions => [ "config_name = ?", act.instance_variable_get(:@card_name)])) 
+      Actuator.create(:device_id => dev.id, :interface => config["driver"]["interface"]) 
+    end
+  }
 end
 
 plugin.opos.on_signal("new_measure") do |name, value, option|
+  MUT.synchronize{
     flow = Flow.create(:date  => Time.new.utc ,:value => value) 
     device =  Device.find(:first, :conditions => { :config_name => name })
     sensor =  Sensor.find(:first, :conditions => { :device_id => device.id })
     Measure.create(:flow_id => flow.id,:sensor_id => sensor.id) 
+  }
 end
 
 plugin.opos.on_signal("new_order") do |name, order, option|
+  MUT.synchronize{
     flow = Flow.create(:date  => Time.new.utc ,:value => order) 
     device =  Device.find(:first, :conditions => { :config_name => name })
     actuator = Actuator.find(:first, :conditions => { :device_id => device.id })
     Instruction.create(:flow_id => flow.id,:actuator_id => actuator.id)
+  }
 end
 
 plugin.opos.on_signal("create_card") do |name,config|
+  MUT.synchronize{
     if !Card.exists?(:config_name => name)
       Card.create(:config_name => name, :path_dbus => name ) # model, usb id missing
     end
+  }
 end
 
 plugin.run
