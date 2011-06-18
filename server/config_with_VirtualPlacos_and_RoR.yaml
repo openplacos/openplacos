@@ -4,7 +4,7 @@ objects:
   path: /home/indoor/Temperature
   model: Generic_Celsius_Temperature
   regul:
-    action-: /home/indoor/Fan    
+    action-: /home/indoor/Fan
     frequency: 2
     type: "pwm_regul"
    
@@ -35,11 +35,12 @@ objects:
     
 - name: Fan
   path: /home/indoor/Fan
-  model: Generic_relay_NO
+  model: Generic_pwm
 
+# drivers are in drivers folder
 card:
 - name: VirtualPlacos
-  exec: ../drivers/VirtualPlacos/VirtualPlacos.rb
+  exec: VirtualPlacos/VirtualPlacos.rb
   config: config.yaml
   timeout: 2
   plug: 
@@ -50,6 +51,7 @@ card:
     /Pin_5: /home/outdoor/Hygro
     /Pin_6: /home/indoor/Hygro
 
+# plugins are in plugins folder
 plugins:
 
 - name: sql
@@ -63,38 +65,45 @@ plugins:
 - name: ror_frontend
   method: fork
   exec: ror_frontend.rb
-  
 
 - name: log
-  method: debug
+  method: disable
   exec: log.rb
-  file: /tmp/opos.log
+  file: /tmp/opos2.log
   
 - name: xmlrpc
-  method: fork
+  method: disable
   exec: xmlrpc.rb
-  port: 8081
+  port: 8080
   
 - name: soap
   method: disable
   exec: soap.rb
-  port: 8080
+  port: 8081
 
 user:
 
+#no password
 - login: anonymous
   permissions:
-    read: measures
-    exclude: /home/indoor/Temperature
-
-- login: flagos
-  hash: test
-  permissions:
-    read: measures,actuators
-  
-- login: kirsh
-  hash: "6c2841d9c77cf2501d091cce164d847517e6f5c4"
+    read: all
+    
+# password : test
+- login: user1
+  hash: '325636066ccb24500a9f1a0df376965118e59230'
   permissions:
     read: all
-    write: all
+    write: actuators
+    exclude: /home/indoor/Fan
 
+# password : test
+- login: user2
+  hash: '325636066ccb24500a9f1a0df376965118e59230'
+  permissions:
+    read: /home/outdoor/
+
+# password : password
+- login: admin
+  hash: '5e38fb24e0314e2b3ec2caa2931c147442960ed4'
+  permissions:
+    write: all

@@ -55,7 +55,7 @@ card:
 plugins:
 
 - name: sql
-  method: fork
+  method: disable
   exec: sql.rb
 
 - name: fill_sql
