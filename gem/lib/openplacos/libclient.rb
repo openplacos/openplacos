@@ -141,7 +141,12 @@ module Openplacos
     end
     
     def readable?(path_,login_)
-      return @permissions[login_]["read"].include?(path_)
+      return true if @permissions[login_]["read"].include?(path_)
+      #check if one object is readable in the room
+      @permissions[login_]["read"].each { |path|
+        return true if path.include?(path_)
+      }
+      return false #else
     end
     
     def writeable?(path_,login_)

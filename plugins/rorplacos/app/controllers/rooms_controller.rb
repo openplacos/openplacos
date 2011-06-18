@@ -7,12 +7,21 @@ class RoomsController < ApplicationController
     # service.introspect
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
-    @rooms = Room.new(@connexion,path)
     
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @rooms }
+    if @connexion.readable?(path,session[:user]) # if sensor is readable
+      @rooms = Room.new(@connexion,path)
+    
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @rooms }
+      end
+    else
+      respond_to do |format|
+        format.html {render :partial => "shared/permission_denied"}
+        format.xml  { render :xml => {"value" => "Permission denied"}}
+      end
     end
+    
   end
 
 end

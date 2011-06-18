@@ -96,6 +96,12 @@ user:
     write: actuators
     exclude: /home/indoor/Fan
 
+# password : test
+- login: user2
+  hash: '325636066ccb24500a9f1a0df376965118e59230'
+  permissions:
+    read: /home/outdoor/
+
 # password : password
 - login: admin
   hash: '5e38fb24e0314e2b3ec2caa2931c147442960ed4'

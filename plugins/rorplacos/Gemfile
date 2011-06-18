@@ -30,7 +30,7 @@ gem "rails", "~> 3.0.8"
 #   gem 'webrat'
 # end
 
-gem "openplacos", "~> 0.0.7"
+gem "openplacos", "~> 0.0.8"
 gem "ruby-dbus-openplacos", "~> 0.6.2"
 gem 'mysql'
 gem 'mongrel'
