@@ -20,6 +20,7 @@ require "rubygems"
 require 'active_record' 
 require "openplacos"
 require "micro-optparse"
+require "logger"
 
 options = Parser.new do |p|
   p.banner = "This is openplacos plugins for sql database"
