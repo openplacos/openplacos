@@ -32,47 +32,47 @@ plugin = Openplacos::Plugin.new
 file = options[:file]
 
 if File.exists? file
-  $log_file = File.open(file, "a+") 
+  log_file = File.open(file, "a+") 
 else
-  $log_file = File.new(file, "a+")
+  log_file = File.new(file, "a+")
 end
 
 plugin.opos.on_signal("create_measure") do |name,config|
     date = Time.new.to_s
-    $log_file.write date +":" + "Create measure "+"#{name} #{config.inspect}" + "\n"
-    $log_file.flush 
+    log_file.write date +":" + "Create measure "+"#{name} #{config.inspect}" + "\n"
+    log_file.flush 
 end
 
 plugin.opos.on_signal("create_actuator") do |name,config|
     date = Time.new.to_s
-    $log_file.write date +":" + "Create actuator "+"#{name} #{config.inspect}" + "\n"
-    $log_file.flush 
+    log_file.write date +":" + "Create actuator "+"#{name} #{config.inspect}" + "\n"
+    log_file.flush 
 end
 
 plugin.opos.on_signal("new_measure") do |name, value, option|
     date = Time.new.to_s
     val = value.to_s
-    $log_file.write date +":" + "New measure "+"#{name} #{val}" + "\n"
-    $log_file.flush 
+    log_file.write date +":" + "New measure "+"#{name} #{val}" + "\n"
+    log_file.flush 
 end
 
 plugin.opos.on_signal("new_order") do |name, order, option|
     date = Time.new.to_s
     ord = order.to_s
-    $log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
-    $log_file.flush 
+    log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
+    log_file.flush 
 end
 
 plugin.opos.on_signal("error") do |error, option|
     date = Time.new.to_s
-    $log_file.write date +":" + error + "\n"
-    $log_file.flush 
+    log_file.write date +":" + error + "\n"
+    log_file.flush 
 end
 
 plugin.opos.on_signal("create_card") do |name,config|
     date = Time.new.to_s
-    $log_file.write date +":" + "Create card "+"#{name} #{config.inspect}" + "\n"
-    $log_file.flush 
+    log_file.write date +":" + "Create card "+"#{name} #{config.inspect}" + "\n"
+    log_file.flush 
 end
 
 plugin.run

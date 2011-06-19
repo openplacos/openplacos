@@ -44,7 +44,7 @@ options = Parser.new do |p|
   p.banner = "The openplacos server"
   p.version = "0.0.1"
   p.option :file, "the config file", :default => "/etc/default/openplacos"
-  p.option :debug, "activate the debug flag"
+  p.option :debug, "activate the ruby debug flag"
 end.process!
 
 $DEBUG = options[:debug]
