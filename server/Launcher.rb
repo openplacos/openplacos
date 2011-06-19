@@ -33,7 +33,7 @@ class Launcher
         raise "File #{@path} doesnt exists"
     end
 
-    @command_string = @path
+    @command_string = @path.dup
     @launch_config.each { |key, value|
       @command_string << " --#{key}=#{value}"
     }
