@@ -11,7 +11,7 @@ document.observe('dom:loaded', function(){
   function myDateFormater(inputTimeStamp) {
     mydate = new Date();
     mydate.setTime(inputTimeStamp);
-    return mydate.getUTCDate()+"/"+(mydate.getUTCMonth()+1)+" " + mydate.getUTCHours() + ":" + mydate.getUTCMinutes() + ":" + mydate.getUTCSeconds()
+    return mydate.getDate()+"/"+(mydate.getMonth()+1)+" " + mydate.getHours() + ":" + mydate.getMinutes() + ":" + mydate.getSeconds()
   }
 
   var options = {
@@ -32,12 +32,12 @@ document.observe('dom:loaded', function(){
   
   function getMinDefaultTime(back) {
     var now = new Date();
-    return (now.getTime()-back*3600000)/1000 - now.getTimezoneOffset()*60;
+    return (now.getTime()-back*3600000)/1000;
   };
   
   function getMaxDefaultTime() {
     var now = new Date();
-    return now.getTime()/1000 - now.getTimezoneOffset()*60;
+    return now.getTime()/1000;
   };
   
    

@@ -35,13 +35,14 @@ class SensorsController < ApplicationController
       if not params[:start_date].nil?
         start_date = Time.at(params[:start_date].to_i)
       else
-        start_date = 1.hours.ago 
+        start_date = 1.hours.ago.utc
       end
       if not params[:end_date].nil?
         end_date = Time.at(params[:end_date].to_i)
       else
-        end_date = Time.now
+        end_date = Time.now.utc
       end
+      puts "============================================================ #{end_date} ================"
       @data = @sensor.generate_graph(start_date,end_date)
       
       respond_to do |format|

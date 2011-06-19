@@ -39,6 +39,8 @@ options = { "adapter" => "mysql",
             "username" => options[:username],
             "password" => options[:password]}
 
+ActiveRecord::Base.default_timezone = :utc
+
 ActiveRecord::Base.establish_connection( options )
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 
@@ -108,7 +110,8 @@ end
 
 plugin.opos.on_signal("new_measure") do |name, value, option|
   MUT.synchronize{
-    flow = Flow.create(:date  => Time.new.utc ,:value => value) 
+    time = Time.new.utc  
+    flow = Flow.create(:date  => time ,:value => value) 
     device =  Device.find(:first, :conditions => { :config_name => name })
     sensor =  Sensor.find(:first, :conditions => { :device_id => device.id })
     Measure.create(:flow_id => flow.id,:sensor_id => sensor.id) 
