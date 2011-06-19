@@ -37,13 +37,17 @@ class Actuator < ActiveRecord::Base
       return meth
     end
     
-    def generate_graph(time)
-      inst = Device.find(:first, :conditions => {:config_name => @path}).actuator.flows.where("date >= :start_date",{:start_date => time.hour.ago }).order("date DESC")
-      ret = Array.new
-      ret << [Time.new.to_i, self.value]
-      ret = inst.collect{ |m| [m.date.to_i*1000, m.value]}
-      return ret
-    end
     
+    def generate_graph(start_date,end_date)
+      inst = Device.find(:first, :conditions => {:config_name => @path}).actuator.flows.where("date >= :start_date and date <= :end_date",{:start_date => start_date, :end_date => end_date}).order("date DESC")
+      
+      slice_size = [inst.size/500,1].max.to_i
+      
+      ret = [];
+      
+      inst.each_slice(slice_size) { |m| ret.push([m[0].date.to_i*1000, m[0].value]) }
+    
+      return ret
+    end   
     
 end

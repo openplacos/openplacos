@@ -37,27 +37,35 @@ class ActuatorsController < ApplicationController
    render :nothing => true
   end
   
-  def graph
+    def graph
     path = '/'+ params[:path] ||= ""
     @connexion = Opos_Connexion.instance
-    if @connexion.readable?(path,session[:user]) # if actuator is readable
+    if @connexion.readable?(path,session[:user]) # if sensor is readable
 
       @actuator = Actuator.new(@connexion,path)
-      maxtime = params[:time].to_i || 1
-      @data = @actuator.generate_graph(maxtime)
+      if not params[:start_date].nil?
+        start_date = Time.at(params[:start_date].to_i)
+      else
+        start_date = 1.hours.ago.utc
+      end
+      if not params[:end_date].nil?
+        end_date = Time.at(params[:end_date].to_i)
+      else
+        end_date = Time.now.utc
+      end
+      @data = @actuator.generate_graph(start_date,end_date)
       
-
       respond_to do |format|
         format.json  { render :json => @data}
         format.xml  { render :xml => @data}
       end
-      
     else
       respond_to do |format|
         format.json  { render :json => "Permission denied"}
         format.xml  { render :xml => "Permission denied"}
       end
     end
-  end
 
+  end
+  
 end

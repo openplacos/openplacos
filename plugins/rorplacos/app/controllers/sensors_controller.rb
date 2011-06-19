@@ -42,7 +42,6 @@ class SensorsController < ApplicationController
       else
         end_date = Time.now.utc
       end
-      puts "============================================================ #{end_date} ================"
       @data = @sensor.generate_graph(start_date,end_date)
       
       respond_to do |format|
