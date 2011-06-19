@@ -18,7 +18,7 @@
   </div>
   <div class="field">
     <%= f.label :style %><br />
-    <%= f.select(:style,options_for_select([['beach', 'beach.css'],['old style','style.css']],@user.style || "style.css")) %>
+    <%= f.select(:style,options_for_select([['beach', 'beach.css'],['old style','style.css']],@user.style || "beach.css")) %>
   </div>
   <div class="actions">
     <%= f.submit %>
