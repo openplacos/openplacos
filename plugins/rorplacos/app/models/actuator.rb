@@ -39,15 +39,23 @@ class Actuator < ActiveRecord::Base
     
     
     def generate_graph(start_date,end_date)
-      inst = Device.find(:first, :conditions => {:config_name => @path}).actuator.flows.where("date >= :start_date and date <= :end_date",{:start_date => start_date, :end_date => end_date}).order("date DESC")
-      
-      slice_size = [inst.size/500,1].max.to_i
+      inst = Device.find(:first, :conditions => {:config_name => @path}).actuator.flows.where("date >= :start_date and date <= :end_date",{:start_date => start_date, :end_date => end_date}).order("date ASC")
       
       ret = [];
       
-      inst.each_slice(slice_size) { |m| ret.push([m[0].date.to_i*1000, m[0].value]) }
-    
+      inst.each_index { |ist|
+        ret.push([inst[ist].date.to_i*1000-1, inst[ist-1].value])
+        ret.push([inst[ist].date.to_i*1000, inst[ist].value]) 
+      }
+      
+      ret.push([Time.now.to_i*1000, to_float(self.value)])
       return ret
-    end   
+    end 
+    
+  def to_float(bool)
+    return 1 if bool.is_a?(TrueClass)
+    return 0 if bool.is_a?(FalseClass)
+    return bool.to_f
+  end  
     
 end
