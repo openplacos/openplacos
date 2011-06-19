@@ -39,6 +39,8 @@ options = { "adapter" => "mysql",
             "password" => options[:password]}
 
 ActiveRecord::Base.establish_connection( options )
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+
 Dir.chdir(  File.expand_path(File.dirname(__FILE__) + "/"))
 
 ActiveRecord::Migrator.migrate('db/migrate')
