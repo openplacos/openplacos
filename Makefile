@@ -11,6 +11,8 @@ install:
 	
 	@cp setup_files/openplacos.conf $(DESTDIR)/etc/dbus-1/system.d/openplacos.conf
 	@cp setup_files/openplacos $(DESTDIR)/etc/init.d/openplacos
+	@cp setup_files/10-openplacos.rules $(DESTDIR)/etc/udev/rules.d/10-openplacos.rules
+
 	
 	@cp COPYING $(DESTDIR)/usr/lib/ruby/openplacos/COPYING
 	@cp README $(DESTDIR)/usr/lib/ruby/openplacos/README

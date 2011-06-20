@@ -1,0 +1,3 @@
+# Arduino
+SUBSYSTEMS=="usb", ATTRS{idProduct}=="6001", ATTRS{idVendor}=="0403", SYMLINK+="arduino"
+SUBSYSTEMS=="usb", ATTRS{idProduct}=="0001", ATTRS{idVendor}=="2341", SYMLINK+="arduino"
