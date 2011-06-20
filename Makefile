@@ -21,4 +21,4 @@ install:
 	@cp -R components $(DESTDIR)/usr/lib/ruby/openplacos
 	@cp -R plugins $(DESTDIR)/usr/lib/ruby/openplacos
 	@cp -R drivers $(DESTDIR)/usr/lib/ruby/openplacos
-
+	@cp -R setup_files $(DESTDIR)/usr/lib/ruby/openplacos
