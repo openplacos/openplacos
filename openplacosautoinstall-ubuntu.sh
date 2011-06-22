@@ -30,7 +30,7 @@ path=`dirname $0`
 apt_dependencies() {
   # Pre-requis
 
-  apt-get install ruby ruby1.8-dev rubygems libmysqlclient-dev 
+  apt-get install dbus ruby ruby1.8-dev rubygems libmysqlclient-dev 
 
 }
 
