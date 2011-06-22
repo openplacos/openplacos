@@ -29,15 +29,8 @@ require 'dbus-openplacos'
 require 'micro-optparse'
 
 # List of local include
-require 'Driver.rb'
-require 'Dbus-interfaces_acquisition_card.rb'
-require 'Dbus_debug.rb'
-require 'Measure.rb'
-require 'Actuator.rb'
 require 'Publish.rb'
 require 'globals.rb'
-require 'Regulation.rb'
-require 'Plugin.rb'
 require 'User.rb'
 
 options = Parser.new do |p|
@@ -73,183 +66,42 @@ class Top
     @config =  YAML::load(File.read(config_))
     @service = service_
 
-    # Config
-    # Hash of available dbus drivers
-    @drivers = Hash.new
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
-    @objects = Hash.new
-    @plugins = Hash.new
+    @components = Hash.new
+ 
     @users   = Hash.new
 
-    @dbus_plugins = Dbus_Plugin.new
-    @service.export(@dbus_plugins)  
+    @config.each do |component|
+      @components << Component.new(component) # Create a component object
+    end 
     
-    # Launch required plugins
-    if @config["plugins"]
-      #export the dbus object for plugins 
-
-      @plugin_main = DBus::Main.new
-      @plugin_main << @service.bus
-    
-      # start a thread to listen on bus for reception of message
-      plug_thread = Thread.new { @plugin_main.run }
-      
-      disable = 0
-      @config["plugins"].each do |plugin|
-        @plugins.store(plugin["name"], Plugin.new(plugin, self))
-        disable += 1 if plugin["method"]=="disable"
-      end
-      
-      #verify that all plugins have been launched
-      nb_plugin = @plugins.length - disable
-      begin 
-        Timeout::timeout(10) {
-          while (@dbus_plugins.plugin_count<nb_plugin)
-            sleep 0.1
-          end
-        }
-      rescue Timeout::Error
-      end
-      
-      
-      @plugin_main.quit
-      plug_thread.terminate
-      @plugin_main = nil
-      
-    end
-    
-    # Create users
-    if  @config["users"]
-      @config["users"].each do |user|
-        @users.store(user["login"], User.new(user, self))
-      end
-    end
-      
-
-    # Create measures
-    @config["objects"].each do |object|
-    
-      #detect model and merge with config
-      if object["model"]
-          #parse yaml
-          #---
-          # FIXME : model's yaml will be change, maybe
-          #+++
-          if File.exist?($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml")
-              model = YAML::load(File.read($INSTALL_PATH + "../components/sensors/" + object["model"] + ".yaml"))[object["model"]]
-          elsif File.exist?($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml")
-              model = YAML::load(File.read($INSTALL_PATH + "../components/actuators/" + object["model"] + ".yaml"))[object["model"]]
-          else
-              abort "No model found for #{object['name']} : #{object['model']}"
-          end
-          #---
-          # FIXME : merge delete similar keys, its not good for somes keys (like driver)
-          #+++
-          object = deep_merge(model,object)
-
-          # Creates object from config and save it in @objects
-          case object["informations"]["kind"]
-            when "Sensor"
-              @objects.store(object["path"], Measure.new(object, self))
-              # Check dependencies
-              @objects[object["path"]].sanity_check()
-            when "Actuator"
-              @objects.store(object["path"], Actuator.new(object, self))
-          end     
-      end
-    end
-    
-    # For each acquisition driver
-    @config["card"].each { |card|
-
-      # Create driver proxy with standard acquisition card iface
-      @drivers.store(card["name"], Driver.new(card,self))
-      
-      #infor the plugins that a new measure has been created
-      @dbus_plugins.create_card(card["name"], card)
-
-      # Push driver in DBus server config
-      # Stand for debug
-      card["plug"].each_pair{ |pin, object_paths|
-
-        next if object_paths.nil?
-        # plug proxy with dbus objects
-        object_paths.split(";").each { |object_path| # allow multiple object for one pin
-        
-        if @objects[object_path]
-          @objects[object_path].plug(@drivers[card["name"]],pin)
-        end
-        }
-        
-        # For debug purposes
-        #@service.export(Dbus_debug.new(object_path, @drivers[card["name"]].objects[object_path]))
-      }
-    }
-    
-    # Publish Objects on the bus
-    @objects.each_value do |object|
-      next if object.proxy_iface.nil?
-      @service.export(Dbus_measure.new(object))  if object.is_a? Measure
-      @service.export(Dbus_actuator.new(object)) if object.is_a? Actuator
+    @objects.each  do |component|
+      component.inspect   # Get informations from component
     end
 
- 
-    # Create users and export autenticate service
-    @users = Hash.new
-    if @config['user']
-      @config['user'].each do |user|
-        @users.store(user["login"],User.new(user,self))
-      end
-          
-      @service.export(Authenticate.new(@users))
+    @objects.each  do |component|
+      component.expose(@service)   # Exposes on dbus interface service
     end
-    @service.export(Server.new)
 
-  end # End of init
+    temp_main = DBus::Main.new
+    temp_main << @service.bus
+    temp_main_th = Thread.new { temp_main.run } # go for temporary dbus service
 
-  def measures
-    measures = Hash.new
-    @objects.each_pair do |path,object|
-      measures[path] = object if object.is_a? Measure
+    @objects.each  do |component|
+      component.launch # Launch every component -- threaded
     end
-    return measures
-  end
 
-  def actuators
-    actuators = Hash.new
-    @objects.each_pair do |path,object|
-      actuators[path] = object if object.is_a? Actuator
+    @objects.each  do |component|
+      component.wait_for # verify component has been launched 
     end
-    return actuators
-  end
 
-  private
-
-  # used to merge models with config
-  def deep_merge(oldhash,newhash)
-    oldhash.merge(newhash) { |key, oldval ,newval|
-      case oldval.class.to_s
-      when "Hash"
-        deep_merge(oldval,newval)
-      when "Array"
-        oldval.concat(newval)
-      else
-        newval
-      end
-    }
+    temp_main_th.quit
   end
 
 end # End of Top
 
 def quit(top_, main_)
-  top_.dbus_plugins.quit
-  top_.drivers.each_pair do |name,driver|
-    iface = "org.openplacos.driver"
-    if (!driver.objects["/Driver"].nil?)
-      driver.objects["/Driver"][iface].quit()
-    end
-  end
   main_.quit
   Process.exit 0  
 end
@@ -268,6 +120,13 @@ if (! File.readable?(file))
   Process.exit 1
 end
 
+# Where am I ?
+if File.symlink?(__FILE__)
+  PATH =  File.dirname(File.readlink(__FILE__))
+else 
+  PATH = File.expand_path(File.dirname(__FILE__))
+end
+
 # Construct Top
 top = Top.new(file, service)
 main = DBus::Main.new
@@ -281,13 +140,6 @@ Signal.trap('INT') do
  quit(top, main)
 end
 
-
-# server is now ready, send the information to plugin
-Thread.new do
-  sleep 1
-  top.dbus_plugins.server_ready = true
-  top.dbus_plugins.ready
-end
 
 # Let's Dbus have execution control
 

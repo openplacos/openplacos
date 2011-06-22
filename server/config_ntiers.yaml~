@@ -1,0 +1,15 @@
+objects:
+
+- name: VirtualPlacos
+  path: /home/indoor/Virtualplacos
+  config: config.yaml
+  exec: VirtualPlacos/VirtualPlacos.rb	
+
+- name: sql
+  method: disable
+  exec: sql.rb
+
+- name: log
+  method: disable
+  exec: log.rb
+  file: /tmp/opos2.log
