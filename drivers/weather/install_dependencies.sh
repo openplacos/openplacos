@@ -20,5 +20,5 @@ if [ "$(id -u)" != "0" ]; then
 	echo "Syntax: sudo $0"
 	exit 1
 fi
-
+apt-get install libxslt-dev libxml2-dev
 gem install barometer --no-ri --no-rdoc
