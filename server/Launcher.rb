@@ -16,35 +16,11 @@
 require 'timeout'
 
 class Launcher
-  
-  #1 Absolute path to module to be launched
-  #2 Launching method
-  #3 Top reference
-  def initialize(path_, method_, launch_config_, top_) # Constructor
-    @path   = path_
-    @method = method_
-    @launch_config = launch_config_
-    @command_string = ""
-    @thread = nil
-    @top = top_
 
-    if (!File.exists?(@path))
-        @top.dbus_plugins.error("File #{@path} doesnt exists",{})
-        raise "File #{@path} doesnt exists"
-    end
-
-    @command_string = @path.dup
-    @launch_config.each { |key, value|
-      @command_string << " --#{key}=#{value}"
-    }
-
-    if (@method == "debug") 
-      puts @command_string
-      @method = "disable"
-    end
- 
+  def launch_introspect()
+    return `../components/#{@exec} --introspect`
   end
-  
+
   def launch() 
     if (@method != "disable")  #do nothing
       if (@method == "thread")  #launch in thread mode

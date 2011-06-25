@@ -27,7 +27,7 @@ class Component  < Launcher
 
   def introspect
     #  @introspect_thread = Thread.new {
-    stout = `../components/#{@exec} --introspect` #execute lsusb command
+    stout = launch_introspect
     @introspect = YAML::load( stout)
  
     # }
