@@ -36,7 +36,7 @@ class Component  < Launcher
   def expose(service_)
     #    @introspect_thread.join
     puts "#{@name} introspect:"
-    puts @introspect
+    puts @introspect.inspect
     puts ""
   end
 

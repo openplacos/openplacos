@@ -5,3 +5,5 @@ objects:
   exec: log.rb
   file: /tmp/opos2.log
 
+- name: simpleplacos
+  exec: simple_placos.rb
