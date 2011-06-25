@@ -7,3 +7,4 @@ objects:
 
 - name: simpleplacos
   exec: simple_placos.rb
+  method: fork

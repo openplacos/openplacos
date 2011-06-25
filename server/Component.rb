@@ -16,6 +16,7 @@
 require 'Launcher.rb'
 require 'Pin.rb'
 
+
 class Component 
   include Launcher
 
@@ -25,9 +26,11 @@ class Component
   #2 Top reference
   def initialize(component_) # Constructor
 
+
+
     @name    = component_["name"]
     @method  = component_["method"]
-    @exec    = component_["exec"]
+    @exec    = PATH + "/../components/" + component_["exec"]
     @inputs  = Array.new
     @outputs = Array.new
   end
@@ -60,6 +63,12 @@ class Component
     end
 
     @pins = @inputs + @outputs
+
+    generate_command_string
+  end
+
+  def generate_command_string
+    @command_string = "#{@exec}"
   end
 
   def expose()
@@ -73,5 +82,8 @@ class Component
     
   end
 
+  def launch 
+    launch_component()
+  end
 
 end

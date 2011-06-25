@@ -18,10 +18,10 @@ require 'timeout'
 module Launcher
 
   def launch_introspect()
-    return `../components/#{@exec} --introspect`
+    return `#{@exec} --introspect`
   end
 
-  def launch() 
+  def launch_component() 
     if (@method != "disable")  #do nothing
       if (@method == "thread")  #launch in thread mode
         if @thread.nil? #check if thread has been already launched
@@ -31,24 +31,24 @@ module Launcher
         else # if thread has been launch, you attempt to relaunch
           if @thread.alive? #check if thread are running (or sleeping)
             # Alive thread relaunch id forbiden
-             @top.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
-             raise "Attempt to relaunch a alive thread : #{@path} | it's forbiden"
+            @top.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
+            raise "Attempt to relaunch a alive thread : #{@path} | it's forbiden"
           else 
             #relaunch the thread
             @thread = Thread.new{
-              start_plug_thread()
+              start_thread()
             }
           end 
         end 
       else 
-        start_plug_fork()
+        start_fork()
       end 
     end 
   end 
   
   private
   
-  def start_plug_thread()
+  def start_thread()
     @argv_string = "ARGV = ["
     @launch_config.each { |key, value|
       @argv_string << "\"--#{key}=#{value}\", "
@@ -63,8 +63,8 @@ module Launcher
     eval(@string_eval,@binding,@path) # eval in an empty binding
   end
   
-  def start_plug_fork()
-      p = Process.fork{ # First fork
+  def start_fork()
+    p = Process.fork{ # First fork
       
       # Double fork method
       # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
