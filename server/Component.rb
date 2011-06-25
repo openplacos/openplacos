@@ -19,14 +19,26 @@ class Component  < Launcher
 
   #1 Component definition in yaml config
   #2 Top reference
-  def initialize(component_, top_) # Constructor
+  def initialize(component_) # Constructor
     @name   = component_["name"]
     @method = component_["method"]
     @exec   = component_["exec"] 
   end
 
-  def inspect
-
+  def introspect
+    #  @introspect_thread = Thread.new {
+    stout = `../components/#{@exec} --introspect` #execute lsusb command
+    @introspect = YAML::load( stout)
+ 
+    # }
   end
+
+  def expose(service_)
+    #    @introspect_thread.join
+    puts "#{@name} introspect:"
+    puts @introspect
+    puts ""
+  end
+
 
 end

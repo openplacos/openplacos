@@ -29,9 +29,10 @@ require 'dbus-openplacos'
 require 'micro-optparse'
 
 # List of local include
-require 'Publish.rb'
+#require 'Publish.rb'
 require 'globals.rb'
 require 'User.rb'
+require 'Component.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
@@ -63,24 +64,26 @@ class Top
   #2 Dbus session reference
   def initialize (config_, service_)
     # Parse yaml
-    @config =  YAML::load(File.read(config_))
-    @service = service_
+    @config           =  YAML::load(File.read(config_))
+    puts "config"
+    puts @config.class
+    @service          = service_
+    @config_component = @config["objects"]
 
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
-    @components = Hash.new
- 
-    @users   = Hash.new
+    @components = Array.new
+    @users      = Array.new
 
-    @config.each do |component|
+    @config_component.each do |component|
       @components << Component.new(component) # Create a component object
     end 
     
-    @objects.each  do |component|
-      component.inspect   # Get informations from component
+    @components.each  do |component|
+      component.introspect   # Get informations from component -- threaded
     end
 
-    @objects.each  do |component|
+    @components.each  do |component|
       component.expose(@service)   # Exposes on dbus interface service
     end
 
@@ -88,11 +91,12 @@ class Top
     temp_main << @service.bus
     temp_main_th = Thread.new { temp_main.run } # go for temporary dbus service
 
-    @objects.each  do |component|
+    @components.each  do |component|
       component.launch # Launch every component -- threaded
     end
 
-    @objects.each  do |component|
+    Process.exit 0
+    @components.each  do |component|
       component.wait_for # verify component has been launched 
     end
 
