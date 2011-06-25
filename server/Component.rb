@@ -14,16 +14,22 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 require 'Launcher.rb'
+require 'Pin.rb'
 
-class Component  
+class Component 
   include Launcher
+
+  attr_accessor :pins, :name
 
   #1 Component definition in yaml config
   #2 Top reference
   def initialize(component_) # Constructor
-    @name   = component_["name"]
-    @method = component_["method"]
-    @exec   = component_["exec"] 
+
+    @name    = component_["name"]
+    @method  = component_["method"]
+    @exec    = component_["exec"]
+    @inputs  = Array.new
+    @outputs = Array.new
   end
 
   def introspect
@@ -33,11 +39,38 @@ class Component
     }
   end
 
-  def expose(service_)
-    @introspect_thread.join
-    puts "#{@name} introspect:"
-    puts @introspect.inspect
-    puts ""
+  def analyse
+
+    @introspect_thread.join # wait for threaded introspect
+
+    if (!@introspect["input"].nil?) 
+      if (! @introspect["input"]["pin"].nil?)
+        @introspect["input"]["pin"].each_pair do |pin, ifaces| #pin level
+          @inputs << Pin.new(pin, ifaces, self)
+        end
+      end
+    end
+
+    if (!@introspect["output"].nil?) 
+      if (! @introspect["output"]["pin"].nil?)
+        @introspect["output"]["pin"].each_pair do |pin, ifaces| #pin level
+          @outputs << Pin.new(pin, ifaces, self)
+        end
+      end
+    end
+
+    @pins = @inputs + @outputs
+  end
+
+  def expose()
+
+    @inputs.each do |pin|
+      pin.expose_on_dbus()
+    end
+    @outputs.each do |pin|
+      pin.expose_on_dbus()
+    end
+    
   end
 
 

@@ -12,20 +12,21 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
-#
-require 'Launcher.rb'
+# 
 
-class Component  < Launcher
+require 'Dbus_proxy.rb'
 
-  #1 Component definition in yaml config
-  #2 Top reference
-  def initialize(component_, top_) # Constructor
-    @name   = component_["name"]
-    @method = component_["method"]
-    @path   = PATH + "/../plugins/" + plugin_["exec"] 
+class Pin < DBus::Object
+  include Dbus_proxy
 
+  def initialize(name_, config_, component_)
+    @config    = config_
+    @name      = name_
+    @component = component_
+    @dbus_name = "/internal/#{@component.name}#{@name}"
 
-
+    super(@dbus_name)
   end
+
 
 end

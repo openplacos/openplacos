@@ -43,9 +43,6 @@ if (!options[:introspect].nil?)
   }
 
   puts config.to_yaml
-  
-#  puts wrap.class
-#  puts wrap.to_yaml
   Process.exit(0)
 end
 

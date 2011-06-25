@@ -65,8 +65,6 @@ class Top
   def initialize (config_, service_)
     # Parse yaml
     @config           =  YAML::load(File.read(config_))
-    puts "config"
-    puts @config.class
     @service          = service_
     @config_component = @config["objects"]
 
@@ -84,18 +82,29 @@ class Top
     end
 
     @components.each  do |component|
-      component.expose(@service)   # Exposes on dbus interface service
+      component.analyse   # Create pin objects according to introspect
     end
+
+    @components.each  do |component|
+      component.expose()   # Exposes on dbus interface service
+      component.pins.each do |p|
+        @service.export(p)
+      end
+    end
+    
 
     temp_main = DBus::Main.new
     temp_main << @service.bus
-    temp_main_th = Thread.new { temp_main.run } # go for temporary dbus service
+#    temp_main_th = Thread.new { temp_main.run } # go for temporary dbus service
+    temp_main.run
+
+#    Process.exit 0 # do not go futher for the moment
+
 
     @components.each  do |component|
       component.launch # Launch every component -- threaded
     end
 
-    Process.exit 0
     @components.each  do |component|
       component.wait_for # verify component has been launched 
     end

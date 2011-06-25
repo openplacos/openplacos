@@ -15,7 +15,7 @@
 #
 require 'timeout'
 
-class Launcher
+module Launcher
 
   def launch_introspect()
     return `../components/#{@exec} --introspect`

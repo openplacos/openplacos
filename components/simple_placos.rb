@@ -195,7 +195,7 @@ service = bus.request_service("org.openplacos.drivers.#{Choice.choices[:name].do
 
 $sp = Serial_uCham.new(SERIAL_PORT,BAUPRATE)
 
-input_pin  = Array.new
+input_pin  = Hash.new
 analog_pin = Array.new
 pwm_pin    = Array.new
 other_pin  = Array.new
@@ -205,7 +205,7 @@ NB_ANALOG_PIN.each { |number|
   write_ifaces = ["digital"]
   pin = Openplacos::Driver::GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
   analog_pin.push pin
-  input_pin.push({"/Pin_#{number}" => { "digital" => ["read", "write"], "analog" => ["read"]} })
+  input_pin.store("/Pin_#{number}", { "digital" => ["read", "write"], "analog" => ["read"]} )
   pin.set_pin_number(number)
   pin.write("digital", 0, nil)
   service.export(pin)
@@ -217,7 +217,7 @@ NB_PWM_PIN.each { |number|
   pin = Openplacos::Driver::GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
   pwm_pin.push pin
   pin.set_pin_number(number)
-  input_pin.push({"/Pin_#{number}" => { "digital" => ["read", "write"], "pwm" => ["write"]} })
+  input_pin.store("/Pin_#{number}", { "digital" => ["read", "write"], "pwm" => ["write"]} )
   pin.write("digital", 0, nil)
   service.export(pin)
 }
@@ -227,7 +227,7 @@ OTHERS_PIN.each { |number|
   write_ifaces = ["digital"]
   pin = Openplacos::Driver::GenericPin.new("/Pin_#{number}",write_ifaces,read_ifaces)
   other_pin.push pin
-  input_pin.push({"/Pin_#{number}" => { "digital" => ["read", "write"] }})
+  input_pin.store("/Pin_#{number}", { "digital" => ["read", "write"] })
   pin.set_pin_number(number)
   pin.write("digital", 0, nil)
   service.export(pin)
@@ -237,9 +237,8 @@ driver = Driver.new("Driver")
 service.export(driver)
 
 if (!Choice.choices[:introspect].nil?)
-  pin = Array.new
   input  = {
-    "input" => input_pin
+    "pin" => input_pin
   }
   config = {
     "input"  => input
