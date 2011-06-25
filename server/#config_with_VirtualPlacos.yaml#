@@ -1,4 +1,4 @@
-³objects:
+objects:
 
 - name: Temperature Indoor
   path: /home/indoor/Temperature
@@ -55,7 +55,7 @@ card:
 plugins:
 
 - name: sql
-  method: fork
+  method: disable
   exec: sql.rb
 
 - name: fill_sql
@@ -67,12 +67,12 @@ plugins:
   exec: ror_frontend.rb
 
 - name: log
-  method: thread
+  method: disable
   exec: log.rb
   file: /tmp/opos2.log
   
 - name: xmlrpc
-  method: fork
+  method: disable
   exec: xmlrpc.rb
   port: 8080
   
@@ -87,8 +87,7 @@ user:
 - login: anonymous
   permissions:
     read: all
-    exclude: /home/indoor/Temperature
-
+    
 # password : test
 - login: user1
   hash: '325636066ccb24500a9f1a0df376965118e59230'
@@ -97,9 +96,14 @@ user:
     write: actuators
     exclude: /home/indoor/Fan
 
+# password : test
+- login: user2
+  hash: '325636066ccb24500a9f1a0df376965118e59230'
+  permissions:
+    read: /home/outdoor/
+
 # password : password
 - login: admin
   hash: '5e38fb24e0314e2b3ec2caa2931c147442960ed4'
   permissions:
-    read: all
     write: all

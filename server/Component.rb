@@ -26,15 +26,14 @@ class Component  < Launcher
   end
 
   def introspect
-    #  @introspect_thread = Thread.new {
+    @introspect_thread = Thread.new {
     stout = launch_introspect
     @introspect = YAML::load( stout)
- 
-    # }
+    }
   end
 
   def expose(service_)
-    #    @introspect_thread.join
+    @introspect_thread.join
     puts "#{@name} introspect:"
     puts @introspect.inspect
     puts ""
