@@ -15,7 +15,8 @@
 #
 require 'Launcher.rb'
 
-class Component  < Launcher
+class Component  
+  include Launcher
 
   #1 Component definition in yaml config
   #2 Top reference
