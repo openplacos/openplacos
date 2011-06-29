@@ -59,15 +59,23 @@ class PostsController < ApplicationController
   # PUT /posts/1.xml
   def update
     @post = Post.find(params[:id])
-    params[:post]["user_id"] = session[:user_id]
-    respond_to do |format|
-      if @post.update_attributes(params[:post])
-        format.html { redirect_to(@post, :notice => 'Post was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @post.errors, :status => :unprocessable_entity }
+    if @post.user_id == session[:user_id]
+      params[:post]["user_id"] = session[:user_id]
+      respond_to do |format|
+        if @post.update_attributes(params[:post])
+          format.html { redirect_to(@post, :notice => 'Post was successfully updated.') }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @post.errors, :status => :unprocessable_entity }
+        end
       end
+    else
+      respond_to do |format|
+        format.html {render :partial => "shared/permission_denied"}
+        format.json  { render :json => "Permission denied"}
+        format.xml  { render :xml => {"value" => "Permission denied"}}
+      end   
     end
   end
 
@@ -75,11 +83,19 @@ class PostsController < ApplicationController
   # DELETE /posts/1.xml
   def destroy
     @post = Post.find(params[:id])
-    @post.destroy
+    if @post.user_id == session[:user_id]
+      @post.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(posts_url) }
-      format.xml  { head :ok }
-    end
+      respond_to do |format|
+        format.html { redirect_to(posts_url) }
+        format.xml  { head :ok }
+      end
+    else
+      respond_to do |format|
+        format.html {render :partial => "shared/permission_denied"}
+        format.json  { render :json => "Permission denied"}
+        format.xml  { render :xml => {"value" => "Permission denied"}}
+      end   
+    end  
   end
 end
