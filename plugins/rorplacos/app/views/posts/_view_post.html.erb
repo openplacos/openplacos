@@ -1,0 +1,10 @@
+<post>
+  <header><h1><%= link_to post.title, post %></h1></header>
+  <div class="figures">
+  <figure class="image" ><img class="avatar" height="64" src="<%= get_avatar(User.find(post.user_id).email)%>" width="64"></figure>
+  </div>
+  <div class="content" itemprop="postBody">
+    <%= raw(post.content) %>
+  </div>
+  <footer class="actions"><%=post.created_at%></footer>
+</post>

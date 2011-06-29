@@ -1,9 +1,12 @@
 Rorplacos::Application.routes.draw do
 
+  resources :posts
+
   resources :users  
   
   root :to => 'rooms#index'
   
+  match 'blog' => 'posts#index'
   match 'login' => 'logins#login'
   match 'logout' => 'logins#logout'
   match 'login/auth' => 'logins#auth'
