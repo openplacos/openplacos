@@ -26,13 +26,13 @@ module Launcher
       if (@method == "thread")  #launch in thread mode
         if @thread.nil? #check if thread has been already launched
           @thread = Thread.new{
-            start_plug_thread()
+            start_thread()
           }
         else # if thread has been launch, you attempt to relaunch
           if @thread.alive? #check if thread are running (or sleeping)
             # Alive thread relaunch id forbiden
-            @top.dbus_plugins.error("Attempt to relaunch a alive thread : #{@path} | it's forbiden",{})
-            raise "Attempt to relaunch a alive thread : #{@path} | it's forbiden"
+            @top.dbus_plugins.error("Attempt to relaunch a alive thread : #{@exec} | it's forbiden",{})
+            raise "Attempt to relaunch a alive thread : #{@exec} | it's forbiden"
           else 
             #relaunch the thread
             @thread = Thread.new{
@@ -47,20 +47,19 @@ module Launcher
   end 
   
   private
-  
+
   def start_thread()
+    puts "******* coucou"
     @argv_string = "ARGV = ["
-    @launch_config.each { |key, value|
-      @argv_string << "\"--#{key}=#{value}\", "
-    }
+ 
     @argv_string << "]"
     @string_eval = ""
     @string_eval << "module "+ @name.capitalize + "\n"
     @string_eval << @argv_string
-    @string_eval << File.open(@path).read
+    @string_eval << File.open(@exec).read
     @string_eval << "end # end of module " + @name
     @binding = eval("binding",TOPLEVEL_BINDING)
-    eval(@string_eval,@binding,@path) # eval in an empty binding
+    eval(@string_eval,@binding,@exec) # eval in an empty binding
   end
   
   def start_fork()

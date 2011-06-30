@@ -26,11 +26,11 @@ options = Parser.new do |p|
   p.banner = "This is openplacos plugins for log file"
   p.version = "log 1.0"
   p.option :file, "file to log", :default => "/var/log/openplacos.log"
-  p.option :introspect, "introspect for openplacos n-third", :default => nil
+  p.option :introspect, "introspect for openplacos n-third"
 end.process!(ARGV)
 
 
-if (!options[:introspect].nil?)
+if (options[:introspect])
   signal = Array.new
   signal.push("create_component")
   signal.push("new_measure")

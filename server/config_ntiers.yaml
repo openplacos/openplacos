@@ -1,7 +1,7 @@
 objects:
 
 - name: log
-  method: fork
+  method: thread
   exec: log.rb
   file: /tmp/opos2.log
 

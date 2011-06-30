@@ -95,7 +95,7 @@ class Top
 
     temp_main = DBus::Main.new
     temp_main << @service.bus
-  #  temp_main_th = Thread.new { temp_main.run } # go for temporary dbus service
+   # temp_main_th = Thread.new { temp_main.run } # go for temporary dbus service
 
     @components.each  do |component|
       component.launch # Launch every component -- threaded
