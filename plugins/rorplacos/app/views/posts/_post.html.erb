@@ -7,5 +7,5 @@
   <div class="content" itemprop="postBody">
     <%= raw(post.content) %>
   </div>
-  <footer class="actions"><%="by #{user.login} at #{post.created_at}  |  #{post.comments.length} Comments"%></footer>
+  <footer class="actions">by <%= link_to user.login , user %><%=" at #{post.created_at}  |  #{post.comments.length} Comments"%></footer>
 </post>
