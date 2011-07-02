@@ -4,6 +4,5 @@
   </ul>
 <% end %>
 
-<% @posts.each do |post| %>
- <%= render :partial => 'view_post', :locals => { :post => post } %>
-<% end %>
+<%= render :partial => 'posts/post', :collection => @posts %>
+

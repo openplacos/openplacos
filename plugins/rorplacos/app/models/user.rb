@@ -2,6 +2,7 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   validates :login,  :presence => true
+  has_many :posts
   
   def self.authenticate(user_name,password)
     sha1 = Digest::SHA1.hexdigest(password<<"_openplacos")

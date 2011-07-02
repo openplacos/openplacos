@@ -1,4 +1,4 @@
-<% user = User.find(post.user_id)%>
+<% user = post.user%>
 <post>
   <header><h1><%= link_to post.title, post %></h1></header>
   <div class="figures">
@@ -7,5 +7,5 @@
   <div class="content" itemprop="postBody">
     <%= raw(post.content) %>
   </div>
-  <footer class="actions"><%="by #{user.login} at #{post.created_at}"%></footer>
+  <footer class="actions"><%="by #{user.login} at #{post.created_at}  |  #{post.comments.length} Comments"%></footer>
 </post>

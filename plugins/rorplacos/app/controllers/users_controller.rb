@@ -5,19 +5,23 @@ class UsersController < ApplicationController
 
   def index
 
-    @user = User.find(session[:user_id])
-
-    # get the email from URL-parameters or what have you and make lowercase
-    email_address = @user.email || "default"
-
-    # create the md5 hash
-    hash = Digest::MD5.hexdigest(email_address.downcase)
-
-    # compile URL which can be used in <img src="RIGHT_HERE"...
-    @avatar = "http://www.gravatar.com/avatar/#{hash}?d=mm"
+    @users = User.order("login DESC").all
 
     respond_to do |format|
       format.html # index.html.erb
+      format.xml  { render :xml => @users }
+    end
+  end
+  
+  def profil
+    redirect_to "/users/#{session[:user_id]}"
+  end
+  
+  def show
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
       format.xml  { render :xml => @user }
     end
   end
@@ -33,7 +37,7 @@ class UsersController < ApplicationController
  
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to("/users",
+        format.html { redirect_to("/profil",
                       :notice => 'profile was successfully updated.') }
         format.xml  { head :ok }
       else
