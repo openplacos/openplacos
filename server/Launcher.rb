@@ -45,20 +45,34 @@ module Launcher
       end 
     end 
   end 
+
+  def generate_command_string
+    @command_string = "#{@exec}"
+    if  !@config.nil?
+      @config.each { |key, value|
+        @command_string << " --#{key}=#{value}"
+      }
+    end
+  end
   
   private
 
   def start_thread()
     @argv_string = "ARGV = ["
- 
-    @argv_string << "]"
+    if  !@config.nil?
+      @config.each { |key, value|
+        @argv_string << "\"--#{key}=#{value}\", "
+      }
+    end
+    @argv_string << "]\n"
     @string_eval = ""
     @string_eval << "module "+ @name.capitalize + "\n"
-    @string_eval << 
+    @string_eval << ""
     @string_eval << @argv_string
     @string_eval << File.open(@exec).read
     @string_eval << "end # end of module " + @name
     @binding = eval("binding",TOPLEVEL_BINDING)
+    puts @string_eval
     eval(@string_eval,@binding,@exec) # eval in an empty binding
   end
   

@@ -17,18 +17,16 @@
 #
 
 require "rubygems"
-require "openplacos"
+require "../gem/lib/openplacos/libplugin.rb"
 require "micro-optparse"
 require 'yaml' 
-
 
 options = Parser.new do |p|
   p.banner = "This is openplacos plugins for log file"
   p.version = "log 1.0"
-  p.option :file, "file to log", :default => "/var/log/openplacos.log"
+  p.option :file, "file to log", :default => "/tmp/test.log"
   p.option :introspect, "introspect for openplacos n-third"
 end.process!(ARGV)
-
 
 if (options[:introspect])
   signal = Array.new
@@ -45,7 +43,6 @@ if (options[:introspect])
   puts config.to_yaml
   Process.exit(0)
 end
-
 plugin = Openplacos::Plugin.new
 
 file = options[:file]
@@ -56,26 +53,20 @@ else
   log_file = File.new(file, "a+")
 end
 
-plugin.opos.on_signal("create_measure") do |name,config|
+plugin.opos.on_signal("create_component") do |name,config|
     date = Time.new.to_s
-    log_file.write date +":" + "Create measure "+"#{name} #{config.inspect}" + "\n"
+    log_file.write date +":" + "Create component "+"#{name} #{config.inspect}" + "\n"
     log_file.flush 
 end
 
-plugin.opos.on_signal("create_actuator") do |name,config|
-    date = Time.new.to_s
-    log_file.write date +":" + "Create actuator "+"#{name} #{config.inspect}" + "\n"
-    log_file.flush 
-end
-
-plugin.opos.on_signal("new_measure") do |name, value, option|
+plugin.opos.on_signal("new_read") do |name, value, option|
     date = Time.new.to_s
     val = value.to_s
     log_file.write date +":" + "New measure "+"#{name} #{val}" + "\n"
     log_file.flush 
 end
 
-plugin.opos.on_signal("new_order") do |name, order, option|
+plugin.opos.on_signal("new_write") do |name, order, option|
     date = Time.new.to_s
     ord = order.to_s
     log_file.write date +":" + "New order "+"#{name} #{ord}" + "\n"
@@ -85,12 +76,6 @@ end
 plugin.opos.on_signal("error") do |error, option|
     date = Time.new.to_s
     log_file.write date +":" + error + "\n"
-    log_file.flush 
-end
-
-plugin.opos.on_signal("create_card") do |name,config|
-    date = Time.new.to_s
-    log_file.write date +":" + "Create card "+"#{name} #{config.inspect}" + "\n"
     log_file.flush 
 end
 

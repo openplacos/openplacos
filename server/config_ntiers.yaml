@@ -3,7 +3,8 @@ objects:
 - name: log
   method: thread
   exec: log.rb
-  file: /tmp/opos2.log
+  config:
+    file: /tmp/opos2.log
 
 - name: simpleplacos
   exec: simple_placos.rb

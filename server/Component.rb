@@ -26,13 +26,13 @@ class Component
   #2 Top reference
   def initialize(component_) # Constructor
 
-
-
-    @name    = component_["name"]
-    @method  = component_["method"]
-    @exec    = PATH + "/../components/" + component_["exec"]
-    @inputs  = Array.new
-    @outputs = Array.new
+    @config    = component_["config"]
+    @name      = component_["name"]
+    @method    = component_["method"]
+    @exec      = PATH + "/../components/" + component_["exec"]
+    @inputs    = Array.new
+    @outputs   = Array.new
+    @thread    = nil # Launcher attribute init
   end
 
   def introspect
@@ -67,10 +67,6 @@ class Component
     generate_command_string
   end
 
-  def generate_command_string
-    @command_string = "#{@exec}"
-  end
-
   def expose()
 
     @inputs.each do |pin|
@@ -84,6 +80,12 @@ class Component
 
   def launch 
     launch_component()
+  end
+
+  def read(iface_, option_)
+  end
+
+  def write(iface_, option_)
   end
 
 end

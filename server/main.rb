@@ -33,6 +33,7 @@ require 'micro-optparse'
 require 'globals.rb'
 require 'User.rb'
 require 'Component.rb'
+require 'Event_handler.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
@@ -67,6 +68,10 @@ class Top
     @config           =  YAML::load(File.read(config_))
     @service          = service_
     @config_component = @config["objects"]
+
+    # Event_handler creation
+    @event_handler = Event_Handler.instance
+    @service.export(@event_handler)
 
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path

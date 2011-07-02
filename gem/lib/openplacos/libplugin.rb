@@ -48,7 +48,7 @@ module Openplacos
     end
     
     def run
-      @id = @opos.register
+      #   @id = @opos.register
       @main = DBus::Main.new
       @main << @clientbus
       @main.run
