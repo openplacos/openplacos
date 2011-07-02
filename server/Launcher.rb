@@ -14,6 +14,8 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 require 'timeout'
+require 'Dbus_proxy_thread.rb'
+require 'Dbus_proxy_fork.rb'
 
 module Launcher
 
@@ -58,6 +60,7 @@ module Launcher
   private
 
   def start_thread()
+    include Dbus_proxy_thread
     @argv_string = "ARGV = ["
     if  !@config.nil?
       @config.each { |key, value|
@@ -77,7 +80,8 @@ module Launcher
   end
   
   def start_fork()
-    p = Process.fork{ # First fork
+    include Dbus_proxy_fork
+   p = Process.fork{ # First fork
       
       # Double fork method
       # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
