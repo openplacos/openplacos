@@ -14,7 +14,8 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-  
+ module Dbus_proxy_fork
+ 
   def read(iface_, option_)
 
   end
@@ -22,3 +23,5 @@
   def write(iface_, option_)
   
   end
+
+end

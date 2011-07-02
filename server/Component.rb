@@ -82,10 +82,4 @@ class Component
     launch_component()
   end
 
-  def read(iface_, option_)
-  end
-
-  def write(iface_, option_)
-  end
-
 end

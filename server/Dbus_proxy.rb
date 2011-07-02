@@ -25,6 +25,7 @@ module Dbus_proxy
         dbus_interface "org.openplacos.component."+iface do
           
           dbus_method :read, "in option:a{sv}" do |option|
+            
             [self.read(iface, option)]
           end  
           
@@ -35,6 +36,6 @@ module Dbus_proxy
         }
     end
   end
-  
+
   
 end

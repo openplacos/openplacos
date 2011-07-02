@@ -60,7 +60,7 @@ module Launcher
   private
 
   def start_thread()
-    include Dbus_proxy_thread
+   # self.instance_eval("self.extend(Dbus_proxy_thread)")
     @argv_string = "ARGV = ["
     if  !@config.nil?
       @config.each { |key, value|
@@ -75,13 +75,12 @@ module Launcher
     @string_eval << File.open(@exec).read
     @string_eval << "end # end of module " + @name
     @binding = eval("binding",TOPLEVEL_BINDING)
-    puts @string_eval
     eval(@string_eval,@binding,@exec) # eval in an empty binding
   end
   
   def start_fork()
-    include Dbus_proxy_fork
-   p = Process.fork{ # First fork
+   # self.instance_eval("self.extend(Dbus_proxy_fork)")
+    p = Process.fork{ # First fork
       
       # Double fork method
       # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
