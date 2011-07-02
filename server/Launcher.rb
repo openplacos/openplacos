@@ -49,12 +49,12 @@ module Launcher
   private
 
   def start_thread()
-    puts "******* coucou"
     @argv_string = "ARGV = ["
  
     @argv_string << "]"
     @string_eval = ""
     @string_eval << "module "+ @name.capitalize + "\n"
+    @string_eval << 
     @string_eval << @argv_string
     @string_eval << File.open(@exec).read
     @string_eval << "end # end of module " + @name
