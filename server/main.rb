@@ -47,13 +47,15 @@ $DEBUG = options[:debug]
 #DBus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
   Bus = DBus::SessionBus.instance
+  InternalBus = DBus::ASessionBus.new
   $INSTALL_PATH = File.dirname(__FILE__) + "/"
 else
   Bus = DBus::SystemBus.instance
+  InternalBus = DBus::ASystemBus.new
 end
 
 service = Bus.request_service("org.openplacos.server")
-
+internalservice = InternalBus.request_service("org.openplacos.server.internal")
 #Global functions
 $global = Global.new
 
@@ -63,10 +65,11 @@ class Top
   
   #1 Config file path
   #2 Dbus session reference
-  def initialize (config_, service_)
+  def initialize (config_, service_, internalservice_)
     # Parse yaml
     @config           =  YAML::load(File.read(config_))
     @service          = service_
+    @internalservice  = internalservice_
     @config_component = @config["objects"]
 
     # Event_handler creation
@@ -93,7 +96,7 @@ class Top
     @components.each  do |component|
       component.expose()   # Exposes on dbus interface service
       component.pins.each do |p|
-        @service.export(p)
+        @internalservice.export(p)
       end
     end
     
@@ -142,8 +145,9 @@ else
 end
 
 # Construct Top
-top = Top.new(file, service)
+top = Top.new(file, service, internalservice)
 main = DBus::Main.new
+
 # quit the plugins when server quit
 
 Signal.trap('TERM') do 
@@ -157,6 +161,9 @@ end
 
 # Let's Dbus have execution control
 
+
+
 main << Bus
+main << InternalBus
 main.run
 

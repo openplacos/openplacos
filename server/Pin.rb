@@ -23,7 +23,7 @@ class Pin < DBus::Object
     @config    = config_
     @name      = name_
     @component = component_
-    @dbus_name = "/internal/#{@component.name}#{@name}"
+    @dbus_name = "/#{@component.name}#{@name}"
 
     super(@dbus_name)
   end
