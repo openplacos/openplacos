@@ -18,19 +18,20 @@
 #
 
 require "rubygems"
-require "openplacos"
+require 'dbus-openplacos'
 require "micro-optparse"
 require 'yaml' 
 
-options = Parser.new do |p|
+Options = Parser.new do |p|
   p.banner = "This is openplacos component for a fake temperature"
   p.option :introspect, "introspect for openplacos n-third"
+  p.option :name , "the name of the service", :default => "temperature"
 end.process!(ARGV)
 
 
-if (options[:introspect])
+if (Options[:introspect])
   input_pins = {
-    "temperature" => { "analog" => ["read"] }
+    "/temperature" => { "analog" => ["read"] }
   }
 
   input = {
@@ -38,7 +39,7 @@ if (options[:introspect])
   }
 
   output_pins = {
-    "raw" => { "analog" => ["read"] }
+    "/raw" => { "analog" => ["read"] }
   }
   
   output = {
@@ -53,14 +54,42 @@ if (options[:introspect])
   Process.exit 0
 end
 
-class Temperature < Dbus::Object
-
-  def initialize(name)
-    super(name)
-  end
+class Temperature < DBus::Object
 
   dbus_interface "org.openplacos.analog" do
     dbus_method :read, "out return:v, in option:a{sv}" do |option|
-      return Ports.raw["analog"].read
+      return OutputPorts["raw"]["org.openplacos.component.analog"].read(option)
     end
   end
+  
+end
+
+class Ports < DBus::ProxyObject
+  def initialize(name)
+    super(Bus,"org.openplacos.server.internal","/#{Options[:name].downcase}/#{name}")
+    self.introspect
+  end
+end
+
+if(ENV['DEBUG_OPOS'] ) ## Stand for debug
+  Bus = DBus::SessionBus.instance
+  $INSTALL_PATH = File.dirname(__FILE__) + "/"
+else
+  Bus = DBus::SystemBus.instance
+end
+
+OutputPorts = Hash.new
+InputPorts = Hash.new
+
+OutputPorts["raw"] = Ports.new("raw")
+InputPorts["Temperature"] = Temperature.new("Temperature")
+
+service = Bus.request_service("org.openplacos.component.#{Options[:name].downcase}")
+
+InputPorts.each_value do |input|
+  service.export(input)
+end
+
+main = DBus::Main.new
+main << Bus
+main.run

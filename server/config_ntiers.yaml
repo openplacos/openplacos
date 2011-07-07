@@ -9,3 +9,7 @@ objects:
 - name: simpleplacos
   exec: simple_placos.rb
   method: fork
+  
+- name: temperature
+  exec: temperature.rb
+  method: disable
