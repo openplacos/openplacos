@@ -49,7 +49,7 @@ class Component
     if (!@introspect["input"].nil?) 
       if (! @introspect["input"]["pin"].nil?)
         @introspect["input"]["pin"].each_pair do |pin, ifaces| #pin level
-          @inputs << Pin.new(pin, ifaces, self)
+          @inputs << Pin.new(pin, ifaces, self, @method)
         end
       end
     end
@@ -57,7 +57,7 @@ class Component
     if (!@introspect["output"].nil?) 
       if (! @introspect["output"]["pin"].nil?)
         @introspect["output"]["pin"].each_pair do |pin, ifaces| #pin level
-          @outputs << Pin.new(pin, ifaces, self)
+          @outputs << Pin.new(pin, ifaces, self, @method)
         end
       end
     end

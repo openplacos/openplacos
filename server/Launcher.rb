@@ -14,8 +14,6 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 require 'timeout'
-require 'Dbus_proxy_thread.rb'
-require 'Dbus_proxy_fork.rb'
 
 module Launcher
 

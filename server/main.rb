@@ -34,6 +34,7 @@ require 'globals.rb'
 require 'User.rb'
 require 'Component.rb'
 require 'Event_handler.rb'
+require 'Dispatcher.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
@@ -81,6 +82,9 @@ class Top
     @components = Array.new
     @users      = Array.new
 
+  end
+
+  def inspect_components
     @config_component.each do |component|
       @components << Component.new(component) # Create a component object
     end 
@@ -92,19 +96,25 @@ class Top
     @components.each  do |component|
       component.analyse   # Create pin objects according to introspect
     end
+  end
 
-    @components.each  do |component|
+  def map
+   disp =  Displatcher.instance
+    @config["mapping"].each do |map|
+      disp.add_map(map) # Push every map link into dispatcher
+    end
+  end
+
+  def expose_component
+  @components.each  do |component|
       component.expose()   # Exposes on dbus interface service
       component.pins.each do |p|
         @internalservice.export(p)
       end
     end
-    
+  end
 
-    temp_main = DBus::Main.new
-    temp_main << @service.bus
-   # temp_main_th = Thread.new { temp_main.run } # go for temporary dbus service
-
+  def launch_components
     @components.each  do |component|
       component.launch # Launch every component -- threaded
     end
@@ -112,9 +122,8 @@ class Top
     @components.each  do |component|
       # component.wait_for # verify component has been launched 
     end
-    temp_main.run
- #   temp_main.quit
   end
+
 
 end # End of Top
 
@@ -146,6 +155,10 @@ end
 
 # Construct Top
 top = Top.new(file, service, internalservice)
+top.inspect_components
+top.map
+
+top.launch_components
 main = DBus::Main.new
 
 # quit the plugins when server quit

@@ -13,13 +13,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
+require 'Displatcher.rb'
 
 include REXML
 
-module Dbus_proxy
+module Dbus_proxy  # output
 
   def expose_on_dbus()
-    
+    Dispatcher.register_pin(self)
+
     @config.each_pair do |iface, methods| #iface level
       self.singleton_class.instance_eval{  
         dbus_interface "org.openplacos.component."+iface do
@@ -36,6 +38,36 @@ module Dbus_proxy
         }
     end
   end
-
+end
   
+module Dbus_proxy_input_thread
+
+end
+
+module Dbus_proxy_input_fork
+  
+end
+
+module Dbus_proxy_output_thread
+  include  Dbus_proxy_output
+  include  Dbus_proxy_thread
+end
+
+module Dbus_proxy_output_fork
+  include  Dbus_proxy_output
+  include  Dbus_proxy_fork
+end
+
+module Dbus_proxy_input
+
+
+  def read(iface_, option_)
+    
+  end
+  
+  def write(iface_, option_)
+  
+  end
+end
+
 end

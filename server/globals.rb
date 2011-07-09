@@ -17,13 +17,16 @@
 #
 
 class Global
-  def initialize()
-  end
 
   # Print trace when debug env var defined
-  def trace(string_)
+  def self.trace(string_)
     if ENV['VERBOSE_OPOS'] != nil
       puts string_
+    end
+
+    def self.error(string)
+      puts string
+      Process.exit 255
     end
   end
 end
