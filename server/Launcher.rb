@@ -13,7 +13,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-require 'timeout'
+require 'Dbus_proxy_fork'
+require 'Dbus_proxy_thread'
+
 
 module Launcher
 
@@ -21,7 +23,8 @@ module Launcher
     return `#{@exec} --introspect`
   end
 
-  def launch_component() 
+  def launch_component() # TODO TODO TODO launch_component in a thread/fork module TODO TODO TODO
+
     if (@method != "disable")  #do nothing
       if (@method == "thread")  #launch in thread mode
         if @thread.nil? #check if thread has been already launched
@@ -58,7 +61,7 @@ module Launcher
   private
 
   def start_thread()
-   # self.instance_eval("self.extend(Dbus_proxy_thread)")
+    self.instance_eval("self.extend(Dbus_proxy_thread)")
     @argv_string = "ARGV = ["
     if  !@config.nil?
       @config.each { |key, value|
@@ -77,7 +80,7 @@ module Launcher
   end
   
   def start_fork()
-   # self.instance_eval("self.extend(Dbus_proxy_fork)")
+    self.instance_eval("self.extend(Dbus_proxy_fork)")
     p = Process.fork{ # First fork
       
       # Double fork method

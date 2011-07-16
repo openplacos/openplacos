@@ -191,7 +191,7 @@ bus = DBus::system_bus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
   bus =  DBus::session_bus
 end
-service = bus.request_service("org.openplacos.drivers.#{Choice.choices[:name].downcase}")
+service = bus.request_service("org.openplacos.components.#{Choice.choices[:name].downcase}")
 
 $sp = Serial_uCham.new(SERIAL_PORT,BAUPRATE)
 

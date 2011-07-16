@@ -99,7 +99,7 @@ class Top
   end
 
   def map
-   disp =  Displatcher.instance
+   disp =  Dispatcher.instance
     @config["mapping"].each do |map|
       disp.add_map(map) # Push every map link into dispatcher
     end
@@ -120,7 +120,7 @@ class Top
     end
 
     @components.each  do |component|
-      # component.wait_for # verify component has been launched 
+       component.wait_for # verify component has been launched 
     end
   end
 
@@ -152,6 +152,8 @@ if File.symlink?(__FILE__)
 else 
   PATH = File.expand_path(File.dirname(__FILE__))
 end
+
+Dispatcher.instance.init_dispatcher 
 
 # Construct Top
 top = Top.new(file, service, internalservice)

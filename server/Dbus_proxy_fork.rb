@@ -14,15 +14,13 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
- module Dbus_proxy_fork # input
+require 'Dbus_proxy'
+
+
+
+ module Dbus_proxy_fork #input
    include Dbus_proxy
 
-  def read(iface_, option_)
-    
-  end
-  
-  def write(iface_, option_)
-  
-  end
+
 
 end

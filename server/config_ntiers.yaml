@@ -13,3 +13,6 @@ objects:
 - name: temperature
   exec: temperature.rb
   method: disable
+
+mapping:
+- temperature/Input: simpleplacos/Pin_1

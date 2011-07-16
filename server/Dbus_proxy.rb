@@ -13,7 +13,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
-require 'Displatcher.rb'
+require 'Dispatcher.rb'
+require 'timeout'
 
 include REXML
 
@@ -35,39 +36,40 @@ module Dbus_proxy  # output
             [self.write(iface, option)]
           end  
         end
-        }
+      }
     end
   end
-end
-  
-module Dbus_proxy_input_thread
 
-end
-
-module Dbus_proxy_input_fork
-  
-end
-
-module Dbus_proxy_output_thread
-  include  Dbus_proxy_output
-  include  Dbus_proxy_thread
-end
-
-module Dbus_proxy_output_fork
-  include  Dbus_proxy_output
-  include  Dbus_proxy_fork
-end
-
-module Dbus_proxy_input
-
-
-  def read(iface_, option_)
+  def read(iface_, option_) # fork/thread specific ?
     
   end
   
-  def write(iface_, option_)
-  
+  def write(iface_, option_)# fork/thread specific ?
+    
+  end
+
+  def wait_for_component()  # check component started
+    # fork/thread specific ?
+    @path_dbus = "org.openplacos.components." + @name.downcase
+    @timeout = 5
+
+    begin
+      Timeout::timeout(@timeout) { # allow a maximum time of #timeout second for the driver launch
+        begin
+          #launch the driver with dbus autolaunch
+          component_service = Bus.service(@path_dbus) 
+          component_service.introspect
+        rescue
+          sleep 0.1
+        end
+        retry
+      }
+    rescue Timeout::Error 
+      @top.dbus_plugins.error("Autolaunch of  #{@name}, component #{@path_dbus} failed",{})
+      raise "Autolaunch of  #{@name}, component #{@path_dbus} failed"
+    end
+    
   end
 end
 
-end
+  
