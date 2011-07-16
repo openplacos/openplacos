@@ -49,7 +49,7 @@ class Component
     if (!@introspect["input"].nil?) 
       if (! @introspect["input"]["pin"].nil?)
         @introspect["input"]["pin"].each_pair do |pin, ifaces| #pin level
-          @inputs << Pin.new(pin, ifaces, self, @method)
+          @inputs << Pin_input.new(pin, ifaces, self, @method)
         end
       end
     end
@@ -57,7 +57,7 @@ class Component
     if (!@introspect["output"].nil?) 
       if (! @introspect["output"]["pin"].nil?)
         @introspect["output"]["pin"].each_pair do |pin, ifaces| #pin level
-          @outputs << Pin.new(pin, ifaces, self, @method)
+          @outputs << Pin_output.new(pin, ifaces, self, @method)
         end
       end
     end
@@ -80,6 +80,10 @@ class Component
 
   def launch 
     launch_component()
+  end
+
+  def wait_for
+    wait_for_component()
   end
 
 end

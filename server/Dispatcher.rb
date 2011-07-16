@@ -14,14 +14,16 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'Map.rb'
 
-
-class Displatcher
+class Dispatcher
   include Singleton
 
-  @maps = Array.new
-  @pins = Array.new
-
+  def init_dispatcher # act as a constructor
+    @maps = Array.new
+    @pins = Array.new
+  end
+  
   def add_map(map_config_)
     @maps << Map.new(map_config_)
   end

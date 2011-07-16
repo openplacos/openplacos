@@ -14,7 +14,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 # 
 
-require 'Displatcher.rb'
+require 'Dispatcher.rb'
 
 include REXML
 
