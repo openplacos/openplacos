@@ -84,55 +84,75 @@ class Instruction < ActiveRecord::Base
 end
 
 plugin.opos.on_signal("create_measure") do |name,config|
-  MUT.synchronize{
-    if !Device.exists?(:config_name => config["path"])
-      dev = Device.create(:config_name => config["path"],
-                          :model => config["model"],
-                          :path_dbus => config["path"])
-                          #:card_id => Card.find(:first, :conditions => [ "config_name = ?",  meas.instance_variable_get(:@card_name)]))
-                          
-      Sensor.create(:device_id => dev.id, :unit => config["informations"]['unit'])
-    end
-  }
+  begin
+    MUT.synchronize{
+      if !Device.exists?(:config_name => config["path"])
+        dev = Device.create(:config_name => config["path"],
+                            :model => config["model"],
+                            :path_dbus => config["path"])
+                            #:card_id => Card.find(:first, :conditions => [ "config_name = ?",  meas.instance_variable_get(:@card_name)]))
+                            
+        Sensor.create(:device_id => dev.id, :unit => config["informations"]['unit'])
+      end
+    }
+  rescue
+    puts "Error"
+  end
 end
 
 plugin.opos.on_signal("create_actuator") do |name,config|
-  MUT.synchronize{
-    if !Device.exists?(:config_name => config["path"])
-      dev = Device.create(:config_name => config["path"],
-                          :model => config["model"],
-                          :path_dbus => config["path"])
-                          #:card_id => Card.find(:first, :conditions => [ "config_name = ?", act.instance_variable_get(:@card_name)])) 
-      Actuator.create(:device_id => dev.id, :interface => config["driver"]["interface"]) 
-    end
-  }
+  begin
+    MUT.synchronize{
+      if !Device.exists?(:config_name => config["path"])
+        dev = Device.create(:config_name => config["path"],
+                            :model => config["model"],
+                            :path_dbus => config["path"])
+                            #:card_id => Card.find(:first, :conditions => [ "config_name = ?", act.instance_variable_get(:@card_name)])) 
+        Actuator.create(:device_id => dev.id, :interface => config["driver"]["interface"]) 
+      end
+    }
+  rescue
+    puts "Error"
+  end
 end
 
 plugin.opos.on_signal("new_measure") do |name, value, option|
-  MUT.synchronize{
-    time = Time.new.utc  
-    flow = Flow.create(:date  => time ,:value => value) 
-    device =  Device.find(:first, :conditions => { :config_name => name })
-    sensor =  Sensor.find(:first, :conditions => { :device_id => device.id })
-    Measure.create(:flow_id => flow.id,:sensor_id => sensor.id) 
-  }
+  begin
+    MUT.synchronize{    
+      time = Time.new.utc  
+      flow = Flow.create(:date  => time ,:value => value) 
+      device =  Device.find(:first, :conditions => { :config_name => name })
+      sensor =  Sensor.find(:first, :conditions => { :device_id => device.id })
+      Measure.create(:flow_id => flow.id,:sensor_id => sensor.id) 
+    }
+  rescue
+    puts "Error"
+  end
 end
 
 plugin.opos.on_signal("new_order") do |name, order, option|
-  MUT.synchronize{
-    flow = Flow.create(:date  => Time.new.utc ,:value => order) 
-    device =  Device.find(:first, :conditions => { :config_name => name })
-    actuator = Actuator.find(:first, :conditions => { :device_id => device.id })
-    Instruction.create(:flow_id => flow.id,:actuator_id => actuator.id)
-  }
+  begin
+    MUT.synchronize{
+      flow = Flow.create(:date  => Time.new.utc ,:value => order) 
+      device =  Device.find(:first, :conditions => { :config_name => name })
+      actuator = Actuator.find(:first, :conditions => { :device_id => device.id })
+      Instruction.create(:flow_id => flow.id,:actuator_id => actuator.id)
+    }
+  rescue
+    puts "Error"
+  end
 end
 
 plugin.opos.on_signal("create_card") do |name,config|
-  MUT.synchronize{
-    if !Card.exists?(:config_name => name)
-      Card.create(:config_name => name, :path_dbus => name ) # model, usb id missing
-    end
-  }
+  begin
+    MUT.synchronize{
+      if !Card.exists?(:config_name => name)
+        Card.create(:config_name => name, :path_dbus => name ) # model, usb id missing
+      end
+    }
+  rescue
+    puts "Error"
+  end
 end
 
 plugin.run
