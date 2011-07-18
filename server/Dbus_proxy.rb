@@ -61,8 +61,13 @@ module Dbus_proxy  # output
           component_service.introspect
         rescue
           sleep 0.1
+<<<<<<< HEAD
           retry
         end
+=======
+        end
+        retry
+>>>>>>> 51af813c1c105bbcb0eeb4e2168800ea138d2e1e
       }
     rescue Timeout::Error 
       @top.dbus_plugins.error("Autolaunch of  #{@name}, component #{@path_dbus} failed",{})
@@ -72,4 +77,8 @@ module Dbus_proxy  # output
   end
 end
 
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 51af813c1c105bbcb0eeb4e2168800ea138d2e1e
