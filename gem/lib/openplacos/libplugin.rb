@@ -40,7 +40,7 @@ module Openplacos
       @opos.on_signal("quit") do
         self.quit
       end
-  
+      
       @opos.on_signal("ready") do
         @server_ready_queue.push "Go"
       end

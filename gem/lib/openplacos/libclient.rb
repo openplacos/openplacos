@@ -47,21 +47,21 @@ module Openplacos
         Process.exit 1
       end
       
-    
+      
     end  
     
     def get_objects(nod, father_) #get objects from a node, ignore Debug objects
       obj = Hash.new
       nod.each_pair{ |key,value|
-       if not(key=="Debug" or key=="server" or key=="plugins" or key=="Authenticate") #ignore debug objects
-         if not value.object.nil?
-           obj[value.object.path] = value.object
-           father_.push_object(value.object)
-         else
-           children = father_.push_child(key)
-           obj.merge!(get_objects(value, children))
-         end
-       end
+        if not(key=="Debug" or key=="server" or key=="plugins" or key=="Authenticate") #ignore debug objects
+          if not value.object.nil?
+            obj[value.object.path] = value.object
+            father_.push_object(value.object)
+          else
+            children = father_.push_child(key)
+            obj.merge!(get_objects(value, children))
+          end
+        end
       }
       obj
     end
@@ -163,7 +163,7 @@ module Openplacos
       @path = path_
       @childs = Array.new
       @objects = Hash.new
-   end
+    end
 
     def push_child (value_)
       children = Room.new(self, self.path  + value_ + "/")
@@ -183,7 +183,7 @@ module Openplacos
       }
       return hash
     end
-   
+    
   end
- 
+  
 end

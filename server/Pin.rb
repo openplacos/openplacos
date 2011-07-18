@@ -36,19 +36,19 @@ class Pin_input < DBus::ProxyObject
 end
 
 class Pin_output < DBus::Object
-   def initialize(name_, config_, component_, method_)
+  def initialize(name_, config_, component_, method_)
     @config    = config_
     @name      = name_
     @component = component_
     @dbus_name = "/#{@component.name}#{@name}"
     @method    = method_
 
- 
-   super(@dbus_name)
+    
+    super(@dbus_name)
 
-   end
+  end
 
- 
+  
   def expose_on_dbus()
     Dispatcher.register_pin(self)
 
@@ -58,11 +58,11 @@ class Pin_output < DBus::Object
       self.singleton_class.instance_eval{  
         dbus_interface "org.openplacos.component."+iface do
           
- #         methods.each do |meth|
-#          dbus_method meth.name.to_sym, meth.prototype do |option|
-#        end
-                dbus_method :read, "in option:a{sv}" do |arg|
-    
+          #         methods.each do |meth|
+          #          dbus_method meth.name.to_sym, meth.prototype do |option|
+          #        end
+          dbus_method :read, "in option:a{sv}" do |arg|
+            
             [dis.call(objet, iface,meth.name, *arg)]
           end  
           
@@ -70,15 +70,15 @@ class Pin_output < DBus::Object
             [self.write(iface, option)]
           end  
         end
-        }
+      }
     end
   end
 
   def read
-   end
- 
-   def write
-   end
+  end
+  
+  def write
+  end
 
 end
 

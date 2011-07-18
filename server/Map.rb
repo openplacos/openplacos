@@ -17,11 +17,11 @@
 
 class Map
   
-
   def initialize(config_)
     @config     = config_
-    @pin_name0  = @config[0][0]
-    @pin_name1  = @config[0][1]
+    puts @config
+    @pin_name0  = @config.to_a[0][0]
+    @pin_name1  = @config.to_a[0][1]
     @pin0       = nil
     @pin1       = nil
   end

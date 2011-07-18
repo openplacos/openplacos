@@ -18,8 +18,8 @@ require 'Dbus_proxy'
 
 
 
- module Dbus_proxy_fork #input
-   include Dbus_proxy
+module Dbus_proxy_fork #input
+  include Dbus_proxy
 
 
 
