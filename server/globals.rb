@@ -16,7 +16,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-class Global
+class Globals
 
   # Print trace when debug env var defined
   def self.trace(string_)

@@ -58,8 +58,6 @@ end
 
 service = Bus.request_service("org.openplacos.server")
 internalservice = InternalBus.request_service("org.openplacos.server.internal")
-#Global functions
-$global = Global.new
 
 class Top
 

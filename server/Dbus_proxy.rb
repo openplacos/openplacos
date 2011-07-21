@@ -59,26 +59,14 @@ module Dbus_proxy  # output
           #launch the driver with dbus autolaunch
           component_service = Bus.service(@path_dbus) 
           component_service.introspect
-        rescue
+        rescue 
           sleep 0.1
-<<<<<<< HEAD
           retry
         end
-=======
-        end
-        retry
->>>>>>> 51af813c1c105bbcb0eeb4e2168800ea138d2e1e
       }
     rescue Timeout::Error 
-      @top.dbus_plugins.error("Autolaunch of  #{@name}, component #{@path_dbus} failed",{})
-      raise "Autolaunch of  #{@name}, component #{@path_dbus} failed"
+      Globals.error("Autolaunch of  #{@name}, component #{@path_dbus} failed")
     end
     
   end
 end
-
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> 51af813c1c105bbcb0eeb4e2168800ea138d2e1e
