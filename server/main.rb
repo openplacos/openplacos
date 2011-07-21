@@ -99,15 +99,15 @@ class Top
 
   def map
    disp =  Dispatcher.instance
-    @config["mapping"].each do |map|
-      disp.add_map(map) # Push every map link into dispatcher
+    @config["mapping"].each do |wire|
+      disp.add_wire(wire) # Push every wire link into dispatcher
     end
   end
 
   def expose_component
   @components.each  do |component|
       component.expose()   # Exposes on dbus interface service
-      component.pins.each do |p|
+      component.outputs.each do |p|
         @internalservice.export(p)
       end
     end
@@ -156,8 +156,10 @@ Dispatcher.instance.init_dispatcher
 
 # Construct Top
 top = Top.new(file, service, internalservice)
-top.inspect_components
 top.map
+top.inspect_components
+top.expose_component
+Dispatcher.instance.check_all_pin
 
 top.launch_components
 main = DBus::Main.new

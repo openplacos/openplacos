@@ -18,66 +18,65 @@ require 'Dispatcher.rb'
 
 include REXML
 
-
-
 class Pin_input < DBus::ProxyObject
-  attr_reader :name
+  attr_reader :name, :dbus_name
 
   def initialize(name_, config_, component_, method_)
-    @config    = config_
-    @name      = name_
-    @component = component_
-    @method    = method_
+    @config     = config_
+    @name       = name_
+    @component  = component_
+    @method     = method_
+    @dispatcher = Dispatcher.instance
+    @dbus_name  = "/#{@component.name}#{@name}"
 
+    dis = Dispatcher.instance
+    dis.register_pin(self)
     super(InternalBus, "org.openplacos.components.#{@component.name}", @name)
   end
 
+  def get_iface(iface_)
+    return "org.openplacos.#{iface_}"
+  end
 
+  def method_exec(iface_, method_, *args_) 
+    return self[get_iface(iface_)].send(method_, *args_)
+  end
 end
 
 class Pin_output < DBus::Object
+  attr_reader :name, :dbus_name
+
   def initialize(name_, config_, component_, method_)
     @config    = config_
     @name      = name_
     @component = component_
     @dbus_name = "/#{@component.name}#{@name}"
     @method    = method_
-
     
-    super(@dbus_name)
+    dis = Dispatcher.instance
+    dis.register_pin(self)
 
+   super(@dbus_name)
   end
 
   
   def expose_on_dbus()
-    Dispatcher.register_pin(self)
-
     dis = Dispatcher.instance
 
     @config.each_pair do |iface, methods| #iface level
       self.singleton_class.instance_eval{  
         dbus_interface "org.openplacos.component."+iface do
           
-          #         methods.each do |meth|
-          #          dbus_method meth.name.to_sym, meth.prototype do |option|
-          #        end
-          dbus_method :read, "in option:a{sv}" do |arg|
-            
-            [dis.call(objet, iface,meth.name, *arg)]
+          dbus_method :read, "out return:v, in option:a{sv}" do |*arg|  
+            return dis.call(self.dbus_name, iface,"read", *arg)
           end  
           
-          dbus_method :write, "out return:v, in value:v, in option:a{sv}" do 
-            [self.write(iface, option)]
-          end  
+          dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |*arg|
+            return dis.call(self.dbus_name, iface,"write", *arg)
+         end  
         end
       }
     end
-  end
-
-  def read
-  end
-  
-  def write
   end
 
 end

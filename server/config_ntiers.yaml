@@ -6,13 +6,13 @@ objects:
   #~ config:
     #~ file: /tmp/opos2.log
 
-- name: simpleplacos2
+- name: simpleplacos
   exec: simple_placos.rb
   method: fork
   
-#~ - name: temperature
-  #~ exec: temperature.rb
-  #~ method: disable
+- name: temperature
+  exec: temperature.rb
+  method: disable
 
 mapping:
-- temperature/Input: simpleplacos/Pin_1
+- /temperature/raw: /simpleplacos/Pin_1

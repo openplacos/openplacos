@@ -14,12 +14,13 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'globals.rb'
 
-class Map
-  
+class Wire
+  attr_reader :pin0, :pin1
+
   def initialize(config_)
     @config     = config_
-    puts @config
     @pin_name0  = @config.to_a[0][0]
     @pin_name1  = @config.to_a[0][1]
     @pin0       = nil
@@ -27,19 +28,19 @@ class Map
   end
 
   def push_pin(pin_)
-    if    (pin_.name == @pin_name0)
+    if    (pin_.dbus_name == @pin_name0)
       @pin0 = pin_
-    elsif (pin_.name == @pin_name1)
+    elsif (pin_.dbus_name == @pin_name1)
       @pin1 = pin_
     end
   end
 
   def check_pins
     if @pin0.nil? 
-      Global.error("#{@pin_name0} not found")
+      Globals.error("#{@pin_name0} not found")
     end
     if @pin1.nil? 
-      Global.error("#{@pin_name1} not found")
+      Globals.error("#{@pin_name1} not found")
     end
   end
 end

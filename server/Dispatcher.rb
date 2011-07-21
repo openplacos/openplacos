@@ -14,34 +14,43 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-require 'Map.rb'
+require 'Wire.rb'
 
 class Dispatcher
   include Singleton
 
   def init_dispatcher # act as a constructor
-    @maps = Array.new
-    @pins = Array.new
+    @wires   = Array.new
+    @pins    = Array.new
+    @binding = Hash.new
   end
   
-  def add_map(map_config_)
-    @maps << Map.new(map_config_)
+  def add_wire(wire_config_)
+    @wires << Wire.new(wire_config_)
   end
   
   def register_pin(pin_)
     @pins << pin_
+    @binding[pin_.dbus_name]  = Array.new
+    push_pin(pin_)
   end
   
   def push_pin (pin_)
-    @maps.each do |map|
-      map.push_pin(pin_) # Maybe pin_ is part of map
+    @wires.each do |wire|
+      wire.push_pin(pin_) # Maybe pin_ is part of wire
     end
   end
 
-  def check_all_pin # Check that every Map has to 2 pins
-     @maps.each do |map|
-      map.check_pins
+  def check_all_pin # Check that every wire has to 2 pins
+     @wires.each do |wire|
+      wire.check_pins 
+      @binding[wire.pin0.dbus_name] << wire.pin1
+      @binding[wire.pin1.dbus_name] << wire.pin0
     end
+  end
+
+  def call(pin_sender_name_, iface_, method_, *args_) 
+    return @binding[pin_sender_name_][0].method_exec(iface_, method_, *args_)
   end
 
 end

@@ -53,7 +53,7 @@ module Openplacos
     end
 
     def add_write(iface_)
-      dbusdef = "dbus_interface 'org.openplacos.driver.#{iface_}' do
+      dbusdef = "dbus_interface 'org.openplacos.#{iface_}' do
                     dbus_method :write, 'out return:v, in value:v, in option:a{sv}' do |value, option|
                       return self.write( \"#{iface_}\", value,option)
                     end 
@@ -77,7 +77,7 @@ module Openplacos
     
 
     def add_read(iface_)
-      dbusdef = "dbus_interface 'org.openplacos.driver.#{iface_}' do
+      dbusdef = "dbus_interface 'org.openplacos.#{iface_}' do
                     dbus_method :read, 'out return:v, in option:a{sv}' do |option|
                       return self.read(\"#{iface_}\", option)
                     end 
@@ -86,7 +86,7 @@ module Openplacos
     end
     
     def add_read_and_write(iface_) # dbus do not merge methods in interface if they are not define in the same time
-      dbusdef = "dbus_interface 'org.openplacos.driver.#{iface_}' do
+      dbusdef = "dbus_interface 'org.openplacos.#{iface_}' do
                     dbus_method :read, 'out return:v, in option:a{sv}' do |option|
                        return self.read(\"#{iface_}\",option)
                     end

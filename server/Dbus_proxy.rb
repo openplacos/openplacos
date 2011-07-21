@@ -40,14 +40,6 @@ module Dbus_proxy  # output
     end
   end
 
-  def read(iface_, option_) # fork/thread specific ?
-    
-  end
-  
-  def write(iface_, option_)# fork/thread specific ?
-    
-  end
-
   def wait_for_component()  # check component started
     # fork/thread specific ?
     @path_dbus = "org.openplacos.components." + @name.downcase
@@ -68,5 +60,9 @@ module Dbus_proxy  # output
       Globals.error("Autolaunch of  #{@name}, component #{@path_dbus} failed")
     end
     
+    @inputs.each do |input|
+      input.introspect
+    end
+
   end
 end

@@ -20,7 +20,7 @@ require 'Pin.rb'
 class Component 
   include Launcher
 
-  attr_accessor :pins, :name
+  attr_accessor :inputs, :outputs, :name
 
   #1 Component definition in yaml config
   #2 Top reference
@@ -69,10 +69,6 @@ class Component
   end
 
   def expose()
-
-    @inputs.each do |pin|
-      pin.expose_on_dbus()
-    end
     @outputs.each do |pin|
       pin.expose_on_dbus()
     end
@@ -84,7 +80,9 @@ class Component
   end
 
   def wait_for
-    wait_for_component()
+    if(@method != "disable")
+      wait_for_component()
+    end
   end
 
 end
