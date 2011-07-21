@@ -31,7 +31,7 @@ end.process!(ARGV)
 
 if (Options[:introspect])
   input_pins = {
-    "/temperature" => { "analog" => ["read"] }
+    "/Temperature" => { "analog" => ["read"] }
   }
 
   input = {
@@ -84,7 +84,7 @@ InputPorts = Hash.new
 OutputPorts["raw"] = Ports.new("raw")
 InputPorts["Temperature"] = Temperature.new("Temperature")
 
-service = Bus.request_service("org.openplacos.component.#{Options[:name].downcase}")
+service = Bus.request_service("org.openplacos.components.#{Options[:name].downcase}")
 
 InputPorts.each_value do |input|
   service.export(input)

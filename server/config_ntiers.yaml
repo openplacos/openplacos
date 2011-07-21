@@ -10,9 +10,15 @@ objects:
   exec: simple_placos.rb
   method: fork
   
-- name: temperature
+- name: temperature2
   exec: temperature.rb
-  method: disable
+  method: fork
+
+- name: temperature3
+  exec: temperature.rb
+  method: fork
+
 
 mapping:
-- /temperature/raw: /simpleplacos/Pin_1
+- /temperature2/raw: /simpleplacos/Pin_1
+- /temperature3/raw: /temperature2/Temperature
