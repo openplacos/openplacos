@@ -32,7 +32,7 @@ Choice.options do
     short '-n'
     long '--name=NAME'
     desc 'The Name of the service (default uchameleon)'
-    default "simple_placos"
+    default "simpleplacos"
   end
 
   option :introspect do

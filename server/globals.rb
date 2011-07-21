@@ -23,10 +23,10 @@ class Globals
     if ENV['VERBOSE_OPOS'] != nil
       puts string_
     end
+  end
 
-    def self.error(string)
-      puts string
-      Process.exit 255
-    end
+  def self.error(string)
+    puts string
+    Process.exit 255
   end
 end

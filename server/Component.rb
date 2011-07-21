@@ -25,14 +25,15 @@ class Component
   #1 Component definition in yaml config
   #2 Top reference
   def initialize(component_) # Constructor
-
-    @config    = component_["config"]
-    @name      = component_["name"]
-    @method    = component_["method"]
-    @exec      = PATH + "/../components/" + component_["exec"]
-    @inputs    = Array.new
-    @outputs   = Array.new
-    @thread    = nil # Launcher attribute init
+        
+    @config         = component_["config"] || Hash.new
+    @name           = component_["name"]
+    @config["name"] = @name
+    @method         = component_["method"]
+    @exec           = PATH + "/../components/" + component_["exec"]
+    @inputs         = Array.new
+    @outputs        = Array.new
+    @thread         = nil # Launcher attribute init
   end
 
   def introspect
