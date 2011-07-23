@@ -36,6 +36,7 @@ require 'User.rb'
 require 'Component.rb'
 require 'Event_handler.rb'
 require 'Dispatcher.rb'
+require 'Export.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
@@ -70,7 +71,9 @@ class Top
     @config           =  YAML::load(File.read(config_))
     @service          = service_
     @internalservice  = internalservice_
-    @config_component = @config["objects"]
+    @config_component = @config["component"]
+    @config_export    = @config["export"]
+
 
     # Event_handler creation
     @event_handler = Event_Handler.instance
@@ -79,6 +82,7 @@ class Top
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
     @components = Array.new
+    @exports    = Array.new
     @users      = Array.new
 
   end
@@ -88,13 +92,26 @@ class Top
       @components << Component.new(component) # Create a component object
     end 
     
+    # introspect phase
     @components.each  do |component|
       component.introspect   # Get informations from component -- threaded
     end
 
+    # analyse phase => creation of Pins
     @components.each  do |component|
       component.analyse   # Create pin objects according to introspect
     end
+  end
+
+  def  create_exported_object
+    @config_export.each do |export|
+      @exports << Export.new(export)
+    end
+    @exports.each do |export|
+      export.pin_output.expose_on_dbus()
+      @service.export(export.pin_output)
+    end
+
   end
 
   def map
@@ -159,6 +176,7 @@ top = Top.new(file, service, internalservice)
 top.map
 top.inspect_components
 top.expose_component
+top.create_exported_object
 Dispatcher.instance.check_all_pin
 
 top.launch_components

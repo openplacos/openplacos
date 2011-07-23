@@ -56,7 +56,7 @@ class Pin_output < DBus::Object
     dis = Dispatcher.instance
     dis.register_pin(self)
 
-   super(@dbus_name)
+    super(@dbus_name)
   end
 
   
@@ -73,11 +73,31 @@ class Pin_output < DBus::Object
           
           dbus_method :write, "out return:v, in value:v, in option:a{sv}" do |*arg|
             return dis.call(self.dbus_name, iface,"write", *arg)
-         end  
+          end  
         end
       }
     end
   end
+end
 
+
+class Pin_export  < DBus::Object
+  attr_reader :dbus_name
+
+  def initialize(dbus_name_)
+    @dbus_name = dbus_name_
+    dis = Dispatcher.instance
+    dis.register_pin(self)
+  end
+  
+  def expose_on_dbus()
+    dis = Dispatcher.instance
+    pin_plugs = dis.get_plug(@dbus_name)
+    iface_to_implement = Array.new
+    pin_plugs.each do |pin|
+      iface_to_implement << pin.interfaces
+    end
+    
+  end
 end
 

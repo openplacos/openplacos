@@ -53,5 +53,9 @@ class Dispatcher
     return @binding[pin_sender_name_][0].method_exec(iface_, method_, *args_)
   end
 
+  def get_plug(dbus_name_)
+    return @binding[dbus_name_]
+  end
+
 end
 
