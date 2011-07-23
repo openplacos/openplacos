@@ -24,8 +24,12 @@ class Pulling_thread < Thread
     @frequency = frequency_
     super {
       loop do
-        @sensor.value
-        sleep @frequency
+        begin
+          @sensor.value
+          sleep @frequency
+        rescue
+          puts "Error"
+        end
       end
     }
   end
