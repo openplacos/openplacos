@@ -94,10 +94,12 @@ class Pin_export  < DBus::Object
     dis = Dispatcher.instance
     pin_plugs = dis.get_plug(@dbus_name)
     iface_to_implement = Array.new
+    puts pin_plugs.inspect
     pin_plugs.each do |pin|
+      puts pin.methods
       iface_to_implement << pin.interfaces
     end
-    
+    puts iface_to_implement.inspect
   end
 end
 

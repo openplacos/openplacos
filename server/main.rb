@@ -30,7 +30,6 @@ require 'dbus-openplacos'
 require 'micro-optparse'
 
 # List of local include
-#require 'Publish.rb'
 require 'globals.rb'
 require 'User.rb'
 require 'Component.rb'
@@ -107,11 +106,13 @@ class Top
     @config_export.each do |export|
       @exports << Export.new(export)
     end
-    @exports.each do |export|
+  end
+
+  def export
+     @exports.each do |export|
       export.pin_output.expose_on_dbus()
       @service.export(export.pin_output)
-    end
-
+    end   
   end
 
   def map
