@@ -20,7 +20,7 @@ include REXML
 
 module Dbus_proxy  # output
 
-   def wait_for_component()  # check component started
+  def wait_for_component()  # check component started
     # fork/thread specific ?
     @path_dbus = "org.openplacos.components." + @name.downcase
     @timeout = 5

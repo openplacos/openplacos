@@ -8,6 +8,7 @@ require File.dirname(__FILE__) << "/LibComponent.rb"
 
 component = LibComponent::Component.new do |c|
   c.description  "This is openplacos component for a fake temperature"
+  c.version "0.1"
   c.default_name "temperature"
 end
 

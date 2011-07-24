@@ -100,12 +100,16 @@ module LibComponent
       @parser.option(:introspect, "Return introspection of the componnent",{})
       yield self if block_given?
       @options = @parser.process!(ARGV)
-      @name = @options[:name].downcase     
+      @name = @options[:name].downcase 
     end
     
     def description(desc_)
       @description = desc_
       @parser.banner = desc_
+    end
+    
+    def version(version_)
+      @parser.version = version_
     end
     
     def default_name(name_)
