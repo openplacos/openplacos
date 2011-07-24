@@ -153,13 +153,13 @@ end
 file = options[:file]
 
 if (! File.exist?(file))
-  puts "Config file " +file+" doesn't exist"
+  Globals.error("Config file #{file} doesn't exist")
   Process.exit 1
 end
 
 
 if (! File.readable?(file))
-  puts "Config file " +file+" not readable"
+  Globals.error("Config file #{file} not readable")
   Process.exit 1
 end
 
@@ -179,6 +179,7 @@ top.inspect_components
 top.expose_component
 top.create_exported_object
 Dispatcher.instance.check_all_pin
+top.export
 
 top.launch_components
 main = DBus::Main.new

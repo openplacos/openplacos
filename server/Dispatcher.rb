@@ -54,7 +54,6 @@ class Dispatcher
   end
 
   def get_plug(dbus_name_)
-    puts @binding.inspect
     return @binding[dbus_name_]
   end
 

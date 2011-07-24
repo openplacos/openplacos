@@ -24,4 +24,4 @@ component:
 mapping:
 - /temperature2/raw: /simpleplacos/Pin_1
 - /temperature3/raw: /temperature2/Temperature
-- /home/temperature: /temperature3/raw
+- /home/temperature: /temperature3/Temperature
