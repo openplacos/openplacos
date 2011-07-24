@@ -20,27 +20,7 @@ include REXML
 
 module Dbus_proxy  # output
 
-  def expose_on_dbus()
-    Dispatcher.register_pin(self)
-
-    @config.each_pair do |iface, methods| #iface level
-      self.singleton_class.instance_eval{  
-        dbus_interface "org.openplacos.component."+iface do
-          
-          dbus_method :read, "in option:a{sv}" do |option|
-            
-            [self.read(iface, option)]
-          end  
-          
-          dbus_method :write, "out return:v, in value:v, in option:a{sv}" do 
-            [self.write(iface, option)]
-          end  
-        end
-      }
-    end
-  end
-
-  def wait_for_component()  # check component started
+   def wait_for_component()  # check component started
     # fork/thread specific ?
     @path_dbus = "org.openplacos.components." + @name.downcase
     @timeout = 5
@@ -55,6 +35,9 @@ module Dbus_proxy  # output
           sleep 0.1
           retry
         end
+        
+        #if launched, grab the /component proxy object
+        @component_proxy = component_service.object("/component")        
       }
     rescue Timeout::Error 
       Globals.error("Autolaunch of  #{@name}, component #{@path_dbus} failed")
@@ -64,5 +47,9 @@ module Dbus_proxy  # output
       input.introspect
     end
 
+  end
+  
+  def quit_component
+    return @component_proxy["org.openplacos.component"].quit
   end
 end

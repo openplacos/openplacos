@@ -84,5 +84,11 @@ class Component
       wait_for_component()
     end
   end
+  
+  def quit
+    if(@method != "disable")
+      quit_component()
+    end
+  end
 
 end

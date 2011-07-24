@@ -65,7 +65,7 @@ class Pin_output < DBus::Object
 
     @config.each_pair do |iface, methods| #iface level
       self.singleton_class.instance_eval{  
-        dbus_interface "org.openplacos.component."+iface do
+        dbus_interface "org.openplacos."+iface do
           
           dbus_method :read, "out return:v, in option:a{sv}" do |*arg|  
             return dis.call(self.dbus_name, iface,"read", *arg)

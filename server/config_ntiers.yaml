@@ -6,19 +6,14 @@ objects:
   #~ config:
     #~ file: /tmp/opos2.log
 
-- name: simpleplacos
-  exec: simple_placos.rb
-  method: fork
+- name: driver
+  exec: driver.rb
+  method: thread
   
-- name: temperature2
-  exec: temperature.rb
-  method: fork
-
-- name: temperature3
-  exec: temperature.rb
-  method: fork
+- name: temperature
+  exec: temperature_compact.rb
+  method: thread
 
 
 mapping:
-- /temperature2/raw: /simpleplacos/Pin_1
-- /temperature3/raw: /temperature2/Temperature
+- /temperature/raw: /driver/Pin_1
