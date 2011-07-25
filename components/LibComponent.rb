@@ -298,7 +298,7 @@ module LibComponent
   class LibError
     def self.raise(str_)
       puts str_
-      exit(0)
+      exit(255)
     end
   end
   
