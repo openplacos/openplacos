@@ -140,11 +140,17 @@ class Top
        component.wait_for # verify component has been launched 
     end
   end
-
+  
+  def quit
+   @components.each  do |component|
+      component.quit # quit every component -- threaded
+   end
+  end
 
 end # End of Top
 
 def quit(top_, main_)
+  top_.quit
   main_.quit
   Process.exit 0  
 end
@@ -154,13 +160,13 @@ file = options[:file]
 
 if (! File.exist?(file))
   Globals.error("Config file #{file} doesn't exist")
+
   Process.exit 1
 end
 
 
 if (! File.readable?(file))
   Globals.error("Config file #{file} not readable")
-  Process.exit 1
 end
 
 # Where am I ?
@@ -181,8 +187,14 @@ top.create_exported_object
 Dispatcher.instance.check_all_pin
 top.export
 
-top.launch_components
 main = DBus::Main.new
+
+#define a global main variable for threaded component
+#maybe we should use a singleton class
+$main = main
+
+#launch components
+top.launch_components
 
 # quit the plugins when server quit
 
@@ -196,9 +208,6 @@ end
 
 
 # Let's Dbus have execution control
-
-
-
 main << Bus
 main << InternalBus
 main.run

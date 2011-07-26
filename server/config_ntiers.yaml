@@ -8,16 +8,16 @@ component:
   #~ config:
     #~ file: /tmp/opos2.log
 
-- name: simpleplacos
-  exec: simple_placos.rb
+- name: driver
+  exec: driver.rb
   method: fork
   
 - name: temperature2
-  exec: temperature.rb
+  exec: temperature_compact.rb
   method: fork
 
 - name: temperature3
-  exec: temperature.rb
+  exec: temperature_compact.rb
   method: fork
 
 

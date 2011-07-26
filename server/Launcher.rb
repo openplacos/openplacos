@@ -28,9 +28,7 @@ module Launcher
     if (@method != "disable")  #do nothing
       if (@method == "thread")  #launch in thread mode
         if @thread.nil? #check if thread has been already launched
-          @thread = Thread.new{
-            start_thread()
-          }
+          @thread = start_thread()
         else # if thread has been launch, you attempt to relaunch
           if @thread.alive? #check if thread are running (or sleeping)
             # Alive thread relaunch id forbiden
@@ -38,9 +36,7 @@ module Launcher
             raise "Attempt to relaunch a alive thread : #{@exec} | it's forbiden"
           else 
             #relaunch the thread
-            @thread = Thread.new{
-              start_thread()
-            }
+            @thread = start_thread()
           end 
         end 
       else 
@@ -62,21 +58,24 @@ module Launcher
 
   def start_thread()
     self.instance_eval("self.extend(Dbus_proxy_thread)")
-    @argv_string = "ARGV = ["
-    if  !@config.nil?
-      @config.each { |key, value|
-        @argv_string << "\"--#{key}=#{value}\", "
-      }
-    end
-    @argv_string << "]\n"
-    @string_eval = ""
-    @string_eval << "module "+ @name.capitalize + "\n"
-    @string_eval << ""
-    @string_eval << @argv_string
-    @string_eval << File.open(@exec).read
-    @string_eval << "end # end of module " + @name
-    @binding = eval("binding",TOPLEVEL_BINDING)
-    eval(@string_eval,@binding,@exec) # eval in an empty binding
+    th = Thread.new{
+      @argv_string = "ARGV = ["
+      if  !@config.nil?
+        @config.each { |key, value|
+          @argv_string << "\"--#{key}=#{value}\", "
+        }
+      end
+      @argv_string << "]\n"
+      @string_eval = ""
+      @string_eval << "module "+ @name.capitalize + "\n"
+      @string_eval << ""
+      @string_eval << @argv_string
+      @string_eval << File.open(@exec).read
+      @string_eval << "end # end of module " + @name
+      @binding = eval("binding",TOPLEVEL_BINDING)
+      eval(@string_eval,@binding,@exec) # eval in an empty binding
+    }
+    return th
   end
   
   def start_fork()
