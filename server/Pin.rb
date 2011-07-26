@@ -19,7 +19,7 @@ require 'Dispatcher.rb'
 include REXML
 
 class Pin_input < DBus::ProxyObject
-  attr_reader :name, :dbus_name
+  attr_reader :name, :dbus_name, :config
 
   def initialize(name_, config_, component_, method_)
     @config     = config_
@@ -94,6 +94,8 @@ class Pin_export  < DBus::Object
     dis = Dispatcher.instance
     pin_plugs = dis.get_plug(@dbus_name)
     iface_to_implement = Array.new
+    puts pin_plugs[0].class
+    puts pin_plugs[0].config
     puts pin_plugs[0].interfaces
     puts "coucou"
     pin_plugs.each do |pin|
