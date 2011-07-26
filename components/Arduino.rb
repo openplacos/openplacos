@@ -6,7 +6,7 @@ require 'serialport'
 # micro-optparse. permet de générer le --intropect et egalement de creer
 # les objets
 
-component = LibComponent::Component.new do |c|
+component = LibComponent::Component.new(ARGV) do |c|
   c.description  "The arduino drivers"
   c.default_name "arduino"
   c.option :Board , 'The kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"

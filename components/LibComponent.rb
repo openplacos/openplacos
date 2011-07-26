@@ -89,8 +89,9 @@ module LibComponent
   
   class Component
     attr_reader :options, :bus ,:name
-    
-    def initialize
+
+    def initialize(argv_ = ARGV)
+      @argv = argv_
       @description = ""
       @bus = nil
       @main = nil
@@ -98,9 +99,9 @@ module LibComponent
       @outputs = Array.new
       @parser = Parser.new
       @parser.option(:introspect, "Return introspection of the componnent",{})
-      yield self if block_given?
-      @options = @parser.process!(ARGV)
-      @name = @options[:name].downcase 
+      yield self if block_given?      
+      @options = @parser.process!(@argv)
+      @name = @options[:name].downcase
     end
     
     def description(desc_)

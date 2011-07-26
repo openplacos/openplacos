@@ -5,7 +5,7 @@ require File.dirname(__FILE__) << "/LibComponent.rb"
 # micro-optparse. permet de générer le --intropect et egalement de creer
 # les objets
 
-component = LibComponent::Component.new do |c|
+component = LibComponent::Component.new(ARGV) do |c|
   c.description  "This is openplacos component for a fake driver"
   c.version "0.1"
   c.default_name "driver"

@@ -8,15 +8,15 @@ component:
   #~ config:
     #~ file: /tmp/opos2.log
 
-- name: simpleplacos
+- name: driver2
   exec: driver.rb
   method: thread
   
-- name: temperature2
+- name: temperature
   exec: temperature_compact.rb
   method: thread
 
 
 mapping:
-- /temperature2/raw: /simpleplacos/Pin_1
-- /home/temperature: /temperature2/temperature
+- /temperature/raw: /driver2/Pin_1
+- /home/temperature: /temperature/temperature
