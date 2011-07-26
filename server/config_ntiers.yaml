@@ -10,11 +10,11 @@ component:
 
 - name: simpleplacos
   exec: driver.rb
-  method: fork
+  method: thread
   
 - name: temperature2
   exec: temperature_compact.rb
-  method: fork
+  method: thread
 
 
 mapping:
