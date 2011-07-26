@@ -88,20 +88,38 @@ class Pin_export  < DBus::Object
     @dbus_name = dbus_name_
     dis = Dispatcher.instance
     dis.register_pin(self)
+    super(@dbus_name)
   end
   
   def expose_on_dbus()
     dis = Dispatcher.instance
     pin_plugs = dis.get_plug(@dbus_name)
-    iface_to_implement = Array.new
-    puts pin_plugs[0].class
-    puts pin_plugs[0].config
-    puts pin_plugs[0].interfaces
-    puts "coucou"
     pin_plugs.each do |pin|
       puts pin.interfaces
-      iface_to_implement << pin.interfaces
+      pin.config.each do |iface, meths|
+        self.singleton_class.instance_eval do
+          dbus_interface "org.openplacos.#{iface}" do
+            meths.each { |m|
+              add_dbusmethod m.to_sym do |*args|
+                dis.call(self.dbus_name, iface,m, *args)
+              end
+            }
+          end
+        end
+      end
     end
   end
+
+  def self.add_dbusmethod(sym,&block)
+    case sym
+    when :read
+      prototype = "out return:v, in option:a{sv}"
+    when :write
+      prototype = "out return:v, in value:v, in option:a{sv}"
+    end
+    dbus_method(sym,prototype,&block)
+  end
+
+
 end
 

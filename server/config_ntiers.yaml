@@ -8,7 +8,7 @@ component:
   #~ config:
     #~ file: /tmp/opos2.log
 
-- name: driver
+- name: simpleplacos
   exec: driver.rb
   method: fork
   
@@ -16,12 +16,7 @@ component:
   exec: temperature_compact.rb
   method: fork
 
-- name: temperature3
-  exec: temperature_compact.rb
-  method: fork
-
 
 mapping:
 - /temperature2/raw: /simpleplacos/Pin_1
-- /temperature3/raw: /temperature2/Temperature
-- /home/temperature: /temperature3/Temperature
+- /home/temperature: /temperature2/temperature
