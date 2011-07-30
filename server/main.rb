@@ -142,11 +142,9 @@ class Top
   end
   
   def quit
-   @components.each  do |component|
-      component.quit # quit every component -- threaded
-   end
+    @event_handler.quit
   end
-
+  
 end # End of Top
 
 def quit(top_, main_)

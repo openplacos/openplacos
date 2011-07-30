@@ -84,10 +84,4 @@ class Component
     end
   end
   
-  def quit
-    if(!(@method == "disable" || @method == "debug"))
-      quit_component()
-    end
-  end
-
 end

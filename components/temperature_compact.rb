@@ -8,8 +8,6 @@ require File.dirname(__FILE__) << "/LibComponent.rb"
 # micro-optparse. permet de générer le --intropect et egalement de creer
 # les objets
 
-# $quit_thread = 1
-
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "This is openplacos component for a fake temperature"
   c.version "0.1"

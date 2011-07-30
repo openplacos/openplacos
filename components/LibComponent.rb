@@ -155,15 +155,11 @@ module LibComponent
           self.quit_callback
         end
         
-        if ($quit_thread.nil? || $quit_thread == 0)
-          dbuscomponent = LibComponent::DbusComponent.new(self)
-          @service.export(dbuscomponent)
-        end
+        #  dbuscomponent = LibComponent::DbusComponent.new(self)
+        #  @service.export(dbuscomponent)
         
-        if ($quit_thread == 1)
-          servicesignal = Servicesignal.new(@bus, self)
-        end
-
+        servicesignal = Servicesignal.new(@bus, self) # listen for service signal from server
+        
         #check if component is in threaded mode by using $main global variable
         if $main.nil?
           @main = DBus::Main.new
@@ -334,7 +330,7 @@ module LibComponent
       @bus       = bus_
       @component = component_
       @server    = @bus.service("org.openplacos.server")
-      @opos      = server.object("/plugins")
+      @opos      = @server.object("/plugins")
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"
 
