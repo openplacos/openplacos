@@ -44,7 +44,6 @@ class Component
   end
 
   def analyse
-
     @introspect_thread.join # wait for threaded introspect
 
     if (!@introspect["input"].nil?) 

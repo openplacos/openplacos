@@ -24,7 +24,10 @@ module Launcher
   end
 
   def launch_component() # TODO TODO TODO launch_component in a thread/fork module TODO TODO TODO
-
+    if (@method == "debug")
+      puts @command_string
+      return
+    end
     if (@method != "disable")  #do nothing
       if (@method == "thread")  #launch in thread mode
         if @thread.nil? #check if thread has been already launched

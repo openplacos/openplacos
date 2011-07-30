@@ -1,10 +1,14 @@
 #!/usr/bin/ruby 
+# -*- coding: utf-8 -*-
+
 
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
 # declaration de la description, des arguments et des I/O en mode 
 # micro-optparse. permet de générer le --intropect et egalement de creer
 # les objets
+
+$quit_thread = 1
 
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "This is openplacos component for a fake temperature"

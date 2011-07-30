@@ -16,7 +16,6 @@ component:
   exec: temperature_compact.rb
   method: thread
 
-
 mapping:
 - /temperature/raw: /driver2/Pin_1
 - /home/temperature: /temperature/temperature
