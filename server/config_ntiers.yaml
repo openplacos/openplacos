@@ -14,7 +14,7 @@ component:
   
 - name: temperature
   exec: temperature_compact.rb
-  method: thread
+  method: debug
 
 mapping:
 - /temperature/raw: /driver2/Pin_1
