@@ -41,23 +41,25 @@ require 'Info.rb'
 options = Parser.new do |p|
   p.banner = "The openplacos server"
   p.version = "0.0.1"
-  p.option :file, "the config file", :default => "/etc/default/openplacos"
-  p.option :debug, "activate the ruby debug flag"
+  p.option :file   , "the config file", :default => "/etc/default/openplacos"
+  p.option :debug  , "activate the ruby-dbus debug flag"
+  p.option :session, "client bus on user session bus"
 end.process!
 
 $DEBUG = options[:debug]
 
+if options[:session]
+  ENV['DEBUG_OPOS'] = "1"
+end
+
 #DBus
 if(ENV['DEBUG_OPOS'] ) ## Stand for debug
   Bus = DBus::SessionBus.instance
-  InternalBus = DBus::ASessionBus.new
   $INSTALL_PATH = File.dirname(__FILE__) + "/"
 else
   Bus = DBus::SystemBus.instance
-  InternalBus = DBus::ASystemBus.new
 end
-
-puts "#{ENV["DBUS_SESSION_BUS_ADDRESS"]}"
+InternalBus = DBus::ASessionBus.new
 
 service = Bus.request_service("org.openplacos.server")
 internalservice = InternalBus.request_service("org.openplacos.server.internal")
