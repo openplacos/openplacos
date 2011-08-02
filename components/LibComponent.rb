@@ -160,13 +160,7 @@ module LibComponent
         
         servicesignal = Servicesignal.new(@bus, self) # listen for service signal from server
         
-        #check if component is in threaded mode by using $main global variable
-        if $main.nil?
-          @main = DBus::Main.new
-        else
-          @main = $main
-        end
-        
+        @main = DBus::Main.new
         @main << @bus
         @main.run
       end
@@ -329,7 +323,7 @@ module LibComponent
     def initialize(bus_, component_)
       @bus       = bus_
       @component = component_
-      @server    = @bus.service("org.openplacos.server")
+      @server    = @bus.service("org.openplacos.server.internal")
       @opos      = @server.object("/plugins")
       @opos.introspect
       @opos.default_iface = "org.openplacos.plugins"

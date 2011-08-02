@@ -58,6 +58,7 @@ end
 
 service = Bus.request_service("org.openplacos.server")
 internalservice = InternalBus.request_service("org.openplacos.server.internal")
+internalservice.threaded = true
 
 class Top
 
@@ -76,7 +77,7 @@ class Top
 
     # Event_handler creation
     @event_handler = Event_Handler.instance
-    @service.export(@event_handler)
+    @internalservice.export(@event_handler)
 
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
@@ -185,28 +186,24 @@ top.create_exported_object
 Dispatcher.instance.check_all_pin
 top.export
 
-main = DBus::Main.new
-
-#define a global main variable for threaded component
-#maybe we should use a singleton class
-$main = main
+internalmain = DBus::Main.new
+internalmain << InternalBus
+Thread.new { internalmain.run }
 
 #launch components
 top.launch_components
 
 # quit the plugins when server quit
-
 Signal.trap('TERM') do 
- quit(top, main)
+ quit(top, internalmain)
 end
 
 Signal.trap('INT') do 
- quit(top, main)
+ quit(top, internalmain)
 end
 
-
 # Let's Dbus have execution control
+main = DBus::Main.new
 main << Bus
-main << InternalBus
 main.run
 

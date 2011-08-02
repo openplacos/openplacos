@@ -10,7 +10,7 @@ component:
 
 - name: driver2
   exec: driver.rb
-  method: thread
+  method: fork
   
 - name: temperature
   exec: temperature_compact.rb
