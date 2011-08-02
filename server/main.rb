@@ -36,6 +36,7 @@ require 'Component.rb'
 require 'Event_handler.rb'
 require 'Dispatcher.rb'
 require 'Export.rb'
+require 'Info.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
@@ -55,6 +56,8 @@ else
   Bus = DBus::SystemBus.instance
   InternalBus = DBus::ASystemBus.new
 end
+
+puts "#{ENV["DBUS_SESSION_BUS_ADDRESS"]}"
 
 service = Bus.request_service("org.openplacos.server")
 internalservice = InternalBus.request_service("org.openplacos.server.internal")
@@ -77,6 +80,9 @@ class Top
     # Event_handler creation
     @event_handler = Event_Handler.instance
     @service.export(@event_handler)
+
+    @info = Info.new()
+    @service.export(@info)
 
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
