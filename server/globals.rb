@@ -16,6 +16,8 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+require 'Event_handler'
+
 class Globals
 
   # Print trace when debug env var defined
@@ -25,8 +27,11 @@ class Globals
     end
   end
 
-  def self.error(string)
+  def self.error(string,code = 255)
     puts string
-    Process.exit 255
+    eh = Event_Handler.instance
+    eh.error (string)
+    eh.quit()
+    Process.exit code
   end
 end

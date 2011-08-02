@@ -10,12 +10,11 @@ component:
 
 - name: driver2
   exec: driver.rb
-  method: thread
+  method: fork
   
 - name: temperature
   exec: temperature_compact.rb
-  method: thread
-
+  method: fork
 
 mapping:
 - /temperature/raw: /driver2/Pin_1

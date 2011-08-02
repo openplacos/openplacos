@@ -155,21 +155,17 @@ module LibComponent
           self.quit_callback
         end
         
-        dbuscomponent = LibComponent::DbusComponent.new(self)
-        @service.export(dbuscomponent)
+        #  dbuscomponent = LibComponent::DbusComponent.new(self)
+        #  @service.export(dbuscomponent)
         
-        #check if component is in threaded mode by using $main global variable
-        if $main.nil?
-          @main = DBus::Main.new
-        else
-          @main = $main
-        end
+        servicesignal = Servicesignal.new(@bus, self) # listen for service signal from server
         
+        @main = DBus::Main.new
         @main << @bus
         @main.run
       end
     end    
-     
+    
     def introspect
       inputs_h = Hash.new
       outputs_h = Hash.new
@@ -182,7 +178,7 @@ module LibComponent
       @outputs.each { |output|
         outputs_h.merge!(output.introspect) { |key, old, new| old.merge(new) }
       }
-        
+      
       res = Hash.new
       res["input"] = {"pin" => inputs_h}
       res["output"] = {"pin" => outputs_h}
@@ -232,7 +228,7 @@ module LibComponent
     def initialize(name)
       super(name)
     end
-  
+    
     def self.create_dbusinputs_from_introspect(intro_,component_)
       pin = Array.new
       intro_.each { |name, definition|
@@ -240,13 +236,13 @@ module LibComponent
         definition.each { |iface, meths|
           component_input = component_.get_input_iface(name,iface)
           p.singleton_class.instance_eval do
-          dbus_interface "org.openplacos.#{iface}" do
-            meths.each { |m|
-              add_dbusmethod m.to_sym do |*args|
-                return component_input.send(m,*args)
-              end 
-            }
-          end
+            dbus_interface "org.openplacos.#{iface}" do
+              meths.each { |m|
+                add_dbusmethod m.to_sym do |*args|
+                  return component_input.send(m,*args)
+                end 
+              }
+            end
           end
         }
         pin << p
@@ -258,10 +254,10 @@ module LibComponent
     
     def self.add_dbusmethod(sym,&block)
       case sym
-        when :read
-          prototype = "out return:v, in option:a{sv}"
-        when :write
-          prototype = "out return:v, in value:v, in option:a{sv}"
+      when :read
+        prototype = "out return:v, in option:a{sv}"
+      when :write
+        prototype = "out return:v, in value:v, in option:a{sv}"
       end
       dbus_method(sym,prototype,&block)
     end
@@ -269,7 +265,7 @@ module LibComponent
   end
   
   class DbusOutput < DBus::ProxyObject
-  
+    
     def initialize(bus_,name_)
       @name = name_
       @bus = bus_
@@ -293,7 +289,7 @@ module LibComponent
       }
       return pin
     end
-      
+    
   end
   
   class LibError
@@ -309,17 +305,35 @@ module LibComponent
       @component = component_
       super("/component")
     end
-    
+
     dbus_interface "org.openplacos.component" do 
       dbus_method :quit do
         Thread.new { 
-          sleep 0.1
+          sleep 2
           @component.quit_callback
         }
         return 0
+        end
+    end
+  end
+
+
+  class Servicesignal 
+    
+    def initialize(bus_, component_)
+      @bus       = bus_
+      @component = component_
+      @server    = @bus.service("org.openplacos.server.internal")
+      @opos      = @server.object("/plugins")
+      @opos.introspect
+      @opos.default_iface = "org.openplacos.plugins"
+
+      @opos.on_signal("quit") do
+        @component.quit_callback
+        Process.exit 0
       end
     end
     
   end
-        
+
 end

@@ -49,7 +49,4 @@ module Dbus_proxy  # output
 
   end
   
-  def quit_component
-    return @component_proxy["org.openplacos.component"].quit
-  end
 end

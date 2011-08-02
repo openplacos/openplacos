@@ -44,7 +44,6 @@ class Component
   end
 
   def analyse
-
     @introspect_thread.join # wait for threaded introspect
 
     if (!@introspect["input"].nil?) 
@@ -80,15 +79,9 @@ class Component
   end
 
   def wait_for
-    if(@method != "disable")
+    if(!(@method == "disable" || @method == "debug"))
       wait_for_component()
     end
   end
   
-  def quit
-    if(@method != "disable")
-      quit_component()
-    end
-  end
-
 end
