@@ -27,11 +27,11 @@ class Globals
     end
   end
 
-  def self.error(string)
+  def self.error(string,code = 255)
     puts string
     eh = Event_Handler.instance
     eh.error (string)
     eh.quit()
-    Process.exit 255
+    Process.exit code
   end
 end

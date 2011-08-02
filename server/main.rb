@@ -158,9 +158,7 @@ end
 file = options[:file]
 
 if (! File.exist?(file))
-  Globals.error("Config file #{file} doesn't exist")
-
-  Process.exit 1
+  Globals.error("Config file #{file} doesn't exist",1)
 end
 
 
