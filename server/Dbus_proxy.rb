@@ -29,7 +29,7 @@ module Dbus_proxy  # output
       Timeout::timeout(@timeout) { # allow a maximum time of #timeout second for the driver launch
         begin
           #launch the driver with dbus autolaunch
-          component_service = Bus.service(@path_dbus) 
+          component_service = InternalBus.service(@path_dbus) 
           component_service.introspect
         rescue 
           sleep 0.1
