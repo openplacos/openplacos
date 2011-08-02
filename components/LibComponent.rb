@@ -213,12 +213,7 @@ module LibComponent
     private
     
     def create_bus
-      if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-        bus = DBus::ASessionBus.new
-      else
-        bus = DBus::ASystemBus.new
-      end
-      return bus
+      return DBus::ASessionBus.new
     end
     
   end
