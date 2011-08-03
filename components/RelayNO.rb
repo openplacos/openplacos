@@ -8,15 +8,20 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.default_name "relayno"
 end
 
-component << Raw = LibComponent::Output.new("/raw","digital")
+component << Raw = LibComponent::Output.new("/raw","digital","w")
 component << Switch = LibComponent::Input.new("/switch","actuator.order.switch")
 
 Switch.on_write do |value, option|
   if value==1 or value==true
+    @state = true
     return Raw.write(true,option)
   elsif value==0 or value==false
+    @state = false
     return Raw.write(false,option)
   end
 end
 
+Switch.on_read do |option|
+  return @state || false
+end
 component.run
