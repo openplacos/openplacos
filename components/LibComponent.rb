@@ -99,6 +99,7 @@ module LibComponent
       @outputs = Array.new
       @parser = Parser.new
       @parser.option(:introspect, "Return introspection of the componnent",{})
+      @parser.option(:debug, "debug flag")
       yield self if block_given?      
       @options = @parser.process!(@argv)
       @name = @options[:name].downcase
@@ -149,7 +150,12 @@ module LibComponent
         }
         
         #create and connect output pins
-        dbusoutputs = LibComponent::DbusOutput.create_dbusoutputs_from_introspect(intro["output"]["pin"],self)
+        if options[:debug]
+          @dbusoutputs = LibComponent::DebugOutput.create_dbusoutputs_from_introspect(intro["output"]["pin"],self)
+        else
+          @dbusoutputs = LibComponent::DbusOutput.create_dbusoutputs_from_introspect(intro["output"]["pin"],self)
+          @servicesignal = Servicesignal.new(@bus, self) # listen for service signal from server
+        end
         
         Signal.trap('INT') do 
           self.quit_callback
@@ -158,7 +164,6 @@ module LibComponent
         #  dbuscomponent = LibComponent::DbusComponent.new(self)
         #  @service.export(dbuscomponent)
         
-        servicesignal = Servicesignal.new(@bus, self) # listen for service signal from server
         
         @main = DBus::Main.new
         @main << @bus
@@ -283,6 +288,44 @@ module LibComponent
         pin << p
       }
       return pin
+    end
+    
+  end
+  
+  # a class for debugging which print the output
+  class DebugOutput 
+    attr_reader :name
+    
+    def initialize(name_)
+      @name = name_
+    end
+    
+    def [](propname)
+      return self
+    end
+    
+    def self.create_dbusoutputs_from_introspect(intro_,component_)
+      pin = Array.new
+      intro_.each { |name, definition|
+        p = self.new("/#{component_.name}#{name}")
+        
+        definition.each_key { |iface|
+          component_output = component_.get_output_iface(name,iface)
+          component_output.connect(p)
+        }
+        pin << p
+      }
+      return pin
+    end
+    
+    def read(*args)
+      puts "Read on #{self.name} : #{args.inspect}"
+      return [0]      
+    end
+    
+    def write(*args)
+      puts "Write on #{self.name} : #{args.inspect}"
+      return [0]
     end
     
   end
