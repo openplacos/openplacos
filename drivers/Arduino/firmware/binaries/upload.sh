@@ -17,4 +17,4 @@ echo "USB port ?"
 read port
 
 echo "Start uploading"
-avrdude -F -V -c arduino -p $chip -P $port -b 115200 -U flash:w:$file 
+avrdude -c arduino -p $chip -P $port -b 115200 -U flash:w:$file 
