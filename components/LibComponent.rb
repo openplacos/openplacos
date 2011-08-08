@@ -9,12 +9,20 @@ require 'yaml'
 module LibComponent
 
   class Input
-    attr_reader :name, :interface
+    attr_reader   :name, :interface
+    attr_accessor :input, :last_iface_init
+
     def initialize(pin_name_,iface_name_)
-      @name = pin_name_
+      @name      = pin_name_
       @interface = iface_name_      
+      @input     = nil
+      @last_iface_init = ""
     end
     
+    def set_component(component_)
+      @component=component_
+    end
+
     def introspect
       iface = Hash.new
       pin = Hash.new
@@ -31,6 +39,56 @@ module LibComponent
       return pin
     end
     
+    def set_off()
+      if (@last_iface_init != @interface) # Iface changed, turn off previous one
+        prev_iface = @component.get_input_iface(@interface, @last_iface_init)
+         if(prev_iface.respond_to?(:exit))
+           eval("prev_iface."+"()")
+        end     
+      end
+    end
+
+    def set_input_lib
+      if (@input != 1) # 1 means input / 0 output
+        if(self.respond_to?(:set_input))
+          self.set_input()
+        end
+        @input = 1
+      end     
+    end
+
+    def set_output_lib
+      if (@input != 0) # 1 means input / 0 output
+        if(self.respond_to?(:set_output))
+          self.set_output()
+        end
+        @input = 0
+      end     
+    end
+
+    def init_iface
+      if(@last_iface_init != @interface)
+        if(self.respond_to?(:init))
+          self.init
+        end
+      end
+      @component.set_last_iface_init(@name, @interface) # set last_iface_name
+    end
+    
+    def read_lib(*args)
+      set_off # set_off last iface
+      set_input_lib
+      init_iface
+      return read(*args)
+    end
+
+    def write_lib(*args)
+      set_off # set_off last iface
+      set_output_lib
+      init_iface
+      return write(*args)
+    end
+
     def on_read(&block)
       self.singleton_class.instance_eval {
         define_method(:read , &block)
@@ -54,6 +112,10 @@ module LibComponent
       @proxy = nil
     end
     
+    def set_component(component_)
+      @component=component_
+    end   
+
     def introspect
       iface = Hash.new
       pin = Hash.new
@@ -98,7 +160,7 @@ module LibComponent
       @inputs = Array.new
       @outputs = Array.new
       @parser = Parser.new
-      @parser.option(:introspect, "Return introspection of the componnent",{})
+      @parser.option(:introspect, "Return introspection of the component",{})
       @parser.option(:debug, "debug flag")
       yield self if block_given?      
       @options = @parser.process!(@argv)
@@ -133,6 +195,7 @@ module LibComponent
           self << p
         }
       end
+      pin_.set_component(self)
     end
     
     def run
@@ -196,6 +259,20 @@ module LibComponent
       }
       return nil
     end
+
+    def set_input(object_name_, input_)
+      @inputs.each { |input|
+        input.input= input_ if (input.name==object_name_) 
+      }
+      return nil     
+    end
+
+    def set_last_iface_init(object_name_, iface_name_)
+      @inputs.each { |input|
+        input.last_iface_init = iface_name_ if (input.name==object_name_) 
+      }
+      return nil     
+    end
     
     def get_output_iface(object_name_,iface_name_)
       @outputs.each { |output|
@@ -239,7 +316,7 @@ module LibComponent
             dbus_interface "org.openplacos.#{iface}" do
               meths.each { |m|
                 add_dbusmethod m.to_sym do |*args|
-                  return component_input.send(m,*args)
+                  return component_input.send(m+"_lib",*args)
                 end 
               }
             end
@@ -252,14 +329,14 @@ module LibComponent
     
     private
     
-    def self.add_dbusmethod(sym,&block)
-      case sym
+    def self.add_dbusmethod(sym_,&block)
+      case sym_
       when :read
         prototype = "out return:v, in option:a{sv}"
       when :write
         prototype = "out return:v, in value:v, in option:a{sv}"
-      end
-      dbus_method(sym,prototype,&block)
+     end
+      dbus_method(sym_,prototype,&block)
     end
     
   end

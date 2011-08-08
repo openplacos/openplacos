@@ -1,4 +1,5 @@
 #!/usr/bin/ruby 
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
 # declaration de la description, des arguments et des I/O en mode 
@@ -22,6 +23,6 @@ module Input
   end
 end
 
-component << LibComponent::Input.new("/Pin_1","analog").extend(Input)
+component << LibComponent::Input.new("/Pin_1","analog", component).extend(Input)
 
 component.run
