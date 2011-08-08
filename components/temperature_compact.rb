@@ -14,9 +14,9 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.default_name "temperature"
 end
 
-component << Raw = LibComponent::Output.new("/raw","analog", component)
-component << C_temp = LibComponent::Input.new("/temperature","sensor.temperature.celcuis", component)
-component << F_temp = LibComponent::Input.new("/temperature","sensor.temperature.farenheit", component)
+component << Raw = LibComponent::Output.new("/raw","analog")
+component << C_temp = LibComponent::Input.new("/temperature","sensor.temperature.celcuis")
+component << F_temp = LibComponent::Input.new("/temperature","sensor.temperature.farenheit")
 
 C_temp.on_read do |*args|
   return Raw.read(*args)

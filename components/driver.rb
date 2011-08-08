@@ -23,6 +23,6 @@ module Input
   end
 end
 
-component << LibComponent::Input.new("/Pin_1","analog", component).extend(Input)
+component << LibComponent::Input.new("/Pin_1","analog").extend(Input)
 
 component.run
