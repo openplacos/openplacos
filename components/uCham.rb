@@ -27,8 +27,7 @@ class Serial_uCham
   end
   
   def write_and_read(string_)
-    self.print_debug(string_)
-    @sp.write(string_+ "\n")
+    write(string_)
     val = @sp.gets.split.reverse[0]
     self.print_debug("Return " + val)
     return val

@@ -1,4 +1,5 @@
 #!/usr/bin/ruby 
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) << "/LibComponent.rb"
 require 'serialport'
 
@@ -25,7 +26,7 @@ class Serial_Arduino
   end
   
   def write_and_read(string_)
-    @sp.write(string_+ "\r\n")
+    write(string_)
     val = @sp.gets.split.reverse[0]
     return val
   end
@@ -61,7 +62,7 @@ module Pwm
       value = value_
     end
     
-     Arduino.write("pwm #{@number} #{value}")
+     @arduino.write("pwm #{@number} #{value}")
   end
 
 end
@@ -71,7 +72,7 @@ end
 module Analog 
   
   def read(option_)
-    return Arduino.write_and_read("adc #{@number}").to_f/1023
+    return @arduino.write_and_read("adc #{@number}").to_f/1023
   end
 
 end
@@ -80,7 +81,7 @@ module Dht11
   
   def read(option_)
     @sp.write("dht11 #{@number}")
-    ret =  Arduino.read.split.reverse[0..1] # first value = temperature, seconde value hygro
+    ret =  @arduino.read.split.reverse[0..1] # first value = temperature, seconde value hygro
     return [ret]
   end
 
@@ -89,25 +90,17 @@ end
 module Digital
   
   def read(option_)
-    if (@input == 0  or @input==nil)
-       Arduino.write("pin #{@number} input") # if pin is set as output, set it as input
-      @input = 1
-    end
-    return Arduino.write_and_read("pin #{@number} state")    
+    return @arduino.write_and_read("pin #{@number} state")    
   end
   
   def write(value_,option_)
-    if (@input==nil or @input == 1 )
-      Arduino.write("pin #{@number} output") # if pin is set as output, set it as input
-      puts "set out"
-      @input = 0
-    end
+
     if (value_.class==TrueClass or value_==1)
-       Arduino.write("pin #{@number} 1")  
+       @arduino.write("pin #{@number} 1")  
       return true
     end
     if (value_.class==FalseClass or value_==0)
-       Arduino.write("pin #{@number} 0")  
+       @arduino.write("pin #{@number} 0")  
       return true
     end
   end
@@ -115,13 +108,18 @@ module Digital
 end
 
 module Common
-  def push_arduino(ard_)
+  def push_arduino_and_number(ard_, num_)
     @arduino = ard_
-  end
-  
-  def push_pin_number(num_)
     @number = num_
   end
+
+  def set_input
+    @arduino.write("pin #{@number} input") # if pin is set as output, set it as input
+  end
+
+  def set_output
+    @arduino.write("pin #{@number} output") # if pin is set as output, set it as input 
+  end  
 
 end
 #
@@ -151,29 +149,29 @@ case BOARD
 end
 
 if !component.options[:introspect]
-  Arduino = Serial_Arduino.new(SERIAL_PORT,BAUPRATE)
+  arduino = Serial_Arduino.new(SERIAL_PORT,BAUPRATE)
   component.on_quit do
-    Arduino.quit
+    arduino.quit
   end
 end
 
 NB_DIGITAL_PIN.each { |number|
   p = LibComponent::Input.new("/Digital#{number}","digital").extend(Digital,Common)
-  p.push_pin_number(number)
+  p.push_arduino_and_number(arduino, number)
   component << p
   
   p = LibComponent::Input.new("/Digital#{number}","dht11").extend(Dht11,Common)
-  p.push_pin_number(number)
+  p.push_arduino_and_number(arduino, number)
   component << p
 }
 NB_PWM_PIN.each { |number|
   p = LibComponent::Input.new("/Digital#{number}","pwm").extend(Pwm,Common)
-  p.push_pin_number(number)
+  p.push_arduino_and_number(arduino, number)
   component << p
 }
 NB_ANALOG_PIN.each { |number|
   p = LibComponent::Input.new("/Analog#{number}","analog").extend(Analog,Common)
-  p.push_pin_number(number)
+  p.push_arduino_and_number(arduino, number)
   component << p
 }
 component.run
