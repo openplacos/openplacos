@@ -30,13 +30,12 @@ class Pathfinder
                           :name     => name_,
                           :follow   => false,
                           :path     => @config,
-                         # :maxdepth => 4 
+                          # :maxdepth => 4 # https://github.com/djberg96/file-find/issues/2
                           )
     if (rule.find.empty?)
       Globals.error("#{name_} not found -- please check config")
     end
-    puts "ok"
-    return rule.find.first # consider only first one
+    return File.expand_path(rule.find.first) # consider only first one
   end
 
 end

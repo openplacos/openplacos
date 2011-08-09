@@ -1,5 +1,6 @@
 pathfinder:
-- /home/flagos/projects/openplacos/
+- ../
+- ../..
 
 export:
 - /home/temperature
