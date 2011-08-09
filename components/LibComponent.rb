@@ -41,9 +41,9 @@ module LibComponent
     
     def set_off()
       if (@last_iface_init != @interface) # Iface changed, turn off previous one
-        prev_iface = @component.get_input_iface(@interface, @last_iface_init)
+        prev_iface = @component.get_input_iface(@name, @last_iface_init)
          if(prev_iface.respond_to?(:exit))
-           eval("prev_iface."+"()")
+           eval("prev_iface.exit"+"()")
         end     
       end
     end
@@ -54,7 +54,8 @@ module LibComponent
           self.set_input()
         end
         @input = 1
-      end     
+      end 
+      @last_iface_init = @interface
     end
 
     def set_output_lib
