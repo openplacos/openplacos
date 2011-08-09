@@ -15,7 +15,7 @@
 #
 require 'Launcher.rb'
 require 'Pin.rb'
-
+require 'Pathfinder'
 
 class Component 
   include Launcher
@@ -30,10 +30,16 @@ class Component
     @name           = component_["name"]
     @config["name"] = @name
     @method         = component_["method"]
-    @exec           = PATH + "/../components/" + component_["exec"]
     @inputs         = Array.new
     @outputs        = Array.new
     @thread         = nil # Launcher attribute init
+    @filename       = component_["exec"]
+
+    get_exec_path
+  end
+
+  def get_exec_path
+    @exec           = Pathfinder.instance.get_file(@filename)
   end
 
   def introspect
@@ -70,8 +76,7 @@ class Component
   def expose()
     @outputs.each do |pin|
       pin.expose_on_dbus()
-    end
-    
+    end    
   end
 
   def launch 
