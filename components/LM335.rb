@@ -16,7 +16,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-#    Virtual placos for tests
+#    LM335 temperature sensor component
 
 require File.dirname(__FILE__) << "/LibComponent.rb"
 

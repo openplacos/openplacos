@@ -16,7 +16,7 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-#    Virtual placos for tests
+#    HIH3610 humidity sensor component
 
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
