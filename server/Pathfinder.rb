@@ -29,7 +29,7 @@ class Pathfinder
     rule = File::Find.new(
                           :name     => name_,
                           :follow   => false,
-                          :path     => @config,
+                          :path     => @config
                           # :maxdepth => 4 # https://github.com/djberg96/file-find/issues/2
                           )
     if (rule.find.empty?)
