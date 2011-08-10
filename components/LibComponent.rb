@@ -42,7 +42,7 @@ module LibComponent
     def set_off()
       if (@last_iface_init != @interface) # Iface changed, turn off previous one
         prev_iface = @component.get_input_iface(@interface, @last_iface_init)
-         if(prev_iface.respond_to?(:exit))
+        if(prev_iface.respond_to?(:exit))
            eval("prev_iface."+"()")
         end     
       end
@@ -335,7 +335,7 @@ module LibComponent
         prototype = "out return:v, in option:a{sv}"
       when :write
         prototype = "out return:v, in value:v, in option:a{sv}"
-     end
+      end
       dbus_method(sym_,prototype,&block)
     end
     
