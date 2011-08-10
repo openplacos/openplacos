@@ -43,7 +43,7 @@ module LibComponent
       if (@last_iface_init != @interface) # Iface changed, turn off previous one
         prev_iface = @component.get_input_iface(@name, @last_iface_init)
          if(prev_iface.respond_to?(:exit))
-           eval("prev_iface.exit"+"()")
+           prev_iface.exit()
         end     
       end
     end
