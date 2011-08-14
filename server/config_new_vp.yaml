@@ -1,3 +1,7 @@
+pathfinder:
+- ../
+- ../..
+
 export:
 - /home/temperature
 - /home/humidity
