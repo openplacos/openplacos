@@ -27,8 +27,8 @@ component = LibComponent::Component.new(ARGV) do |c|
 end
 
 component << Raw = LibComponent::Output.new("/raw","pwm","w")
-component << Dimmer = LibComponent::Input.new("/dimmer","actuator.order.dimmer")
-component << Switch = LibComponent::Input.new("/dimmer","actuator.order.switch")
+component << Dimmer = LibComponent::Input.new("/dimmer","analog.order.dimmer")
+component << Switch = LibComponent::Input.new("/dimmer","digital.order.switch")
 
 dimmer_state = 0
 switch_state = false
