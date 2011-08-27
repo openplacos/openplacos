@@ -32,7 +32,7 @@ module Openplacos
         @service.introspect
         #discover all objects of server
         @initial_room = Room.new(nil, "/")   
-        @objects = get_objects(@service.root, @initial_room)
+        @objects = get_node_objects(@service.root, @initial_room)
         @rooms = @initial_room.tree
 
         
@@ -50,7 +50,7 @@ module Openplacos
       
     end  
     
-    def get_objects(nod, father_) #get objects from a node, ignore Debug objects
+    def get_node_objects(nod, father_) #get objects from a node, ignore Debug objects
       obj = Hash.new
       nod.each_pair{ |key,value|
         if not(key=="Debug" or key=="server" or key=="plugins" or key=="Authenticate") #ignore debug objects
@@ -59,7 +59,7 @@ module Openplacos
             father_.push_object(value.object)
           else
             children = father_.push_child(key)
-            obj.merge!(get_objects(value, children))
+            obj.merge!(get_node_objects(value, children))
           end
         end
       }
@@ -79,13 +79,18 @@ module Openplacos
     def get_sensors
       sensors = Hash.new
       @objects.each_pair{ |key, value|
-        if value.has_iface?('org.openplacos.server.measure')
-          sensors[key] = value['org.openplacos.server.measure']
-        end
+        sensors[key] = Array.new
+        get_iface_type(value,"sensor").each { |iface|
+          sensors[key] << value[iface]
+        }
       }
       sensors  
     end
     
+    def get_objects
+      return @objects
+    end
+
     def is_regul(sensor)
       # get dbus object of sensor
       key = get_sensors.index(sensor)
@@ -112,9 +117,10 @@ module Openplacos
     def get_actuators
       actuators = Hash.new
       @objects.each_pair{ |key, value|
-        if value.has_iface?('org.openplacos.server.actuator')
-          actuators[key] = value['org.openplacos.server.actuator']
-        end
+        actuators[key] = Array.new
+         get_iface_type(value,"actuator").each { |iface|
+          actuators[key] << value[iface]
+        }
       }
       actuators
     end
@@ -122,13 +128,24 @@ module Openplacos
     def get_reguls
       reguls = Hash.new
       @objects.each_pair{ |key, value|
-        if value.has_iface?('org.openplacos.server.regul')
-          reguls[key] = value['org.openplacos.server.regul']
-        end
+        reguls[key] = Array.new
+        get_iface_type(value,"regul").each { |iface|
+          reguls[key] <<  value[iface]
+        }
       }
       reguls
     end
     
+    def get_iface_type(obj, det_)
+      a = Array.new
+      obj.interfaces.each { |iface|
+        if(iface.include?(det_))
+          a << iface
+        end
+      }
+      a
+    end
+
     def auth(login_,password_)
       authobj = @service.object("/Authenticate")["org.openplacos.authenticate"]
       ack,perm = authobj.authenticate(login_,password_)

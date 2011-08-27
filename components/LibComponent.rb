@@ -2,11 +2,19 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 
 require "rubygems"
 require 'dbus-openplacos'
-require "micro-optparse"
 require 'yaml' 
+#require "micro-optparse"
 
+# Really dirty but fix conflict namespace for Parser class with activerecord
+parser_eval = ""
+parser_eval << "module Microoptparse \n"
+parser_eval << File.open("#{File.dirname(__FILE__)}/parser.rb").read
+parser_eval << "\nend\n"
+eval(parser_eval)
 
 module LibComponent
+
+  
 
   class Input
     attr_reader   :name, :interface
@@ -18,7 +26,7 @@ module LibComponent
       @input     = nil
       @last_iface_init = ""
     end
-    
+  
     def set_component(component_)
       @component=component_
     end
@@ -154,13 +162,13 @@ module LibComponent
     attr_reader :options, :bus ,:name
 
     def initialize(argv_ = ARGV)
-      @argv = argv_
+      @argv        = argv_
       @description = ""
-      @bus = nil
-      @main = nil
-      @inputs = Array.new
-      @outputs = Array.new
-      @parser = Parser.new
+      @bus         = nil
+      @main        = nil
+      @inputs      = Array.new
+      @outputs     = Array.new
+      @parser      = Microoptparse::Parser.new
       @parser.option(:introspect, "Return introspection of the component",{})
       @parser.option(:debug, "debug flag")
       yield self if block_given?      
@@ -169,7 +177,7 @@ module LibComponent
     end
     
     def description(desc_)
-      @description = desc_
+      @description   = desc_
       @parser.banner = desc_
     end
     
@@ -451,5 +459,5 @@ module LibComponent
     end
     
   end
-
 end
+

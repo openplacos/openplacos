@@ -29,8 +29,8 @@ class Pathfinder
     rule = File::Find.new(
                           :name     => name_,
                           :follow   => false,
-                          :path     => @config
-                          # :maxdepth => 4 # https://github.com/djberg96/file-find/issues/2
+                          :path     => @config,
+                          #:maxdepth => 4 # https://github.com/djberg96/file-find/issues/2
                           )
     if (rule.find.empty?)
       Globals.error("#{name_} not found -- please check config")
