@@ -4,7 +4,7 @@
 
 dht11 DHT11;
 RCSwitch mySwitch = RCSwitch();
-char target[6]; 
+char tristate[13]; 
 // Instantiate Messenger object with the default separator (the space character)
 Messenger message = Messenger(); 
 
@@ -70,26 +70,14 @@ void messageReady() {
    return;  
  }  
  
- if ( message.checkString("rcswitchon") ) {
+ if ( message.checkString("rcswitch") ) {
    int pin = message.readInt();
-   message.copyString(target,6);
-   int group = message.readInt();
+   message.copyString(tristate,13);
    
    mySwitch.enableTransmit(pin);
-   mySwitch.switchOn(target,group);
-   delay(1000); 
+   mySwitch.sendTriState(tristate);
    return;  
  }
-
- if ( message.checkString("rcswitchoff") ) {
-   int pin = message.readInt();
-   message.copyString(target,6);
-   int group = message.readInt();
-   
-   mySwitch.enableTransmit(pin);
-   mySwitch.switchOff(target,group); 
-   return;  
- }   
 
  if ( message.checkString("dht11") ) {
    int pin = message.readInt();
