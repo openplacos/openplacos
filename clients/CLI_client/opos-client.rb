@@ -79,18 +79,6 @@ if( arg_[0] == "status")
     end
   }
   return
-  opos_.sensors.each_pair{|key, sensor|
-    regul_enabled = "NA"
-    if opos_.is_regul(sensor)
-      if(opos_.get_regul_iface(sensor).state[0])
-        regul_enabled = "enabled"
-      else
-        regul_enabled = "disabled"
-      end
-    end
-    puts key + get_adjust(key.length, 5) + sensor.value().to_s + get_adjust(10)+ regul_enabled
-  }
-  return
 end
 
 if( arg_[0] == "set")

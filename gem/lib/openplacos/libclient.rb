@@ -17,6 +17,8 @@
 ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'dbus-openplacos'
 
+require 'widget/modules'
+
 module Openplacos
   class Client # client for openplacos server 
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
