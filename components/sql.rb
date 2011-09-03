@@ -87,20 +87,6 @@ end
 
 puts "OK"
 
-client.get_sensors.each { |key, obj|
-  if (key != "/informations")
-
-    puts Device.joins(:sensor).inspect
-      
-    obj.each { |iface|
-      puts key + ": "+iface.read({})[0].to_s + " #{key.split('.').last}"
-    }
-  end
-}
-
-Process.exit 0
-
-puts "Done with sensors"
 
 client.get_objects.each_pair{ |key, obj|
   if (key != "/informations")

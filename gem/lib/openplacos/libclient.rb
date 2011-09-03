@@ -34,14 +34,8 @@ module Openplacos
         @initial_room = Room.new(nil, "/")   
         @objects = get_node_objects(@service.root, @initial_room)
         @rooms = @initial_room.tree
-
-        
-        #get sensors and actuators
-        @sensors = get_sensors
-        @actuators = get_actuators
-        @reguls = get_reguls
-        
         @permissions = Hash.new
+
       else
         puts "Can't find OpenplacOS server"
         Process.exit 1
