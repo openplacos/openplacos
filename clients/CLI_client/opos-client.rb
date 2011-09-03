@@ -21,9 +21,9 @@ $LOAD_PATH << $LIB_PATH
 
 
 require "rubygems"
-require "openplacos"
 require 'scanf.rb'
 
+require "/home/flagos/projects/openplacos/gem/lib/openplacos/libclient.rb"
 
 opos = Openplacos::Client.new
 
@@ -70,6 +70,15 @@ if( arg_[0] == "list")
 end # Eof 'list'
 
 if( arg_[0] == "status")
+  opos_.get_objects.each_pair{ |key, obj|
+    if (key != "/informations")
+      puts key 
+      obj.interfaces.each { |iface|
+        puts iface + ": "+obj[iface].read({})[0].to_s 
+      }
+    end
+  }
+  return
   opos_.sensors.each_pair{|key, sensor|
     regul_enabled = "NA"
     if opos_.is_regul(sensor)
