@@ -25,7 +25,7 @@ require "openplacos"
 require 'scanf.rb'
 
 
-$opos = Openplacos::Client.new
+opos = Openplacos::Client.new
 
 
 def get_adjust(string_len_, size_=2)
@@ -47,7 +47,7 @@ puts "regul <sensor>  <threshold>   \n   # Setup up a regul on this sensor with 
 
 end
 
-def process(arg_)
+def process(opos_, arg_)
 if (arg_[0] == nil)
 puts "Please specify an action"
 usage()
@@ -57,23 +57,23 @@ end
 
 if( arg_[0] == "list")
   puts "Actuators\t"+ get_adjust("Actuators".length) +"\t   Interface"
-  $opos.actuators.each_pair{|key, value|
+  opos_.actuators.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length) # Cosmetic
     puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
   }
   puts "\nSensor\t"+ get_adjust("Sensor".length)+ "\t   Interface" + "\t   Regul"
-  $opos.sensors.each_pair{|key, value|
+  opos_.sensors.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length)    
-    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '') +  "\t" +  $opos.is_regul(value).to_s
+    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '') +  "\t" +  opos_.is_regul(value).to_s
   }
   return
 end # Eof 'list'
 
 if( arg_[0] == "status")
-  $opos.sensors.each_pair{|key, sensor|
+  opos_.sensors.each_pair{|key, sensor|
     regul_enabled = "NA"
-    if $opos.is_regul(sensor)
-      if($opos.get_regul_iface(sensor).state[0])
+    if opos_.is_regul(sensor)
+      if(opos_.get_regul_iface(sensor).state[0])
         regul_enabled = "enabled"
       else
         regul_enabled = "disabled"
@@ -93,11 +93,11 @@ if( arg_[0] == "set")
   
   act_hash = Hash.new
   1.upto( arg_.length - 2 ){ |i|
-    if ($opos.actuators[arg_[i]] == nil)
+    if (opos_.actuators[arg_[i]] == nil)
       puts "No actuators called " + arg_[i]
       return
     end
-    act_hash.store(arg_[i], $opos.actuators[arg_[i]])
+    act_hash.store(arg_[i], opos_.actuators[arg_[i]])
   }
 
   if (arg_[arg_.length - 1].downcase == "on")
@@ -124,11 +124,11 @@ if( arg_[0] == "get")
   
   sens_hash = Hash.new
   1.upto( arg_.length - 1 ){ |i|
-    if ($opos.sensors[arg_[i]] == nil)
+    if (opos_.sensors[arg_[i]] == nil)
       puts "No sensor called " + arg_[i]
       return
     end
-    sens_hash.store(arg_[i], $opos.sensors[arg_[i]])    
+    sens_hash.store(arg_[i], opos_.sensors[arg_[i]])    
   }
 
   sens_hash.each_pair { |key, sens|
@@ -144,11 +144,11 @@ if( arg_[0] == "regul")
     return
   end
   
-    if ($opos.reguls[arg_[1]] == nil)
+    if (opos_.reguls[arg_[1]] == nil)
       puts "No regul called " + arg_[1]
       return
     end
-    regul = $opos.reguls[arg_[1]]
+    regul = opos_.reguls[arg_[1]]
 
   if (arg_[2]=="disable" || arg_[2]=="off")
     regul.unset()
@@ -175,5 +175,5 @@ loop do
   if array[0] == "exit" || array[0] == "quit" 
       Process.exit 0 
   end
-  process(array)
+  process(opos, array)
 end

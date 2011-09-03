@@ -26,10 +26,11 @@ require File.dirname(__FILE__) << "/LibComponent.rb"
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "OpenplacOS driver for µChameleon board"
   c.default_name "uchameleon"
-  c.option :database, "Database name", :default => "openplacos"
-  c.option :username, "DB user",       :default => "openplacos"
-  c.option :password, "DB password",   :default => "opospass"
-  c.option :adapter, "DB adapter",     :default => "mysql"
+  c.option :database, "Database name",      :default => "openplacos"
+  c.option :username, "DB user",            :default => "openplacos"
+  c.option :password, "DB password",        :default => "opospass"
+  c.option :adapter,  "DB adapter",         :default => "mysql"
+  c.option :pulling,  "Pulling cycle in s", :default => 300
 end
 
 options = { 
