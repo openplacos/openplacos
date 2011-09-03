@@ -14,5 +14,5 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require 'Analog'
+require "Analog.rb"
 
