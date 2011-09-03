@@ -75,65 +75,9 @@ module Openplacos
       }
       cfg
     end
-    
-    def get_sensors
-      sensors = Hash.new
-      @objects.each_pair{ |key, value|
-        sensors[key] = Array.new
-        get_iface_type(value,"sensor").each { |iface|
-          sensors[key] << value[iface]
-        }
-      }
-      sensors  
-    end
-    
+
     def get_objects
       return @objects
-    end
-
-    def is_regul(sensor)
-      # get dbus object of sensor
-      key = get_sensors.index(sensor)
-      if (key == nil)
-        return false
-      end
-
-      # Test interface
-      if (@objects[key].has_iface?('org.openplacos.server.regul'))
-        return true
-      else
-        return false
-      end
-    end
-
-    def get_regul_iface(sensor)
-      if (is_regul(sensor)==nil)
-        return nil
-      end
-      key = get_sensors.index(sensor)
-      return @objects[key]['org.openplacos.server.regul']
-    end
-
-    def get_actuators
-      actuators = Hash.new
-      @objects.each_pair{ |key, value|
-        actuators[key] = Array.new
-         get_iface_type(value,"actuator").each { |iface|
-          actuators[key] << value[iface]
-        }
-      }
-      actuators
-    end
-    
-    def get_reguls
-      reguls = Hash.new
-      @objects.each_pair{ |key, value|
-        reguls[key] = Array.new
-        get_iface_type(value,"regul").each { |iface|
-          reguls[key] <<  value[iface]
-        }
-      }
-      reguls
     end
     
     def get_iface_type(obj, det_)

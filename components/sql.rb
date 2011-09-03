@@ -90,7 +90,7 @@ puts "OK"
 client.get_sensors.each { |key, obj|
   if (key != "/informations")
 
-    puts Device.joins(:sensor).exists?(:config_name => key)
+    puts Device.joins(:sensor).inspect
       
     obj.each { |iface|
       puts key + ": "+iface.read({})[0].to_s + " #{key.split('.').last}"
