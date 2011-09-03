@@ -98,13 +98,16 @@ module Openplacos
     end
 
     def extend_iface(iface_name_,obj_ )
+      obj_.extend(construct_module(iface_name_).to_sym)
+    end
+    
+    def construct_module(iface_name_)
       iface_heritage = iface_name_.sub(/org.openplacos./, '').split('.')
       iface_heritage.each { |s|
         s.capitalize!
       }
-      puts iface_heritage.join("::")
+      iface_heritage.join("::")
     end
-
 
     def auth(login_,password_)
       authobj = @service.object("/Authenticate")["org.openplacos.authenticate"]
