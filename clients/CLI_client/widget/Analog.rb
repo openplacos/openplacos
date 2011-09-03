@@ -20,7 +20,7 @@ module Analog
   end
 end
 
-module Sensor
+module Analog::Sensor
   include Analog
 
   def render

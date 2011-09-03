@@ -20,7 +20,7 @@ module Analog
 
 end
 
-module Sensor
+module  Analog::Sensor
   include Analog
   
   def unit

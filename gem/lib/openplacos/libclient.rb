@@ -38,6 +38,7 @@ module Openplacos
         @rooms = @initial_room.tree
         @permissions = Hash.new
 
+        extend_objects
       else
         puts "Can't find OpenplacOS server"
         Process.exit 1
@@ -85,6 +86,25 @@ module Openplacos
       }
       a
     end
+
+    def extend_objects
+      @objects.each_pair{ |key, obj|
+        if (key != "/informations")
+          obj.interfaces.each { |iface|
+            extend_iface(iface, obj[iface])
+          }
+        end
+      }
+    end
+
+    def extend_iface(iface_name_,obj_ )
+      iface_heritage = iface_name_.sub(/org.openplacos./, '').split('.')
+      iface_heritage.each { |s|
+        s.capitalize!
+      }
+      puts iface_heritage.join("::")
+    end
+
 
     def auth(login_,password_)
       authobj = @service.object("/Authenticate")["org.openplacos.authenticate"]
