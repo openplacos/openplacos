@@ -64,7 +64,7 @@ if( arg_[0] == "list")
   puts "\nSensor\t"+ get_adjust("Sensor".length)+ "\t   Interface" + "\t   Regul"
   opos_.sensors.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length)    
-    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '') +  "\t" +  opos_.is_regul(value).to_s
+    puts "#{key} :\t#{adjust}   #{value.name.sub(/org.openplacos.server./, '')}\t#{opos_.is_regul(value).to_s}"
   }
   return
 end # Eof 'list'

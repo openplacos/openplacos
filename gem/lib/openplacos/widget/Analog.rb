@@ -22,7 +22,7 @@ end
 
 module  Analog::Sensor
   include Analog
-  
+  puts Module.nesting
   def unit
     @name.split(".").last
   end
