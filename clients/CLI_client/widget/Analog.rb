@@ -13,18 +13,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-module Analog
+module Openplacos
+  module Analog
 
-  def render
-    to_s
-  end
-end
-
-module Analog::Sensor
-  include Analog
-
-  def render
-    Analog::render << "" << unit
+    def render
+      to_s
+    end
   end
 
+  module Analog::Sensor
+    include Analog
+
+    def render
+      Analog::render << "" << unit
+    end
+
+  end
 end

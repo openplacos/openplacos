@@ -16,29 +16,22 @@
 
 ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'dbus-openplacos'
-require 'widget/modules'
-
-
-
+require '/home/flagos/projects/openplacos/gem/lib/openplacos/widget/modules.rb'
 
 module Openplacos
 
  module String
-    def get_max_const
-      array = self.split("::")
-      out = nil
-      array.each { |mod|
-        if out.nil?
-          out = Kernel.const_get(mod)
-        else 
-          if out.const_defined?(mod)
-            out = out.const_get(mod)
-          else
-            return out
-          end
-        end
-      }
-      return out
+   def get_max_const
+     array = self.split("::")
+     out = Kernel
+     array.each { |mod|
+       if out.const_defined?(mod)
+         out = out.const_get(mod)
+       else
+         return out
+       end
+     }
+     return out #Should never be here
     end
   end
  
@@ -123,7 +116,7 @@ module Openplacos
     def extend_iface(iface_name_,obj_ )
       mod = "Openplacos::"+ construct_module_name(iface_name_)
       mod.extend(Openplacos::String)
-      obj_.extend(mod. get_max_const)
+      obj_.extend(mod.get_max_const)
     end
     
     def construct_module_name(iface_name_)

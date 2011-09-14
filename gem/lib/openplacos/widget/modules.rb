@@ -14,5 +14,6 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require "Analog.rb"
+require File.dirname(__FILE__) + "/Analog.rb"
+require File.dirname(__FILE__) + "/Actuator.rb"
 

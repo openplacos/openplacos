@@ -8,23 +8,26 @@
 #    Openplacos is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU General Public License for more details.s.instance
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-module Analog
-  def to_s
-    read({})[0].round(2).to_s
+
+module Openplacos
+  module Analog
+    def to_s
+      read({})[0].round(2).to_s
+    end
+
   end
 
-end
+  module  Analog::Sensor
+    include Analog
 
-module  Analog::Sensor
-  include Analog
-  puts Module.nesting
-  def unit
-    @name.split(".").last
+    def unit
+      @name.split(".").last
+    end
+
   end
-
 end

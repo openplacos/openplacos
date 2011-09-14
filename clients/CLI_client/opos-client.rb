@@ -25,6 +25,9 @@ require 'scanf.rb'
 
 require "/home/flagos/projects/openplacos/gem/lib/openplacos/libclient.rb"
 
+require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
+
+
 opos = Openplacos::Client.new
 
 
@@ -73,8 +76,8 @@ if( arg_[0] == "status")
   opos_.get_objects.each_pair{ |key, obj|
     if (key != "/informations")
       puts key 
-      obj.interfaces.each { |iface|
-        puts iface + ": "+obj[iface].read({})[0].to_s 
+      obj.interfaces.each{ |iface|
+        puts obj[iface].render
       }
     end
   }
