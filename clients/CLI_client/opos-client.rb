@@ -91,20 +91,17 @@ if( arg_[0] == "set")
     return
   end
   
-  req_hash = Hash.new
   if (objects[arg_[arg_.length-3]] == nil)
     puts "No actuators called " + arg_[arg_.length-3]
     return
   end
   req = objects[arg_[arg_.length-3]]
-  puts req.class
   
   if(!req.interfaces.include?(arg_[arg_.length - 2]))
      puts "No interface called " << arg_[arg_.length - 2]
   end
 
-  req[arg_[arg_.length - 2]].write(arg_[arg_.length - 1], {})
-  puts "OK"
+  req[arg_[arg_.length - 2]].set(arg_[arg_.length - 1])
 
   return
 end #Eof 'set'
