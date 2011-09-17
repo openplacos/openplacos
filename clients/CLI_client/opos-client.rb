@@ -23,9 +23,9 @@ $LOAD_PATH << $LIB_PATH
 require "rubygems"
 require 'scanf.rb'
 
+#require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 require "/home/flagos/projects/openplacos/gem/lib/openplacos/libclient.rb"
 
-require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 
 
 opos = Openplacos::Client.new
@@ -44,9 +44,9 @@ def usage()
 puts "Usage: "
 puts "list               # Return sensor and actuator list and corresponding interface "
 puts "status             # Return a status of your placos"
-puts "get  <sensor>      # Make a read access on this sensor"
-puts "set  <actuator>    # Make a write access on this actuator"
-puts "regul <sensor>  <threshold>   \n   # Setup up a regul on this sensor with this threeshold"
+puts "get  <object>      # Make a read access on this object"
+puts "set  <object>    # Make a write access on this object"
+# puts "regul <sensor>  <threshold>   \n   # Setup up a regul on this sensor with this threeshold"
 
 end
 
@@ -57,6 +57,7 @@ usage()
 return
 end
 
+objects = opos_.get_objects
 
 if( arg_[0] == "list")
   puts "Actuators\t"+ get_adjust("Actuators".length) +"\t   Interface"
@@ -73,11 +74,11 @@ if( arg_[0] == "list")
 end # Eof 'list'
 
 if( arg_[0] == "status")
-  opos_.get_objects.each_pair{ |key, obj|
+  objects.each_pair{ |key, obj|
     if (key != "/informations")
-      puts key 
+      puts "- " << key 
       obj.interfaces.each{ |iface|
-        puts obj[iface].render
+        puts "\t\t#{iface} \t"<< obj[iface].render.to_s
       }
     end
   }
@@ -86,31 +87,28 @@ end
 
 if( arg_[0] == "set")
   if( arg_.length < 3)
-    puts "Please specify an actuator"
+    puts "Please specify an object"
     usage()
     return
   end
   
-  act_hash = Hash.new
-  1.upto( arg_.length - 2 ){ |i|
-    if (opos_.actuators[arg_[i]] == nil)
-      puts "No actuators called " + arg_[i]
-      return
-    end
-    act_hash.store(arg_[i], opos_.actuators[arg_[i]])
-  }
-
-  if (arg_[arg_.length - 1].downcase == "on")
-    act_hash.each_value { |act|
-      act.on
-    }
-  else
-    if (arg_[arg_.length - 1].downcase == "off")
-      act_hash.each_value { |act|
-        act.off
-      }
-    end
+  req_hash = Hash.new
+  if (objects[arg_[arg_.length-3]] == nil)
+    puts "No actuators called " + arg_[arg_.length-3]
+    return
   end
+  req = objects[arg_[arg_.length-3]]
+  puts req.class
+  
+  if(!req.interfaces.include?(arg_[arg_.length - 2]))
+     puts "No interface called " << arg_[arg_.length - 2]
+   end
+
+  puts "SEND"
+  req[arg_[arg_.length - 2]].write(arg_[arg_.length - 1], {})
+  puts "OK"
+
+
   return
 end #Eof 'set'
 
@@ -122,17 +120,23 @@ if( arg_[0] == "get")
     return
   end
   
-  sens_hash = Hash.new
+  req_hash = Hash.new
   1.upto( arg_.length - 1 ){ |i|
-    if (opos_.sensors[arg_[i]] == nil)
-      puts "No sensor called " + arg_[i]
+    if (objects[arg_[i]] == nil)
+      puts "No object called " + arg_[i]
       return
     end
-    sens_hash.store(arg_[i], opos_.sensors[arg_[i]])    
+    req_hash.store(arg_[i], objects[arg_[i]])    
   }
 
-  sens_hash.each_pair { |key, sens|
-    puts key + ": " + sens.value[0].to_s
+  req_hash.each_pair { |key, obj|
+#    puts key + ": " + obj.value[0].to_s
+    if (key != "/informations")
+      puts "- " << key 
+      obj.interfaces.each{ |iface|
+        puts "\t\t" << obj[iface].render.to_s
+      }   
+    end
   }
   return
 end #Eof 'get'

@@ -17,6 +17,9 @@
 ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'dbus-openplacos'
 require '/home/flagos/projects/openplacos/gem/lib/openplacos/widget/modules.rb'
+#require '/home/flagos/projects/openplacos/clients/CLI_client/widget/Analog.rb'
+
+
 
 module Openplacos
 

@@ -20,10 +20,18 @@ module Openplacos
       read({})[0].round(2).to_s
     end
 
+    def render
+      return to_s
+    end
+
   end
 
   module  Analog::Sensor
     include Analog
+
+    def render
+      return to_s + " " + unit
+    end
 
     def unit
       @name.split(".").last
@@ -31,3 +39,4 @@ module Openplacos
 
   end
 end
+
