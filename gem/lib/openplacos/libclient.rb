@@ -35,8 +35,8 @@ module Openplacos
        end
      }
      return out #Should never be here
-    end
-  end
+   end
+ end
  
 
   class Client # client for openplacos server 

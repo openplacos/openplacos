@@ -30,7 +30,6 @@ require "/home/flagos/projects/openplacos/gem/lib/openplacos/libclient.rb"
 
 opos = Openplacos::Client.new
 
-
 def get_adjust(string_len_, size_=2)
   if (string_len_ >= size_*8)
     return "" 
@@ -63,7 +62,7 @@ if( arg_[0] == "list")
   puts "Actuators\t"+ get_adjust("Actuators".length) +"\t   Interface"
   opos_.actuators.each_pair{|key, value|
     adjust = get_adjust(key.to_str.length) # Cosmetic
-    puts key +" :\t" + adjust + "   "+ value.name.sub(/org.openplacos.server./, '')
+    puts "#{key} :\t" << adjust << "   "<< value.name.sub(/org.openplacos.server./, '')
   }
   puts "\nSensor\t"+ get_adjust("Sensor".length)+ "\t   Interface" + "\t   Regul"
   opos_.sensors.each_pair{|key, value|
@@ -102,12 +101,10 @@ if( arg_[0] == "set")
   
   if(!req.interfaces.include?(arg_[arg_.length - 2]))
      puts "No interface called " << arg_[arg_.length - 2]
-   end
+  end
 
-  puts "SEND"
   req[arg_[arg_.length - 2]].write(arg_[arg_.length - 1], {})
   puts "OK"
-
 
   return
 end #Eof 'set'
@@ -130,7 +127,6 @@ if( arg_[0] == "get")
   }
 
   req_hash.each_pair { |key, obj|
-#    puts key + ": " + obj.value[0].to_s
     if (key != "/informations")
       puts "- " << key 
       obj.interfaces.each{ |iface|
@@ -140,31 +136,6 @@ if( arg_[0] == "get")
   }
   return
 end #Eof 'get'
-
-if( arg_[0] == "regul")
-  if( arg_.length < 3)
-    puts "Please specify a sensor"
-    usage()
-    return
-  end
-  
-    if (opos_.reguls[arg_[1]] == nil)
-      puts "No regul called " + arg_[1]
-      return
-    end
-    regul = opos_.reguls[arg_[1]]
-
-  if (arg_[2]=="disable" || arg_[2]=="off")
-    regul.unset()
-    puts arg_[1]+" disabled" 
-    return
-  end
-  h = {"threshold"=>arg_[2]}
-  puts h.inspect
-  regul.set(h)
-  puts "Set "+arg_[1]+" to "+arg_[2]
-  return
-end #Eof 'regul'
 
 
 puts "Action not recognized"
