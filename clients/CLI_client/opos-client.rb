@@ -24,7 +24,7 @@ require "rubygems"
 require 'scanf.rb'
 
 #require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
-require "/home/flagos/projects/openplacos/gem/lib/openplacos/libclient.rb"
+require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
 
 
 
