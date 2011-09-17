@@ -26,15 +26,29 @@ module Openplacos
 
     module Order
       include Actuator
-      def set(arg_)
-        if (arg_ == "True" || (arg_ == "true") || (arg_ == "on")|| (arg_ == "ON"))
-          return write(true, {})
+
+      module Switch
+        include Order
+
+        def set(arg_)
+          if (arg_ == "True" || (arg_ == "true") || (arg_ == "on")|| (arg_ == "ON"))
+            return write(true, {})
+          end
+          if (arg_ == "False" || (arg_ == "false")|| (arg_ == "off")|| (arg_ == "OFF"))
+            return write(false, {})
+          end
+          puts "Action not recognized, please use ON/OFF"
         end
-        if (arg_ == "False" || (arg_ == "false")|| (arg_ == "off")|| (arg_ == "OFF"))
-          return write(false, {})
-        end
-        puts "Action not recognized, please use ON/OFF"
       end
+      
+      module Dimmer
+        include Order
+        
+         def set(arg_)
+           write(arg_.to_f, {})
+         end
+      end
+
     end
 
   end
