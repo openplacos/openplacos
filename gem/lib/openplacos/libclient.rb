@@ -119,6 +119,7 @@ module Openplacos
     def extend_iface(iface_name_,obj_ )
       mod = "Openplacos::"+ construct_module_name(iface_name_)
       mod.extend(Openplacos::String)
+      puts "extend #{iface_name_} with #{mod}"
       obj_.extend(mod.get_max_const)
     end
     

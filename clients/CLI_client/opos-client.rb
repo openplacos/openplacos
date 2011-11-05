@@ -77,7 +77,8 @@ if( arg_[0] == "status")
     if (key != "/informations")
       puts "- " << key 
       obj.interfaces.each{ |iface|
-        puts "\t\t#{iface} \t"<< obj[iface].render.to_s
+        puts "\t\t#{iface} \t"<< obj[iface].to_s
+        # should be obj[iface].render.to_s 
       }
     end
   }
