@@ -1,0 +1,10 @@
+<p>
+<div class="comment">
+  <div class="header">
+    by <%= link_to comment.user.login , comment.user %>  at <%= comment.created_at %>
+  </div>
+  <div class="content">
+    <%= comment.body %>
+  </div>
+</div>
+</p>

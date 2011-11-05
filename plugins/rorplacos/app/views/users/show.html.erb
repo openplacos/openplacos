@@ -1,0 +1,11 @@
+<% content_for :menu_left do %>
+  <%= render :partial => "shared/menu_left_profile"%>
+<% end %>
+<p class="notice"><%= notice %></p>
+<h1><%=t(:profile)%></h1>
+
+<%= render  :partial => "users/user" , :locals => {:user => @user} %>
+
+<h1> Liste des posts </h1>
+
+<%= render :partial => 'posts/post', :collection => @user.posts %>

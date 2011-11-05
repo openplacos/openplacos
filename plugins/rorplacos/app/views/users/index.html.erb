@@ -1,18 +1,2 @@
-<% content_for :menu_left do %>
-  <%= render :partial => "shared/menu_left_profile"%>
-<% end %>
-<p class="notice"><%= notice %></p>
 
-<h1><%=t(:profile)%></h1>
-<div id="avatar">
-  <img src="<%=@avatar%>"></img>
-</div>
-login : <%=@user.login%></br>
-first name : <%=@user.first_name%></br>
-last name : <%=@user.last_name%></br>
-email : <%=@user.email%></br>
-language : <%=@user.language%></br>
-css : <%=@user.style%></br>
-</td>
-
-
+<%= render  :partial =>  "user",:collection => @users %>

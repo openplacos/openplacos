@@ -35,5 +35,5 @@ class ApplicationController < ActionController::Base
       redirect_to "/login"
     end
   end
-
+  
 end

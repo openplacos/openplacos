@@ -15,4 +15,15 @@ module ApplicationHelper
       #str << "</li>\n"
       return str  
   end
+
+    def get_avatar(email_address)
+  
+    # create the md5 hash
+    hash = Digest::MD5.hexdigest((email_address || "default").downcase)
+
+    # compile URL which can be used in <img src="RIGHT_HERE"...
+    return "http://www.gravatar.com/avatar/#{hash}?d=mm"
+
+  end
+  
 end
