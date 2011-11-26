@@ -21,131 +21,80 @@ $LOAD_PATH << $LIB_PATH
 
 
 require "rubygems"
-require 'scanf.rb'
+require 'rink'
 
 require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
 
 
 
-opos = Openplacos::Client.new
+Opos = Openplacos::Client.new # Beurk -- Constant acting as a global variable
 
-def get_adjust(string_len_, size_=2)
-  if (string_len_ >= size_*8)
-    return "" 
+
+class OpenplacOS_Console < Rink::Console
+  command :help do 
+    usage
   end
-  str = "\t"*(size_-(string_len_/8))
-  return str
-end
 
-def usage()
+  command :usage do 
+    usage
+  end
 
-puts "Usage: "
-puts "list               # Return sensor and actuator list and corresponding interface "
-puts "status             # Return a status of your placos"
-puts "get  <object>      # Make a read access on this object"
-puts "set  <object>    # Make a write access on this object"
-# puts "regul <sensor>  <threshold>   \n   # Setup up a regul on this sensor with this threeshold"
+  command :status do 
+    status
+  end
 
-end
+  command :get do |args|
+    objects  = Opos.get_objects
 
-def process(opos_, arg_)
-if (arg_[0] == nil)
-puts "Please specify an action"
-usage()
-return
-end
-
-objects = opos_.get_objects
-
-if( arg_[0] == "list")
-  puts "Actuators\t"+ get_adjust("Actuators".length) +"\t   Interface"
-  opos_.actuators.each_pair{|key, value|
-    adjust = get_adjust(key.to_str.length) # Cosmetic
-    puts "#{key} :\t" << adjust << "   "<< value.name.sub(/org.openplacos.server./, '')
-  }
-  puts "\nSensor\t"+ get_adjust("Sensor".length)+ "\t   Interface" + "\t   Regul"
-  opos_.sensors.each_pair{|key, value|
-    adjust = get_adjust(key.to_str.length)    
-    puts "#{key} :\t#{adjust}   #{value.name.sub(/org.openplacos.server./, '')}\t#{opos_.is_regul(value).to_s}"
-  }
-  return
-end # Eof 'list'
-
-if( arg_[0] == "status")
-  objects.each_pair{ |key, obj|
-    if (key != "/informations")
-      puts "- " << key 
-      obj.interfaces.each{ |iface|
-        puts "\t\t#{iface} \t"<< obj[iface].render.to_s 
-      }
+    obj_name = args[0]
+    if (!objects.include?(obj_name))
+      puts "Object #{obj_name} does not exist"
+      next # instead of return
     end
-  }
-  return
+    obj      = objects[obj_name]
+
+    iface    = "org.openplacos.#{args[1]}"
+    if (!obj.has_iface?(iface))
+      puts "Interface #{iface} does not exist"
+      next
+    end
+    puts "- " <<  obj_name
+    display(iface, obj[iface].render.to_s)
+  end
+
+
+
+
+  def usage()
+
+    puts "Usage: "
+    puts "list               # Return sensor and actuator list and corresponding interface "
+    puts "status             # Return a status of your placos"
+    puts "get  <object>      # Make a read access on this object"
+    puts "set  <object>      # Make a write access on this object"
+    # puts "regul <sensor>  <threshold>   \n   # Setup up a regul on this sensor with this threeshold"
+
+  end
+
+  def status
+    objects = Opos.get_objects
+    objects.each_pair{ |key, obj|
+      if (key != "/informations")
+        puts "- " << key 
+        obj.interfaces.each{ |iface|
+          display(iface, obj[iface].render.to_s)
+        }
+      end
+    }
+  end
+
+  def display(iface_, value_)
+    iface_short = iface_.sub("org.openplacos.", "")
+    blank = ""
+    printf "\t\t%s %#{40-iface_short.length}s \t%s\n", iface_short, blank, value_
+  end
+
 end
 
-if( arg_[0] == "set")
-  if( arg_.length < 3)
-    puts "Please specify an object"
-    usage()
-    return
-  end
-  
-  if (objects[arg_[arg_.length-3]] == nil)
-    puts "No actuators called " + arg_[arg_.length-3]
-    return
-  end
-  req = objects[arg_[arg_.length-3]]
-  
-  if(!req.interfaces.include?(arg_[arg_.length - 2]))
-     puts "No interface called " << arg_[arg_.length - 2]
-  end
-
-  req[arg_[arg_.length - 2]].set(arg_[arg_.length - 1])
-
-  return
-end #Eof 'set'
-
-
-if( arg_[0] == "get")
-  if( arg_.length < 2)
-    puts "Please specify a sensor"
-    usage()
-    return
-  end
-  
-  req_hash = Hash.new
-  1.upto( arg_.length - 1 ){ |i|
-    if (objects[arg_[i]] == nil)
-      puts "No object called " + arg_[i]
-      return
-    end
-    req_hash.store(arg_[i], objects[arg_[i]])    
-  }
-
-  req_hash.each_pair { |key, obj|
-    if (key != "/informations")
-      puts "- " << key 
-      obj.interfaces.each{ |iface|
-        puts "\t\t" << obj[iface].render.to_s
-      }   
-    end
-  }
-  return
-end #Eof 'get'
-
-
-puts "Action not recognized"
-usage()
-end # process
-
-
-loop do
-  STDOUT.write "> "
-  STDOUT.flush
-  array = STDIN.gets.split(' ')
-  if array[0] == "exit" || array[0] == "quit" 
-      Process.exit 0 
-  end
-  process(opos, array)
-end
+OpenplacOS_Console.new
