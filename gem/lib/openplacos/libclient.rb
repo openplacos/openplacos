@@ -17,7 +17,7 @@
 ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'dbus-openplacos'
 require File.dirname(__FILE__) + "/widget/modules.rb"
-#require '/home/flagos/projects/openplacos/clients/CLI_client/widget/Analog.rb'
+require '/home/flagos/projects/openplacos/clients/CLI_client/widget/Analog.rb'
 
 
 
@@ -119,7 +119,6 @@ module Openplacos
     def extend_iface(iface_name_,obj_ )
       mod = "Openplacos::"+ construct_module_name(iface_name_)
       mod.extend(Openplacos::String)
-      puts "extend #{iface_name_} with #{mod}"
       obj_.extend(mod.get_max_const)
     end
     

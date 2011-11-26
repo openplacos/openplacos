@@ -23,7 +23,7 @@ $LOAD_PATH << $LIB_PATH
 require "rubygems"
 require 'scanf.rb'
 
-#require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
+require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
 
 
@@ -77,8 +77,7 @@ if( arg_[0] == "status")
     if (key != "/informations")
       puts "- " << key 
       obj.interfaces.each{ |iface|
-        puts "\t\t#{iface} \t"<< obj[iface].to_s
-        # should be obj[iface].render.to_s 
+        puts "\t\t#{iface} \t"<< obj[iface].render.to_s 
       }
     end
   }
