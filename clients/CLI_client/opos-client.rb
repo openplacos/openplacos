@@ -62,6 +62,29 @@ class OpenplacOS_Console < Rink::Console
     puts "- " <<  obj_name
     display(iface, obj[iface].render.to_s)
   end
+ 
+  command :set  do |args|
+    objects  = Opos.get_objects
+    
+    obj_name = args[0]
+    if (!objects.include?(obj_name))
+      puts "Object #{obj_name} does not exist"
+      next # instead of return
+    end
+    obj      = objects[obj_name]
+
+    iface    = "org.openplacos.#{args[1]}"
+    if (!obj.has_iface?(iface))
+      puts "Interface #{iface} does not exist"
+      next
+    end
+
+    command = args
+    command.delete_at(0)
+    command.delete_at(0)
+    obj[iface].set(command.join(" "))
+    
+  end
 
 
 
