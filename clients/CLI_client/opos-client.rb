@@ -22,11 +22,19 @@ $LOAD_PATH << $LIB_PATH
 
 require "rubygems"
 require 'rink'
+require 'micro-optparse'
 
 require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
 
+options = Parser.new do |p|
+  p.banner = "OpenplacOS CLI"
+  p.option :session, "client bus on user session bus"
+end.process!
 
+if options[:session]
+  ENV['DEBUG_OPOS'] = "1"
+end
 
 Opos = Openplacos::Client.new # Beurk -- Constant acting as a global variable
 
