@@ -30,41 +30,42 @@ component << Raw = LibComponent::Output.new("/raw","pwm","w")
 component << Dimmer = LibComponent::Input.new("/dimmer","actuator.order.dimmer")
 component << Switch = LibComponent::Input.new("/dimmer","actuator.order.switch")
 
-State = 0
+dimmer_state = 0
+switch_state = 0
 
 Dimmer.on_write do |value, option|
   if value<0
-    State = 0
+    dimmer_state = 0
     return Raw.write(0,option)
   elsif value>1
-    State = 1
+    dimmer_state = 1
     return Raw.write(1,option)
   else 
-    State = value
+    dimmer_state = value
     return Raw.write(value,option)
   end
 end
 
 Dimmer.on_read do |option|
-  return 0 if State == false
-  return 1 if State == true
-  return State || 0
+  return 0 if dimmer_state == false
+  return 1 if dimmer_state == true
+  return dimmer_state || 0
 end
 
 Switch.on_write do |value, option|
   if value==1 or value==true
-    State = true
+    switch_state = true
     return Raw.write(0,option)
   elsif value==0 or value==false
-    State = false
+    switch_state = false
     return Raw.write(1,option)
   end
 end
 
 Switch.on_read do |option|
-  return true if State > 0
-  return false if State == 0
-  return State || false
+  return true  if switch_state > 0
+  return false if switch_state == 0
+  return switch_state || false
 end
 
 component.run
