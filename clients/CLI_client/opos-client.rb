@@ -40,6 +40,10 @@ class OpenplacOS_Console < Rink::Console
     usage
   end
 
+  command :list do
+    list
+  end
+
   command :status do 
     status
   end
@@ -112,10 +116,22 @@ class OpenplacOS_Console < Rink::Console
     }
   end
 
+  def list
+    objects = Opos.get_objects
+    objects.each_pair{ |key, obj|
+      if (key != "/informations")
+        puts "- " << key 
+        obj.interfaces.each{ |iface|
+          display(iface, "")
+        }
+      end
+    }
+  end
+
   def display(iface_, value_)
     iface_short = iface_.sub("org.openplacos.", "")
     blank = ""
-    printf "\t\t%s %#{40-iface_short.length}s \t%s\n", iface_short, blank, value_
+    printf "\t\t%s %#{50-iface_short.length}s \t%s\n", iface_short, blank, value_
   end
 
 end
