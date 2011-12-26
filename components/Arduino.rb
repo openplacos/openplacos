@@ -56,10 +56,10 @@ end
 module Pwm
   
   def write(value_,option_)
-    if value_ > 255 
+    if 255*value_ > 255 
       value = 255
     else
-      value = value_
+      value = (value_*255).to_i
     end
     
      @arduino.write("pwm #{@number} #{value}")
