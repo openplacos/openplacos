@@ -30,7 +30,7 @@ component << Raw = LibComponent::Output.new("/raw","pwm","w")
 component << Dimmer = LibComponent::Input.new("/dimmer","actuator.order.dimmer")
 component << Switch = LibComponent::Input.new("/dimmer","actuator.order.switch")
 
-dimmer_state = false
+dimmer_state = 0
 switch_state = false
 
 Dimmer.on_write do |value, option|
