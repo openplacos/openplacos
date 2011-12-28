@@ -207,6 +207,12 @@ module LibComponent
       pin_.set_component(self)
     end
     
+    def print_debug(arg_)
+      if @options[:introspect]
+        puts arg_
+      end
+    end
+
     def run
       intro = self.introspect
       if @options[:introspect]
