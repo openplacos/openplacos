@@ -208,7 +208,7 @@ module LibComponent
     end
     
     def print_debug(arg_)
-      if @options[:introspect]
+      if !@options[:introspect]
         puts arg_
       end
     end
