@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 
 #    This file is part of Openplacos.
 #
@@ -25,6 +26,8 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.version "0.1"
   c.default_name "virtualplacos"
 end
+
+component.print_debug "OK"
 
 class Virtualplacos
   attr_accessor :fan , :light , :temperature , :hygrometry

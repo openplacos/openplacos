@@ -173,7 +173,9 @@ module LibComponent
       @parser.option(:debug, "debug flag")
       yield self if block_given?      
       @options = @parser.process!(@argv)
+      print_debug "parszer process"
       @name = @options[:name].downcase
+      print_debug "contruct over"
     end
     
     def description(desc_)
