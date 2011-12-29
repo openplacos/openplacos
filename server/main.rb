@@ -158,11 +158,10 @@ class Top
   
 end # End of Top
 
-def quit(top_, main_)
+def quit(top_, internalmain_, main_)
   top_.quit
+  internalmain_.quit
   main_.quit
-  sleep 1
-  Process.exit 0  
 end
 
 # Config file basic verification
@@ -202,17 +201,18 @@ Thread.new { internalmain.run }
 #launch components
 top.launch_components
 
-# quit the plugins when server quit
-Signal.trap('TERM') do 
- quit(top, internalmain)
-end
-
-Signal.trap('INT') do 
- quit(top, internalmain)
-end
-
 # Let's Dbus have execution control
 main = DBus::Main.new
 main << Bus
+
+# quit the plugins when server quit
+Signal.trap('TERM') do 
+ quit(top, internalmain, main)
+end
+
+Signal.trap('INT') do 
+ quit(top, internalmain, main)
+end
+
 main.run
 

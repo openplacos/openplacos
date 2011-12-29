@@ -150,7 +150,7 @@ module LibComponent
   end
   
   class Component
-    attr_reader :options, :bus ,:name
+    attr_reader :options, :bus ,:name, :main
 
     def initialize(argv_ = ARGV)
       @argv        = argv_
@@ -428,10 +428,6 @@ module LibComponent
 
       @opos.on_signal("quit") do
         @component.quit_callback
-        Thread.new {
-          sleep 1.5
-          Process.exit 0
-        }
       end
     end
     
