@@ -428,7 +428,10 @@ module LibComponent
 
       @opos.on_signal("quit") do
         @component.quit_callback
-        Process.exit 0
+        Thread.new {
+          sleep 1.5
+          Process.exit 0
+        }
       end
     end
     
