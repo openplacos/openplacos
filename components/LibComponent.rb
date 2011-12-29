@@ -229,11 +229,7 @@ module LibComponent
         Signal.trap('INT') do 
           self.quit_callback
         end
-        
-        #  dbuscomponent = LibComponent::DbusComponent.new(self)
-        #  @service.export(dbuscomponent)
-        
-        
+                
         @main = DBus::Main.new
         @main << @bus
         @main.run
@@ -419,25 +415,6 @@ module LibComponent
       exit(255)
     end
   end
-  
-  # for component specific dbus object
-  class DbusComponent < DBus::Object
-    def initialize(component_)
-      @component = component_
-      super("/component")
-    end
-
-    dbus_interface "org.openplacos.component" do 
-      dbus_method :quit do
-        Thread.new { 
-          sleep 2
-          @component.quit_callback
-        }
-        return 0
-        end
-    end
-  end
-
 
   class Servicesignal 
     
