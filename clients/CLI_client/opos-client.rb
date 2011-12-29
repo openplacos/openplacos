@@ -104,10 +104,10 @@ class OpenplacOS_Console < Rink::Console
   def usage()
 
     puts "Usage: "
-    puts "list               # Return sensor and actuator list and corresponding interface "
-    puts "status             # Return a status of your placos"
-    puts "get  <object>      # Make a read access on this object"
-    puts "set  <object>      # Make a write access on this object"
+    puts "list                             # Return sensor and actuator list and corresponding interface "
+    puts "status                           # Return a status of your placos"
+    puts "get  <object>  <iface>           # Make a read access on this object"
+    puts "set  <object>  <iface>  <value>  # Make a write access on this object"
     # puts "regul <sensor>  <threshold>   \n   # Setup up a regul on this sensor with this threeshold"
 
   end
