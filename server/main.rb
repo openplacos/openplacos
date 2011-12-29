@@ -67,7 +67,7 @@ internalservice.threaded = true
 
 class Top
 
-  attr_reader :drivers, :objects, :plugins, :dbus_plugins, :users
+  attr_reader :drivers, :objects, :plugins, :dbus_plugins, :users, :components
   
   #1 Config file path
   #2 Dbus session reference
@@ -215,4 +215,10 @@ Signal.trap('INT') do
 end
 
 main.run
+
+top.components.each { |c|
+  if !c.thread.nil?
+    c.thread.join
+  end
+}
 

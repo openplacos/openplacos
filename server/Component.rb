@@ -20,7 +20,7 @@ require 'Pathfinder'
 class Component 
   include Launcher
 
-  attr_accessor :inputs, :outputs, :name
+  attr_accessor :inputs, :outputs, :name, :thread
 
   #1 Component definition in yaml config
   #2 Top reference
