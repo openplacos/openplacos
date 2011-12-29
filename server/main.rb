@@ -161,6 +161,7 @@ end # End of Top
 def quit(top_, main_)
   top_.quit
   main_.quit
+  sleep 1
   Process.exit 0  
 end
 
