@@ -107,6 +107,15 @@ module Digital
 
 end
 
+module Pt2262
+
+  def write(value_,option_)
+    @arduino.write("rcswitch #{@number} #{value_}")
+    return true
+  end
+
+end
+
 module Common
   def push_arduino_and_number(ard_, num_)
     @arduino = ard_
@@ -161,6 +170,10 @@ NB_DIGITAL_PIN.each { |number|
   component << p
   
   p = LibComponent::Input.new("/Digital#{number}","dht11").extend(Dht11,Common)
+  p.push_arduino_and_number(arduino, number)
+  component << p
+  
+  p = LibComponent::Input.new("/Digital#{number}","pt2262").extend(Pt2262,Common)
   p.push_arduino_and_number(arduino, number)
   component << p
 }
