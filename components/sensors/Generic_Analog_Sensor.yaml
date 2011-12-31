@@ -1,8 +1,0 @@
-# a generic analog sensor. no conversion 
-Generic_Analog_Sensor:
-  informations:
-    kind: Sensor
-    unit: N/A
-  driver:
-    interface: analog
-    ttl: 0.1   

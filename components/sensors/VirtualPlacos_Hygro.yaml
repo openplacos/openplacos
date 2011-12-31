@@ -1,9 +1,0 @@
-# The VirtualPlacos Hygro sensor
-VirtualPlacos_Hygro:
-  informations:
-    kind: Sensor
-    unit: %RH
-  driver:
-    interface: analog
-    ttl: 0.1   
-  conversion: %self - 0.1 * %temp 

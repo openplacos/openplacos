@@ -1,8 +1,0 @@
-# a generic celsius temperature sensor. no conversion are needed since sensor returns directly the temperature
-Generic_Humidity:
-  informations:
-    kind: Sensor
-    unit: %RH
-  driver:
-    interface: analog
-    ttl: 0.1   

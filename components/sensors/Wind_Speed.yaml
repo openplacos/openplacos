@@ -1,8 +1,0 @@
-# a generic celsius temperature sensor. no conversion are needed since sensor returns directly the temperature
-Wind_Speed:
-  informations:
-    kind: Sensor
-    unit: kph
-  driver:
-    interface: analog
-    ttl: 0.1   

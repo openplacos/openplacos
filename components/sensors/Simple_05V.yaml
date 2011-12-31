@@ -1,9 +1,0 @@
-# a simple temperature sensor using juste a LM335 temperature sensor
-Simple_05V:
-  informations:
-    kind: Sensor
-    unit: Volt
-  driver:
-    interface: analog
-    ttl: 0.1   
-  conversion:  %self * 5

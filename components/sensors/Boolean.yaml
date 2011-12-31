@@ -1,8 +1,0 @@
-# a simple temperature sensor using juste a LM335 temperature sensor
-Boolean:
-  informations:
-    kind: Sensor
-    unit: bit
-  driver:
-    interface: digital
-    ttl: 0.1   
