@@ -3,7 +3,7 @@
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
 component = LibComponent::Component.new(ARGV) do |c|
-  c.description  "For emw201rf switchh to control by PT2262"
+  c.description  "For emw201rf of EverFlourish switch controler by PT2262"
   c.version "0.1"
   c.default_name "rcswitch"
 end
