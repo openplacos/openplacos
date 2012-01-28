@@ -37,6 +37,7 @@ require 'Event_handler.rb'
 require 'Dispatcher.rb'
 require 'Export.rb'
 require 'Info.rb'
+require 'WebServer.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
@@ -44,6 +45,7 @@ options = Parser.new do |p|
   p.option :file   , "the config file", :default => "/etc/default/openplacos"
   p.option :debug  , "activate the ruby-dbus debug flag"
   p.option :session, "client bus on user session bus"
+  p.option :port, "port of the webserver", :default => 4567
 end.process!
 
 $DEBUG = options[:debug]
@@ -200,6 +202,15 @@ Thread.new { internalmain.run }
 
 #launch components
 top.launch_components
+
+# launch WebServer
+# Threaded server should be removed when main dbus will be removed
+Thread.new{ WebServer.run! }
+# wait the server is runing
+# Sinon Sinatra Trap les signaux apres opos et on ne quite plus
+while !WebServer.running 
+  sleep 0.1
+end
 
 # Let's Dbus have execution control
 main = DBus::Main.new
