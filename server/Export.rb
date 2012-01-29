@@ -18,7 +18,7 @@ require 'Pin.rb'
 
 
 class Export
-    attr_reader :pin_output
+    attr_reader :pin_output, :path_dbus
 
   def initialize(config_)
     @config     = config_

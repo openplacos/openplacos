@@ -1,4 +1,4 @@
-#!/usr/bin/ruby -w
+#!/usr/bin/ruby
 
 #    This file is part of Openplacos.
 #
@@ -28,6 +28,8 @@ require 'yaml'
 require 'rubygems'
 require 'dbus-openplacos'
 require 'micro-optparse'
+require "thin"
+require "sinatra/base"
 
 # List of local include
 require 'globals.rb'
@@ -69,7 +71,7 @@ internalservice.threaded = true
 
 class Top
 
-  attr_reader :drivers, :objects, :plugins, :dbus_plugins, :users, :components
+  attr_reader :components, :exports
   
   #1 Config file path
   #2 Dbus session reference
@@ -95,7 +97,6 @@ class Top
     # the hash key is the dbus path
     @components = Array.new
     @exports    = Array.new
-    @users      = Array.new
 
   end
 
@@ -203,14 +204,30 @@ Thread.new { internalmain.run }
 #launch components
 top.launch_components
 
-# launch WebServer
-# Threaded server should be removed when main dbus will be removed
-Thread.new{ WebServer.run! }
-# wait the server is runing
-# Sinon Sinatra Trap les signaux apres opos et on ne quite plus
-while !WebServer.running 
-  sleep 0.1
+controller = Sinatra.new do
+  enable :logging
+  helpers WebServerHelpers
 end
+
+# create the webserver
+server = Thin::Server.new('0.0.0.0', options[:port], :signals => false) do
+    use Rack::CommonLogger
+    use Rack::ShowExceptions
+    top.exports.each { |exp|
+      map "#{exp.path_dbus}" do
+        run Sinatra.new(controller) { 
+          get('/') { "#{exp.pin_output.intfs.keys}" }
+        }
+      end
+    }
+end
+
+# start the WebServer
+# Threaded server should be removed when main dbus will be removed
+
+Thread.new{
+  server.start!
+}
 
 # Let's Dbus have execution control
 main = DBus::Main.new
@@ -218,11 +235,13 @@ main << Bus
 
 # quit the plugins when server quit
 Signal.trap('TERM') do 
- quit(top, internalmain, main)
+  server.stop!
+  quit(top, internalmain, main)
 end
 
 Signal.trap('INT') do 
- quit(top, internalmain, main)
+  server.stop!
+  quit(top, internalmain, main)
 end
 
 main.run
