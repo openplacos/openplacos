@@ -1,16 +1,28 @@
 
-class WebServer < Sinatra::Base
+module WebServerHelpers
 
+end
+
+class WebServer < Sinatra::Base
   enable :logging
-  # set threaded option to true
-  set :threaded, true
+  helpers ::WebServerHelpers
   
   get '/' do
     "Welcome to OpenplacOS"
   end
- 
+
 end
 
-module WebServerHelpers
+class ThinServer < Thin::Server
+
+  def initialize(bind,port)
+    super(bind,port, :signals => false) do
+      use Rack::CommonLogger
+      use Rack::ShowExceptions
+      map "/" do
+        run ::WebServer 
+      end
+    end  
+  end
 
 end

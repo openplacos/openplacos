@@ -24,12 +24,13 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 
 
 # List of library include
+require 'json'
 require 'yaml' 
 require 'rubygems'
 require 'dbus-openplacos'
 require 'micro-optparse'
-require "thin"
-require "sinatra/base"
+require 'thin'
+require 'sinatra/base'
 
 # List of local include
 require 'globals.rb'
@@ -125,6 +126,7 @@ class Top
   def export
      @exports.each do |export|
       export.pin_output.expose_on_dbus()
+      export.expose_on_web()
       @service.export(export.pin_output)
     end   
   end
@@ -204,23 +206,8 @@ Thread.new { internalmain.run }
 #launch components
 top.launch_components
 
-controller = Sinatra.new do
-  enable :logging
-  helpers WebServerHelpers
-end
-
 # create the webserver
-server = Thin::Server.new('0.0.0.0', options[:port], :signals => false) do
-    use Rack::CommonLogger
-    use Rack::ShowExceptions
-    top.exports.each { |exp|
-      map "#{exp.path_dbus}" do
-        run Sinatra.new(controller) { 
-          get('/') { "#{exp.pin_output.intfs.keys}" }
-        }
-      end
-    }
-end
+server = ThinServer.new('0.0.0.0', options[:port])
 
 # start the WebServer
 # Threaded server should be removed when main dbus will be removed
