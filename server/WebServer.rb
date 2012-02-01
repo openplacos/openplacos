@@ -3,8 +3,6 @@ require "oauth2/provider"
 require 'logger'
 require 'haml'
 
-OAuth2::Provider.realm = 'Opos oauth2 provider'
-
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "test.db", :pool => 25)
 ActiveRecord::Base.logger = Logger.new('test.log')
 
@@ -12,25 +10,9 @@ module WebServerHelpers
 
 end
 
-class User < ActiveRecord::Base
-  include OAuth2::Model::ResourceOwner
-  include OAuth2::Model::ClientOwner
-  def authenticate?(pass)
-    return true if self.password==pass
-    return false
-  end
-end
-
-PERMISSIONS = {
-  'read' => 'Read  access',
-  'write' => 'Write access',
-  'superman' => 'Time Travel'
-}
-
 class WebServer < Sinatra::Base
-  
-  dir = File.expand_path(File.dirname(__FILE__))
 
+  # sinatra configuration
   set :static, true
   set :public_forder, settings.root + '/public'
   set :views,  settings.root + '/views'
@@ -38,10 +20,20 @@ class WebServer < Sinatra::Base
   
   enable :sessions
   enable :logging
-  
+
   helpers ::WebServerHelpers
+
+  # oauth2 configuration
+  PERMISSIONS = {
+    'read' => 'Read  access',
+    'write' => 'Write access',
+    'superman' => 'Time Travel'
+  }
   
-  # oauth2 
+  OAuth2::Provider.realm = 'Opos oauth2 provider'
+
+  
+  # oauth2 api
   [:get, :post].each do |method|
     __send__ method, '/oauth/authorize' do
       @owner  = User.find_by_id(session[:user_id])
@@ -84,7 +76,7 @@ class WebServer < Sinatra::Base
     end
   end
   
-  # API
+  # Opos api
   
   get '/' do
     haml :home
