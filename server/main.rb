@@ -34,7 +34,7 @@ require 'sinatra/base'
 
 # List of local include
 require 'globals.rb'
-#require 'User.rb'
+require 'User.rb'
 require 'Component.rb'
 require 'Event_handler.rb'
 require 'Dispatcher.rb'
