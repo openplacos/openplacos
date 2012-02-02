@@ -1,8 +1,3 @@
-require "active_record"
-require "oauth2/provider"
-require 'logger'
-require 'haml'
-
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "test.db", :pool => 25)
 ActiveRecord::Base.logger = Logger.new('test.log')
 

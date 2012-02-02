@@ -31,6 +31,10 @@ require 'dbus-openplacos'
 require 'micro-optparse'
 require 'thin'
 require 'sinatra/base'
+require "active_record"
+require "oauth2/provider"
+require 'logger'
+require 'haml'
 
 # List of local include
 require 'globals.rb'
