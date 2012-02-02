@@ -11,6 +11,7 @@ gem "ruby-dbus-openplacos", :git => 'git://github.com/flagos/ruby-dbus.git'
 # for webserver
 gem 'oauth2-provider', :require => 'oauth2/provider', :git => 'git://github.com/songkick/oauth2-provider'
 gem "activerecord"
+gem 'sqlite3'
 gem 'sinatra'
 gem 'thin'
 gem 'haml'
