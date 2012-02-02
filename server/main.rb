@@ -24,6 +24,7 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 
 
 # List of library include
+require 'bundler/setup'
 require 'json'
 require 'yaml' 
 require 'rubygems'
@@ -35,6 +36,7 @@ require "active_record"
 require "oauth2/provider"
 require 'logger'
 require 'haml'
+
 
 # List of local include
 require 'globals.rb'
@@ -76,7 +78,11 @@ internalservice.threaded = true
 
 class Top
 
-  attr_reader :components, :exports
+  attr_reader :components, :config_export
+    
+  def self.instance
+    @@instance
+  end
   
   #1 Config file path
   #2 Dbus session reference
@@ -87,7 +93,7 @@ class Top
     @internalservice  = internalservice_
     @config_component = @config["component"]
     @config_export    = @config["export"]
-
+    @@instance         = self
 
     # Event_handler creation
     @event_handler = Event_Handler.instance
@@ -130,7 +136,6 @@ class Top
   def export
      @exports.each do |export|
       export.pin_output.expose_on_dbus()
-      export.expose_on_web()
       @service.export(export.pin_output)
     end   
   end
@@ -212,7 +217,6 @@ top.launch_components
 
 # create the webserver
 server = ThinServer.new('0.0.0.0', options[:port])
-
 # start the WebServer
 # Threaded server should be removed when main dbus will be removed
 

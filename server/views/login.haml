@@ -1,5 +1,5 @@
 %h3 Sign In
-%form{ :method => 'post', :action => '/login'}
+%form{ :method => 'post', :action => '/oauth/login'}
   -@oauth2.params.each do |key , value|
     %input{ :type => "hidden", :name => key , :value => value}
   %fieldset
