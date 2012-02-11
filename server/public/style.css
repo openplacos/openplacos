@@ -50,9 +50,29 @@ fieldset {
   margin: 12px 0 0 0;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+table th, table td {
+  border-top: 1px solid #eee;
+  padding: 8px 16px;
+}
+
+table th {
+  border-right: 2px solid #ccc;
+  text-align: left;
+}
+
 a {
   color: #9ba749;
   font-weight: bold;
   text-decoration: none;
+}
+
+.footer {
+  font-size: 0.8em;
+  color: #999;
+  text-shadow: #23282e 0px -1px 0px;
 }
 

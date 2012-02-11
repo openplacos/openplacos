@@ -1,0 +1,9 @@
+%h3 Client app: #{@client.name}
+%table
+  %tbody
+    %tr
+      %th{ :scope => "row" } client_id
+      %td= @client.client_id
+    %tr
+      %th{ :scope => "row" } client_secret
+      %td= @client.client_secret

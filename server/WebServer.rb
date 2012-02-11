@@ -34,12 +34,12 @@ class WebServer < Sinatra::Base
   # for register client
   get '/oauth/apps/new' do
     @client = OAuth2::Model::Client.new
-    erb :new_client
+    haml :new_client
   end
 
   post '/oauth/apps' do
     @client = OAuth2::Model::Client.new(params)
-    @client.save ? erb(:show_client) : erb(:new_client)
+    @client.save ? haml(:show_client) : haml(:new_client)
   end
   
   # oauth2 api
