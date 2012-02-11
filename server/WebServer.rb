@@ -30,7 +30,17 @@ class WebServer < Sinatra::Base
   }
   
   OAuth2::Provider.realm = 'Opos oauth2 provider'
+ 
+  # for register client
+  get '/oauth/apps/new' do
+    @client = OAuth2::Model::Client.new
+    erb :new_client
+  end
 
+  post '/oauth/apps' do
+    @client = OAuth2::Model::Client.new(params)
+    @client.save ? erb(:show_client) : erb(:new_client)
+  end
   
   # oauth2 api
   [:get, :post].each do |method|
