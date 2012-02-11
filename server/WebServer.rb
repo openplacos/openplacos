@@ -37,10 +37,16 @@ class WebServer < Sinatra::Base
     haml :new_client
   end
 
-  post '/oauth/apps' do
+  post '/oauth/apps.?:format?' do
     @client = OAuth2::Model::Client.new(params)
-    @client.save ? haml(:show_client) : haml(:new_client)
+    if params[:format]=="json"
+      content_type :json
+      @client.save ? {"client_id" => @client.client_id, "client_secret" => @client.client_secret}.to_json : @client.errors.full_messages.to_json
+    else
+      @client.save ? haml(:show_client) : haml(:new_client)
+    end
   end
+
   
   # oauth2 api
   [:get, :post].each do |method|
