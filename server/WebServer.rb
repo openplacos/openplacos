@@ -85,6 +85,22 @@ class WebServer < Sinatra::Base
     end
   end
   
+  # user creation
+  get '/users/new' do
+    @user = User.new
+    haml :new_user
+  end
+
+  post '/users/create' do
+    @user = User.create(params)
+    if @user.save
+      haml :create_user
+    else
+      haml :new_user
+    end
+  end
+  
+  
   # Opos api
   
   get '/' do
