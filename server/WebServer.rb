@@ -2,8 +2,22 @@ ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "tes
 ActiveRecord::Base.logger = Logger.new('test.log')
 
 module WebServerHelpers
+  
+  ERROR_RESPONSE = JSON.unparse('Error' => "Invalid token")
+
   def is_an_object?
     Top.instance.config_export.include?("/"+params[:splat][0])
+  end
+
+  def verify_access(scope)
+    token = OAuth2::Provider.access_token(nil, [scope.to_s], request)
+    
+    headers token.response_headers
+    status  token.response_status
+    
+    return ERROR_RESPONSE unless token.valid?
+    
+    yield token
   end
 
 end
@@ -134,16 +148,12 @@ class WebServer < Sinatra::Base
   # user api
   
   get '/me' do
-    token = OAuth2::Provider.access_token(nil, ['user'], request)
-    headers token.response_headers
-    status  token.response_status
-    
-    if token.valid?
+    content_type :json
+    verify_access "user" do |token|
       JSON.unparse('username' => token.owner.login)
-    else
-      JSON.unparse('error' => 'Keep out!')
     end
   end
+
 end
 
 class ThinServer < Thin::Server
