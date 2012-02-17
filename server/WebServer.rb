@@ -131,6 +131,19 @@ class WebServer < Sinatra::Base
     end
   end
   
+  # user api
+  
+  get '/me' do
+    token = OAuth2::Provider.access_token(nil, ['user'], request)
+    headers token.response_headers
+    status  token.response_status
+    
+    if token.valid?
+      JSON.unparse('username' => token.owner.login)
+    else
+      JSON.unparse('error' => 'Keep out!')
+    end
+  end
 end
 
 class ThinServer < Thin::Server
