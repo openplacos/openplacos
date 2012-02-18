@@ -6,7 +6,27 @@ module WebServerHelpers
   ERROR_RESPONSE = JSON.unparse('Error' => "Invalid token")
 
   def is_an_object?
-    Top.instance.config_export.include?("/"+params[:splat][0])
+    Top.instance.exports.keys.include?("/"+params[:splat][0])
+  end
+  
+  def objects
+    Top.instance.exports
+  end
+  
+  def object_introspect(path)
+    {"name" => path, "interfaces" => Top.instance.exports[path].pin_web.introspect }
+  end
+  
+  def introspect
+    intro = Array.new
+    objects.each_key do |path|
+      intro << object_introspect(path)
+    end
+    intro
+  end
+  
+  def read(path_,iface_)
+    Dispatcher.instance.call(path_,iface_, :read,{})[0]
   end
 
   def verify_access(scope)
@@ -128,9 +148,10 @@ class WebServer < Sinatra::Base
     haml :home
   end
   
+ 
   get '/ressources' do
     content_type :json
-    {"objects" => Top.instance.config_export}.to_json
+    introspect.to_json
   end
   
   get '/ressources/*' do
@@ -138,7 +159,11 @@ class WebServer < Sinatra::Base
     path = "/"+params[:splat][0]
 
     if is_an_object?
-      {"name" => path, "interfaces" => Top.instance.exports[path].pin_web.ifaces}.to_json
+      if params[:iface]
+        {"name" => path, "interface" => params[:iface], "value" => read(path,params[:iface])}.to_json
+      else
+        object_introspect(path).to_json
+      end
     else
       {"Error" => "#{path} is not an object"}
     end

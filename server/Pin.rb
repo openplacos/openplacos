@@ -145,5 +145,13 @@ class Pin_web
   def update_ifaces # plugged ifaces will be mine
     @ifaces = Dispatcher.instance.get_plugged_ifaces(@dbus_name)
   end
+  
+  def introspect
+    intro = Hash.new
+    Dispatcher.instance.get_plug(@dbus_name).each do |pin|
+      intro.merge!(pin.config)
+    end
+    intro
+  end
 
 end
