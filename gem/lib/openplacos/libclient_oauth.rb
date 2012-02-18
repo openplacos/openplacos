@@ -70,7 +70,7 @@ module Openplacos
     end
 
     def get_grant_url(type_)
-      "#{@url}/oauth/authorize?response_type=#{type_}&client_id=#{@client_id}&redirect_uri=#{@redirect_uri}&scope=#{@scope.join(" ")}"
+	  @client.auth_code.authorize_url(:redirect_uri => @redirect_uri, :scope => @scope.join(" "))
     end
 
     def save_config
@@ -99,7 +99,7 @@ module Openplacos
   class Connection_auth_code
     include Connection
 
-    def initialize(url_, name_, scope_, port_)
+    def initialize(url_, name_, scope_, id_, port_)
       @url = url_
       @name = name_
       @scope = scope_
@@ -111,7 +111,7 @@ module Openplacos
         Dir.mkdir(dir_config)
       end
 
-      @file_config = "#{dir_config}/#{@name}.yaml"
+      @file_config = "#{dir_config}/#{@name}-#{id_}.yaml"
 
       if !File.exists?(@file_config) #get token -- first time
         register 
@@ -141,7 +141,6 @@ private
 
     def get_auth_code()
       # listen to get the auth code
-      puts @port
       server = TCPServer.new(@port)
       re=/code=(.*)&scope/
       authcode = nil
@@ -174,10 +173,10 @@ private
 
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
-    def initialize(url_, name_, scope_, connection_type, opt_={})
+    def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
       case connection_type
       when "auth_code" then
-        @connection =  Connection_auth_code.new(url_, name_, scope_, opt_[:port] || 2000)
+        @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
       end
       
       

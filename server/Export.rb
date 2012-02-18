@@ -17,41 +17,16 @@
 require 'Pin.rb'
 
 class Export
-    attr_reader :pin_output, :path_dbus
+    attr_reader :pin_web, :dbus_name, :ifaces
 
   def initialize(config_)
     @config     = config_
-    @path_dbus  = @config
-    @pin_output = Pin_export.new(config_)
+    @dbus_name  = @config
+    @pin_web = Pin_web.new(config_)
+  end
+  
+  def update_ifaces # plugged ifaces will be mine
+    @pin_web.update_ifaces
   end
 
-  def expose_on_web
-    dis = Dispatcher.instance
-    pin_plugs = dis.get_plug(@path_dbus)    
-    
-    #generate uri for object
-    #generate a json string with name and ifaces
-    outHash = Hash.new
-    outHash["name"] = @path_dbus
-    outHash["interfaces"] = Array.new
-    pin_plugs.each do |pin|
-      outHash["interfaces"] << pin.config.keys # get the ifaces and push it in the hash
-    end
-    outHash["interfaces"].flatten!
-    WebServer.instance_eval( "get('/ressources#{@path_dbus}') {'#{outHash.to_json}'}")
-    
-    # generate uri and response for iface
-    pin_plugs.each do |pin|
-      outHash = Hash.new
-      outHash["name"] = @path_dbus
-      pin.config.each do |iface, meths|
-        outHashbis = outHash.dup
-        outHashbis["interface"] = iface.to_s
-        if meths.include?("read") # read corresponds to get
-          WebServer.instance_eval( "get('/ressources#{@path_dbus}/#{iface.to_s}') { #{outHashbis.inspect}.merge({'value' => Dispatcher.instance.call('#{@path_dbus}','#{iface}','read',{})[0]}).to_json }")
-        end
-      end
-
-    end
-  end
-end
+ end

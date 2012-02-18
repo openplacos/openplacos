@@ -78,7 +78,7 @@ internalservice.threaded = true
 
 class Top
 
-  attr_reader :components, :config_export
+  attr_reader :components, :config_export, :exports
     
   def self.instance
     @@instance
@@ -107,7 +107,7 @@ class Top
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
     @components = Array.new
-    @exports    = Array.new
+    @exports    = Hash.new
 
   end
 
@@ -129,15 +129,8 @@ class Top
 
   def  create_exported_object
     @config_export.each do |export|
-      @exports << Export.new(export)
+      @exports[export] = Export.new(export)
     end
-  end
-
-  def export
-     @exports.each do |export|
-      export.pin_output.expose_on_dbus()
-      @service.export(export.pin_output)
-    end   
   end
 
   def map
@@ -163,6 +156,12 @@ class Top
 
     @components.each  do |component|
        component.wait_for # verify component has been launched 
+    end
+  end
+  
+  def update_exported_ifaces 
+    @exports.each_value do |export|
+      export.update_ifaces
     end
   end
   
@@ -206,7 +205,7 @@ top.inspect_components
 top.expose_component
 top.create_exported_object
 Dispatcher.instance.check_all_pin
-top.export
+top.update_exported_ifaces
 
 internalmain = DBus::Main.new
 internalmain << InternalBus

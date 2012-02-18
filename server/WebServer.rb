@@ -138,9 +138,7 @@ class WebServer < Sinatra::Base
     path = "/"+params[:splat][0]
 
     if is_an_object?
-      ifaces = Array.new
-      Dispatcher.instance.get_plug(path).each { |pin| ifaces << pin.interfaces }
-      {"name" => path, "interfaces" => ifaces.flatten!}.to_json
+      {"name" => path, "interfaces" => Top.instance.exports[path].pin_web.ifaces}.to_json
     else
       {"Error" => "#{path} is not an object"}
     end
