@@ -41,7 +41,7 @@ module Openplacos
   class Client # client for openplacos server 
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
-    def initialize
+    def initialize()
       if(ENV['DEBUG_OPOS'] ) ## Stand for debug
         @bus =  DBus::SessionBus.instance
       else

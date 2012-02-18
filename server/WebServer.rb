@@ -95,6 +95,7 @@ class WebServer < Sinatra::Base
   end
 
   post '/oauth/login' do
+    puts "params: #{params.inspect}"
     @user = User.find_by_login(params[:login])
     if @user.authenticate?(params[:password])
       @oauth2 = OAuth2::Provider.parse(@user, request)
