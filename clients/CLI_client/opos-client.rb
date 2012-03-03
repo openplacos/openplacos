@@ -27,17 +27,17 @@ require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 
 options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
-  p.option :session, "client bus on user session bus"
+  p.option :host, "host server url", :default => "http://localhost:4567"
 end.process!
 
 if options[:session]
   ENV['DEBUG_OPOS'] = "1"
 end
 
-HOST="http://localhost:4567"
+host=options[:host]
 
 
-Opos = Openplacos::Client.new(HOST, "truc", ["read", "user"], "auth_code") # Beurk -- Constant acting as a global variable
+Opos = Openplacos::Client.new(host, "truc", ["read", "user"], "auth_code") # Beurk -- Constant acting as a global variable
 
 
 class OpenplacOS_Console < Rink::Console
