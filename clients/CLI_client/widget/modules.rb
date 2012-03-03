@@ -15,4 +15,5 @@
 
 
 require  File.dirname(__FILE__) + "/" + 'Analog.rb'
+require  File.dirname(__FILE__) + "/" + 'Digital.rb'
 
