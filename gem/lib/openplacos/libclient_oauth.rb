@@ -243,15 +243,17 @@ private
     def define_method(name_)
      if name_=="read"
      methdef =  <<-eos
-                   def read(option_)
-                     JSON.parse(@connection.token.get('/ressources/#{@proxyobject.path}?iface=#{@name}&options=' << (option_).to_json).body)
+                   def read(option_ = {})
+                     res = JSON.parse(@connection.token.get('/ressources/#{@proxyobject.path}?iface=#{@name}&options=' << (option_).to_json).body)
+                     res["value"]
                    end
 eos
     end
     if name_=="write"
      methdef =  <<-eos
-                   def write(value_,option_)
-                     JSON.parse(@connection.token.post('/ressources/#{@proxyobject.path}?iface=#{@name}&value=' << [value_].to_json << '&options=' << option_.to_json).body)
+                   def write(value_,option_ = {})
+                     res = JSON.parse(@connection.token.post('/ressources/#{@proxyobject.path}?iface=#{@name}&value=' << [value_].to_json << '&options=' << option_.to_json).body)
+                     res["status"]
                    end
 eos
     end
