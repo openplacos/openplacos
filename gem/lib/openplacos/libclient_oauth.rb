@@ -14,7 +14,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-require "rubygems"
 require 'socket'
 require 'net/http'
 require 'json'
@@ -39,6 +38,21 @@ end
 
 
 module Openplacos
+
+  module String
+   def get_max_const
+     array = self.split("::")
+     out = Kernel
+     array.each { |mod|
+       if out.const_defined?(mod)
+         out = out.const_get(mod)
+       else
+         return out
+       end
+     }
+     return out #Should never be here
+   end
+  end
 
   module Connection
 
@@ -181,6 +195,7 @@ private
         @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
       end
       introspect
+      extend_objects
     end
 
     # Intropect the distant server
@@ -190,6 +205,42 @@ private
         @objects[obj["name"]] = ProxyObject.new(@connection, obj) 
       }
     end
+    
+    def get_iface_type(obj, det_)
+      a = Array.new
+      obj.interfaces.each { |iface|
+        if(iface.include?(det_))
+          a << iface
+        end
+      }
+      a
+    end
+    
+    def extend_objects
+      @objects.each_pair{ |key, obj|
+        if (key != "/informations")
+          obj.interfaces.each { |iface|
+            extend_iface(iface, obj[iface])
+          }
+        end
+      }
+    end
+
+    def extend_iface(iface_name_,obj_ )
+      mod = "Openplacos::"+ construct_module_name(iface_name_)
+      mod.extend(Openplacos::String)
+      obj_.extend(mod.get_max_const)
+    end
+    
+    def construct_module_name(iface_name_)
+      iface_heritage = iface_name_.sub(/org.openplacos./, '').split('.')
+      iface_heritage.each { |s|
+        s.capitalize!
+      }
+      iface_heritage.join('::')
+    end
+
+    
   end
 
 
@@ -223,6 +274,9 @@ private
       @interfaces[intfname] = intf
     end 
 
+    def has_iface?(iface_)
+      return interfaces.include?(iface_)
+    end
    
   end
 

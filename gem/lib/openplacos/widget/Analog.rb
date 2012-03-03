@@ -17,13 +17,21 @@
 module Openplacos
   module Analog
     def to_s
-      read({})[0].round(2).to_s
+      read({}).round(2).to_s
     end
 
     def render
       return to_s
     end
 
+  end
+  
+  module Analog::Order
+    include Analog
+
+    def set(arg_)
+     write(arg_.to_f, {})
+    end
   end
 
   module  Analog::Sensor
