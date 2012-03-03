@@ -25,7 +25,7 @@ require 'rink'
 require 'micro-optparse'
 
 require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
-require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
+require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient_oauth.rb"
 
 options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
@@ -36,7 +36,10 @@ if options[:session]
   ENV['DEBUG_OPOS'] = "1"
 end
 
-Opos = Openplacos::Client.new # Beurk -- Constant acting as a global variable
+HOST="http://192.168.0.13:4567"
+
+
+Opos = Openplacos::Client.new(HOST, "truc", ["read", "user"], "auth_code") # Beurk -- Constant acting as a global variable
 
 
 class OpenplacOS_Console < Rink::Console
