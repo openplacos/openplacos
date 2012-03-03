@@ -34,7 +34,7 @@ if options[:session]
   ENV['DEBUG_OPOS'] = "1"
 end
 
-HOST="http://192.168.0.13:4567"
+HOST="http://localhost:4567"
 
 
 Opos = Openplacos::Client.new(HOST, "truc", ["read", "user"], "auth_code") # Beurk -- Constant acting as a global variable

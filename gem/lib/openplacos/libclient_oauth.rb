@@ -89,23 +89,29 @@ module Openplacos
     end
 
     def save_config
-      token_params                 = @token.to_hash
-      token_params[:client_id]     = @client_id
-      token_params[:client_secret] = @client_secret
+      @token_params[@url]                 = @token.to_hash
+      @token_params[@url][:client_id]     = @client_id
+      @token_params[@url][:client_secret] = @client_secret
 
       File.open(@file_config, 'w') do |out|
-        YAML::dump( token_params, out )
+        YAML::dump( @token_params, out )
       end
     end
 
     def load_config
-      @token_params  = YAML::load(File.read(@file_config))
-      @client_id     = @token_params.delete(:client_id)    
-      @client_secret = @token_params.delete(:client_secret)
+      if File.exists?(@file_config)
+        @token_params  = YAML::load(File.read(@file_config))
+        if @token_params[@url]
+          @client_id     = @token_params[@url][:client_id] 
+          @client_secret = @token_params[@url][:client_secret]
+        end
+      else
+        @token_params = Hash.new
+      end
     end
        
     def recreate_token
-      @token = OAuth2::AccessToken.from_hash(@client, @token_params)
+      @token = OAuth2::AccessToken.from_hash(@client, @token_params[@url])
     end
 
   end
@@ -127,19 +133,18 @@ module Openplacos
       end
 
       @file_config = "#{dir_config}/#{@name}-#{id_}.yaml"
-
-      if !File.exists?(@file_config) #get token -- first time
+      
+      load_config
+      if @token_params[@url].nil? #get token -- first time
         register 
         create_client
         grant
         get_token
         save_config
       else        # persistant mode
-        load_config
         create_client
         recreate_token
       end
-      puts @token.get('/me').body
     end
 
 private
