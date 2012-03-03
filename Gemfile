@@ -16,3 +16,7 @@ gem 'sinatra'
 gem 'thin'
 gem 'haml'
 
+#for clients
+gem "oauth2"
+gem "rink"
+
