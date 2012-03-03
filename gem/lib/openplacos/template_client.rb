@@ -13,4 +13,5 @@ ID = Digest::SHA1.file(__FILE__).hexdigest
 client = Openplacos::Client.new(HOST, "TRUC", ["read", "user"] , "auth_code")
 
 puts client.proxyobjects["/home/temperature"]["analog.sensor.temperature.celcuis"].read({})
+puts client.proxyobjects["/home/fan"]["analog.order.dimmer"].write(0.5,{})
 

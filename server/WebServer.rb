@@ -26,7 +26,11 @@ module WebServerHelpers
   end
   
   def read(path_,iface_)
-    Dispatcher.instance.call(path_,iface_, :read,{})[0]
+    Dispatcher.instance.call(path_,iface_, :read,JSON.parse(params[:options] || "{}"))[0]
+  end
+  
+  def write(path_,iface_)
+    Dispatcher.instance.call(path_,iface_, :write,JSON.parse(params[:value])[0],JSON.parse(params[:options] || "{}"))[0]
   end
 
   def verify_access(scope)
@@ -157,10 +161,24 @@ class WebServer < Sinatra::Base
   get '/ressources/*' do
     content_type :json
     path = "/"+params[:splat][0]
-
+    puts params
     if is_an_object?
       if params[:iface]
-        {"name" => path, "interface" => params[:iface], "value" => read(path,params[:iface])}.to_json
+        {"value" => read(path,params[:iface])}.to_json
+      else
+        object_introspect(path).to_json
+      end
+    else
+      {"Error" => "#{path} is not an object"}
+    end
+  end
+  
+  post '/ressources/*' do
+    content_type :json
+    path = "/"+params[:splat][0]
+    if is_an_object?
+      if params[:iface]
+        {"status" => write(path,params[:iface])}.to_json
       else
         object_introspect(path).to_json
       end
