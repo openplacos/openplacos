@@ -171,10 +171,10 @@ private
 
   class Client
 
-    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room, :proxyobjects
+    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
     def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
-      @proxyobjects = Hash.new
+      @objects = Hash.new
       case connection_type
       when "auth_code" then
         @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
@@ -186,7 +186,7 @@ private
     def introspect
       @introspect = JSON.parse( @connection.token.get('/ressources').body)
       @introspect.each { |obj|
-        @proxyobjects[obj["name"]] = ProxyObject.new(@connection, obj) 
+        @objects[obj["name"]] = ProxyObject.new(@connection, obj) 
       }
     end
   end
