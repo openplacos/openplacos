@@ -174,27 +174,63 @@ private
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
     def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
+      @proxyobjects = Hash.new
       case connection_type
       when "auth_code" then
         @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
       end
-      
-      
-
+      introspect
     end
-       
 
-
-    
+    # Intropect the distant server
+    def introspect
+      @introspect = JSON.parse( @connection.token.get('/ressources').body)
+      @introspect.each { |obj|
+        @proxyobjects[obj.name] = ProxyObject.new(@connection, obj) 
+      }
+    end
   end
 
 
+  class ProxyObject
 
+    # Object abstraction of a ressources
+    # Contructed from instrospect
+    # Has interfaces
+    def initialize(connection_, introspect_)
+      @path = introspect_["name"]
+      @interfaces = Hash.new
+      introspect_["interfaces"].each_pair { |name, methods|
+        @interfaces[name]= ProxyObjectInterface.new(connection_, self, name, methods)
+      }
+    end
 
+   
+  end
 
+  class ProxyObjectInterface
 
+    # Interface abstraction
+    # contruct from introspect
+    def initialize(connection_, proxyobj_, name_, methods_)
+      @connection = connection_
+      @proxyobject = proxyobj_
+      @name    = name_
+      @methods = Hash.new
+      methods_.each {  |meth|
+        @methods[meth] = define_method(meth)
+      }
+    end
 
-
-
+    # Define a proxyfied method from its name
+    def define_method(name_)
+     methdef =  <<-eos
+                   def #{name_} (option_)
+                     @connection.token.get("/ressources/#{@proxyobject.path}?iface=#{@name}").body
+                   end
+eos
+        instance_eval( methdef )
+      end
+  end
 
 end
