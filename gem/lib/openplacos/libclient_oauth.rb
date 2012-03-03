@@ -98,7 +98,7 @@ module Openplacos
 
   class Connection_auth_code
     include Connection
-
+    attr_reader :token
     def initialize(url_, name_, scope_, id_, port_)
       @url = url_
       @name = name_
@@ -171,7 +171,7 @@ private
 
   class Client
 
-    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
+    attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room, :proxyobjects
     
     def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
       @proxyobjects = Hash.new
@@ -186,14 +186,16 @@ private
     def introspect
       @introspect = JSON.parse( @connection.token.get('/ressources').body)
       @introspect.each { |obj|
-        @proxyobjects[obj.name] = ProxyObject.new(@connection, obj) 
+        @proxyobjects[obj["name"]] = ProxyObject.new(@connection, obj) 
       }
     end
   end
 
 
   class ProxyObject
-
+  
+    attr_reader :path
+    
     # Object abstraction of a ressources
     # Contructed from instrospect
     # Has interfaces
@@ -204,6 +206,21 @@ private
         @interfaces[name]= ProxyObjectInterface.new(connection_, self, name, methods)
       }
     end
+    
+     # Returns the interfaces of the object.
+    def interfaces
+      @interfaces.keys
+    end
+
+    # Retrieves an interface of the proxy object (ProxyObjectInterface instance).
+    def [](intfname)
+      @interfaces[intfname]
+    end
+
+    # Maps the given interface name _intfname_ to the given interface _intf.
+    def []=(intfname, intf)
+      @interfaces[intfname] = intf
+    end 
 
    
   end
