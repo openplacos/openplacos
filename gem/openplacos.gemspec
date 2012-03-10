@@ -17,7 +17,7 @@ GEMSPEC = Gem::Specification.new do |s|
   s.files = FileList["{lib}/**/*", "openplacos.gemspec", "VERSION"].to_a.sort
   s.require_path = "lib"
   s.has_rdoc = false
-  s.add_runtime_dependency 'ruby-dbus-openplacos', '~> 0.6.2'
+  s.add_runtime_dependency 'ruby-dbus-openplacos', '~> 0.7.0'
   s.add_runtime_dependency 'json', '~> 1.6.5'
   s.add_runtime_dependency 'oauth2', '~> 0.5.2'
 end
