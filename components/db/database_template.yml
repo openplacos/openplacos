@@ -1,5 +1,0 @@
-adapter: mysql
-encoding: utf8
-database: openplacos
-username: openplacos
-password: opospass
