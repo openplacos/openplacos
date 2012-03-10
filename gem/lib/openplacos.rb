@@ -15,6 +15,5 @@
 #
 
 # Please keep as it, each file should be included separetly
-require 'openplacos/libplugin'
+require 'openplacos/libcomponent'
 require 'openplacos/libclient'
-require 'openplacos/libdriver'

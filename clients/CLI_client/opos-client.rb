@@ -19,7 +19,9 @@
 $LIB_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
 $LOAD_PATH << $LIB_PATH 
 
-require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient_oauth.rb"
+require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
+
+#require 'openplacos'
 
 require 'rink'
 require 'micro-optparse'

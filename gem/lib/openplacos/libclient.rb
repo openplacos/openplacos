@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #    This file is part of Openplacos.
 #
 #    Openplacos is free software: you can redistribute it and/or modify
@@ -13,16 +14,32 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
+require 'socket'
+require 'net/http'
+require 'json'
+require 'oauth2'
+require 'yaml'
 
-ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
-require 'dbus-openplacos'
+
 require File.dirname(__FILE__) + "/widget/modules.rb"
 
+
+module OAuth2
+  class AccessToken
+    def to_hash()
+      token_params = @params
+      token_params['access_token'] = @token
+      token_params.merge!(@options)
+      token_params
+    end
+
+  end
+end
 
 
 module Openplacos
 
- module String
+  module String
    def get_max_const
      array = self.split("::")
      out = Kernel
@@ -35,64 +52,163 @@ module Openplacos
      }
      return out #Should never be here
    end
- end
- 
+  end
 
-  class Client # client for openplacos server 
+  module Connection
+
+    def register( )
+      # register the client (automatic way)
+      postData = Net::HTTP.post_form(URI.parse("#{@url}/oauth/apps"), 
+                                     { 'name'        =>"#{@name}",
+                                       'redirect_uri'=>@redirect_uri,
+                                       'format'      =>'json'
+                                     }
+                                     )
+      if postData.code == "200"            # Check the status code   
+        client_param = JSON.parse( postData.body)
+      else
+        puts "error code"
+        exit 0
+      end
+
+      @client_id = client_param["client_id"]
+      @client_secret = client_param["client_secret"]
+    end
+
+    def create_client
+      @client = OAuth2::Client.new(@client_id,
+                                   @client_secret,
+                                   {:site => "#{@url}", 
+                                     :token_url => '/oauth/authorize'
+                                   }
+                                   )      
+    end
+
+    def get_grant_url(type_)
+	  @client.auth_code.authorize_url(:redirect_uri => @redirect_uri, :scope => @scope.join(" "))
+    end
+
+    def save_config
+      @token_params[@url]                 = @token.to_hash
+      @token_params[@url][:client_id]     = @client_id
+      @token_params[@url][:client_secret] = @client_secret
+
+      File.open(@file_config, 'w') do |out|
+        YAML::dump( @token_params, out )
+      end
+    end
+
+    def load_config
+      if File.exists?(@file_config)
+        @token_params  = YAML::load(File.read(@file_config))
+        if @token_params[@url]
+          @client_id     = @token_params[@url][:client_id] 
+          @client_secret = @token_params[@url][:client_secret]
+        end
+      else
+        @token_params = Hash.new
+      end
+    end
+       
+    def recreate_token
+      @token = OAuth2::AccessToken.from_hash(@client, @token_params[@url])
+    end
+
+  end
+
+
+  class Connection_auth_code
+    include Connection
+    attr_reader :token
+    def initialize(url_, name_, scope_, id_, port_)
+      @url = url_
+      @name = name_
+      @scope = scope_
+      @redirect_uri = "http://0.0.0.0:#{port_}"
+      @port = port_
+
+      dir_config = "#{ENV['HOME']}/.openplacos"
+      if !Dir.exists?(dir_config)
+        Dir.mkdir(dir_config)
+      end
+
+      @file_config = "#{dir_config}/#{@name}-#{id_}.yaml"
+      
+      load_config
+      if @token_params[@url].nil? #get token -- first time
+        register 
+        create_client
+        grant
+        get_token
+        save_config
+      else        # persistant mode
+        create_client
+        recreate_token
+      end
+    end
+
+private
+    def grant ()
+      go_to_url  = get_grant_url("code")
+
+      puts "***************"
+      puts "please open your webBrowser and got to :"
+      puts go_to_url
+      puts "***************"
+
+      @auth_code = get_auth_code
+    end
+
+    def get_auth_code()
+      # listen to get the auth code
+      server = TCPServer.new(@port)
+      re=/code=(.*)&scope/
+      authcode = nil
+      while (session = server.accept)
+        request = session.gets
+        authcode = re.match(request)
+        if !authcode.nil?
+          session.print "HTTP/1.1 200/OK\rContent-type: text/html\r\n\r\n"
+          session.puts "<h1>Auth successfull</h1>"
+          session.close
+          break 
+        end
+      end
+      authcode[1]
+    end
+
+    def get_token()
+      begin
+        @token = @client.auth_code.get_token(@auth_code, {:redirect_uri => @redirect_uri},{:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"})
+      rescue => e
+        puts e.description
+        Process.exit 42
+      end
+    end
+    
+  end
+
+
+  class Client
+
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
-    def initialize()
-      if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-        @bus =  DBus::SessionBus.instance
-      else
-        @bus =  DBus::SystemBus.instance
+    def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
+      @objects = Hash.new
+      case connection_type
+      when "auth_code" then
+        @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
       end
-      if @bus.service("org.openplacos.server").exists?
-        @service = @bus.service("org.openplacos.server")
-        @service.introspect
-        #discover all objects of server
-        @initial_room = Room.new(nil, "/")   
-        @objects = get_node_objects(@service.root, @initial_room)
-        @rooms = @initial_room.tree
-        @permissions = Hash.new
-
-        extend_objects
-      else
-        puts "Can't find OpenplacOS server"
-        Process.exit 1
-      end
-      
-      
-    end  
-    
-    def get_node_objects(nod, father_) #get objects from a node, ignore Debug objects
-      obj = Hash.new
-      nod.each_pair{ |key,value|
-        if not(key=="Debug" or key=="server" or key=="plugins" or key=="Authenticate") #ignore debug objects
-          if not value.object.nil?
-            obj[value.object.path] = value.object
-            father_.push_object(value.object)
-          else
-            children = father_.push_child(key)
-            obj.merge!(get_node_objects(value, children))
-          end
-        end
-      }
-      obj
-    end
-    
-    def get_config_from_objects(objects) #contact config methods for all objects
-      cfg = Hash.new
-      objects.each_pair{ |key, obj|
-        if not(obj["org.openplacos.server.config"]==nil)
-          cfg[key] = obj["org.openplacos.server.config"].getConfig[0] 
-        end
-      }
-      cfg
+      introspect
+      extend_objects
     end
 
-    def get_objects
-      return @objects
+    # Intropect the distant server
+    def introspect
+      @introspect = JSON.parse( @connection.token.get('/ressources').body)
+      @introspect.each { |obj|
+        @objects[obj["name"]] = ProxyObject.new(@connection, obj) 
+      }
     end
     
     def get_iface_type(obj, det_)
@@ -104,7 +220,7 @@ module Openplacos
       }
       a
     end
-
+    
     def extend_objects
       @objects.each_pair{ |key, obj|
         if (key != "/informations")
@@ -129,61 +245,81 @@ module Openplacos
       iface_heritage.join('::')
     end
 
-    def auth(login_,password_)
-      authobj = @service.object("/Authenticate")["org.openplacos.authenticate"]
-      ack,perm = authobj.authenticate(login_,password_)
-      if ack==true
-        if @permissions[login_].nil?
-          @permissions[login_] = perm
-        end
-      end
-      return ack
-    end
-    
-    def readable?(path_,login_)
-      return true if @permissions[login_]["read"].include?(path_)
-      #check if one object is readable in the room
-      @permissions[login_]["read"].each { |path|
-        return true if path.include?(path_)
-      }
-      return false #else
-    end
-    
-    def writeable?(path_,login_)
-      return @permissions[login_]["write"].include?(path_)
-    end
     
   end
 
-  class Room
-    attr_accessor :father, :childs, :path, :objects
 
-    def initialize(father_, path_)
-      @father = father_
-      @path = path_
-      @childs = Array.new
-      @objects = Hash.new
-    end
-
-    def push_child (value_)
-      children = Room.new(self, self.path  + value_ + "/")
-      @childs << children
-      return children
-    end
-
-    def push_object(obj_)
-      @objects.store(obj_.path, obj_)
-    end
-    
-    def tree()
-      hash = Hash.new
-      hash.store(@path, self)
-      @childs.each { |child|
-        hash.merge!(child.tree)
-      }
-      return hash
-    end
-    
-  end
+  class ProxyObject
   
+    attr_reader :path
+    
+    # Object abstraction of a ressources
+    # Contructed from instrospect
+    # Has interfaces
+    def initialize(connection_, introspect_)
+      @path = introspect_["name"]
+      @interfaces = Hash.new
+      introspect_["interfaces"].each_pair { |name, methods|
+        @interfaces[name]= ProxyObjectInterface.new(connection_, self, name, methods)
+      }
+    end
+    
+     # Returns the interfaces of the object.
+    def interfaces
+      @interfaces.keys
+    end
+
+    # Retrieves an interface of the proxy object (ProxyObjectInterface instance).
+    def [](intfname)
+      @interfaces[intfname]
+    end
+
+    # Maps the given interface name _intfname_ to the given interface _intf.
+    def []=(intfname, intf)
+      @interfaces[intfname] = intf
+    end 
+
+    def has_iface?(iface_)
+      return interfaces.include?(iface_)
+    end
+   
+  end
+
+  class ProxyObjectInterface
+
+    # Interface abstraction
+    # contruct from introspect
+    def initialize(connection_, proxyobj_, name_, methods_)
+      @connection = connection_
+      @proxyobject = proxyobj_
+      @name    = name_
+      @methods = Hash.new
+      methods_.each {  |meth|
+        @methods[meth] = define_method(meth)
+      }
+    end
+
+    # Define a proxyfied method from its name
+    def define_method(name_)
+     if name_=="read"
+     methdef =  <<-eos
+                   def read(option_ = {})
+                     res = JSON.parse(@connection.token.get('/ressources/#{@proxyobject.path}', :params => {'iface'=> '#{@name}', 'options' => (option_).to_json}).body)
+                     res["value"]
+                   end
+eos
+    end
+    if name_=="write"
+     methdef =  <<-eos
+                   def write(value_,option_ = {})
+                     res = JSON.parse(@connection.token.post('/ressources/#{@proxyobject.path}', :params => {'iface'=> '#{@name}', 'value' => [value_].to_json, 'options' => (option_).to_json}).body)
+                     res["status"]
+                   end
+eos
+    end
+    
+        instance_eval( methdef )
+      end
+  end
+
 end
