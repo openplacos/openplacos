@@ -15,6 +15,9 @@
 #
 
 class User < ActiveRecord::Base
+
+  validates_uniqueness_of :login
+  
   include OAuth2::Model::ResourceOwner
   include OAuth2::Model::ClientOwner
   def authenticate?(pass)
