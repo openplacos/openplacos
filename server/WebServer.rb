@@ -161,7 +161,6 @@ class WebServer < Sinatra::Base
   get '/ressources/*' do
     content_type :json
     path = "/"+params[:splat][0]
-    puts params
     if is_an_object?
       if params[:iface]
         {"value" => read(path,params[:iface])}.to_json
@@ -176,12 +175,8 @@ class WebServer < Sinatra::Base
   post '/ressources/*' do
     content_type :json
     path = "/"+params[:splat][0]
-    if is_an_object?
-      if params[:iface]
+    if is_an_object? and params[:iface]
         {"status" => write(path,params[:iface])}.to_json
-      else
-        object_introspect(path).to_json
-      end
     else
       {"Error" => "#{path} is not an object"}
     end
