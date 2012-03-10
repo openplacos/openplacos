@@ -1,6 +1,5 @@
 pathfinder:
 - ../
-- ../..
 
 export:
 - /home/mur/temperature
@@ -27,7 +26,7 @@ component:
   method: fork
 
 mapping:
-- /temperature/raw: /arduino/Digital8
+- /temperature/raw: /arduino/Analog0
 - /home/mur/temperature: /temperature/temperature
 - /rcswitch/transmitter: /arduino/Digital7
 - /home/mur/lightcontrol: /rcswitch/groupA/switch1 
