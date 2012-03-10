@@ -1,0 +1,33 @@
+pathfinder:
+- ../
+- ../..
+
+export:
+- /home/mur/temperature
+#- /home/mur/hygro
+#- /home/mur/led
+#- /home/mur/light
+#- /home/mur/moisture
+- /home/mur/lightcontrol
+
+component:
+
+- name: arduino
+  exec: arduino.rb
+  method: fork
+  config:
+    port: /dev/ttyACM0
+  
+- name: temperature
+  exec: temperature_compact.rb
+  method: fork
+
+- name: rcswitch
+  exec: rcswitch_emw201rf.rb
+  method: fork
+
+mapping:
+- /temperature/raw: /arduino/Digital8
+- /home/mur/temperature: /temperature/temperature
+- /rcswitch/transmitter: /arduino/Digital7
+- /home/mur/lightcontrol: /rcswitch/groupA/switch1 
