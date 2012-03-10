@@ -18,7 +18,11 @@ end
 class Serial_uCham
 
   def initialize(port_,baup_)
-    @sp = SerialPort.new port_, baup_
+    begin
+      @sp = SerialPort.new port_, baup_
+    rescue
+      LibComponent::LibError.quit_server(10, "From µChameleon component: #{port_} did not opened correctly")
+    end   
   end
   
   def write(string_)

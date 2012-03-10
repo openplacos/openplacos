@@ -27,7 +27,18 @@ class Event_Handler < DBus::Object
     dbus_signal :quit,""
     dbus_signal :error,"in error:s, in options:a{sv}"
 
-   end
+    dbus_method :print, "in level:i, in message:s" do |level, message|
+      puts message
+      STDOUT.flush
+    end
+    
+    dbus_method :exit, "in status:i, in message:s" do |status, message|
+      puts "Error:: " + message
+      STDOUT.flush
+      Top.instance.quit # not suffisant but enough for quitting forked components
+      Process.exit status
+    end
+  end
   
   def initialize
     super("/plugins")

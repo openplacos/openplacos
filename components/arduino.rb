@@ -3,9 +3,7 @@
 require File.dirname(__FILE__) << "/LibComponent.rb"
 require 'serialport'
 
-# declaration de la description, des arguments et des I/O en mode 
-# micro-optparse. permet de générer le --intropect et egalement de creer
-# les objets
+# arg declaration -- Needed to generate --introspect phase
 
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "The arduino drivers"
@@ -18,7 +16,11 @@ end
 class Serial_Arduino
   
   def initialize(port_,baup_)
-    @sp = SerialPort.new port_, baup_
+    begin
+      @sp = SerialPort.new port_, baup_
+    rescue
+      LibComponent::LibError.quit_server(10, "From arduino component: #{port_} did not opened correctly")
+    end
   end
   
   def write(string_)
