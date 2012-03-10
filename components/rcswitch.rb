@@ -42,10 +42,10 @@ module Switch
 end
 
 component << Transmitter = LibComponent::Output.new("/transmitter","pt2262","w")
-component << SwitchA = LibComponent::Input.new("/switchA","digital.actuator.switch").extend(Switch)
-component << SwitchB = LibComponent::Input.new("/switchB","digital.actuator.switch").extend(Switch)
-component << SwitchC = LibComponent::Input.new("/switchC","digital.actuator.switch").extend(Switch)
-component << SwitchD = LibComponent::Input.new("/switchD","digital.actuator.switch").extend(Switch)
+component << SwitchA = LibComponent::Input.new("/switchA","digital.order.switch").extend(Switch)
+component << SwitchB = LibComponent::Input.new("/switchB","digital.order.switch").extend(Switch)
+component << SwitchC = LibComponent::Input.new("/switchC","digital.order.switch").extend(Switch)
+component << SwitchD = LibComponent::Input.new("/switchD","digital.order.switch").extend(Switch)
 
 SwitchA.set_code(component.options[:adress].to_s,1)
 SwitchB.set_code(component.options[:adress].to_s,2)
