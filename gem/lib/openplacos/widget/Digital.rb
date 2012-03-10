@@ -14,9 +14,9 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
 module Openplacos
-  module Actuator
+  module Digital
     def to_s
-      read({})[0]
+      read({})
     end
 
     def render
@@ -25,7 +25,7 @@ module Openplacos
 
 
     module Order
-      include Actuator
+      include Digital
 
       module Switch
         include Order
@@ -39,14 +39,6 @@ module Openplacos
           end
           puts "Action not recognized, please use ON/OFF"
         end
-      end
-      
-      module Dimmer
-        include Order
-        
-         def set(arg_)
-           write(arg_.to_f, {})
-         end
       end
 
     end

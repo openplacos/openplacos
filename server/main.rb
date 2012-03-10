@@ -1,4 +1,4 @@
-#!/usr/bin/ruby -w
+#!/usr/bin/ruby
 
 #    This file is part of Openplacos.
 #
@@ -24,10 +24,19 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 
 
 # List of library include
+require 'bundler/setup'
+require 'json'
 require 'yaml' 
 require 'rubygems'
 require 'dbus-openplacos'
 require 'micro-optparse'
+require 'thin'
+require 'sinatra/base'
+require "active_record"
+require "oauth2/provider"
+require 'logger'
+require 'haml'
+
 
 # List of local include
 require 'globals.rb'
@@ -37,6 +46,7 @@ require 'Event_handler.rb'
 require 'Dispatcher.rb'
 require 'Export.rb'
 require 'Info.rb'
+require 'WebServer.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
@@ -44,6 +54,7 @@ options = Parser.new do |p|
   p.option :file   , "the config file", :default => "/etc/default/openplacos"
   p.option :debug  , "activate the ruby-dbus debug flag"
   p.option :session, "client bus on user session bus"
+  p.option :port, "port of the webserver", :default => 4567
 end.process!
 
 $DEBUG = options[:debug]
@@ -67,7 +78,11 @@ internalservice.threaded = true
 
 class Top
 
-  attr_reader :drivers, :objects, :plugins, :dbus_plugins, :users, :components
+  attr_reader :components, :config_export, :exports
+    
+  def self.instance
+    @@instance
+  end
   
   #1 Config file path
   #2 Dbus session reference
@@ -78,7 +93,7 @@ class Top
     @internalservice  = internalservice_
     @config_component = @config["component"]
     @config_export    = @config["export"]
-
+    @@instance         = self
 
     # Event_handler creation
     @event_handler = Event_Handler.instance
@@ -92,8 +107,7 @@ class Top
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
     @components = Array.new
-    @exports    = Array.new
-    @users      = Array.new
+    @exports    = Hash.new
 
   end
 
@@ -115,15 +129,8 @@ class Top
 
   def  create_exported_object
     @config_export.each do |export|
-      @exports << Export.new(export)
+      @exports[export] = Export.new(export)
     end
-  end
-
-  def export
-     @exports.each do |export|
-      export.pin_output.expose_on_dbus()
-      @service.export(export.pin_output)
-    end   
   end
 
   def map
@@ -149,6 +156,12 @@ class Top
 
     @components.each  do |component|
        component.wait_for # verify component has been launched 
+    end
+  end
+  
+  def update_exported_ifaces 
+    @exports.each_value do |export|
+      export.update_ifaces
     end
   end
   
@@ -192,7 +205,7 @@ top.inspect_components
 top.expose_component
 top.create_exported_object
 Dispatcher.instance.check_all_pin
-top.export
+top.update_exported_ifaces
 
 internalmain = DBus::Main.new
 internalmain << InternalBus
@@ -201,17 +214,28 @@ Thread.new { internalmain.run }
 #launch components
 top.launch_components
 
+# create the webserver
+server = ThinServer.new('0.0.0.0', options[:port])
+# start the WebServer
+# Threaded server should be removed when main dbus will be removed
+
+Thread.new{
+  server.start!
+}
+
 # Let's Dbus have execution control
 main = DBus::Main.new
 main << Bus
 
 # quit the plugins when server quit
 Signal.trap('TERM') do 
- quit(top, internalmain, main)
+  server.stop!
+  quit(top, internalmain, main)
 end
 
 Signal.trap('INT') do 
- quit(top, internalmain, main)
+  server.stop!
+  quit(top, internalmain, main)
 end
 
 main.run

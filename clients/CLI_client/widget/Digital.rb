@@ -12,21 +12,26 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
-#
 
-require 'Pin.rb'
+module Openplacos
+  module Digital
+    module Order
+      include Digital
 
-class Export
-    attr_reader :pin_web, :dbus_name, :ifaces
-
-  def initialize(config_)
-    @config     = config_
-    @dbus_name  = @config
-    @pin_web = Pin_web.new(config_)
+      module Switch
+        include Order
+        
+        def render
+          ret = super
+          if ret
+            "\033[42m #{ret} \033[0m"
+          else
+            "\033[41m #{ret} \033[0m"
+          end
+        end
+      end
+      
+    end
   end
-  
-  def update_ifaces # plugged ifaces will be mine
-    @pin_web.update_ifaces
-  end
 
- end
+end

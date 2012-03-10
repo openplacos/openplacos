@@ -1,0 +1,14 @@
+%h3 Register you application
+-if @client.errors.any?
+  %ul{ :class=>"errors"}
+    -@client.errors.full_messages.each do |message|
+      %li= message
+%form{ :method => 'post', :action => '/oauth/apps'}
+  %fieldset
+    %label{ :for=>"name"} Application name
+    %input{ :type => "text", :name => "name" , :id=>"name"}
+  %fieldset
+    %label{ :for=>"redirect_uri"} Callback URI
+    %input{ :type => "text", :name => "redirect_uri" , :id=>"redirect_uri"}
+  %fieldset
+    %input{ :type => "submit", :value =>"Register"} 

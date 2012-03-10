@@ -25,7 +25,7 @@ module Openplacos
     include Analog
 
     def render
-      Analog::render << "" << unit
+      super << " " << unit
     end
 
   end

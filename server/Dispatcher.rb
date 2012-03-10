@@ -53,9 +53,16 @@ class Dispatcher
     return @binding[pin_sender_name_][0].method_exec(iface_, method_, *args_)
   end
 
-  def get_plug(dbus_name_)
+  def get_plug(dbus_name_) #return an array of plugged pin
     return @binding[dbus_name_]
   end
 
+  def get_plugged_ifaces(dbus_name_)
+    ifaces = Array.new
+    get_plug(dbus_name_).each do |pin|
+      ifaces << pin.config.keys 
+    end
+    ifaces.flatten
+  end
 end
 

@@ -15,5 +15,5 @@
 
 
 require File.dirname(__FILE__) + "/Analog.rb"
-require File.dirname(__FILE__) + "/Actuator.rb"
+require File.dirname(__FILE__) + "/Digital.rb"
 

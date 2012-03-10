@@ -1,4 +1,4 @@
-#!/usr/bin/ruby -w
+#!/usr/bin/ruby
 
 #    This file is part of Openplacos.
 #
@@ -19,24 +19,25 @@
 $LIB_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
 $LOAD_PATH << $LIB_PATH 
 
+require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient_oauth.rb"
 
-require "rubygems"
 require 'rink'
 require 'micro-optparse'
-
 require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
-require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
 
 options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
-  p.option :session, "client bus on user session bus"
+  p.option :host, "host server url", :default => "http://localhost:4567"
 end.process!
 
 if options[:session]
   ENV['DEBUG_OPOS'] = "1"
 end
 
-Opos = Openplacos::Client.new # Beurk -- Constant acting as a global variable
+host=options[:host]
+
+
+Opos = Openplacos::Client.new(host, "truc", ["read", "user"], "auth_code") # Beurk -- Constant acting as a global variable
 
 
 class OpenplacOS_Console < Rink::Console
@@ -57,7 +58,7 @@ class OpenplacOS_Console < Rink::Console
   end
 
   command :get do |args|
-    objects  = Opos.get_objects
+    objects  = Opos.objects
 
     obj_name = args[0]
     if (!objects.include?(obj_name))
@@ -66,7 +67,7 @@ class OpenplacOS_Console < Rink::Console
     end
     obj      = objects[obj_name]
 
-    iface    = "org.openplacos.#{args[1]}"
+    iface    = "#{args[1]}"
     if (!obj.has_iface?(iface))
       puts "Interface #{iface} does not exist"
       next
@@ -76,7 +77,7 @@ class OpenplacOS_Console < Rink::Console
   end
  
   command :set  do |args|
-    objects  = Opos.get_objects
+    objects  = Opos.objects
     
     obj_name = args[0]
     if (!objects.include?(obj_name))
@@ -85,7 +86,7 @@ class OpenplacOS_Console < Rink::Console
     end
     obj      = objects[obj_name]
 
-    iface    = "org.openplacos.#{args[1]}"
+    iface    = "#{args[1]}"
     if (!obj.has_iface?(iface))
       puts "Interface #{iface} does not exist"
       next
@@ -113,7 +114,7 @@ class OpenplacOS_Console < Rink::Console
   end
 
   def status
-    objects = Opos.get_objects
+    objects = Opos.objects
     objects.each_pair{ |key, obj|
       if (key != "/informations")
         puts "- " << key 
@@ -125,7 +126,7 @@ class OpenplacOS_Console < Rink::Console
   end
 
   def list
-    objects = Opos.get_objects
+    objects = Opos.objects
     objects.each_pair{ |key, obj|
       if (key != "/informations")
         puts "- " << key 

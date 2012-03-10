@@ -18,19 +18,28 @@ require 'Dispatcher.rb'
 
 include REXML
 
+module Pin
+  
+  def register
+    dis = Dispatcher.instance
+    dis.register_pin(self)
+  end
+  
+end
+
 class Pin_input < DBus::ProxyObject
+  include Pin
   attr_reader :name, :dbus_name, :config
 
   def initialize(name_, config_, component_, method_)
-    @config     = config_
+    @config     = config_ # config from component introspect
     @name       = name_
     @component  = component_
     @method     = method_
     @dispatcher = Dispatcher.instance
     @dbus_name  = "/#{@component.name}#{@name}"
 
-    dis = Dispatcher.instance
-    dis.register_pin(self)
+    register
     super(InternalBus, "org.openplacos.components.#{@component.name}", @name)
   end
 
@@ -44,18 +53,17 @@ class Pin_input < DBus::ProxyObject
 end
 
 class Pin_output < DBus::Object
+  include Pin
   attr_reader :name, :dbus_name
 
   def initialize(name_, config_, component_, method_)
-    @config    = config_
+    @config    = config_ # config from component introspect
     @name      = name_
     @component = component_
     @dbus_name = "/#{@component.name}#{@name}"
     @method    = method_
     
-    dis = Dispatcher.instance
-    dis.register_pin(self)
-
+    register
     super(@dbus_name)
   end
 
@@ -82,12 +90,12 @@ end
 
 
 class Pin_export  < DBus::Object
+  include Pin
   attr_reader :dbus_name
 
   def initialize(dbus_name_)
     @dbus_name = dbus_name_
-    dis = Dispatcher.instance
-    dis.register_pin(self)
+    register
     super(@dbus_name)
   end
   
@@ -123,3 +131,27 @@ class Pin_export  < DBus::Object
 
 end
 
+
+class Pin_web  
+  include Pin
+  attr_reader :dbus_name, :ifaces
+
+  def initialize(dbus_name_)
+    @dbus_name = dbus_name_
+    register
+    @ifaces = nil
+  end
+  
+  def update_ifaces # plugged ifaces will be mine
+    @ifaces = Dispatcher.instance.get_plugged_ifaces(@dbus_name)
+  end
+  
+  def introspect
+    intro = Hash.new
+    Dispatcher.instance.get_plug(@dbus_name).each do |pin|
+      intro.merge!(pin.config)
+    end
+    intro
+  end
+
+end
