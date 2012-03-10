@@ -1,8 +1,0 @@
-<% content_for :menu_left do %>
-  <ul>
-    <li><%= link_to 'New Post', new_post_path %></li>
-  </ul>
-<% end %>
-
-<%= render :partial => 'posts/post', :collection => @posts %>
-

@@ -1,4 +1,0 @@
-<div class="menu">
- <%= path %>
-
-</div>
