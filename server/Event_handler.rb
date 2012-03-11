@@ -27,16 +27,27 @@ class Event_Handler < DBus::Object
     dbus_signal :quit,""
     dbus_signal :error,"in error:s, in options:a{sv}"
 
+    # level is Logger level:  0: FATAL; 1: ERROR; 2; WARN; 4: INFO; 5: DEBUG
+    # refers to this http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html
+    # message will be print to log
     dbus_method :print, "in level:i, in message:s" do |level, message|
-      puts message
-      STDOUT.flush
+      error_level = [Logger::FATAL, Logger::ERROR, Logger::WARN, Logger::INFO, Logger::DEBUG]
+      if (level==0)
+        puts message
+        STDOUT.flush
+      end
+
+      if (level > 4)
+        level = 2 # clip to WARN
+      end
+      Globals.trace(message, error_level[level])
+      
     end
     
+    # Status will be status of opos server
+    # message will print in log to debug
     dbus_method :exit, "in status:i, in message:s" do |status, message|
-      puts "Error:: " + message
-      STDOUT.flush
-      Top.instance.quit # not suffisant but enough for quitting forked components
-      Process.exit status
+      Globals.error(message, status)
     end
   end
   

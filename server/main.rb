@@ -55,9 +55,14 @@ options = Parser.new do |p|
   p.option :debug  , "activate the ruby-dbus debug flag"
   p.option :session, "client bus on user session bus"
   p.option :port, "port of the webserver", :default => 4567
+  p.option :log, "path to logfile", :default => "/tmp/opos.log"
 end.process!
 
 $DEBUG = options[:debug]
+
+# log file
+# monthly round-robin
+log = Logger.new( options[:log], shift_age = 'monthly')
 
 if options[:session]
   ENV['DEBUG_OPOS'] = "1"
@@ -78,21 +83,24 @@ internalservice.threaded = true
 
 class Top
 
-  attr_reader :components, :config_export, :exports
+  attr_reader :components, :config_export, :exports, :log
     
   def self.instance
     @@instance
   end
   
-  #1 Config file path
-  #2 Dbus session reference
-  def initialize (config_, service_, internalservice_)
+  # Config file path
+  # Dbus session reference
+  # Internal Dbus
+  # Logguer instance
+  def initialize (config_, service_, internalservice_, log_)
     # Parse yaml
     @config           =  YAML::load(File.read(config_))
     @service          = service_
     @internalservice  = internalservice_
     @config_component = @config["component"]
     @config_export    = @config["export"]
+    @log              = log_
     @@instance         = self
 
     # Event_handler creation
@@ -181,12 +189,12 @@ end
 file = options[:file]
 
 if (! File.exist?(file))
-  Globals.error("Config file #{file} doesn't exist",1)
+  log.error("Config file #{file} doesn't exist")
 end
 
 
 if (! File.readable?(file))
-  Globals.error("Config file #{file} not readable")
+  log.error("Config file #{file} not readable")
 end
 
 # Where am I ?
@@ -199,7 +207,7 @@ end
 Dispatcher.instance.init_dispatcher 
 
 # Construct Top
-top = Top.new(file, service, internalservice)
+top = Top.new(file, service, internalservice, log)
 top.map
 top.inspect_components
 top.expose_component
