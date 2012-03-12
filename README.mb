@@ -1,0 +1,36 @@
+# OpenplacOS: Home automation for your system #
+
+OpenplacOS is an automation software to easily control the system you build. OpenplacOS lets you configure a system that represents your system by letting you assemble components that drive your system.
+
+A component is something physical you plug on your system: it can be an IO card (ex: arduino, µchameleon), sensor (ex: light, temperature)), actuator (relay, pwm driver). OpenplacOS is generic at this point. A component do not have to be categorized as a sensor or an actuator to work. OpenplacOS just consider components and let you put in a "component" whatever you want. 
+
+## Config file ##
+
+OpenplacOS config file is quite easy to set up. This file is basically in yaml and is composed in 3 parts:
+
+### Component declaration ###
+In this first part, you will describe all components you want to use by setting these attributes: 
+* name: the name of the component. Used next to identy this component.
+* exec: path to executable to run to launch this component.
+* method: [fork/thread/debug/disable]. Use fork to run this component as an external process, thread as a thread of server. Use debug when a problem occurs when launching this component. 
+* config: this attributes is usefull to pass arguments to component. config must contains a hash.
+
+Example:
+- name: arduino
+  exec: arduino.rb
+  method: fork
+  config:
+    port: /dev/ttyACM0
+
+
+### Export list ###
+In this part, list some objects as you want to be your top-level system control. For example, if you want to manage a heater regulation, you want to have a thermostat being you top level control system.
+
+At this step, just list your controls such as:
+- /home/wall/temperature
+- /home/wall/lightcontrol
+
+With such export declaration, OpenplacOS will let me control and access to my system with these 2 objects that are temperature and lightcontrol.
+
+### Mapping phase ###
+At this last part, you will map your components and your export objects together.   
