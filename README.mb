@@ -45,3 +45,9 @@ To do so, just proceed as described in this example:
 /home/wall/temperature is an export object we already declared. It is plugged on /temperature component on its "temperature" pin. The "raw" pin of /temperature component is plugged on "Analog0" of arduino component.
 
 With this example, we have construct a config for a system that has a temperature sensor plugged on an arduino board.
+
+## OAuth ##
+
+OAuth2 is a protocol dedicated to user authentication. It relies on a central server that can authentify users. External applications that want to authentify an user with oauth2 can based their authentification on the central one. Oauth2 can also manage permissions on a ressource information. This is basically what you do when you go on Facebook and when you have "Do you allow application XXXX to access to your profile, your photos and all your life ?"
+
+All clients that can connect to OpenplacOS server must use OAuth2.0 to manage user authentification. That's why you will have to allow all applications you use to connect to your openplacOS. To support OAuth2, openplacOS embeds a little webserver to let you manage applications permissions and your user profiles. 
