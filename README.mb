@@ -22,15 +22,26 @@ Example:
   config:
     port: /dev/ttyACM0
 
+- name: temperature
+  exec: temperature_compact.rb
+  method: fork
+
 
 ### Export list ###
 In this part, list some objects as you want to be your top-level system control. For example, if you want to manage a heater regulation, you want to have a thermostat being you top level control system.
 
 At this step, just list your controls such as:
 - /home/wall/temperature
-- /home/wall/lightcontrol
 
-With such export declaration, OpenplacOS will let me control and access to my system with these 2 objects that are temperature and lightcontrol.
+With such export declaration, OpenplacOS will let me control and access to my system with these object temperature.
 
 ### Mapping phase ###
-At this last part, you will map your components and your export objects together.   
+At this last part, you will map your components and your export objects together. This mapping will reflect how you have plugged your components into themselves.
+
+To do so, just proceed as described in this example:
+- /home/wall/temperature: /temperature/temperature
+- /temperature/raw: /arduino/Analog0
+
+/home/wall/temperature is an export object we already declared. It is plugged on /temperature component on its "temperature" pin. The "raw" pin of /temperature component is plugged on "Analog0" of arduino component.
+
+With this example, we have construct a config for a system that has a temperature sensor plugged on an arduino board.
