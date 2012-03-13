@@ -50,4 +50,23 @@ With this example, we have construct a config for a system that has a temperatur
 
 OAuth2 is a protocol dedicated to user authentication. It relies on a central server that can authentify users. External applications that want to authentify an user with oauth2 can based their authentification on the central one. Oauth2 can also manage permissions on a ressource information. This is basically what you do when you go on Facebook and when you have "Do you allow application XXXX to access to your profile, your photos and all your life ?"
 
-All clients that can connect to OpenplacOS server must use OAuth2.0 to manage user authentification. That's why you will have to allow all applications you use to connect to your openplacOS. To support OAuth2, openplacOS embeds a little webserver to let you manage applications permissions and your user profiles. 
+All clients that can connect to OpenplacOS server must use OAuth2.0 to manage user authentification. That's why you will have to allow applications to connect to your openplacOS data. To do so, openplacOS embeds a little webserver to let you manage applications permissions and your user profiles. 
+
+## Launch your server ##
+
+OpenplacOS comes with a startup script placed in your init directory. This path depend of your distro. Usually, it is under /etc/init.d/. Just do #`/etc/init.d/openplacos start` to launch it.
+
+## Start talking to OpenplacOS ##
+
+There is several ways to connect to your server.
+
+### Command-line client ###
+
+OpenplacOS comes with a command-line client. If you need to have to this client standalone installed, it will be packaged in a distinct package (not done yet). To run it, do: $`openplacos -h *host_ip*:4567`. Follow instruction to autorize this client. Then you will have a prompt. 
+
+Type:
+* `help` to list all commands supported
+* `status` to have a top level report of your system
+* `list` to have all objects and corresponding interfaces
+* `get <object> <iface>` to make a read access on specified object and interface
+* `set <object> <iface> <value>` to set an interface of an object to a specified value.
