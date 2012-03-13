@@ -4,6 +4,13 @@ OpenplacOS is an automation software to easily control the system you build. Ope
 
 A component is something physical you plug on your system: it can be an IO card (ex: arduino, µchameleon), sensor (ex: light, temperature)), actuator (relay, pwm driver). OpenplacOS is generic at this point. A component do not have to be categorized as a sensor or an actuator to work. OpenplacOS just consider components and let you put in a "component" whatever you want. 
 
+## Data organization ##
+
+OpenplacOS organizes ressources using *object* and *interface*. 
+* object: An object is a ressource identified by a *path*. This can be /home/temperature. You can group several objects in something call *room* using the same prefix. For example, /home/temperature and /home/light are in the same room: /home/. This can be usefull for permission managment. An object has several *interfaces*
+* interface: An interface is a way to access to a ressource. For example, /home/temperature can have 2 interfaces: *analog.sensor.temperature.celcuis* *analog.sensor.temperature.farenheit* depending of the unit you want to express your object. There is several kind of interfaces: to control switch, regulation; to express physical metrics, and so on. An interface can be accessed with read write functions. Interfaces can be reused in differents objects.
+
+
 ## Config file ##
 
 OpenplacOS config file is quite easy to set up. This file is basically in yaml and is composed in 3 parts:
