@@ -21,17 +21,25 @@ require 'Event_handler'
 class Globals
 
   # Print trace when debug env var defined
-  def self.trace(string_)
+  # string is the message to be traced
+  # level is Logger level:  Logger::FATAL; Logger::ERROR; Logger::WARN; Logger::INFO; Logger::DEBUG
+  # refers to this http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html
+  def self.trace(string_, level_=Logger::WARN)
     if ENV['VERBOSE_OPOS'] != nil
       puts string_
     end
+    Top.instance.log.add(level_, string_)
   end
 
-  def self.error(string,code = 255)
-    puts string
+  def self.error(string_,code_ = 255)
+    puts "Error:: " + string_
+    STDOUT.flush
+    
+    Top.instance.log.add(Logger::FATAL, string_)
     eh = Event_Handler.instance
-    eh.error(string)
-    eh.quit()
-    Process.exit code
+    # eh.error(string_) # Does not work ... :-/
+
+    Top.instance.quit # not suffisant but enough for quitting forked components
+    Process.exit code_
   end
 end

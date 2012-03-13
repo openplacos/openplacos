@@ -144,7 +144,7 @@ module LibComponent
     def connect(proxy_)
       @proxy = proxy_["org.openplacos.#{@interface}"]
       if @proxy.nil?
-        LibError.raise("The interface org.openplacos.#{@interface} is not available for pin #{self.name}")
+        LibError.quit_server(255, "The interface org.openplacos.#{@interface} is not available for pin #{self.name}")
       end
     end    
   end
@@ -358,7 +358,7 @@ module LibComponent
         begin
           p.introspect
         rescue 
-          LibError.raise("Introspect of pin /#{component_.name}#{name} failed \nThe openplacos server is probably unreachable")
+          LibError.quit_server(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \nOpenplacos server is probably unreachable")
         end
         definition.each_key { |iface|
           component_output = component_.get_output_iface(name,iface)
@@ -410,9 +410,16 @@ module LibComponent
   end
   
   class LibError
-    def self.raise(str_)
-      puts str_
-      exit(255)
+
+    # Print an error message and make the server quit
+    def self.quit_server(status_, str_)
+      bus       = DBus::ASessionBus.new
+      server    = bus.service("org.openplacos.server.internal")
+      opos      = server.object("/plugins")
+      opos.introspect
+      opos.default_iface = "org.openplacos.plugins"
+
+      opos.exit(status_, str_)
     end
   end
 
