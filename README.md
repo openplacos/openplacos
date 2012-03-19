@@ -40,7 +40,7 @@ In this part, list some objects as you want to be your top-level system control.
 At this step, just list your controls such as:
 - /home/wall/temperature
 
-With such export declaration, OpenplacOS will let me control and access to my system with these object temperature.
+With such export declaration, OpenplacOS will let you control and access to my system with these object temperature.
 
 ### Mapping phase ###
 At this last part, you will map your components and your export objects together. This mapping will reflect how you have plugged your components into themselves.
