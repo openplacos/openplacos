@@ -87,7 +87,7 @@ There is several ways to connect to your server.
 
 OpenplacOS comes with a command-line client. If you need to have to this client standalone installed, it will be packaged in a distinct package (not done yet). To run it, do: 
 ```
-$openplacos -h *host_ip*:4567
+$ openplacos -h *host_ip*:4567
 ```
  Follow instruction to autorize this client. Then you will have a prompt. 
 
