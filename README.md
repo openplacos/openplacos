@@ -25,6 +25,7 @@ OpenplacOS config file is quite easy to set up. This file is basically in yaml a
 
 ### Component declaration ###
 In this first part, you will describe all components you want to use by setting these attributes: 
+
 * name: the name of the component. Used next to identy this component.
 * exec: path to executable to run to launch this component.
 * method: [fork/thread/debug/disable]. Use fork to run this component as an external process, thread as a thread of server. Use debug when a problem occurs when launching this component. 
