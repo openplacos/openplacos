@@ -15,6 +15,7 @@ OpenplacOS installation is distribution dependant. Here is a list of distros and
 ## Data organization ##
 
 OpenplacOS organizes ressources using *object* and *interface*. 
+
 * object: An object is a ressource identified by a *path*. This can be /home/temperature. You can group several objects in something call *room* using the same prefix. For example, /home/temperature and /home/light are in the same room: /home/. This can be usefull for permission managment. An object has several *interfaces*
 * interface: An interface is a way to access to a ressource. For example, /home/temperature can have 2 interfaces: *analog.sensor.temperature.celcuis* *analog.sensor.temperature.farenheit* depending of the unit you want to express your object. There is several kind of interfaces: to control switch, regulation; to express physical metrics, and so on. An interface can be accessed with read write functions. Interfaces can be reused in differents objects.
 
@@ -83,6 +84,7 @@ There is several ways to connect to your server.
 OpenplacOS comes with a command-line client. If you need to have to this client standalone installed, it will be packaged in a distinct package (not done yet). To run it, do: $`openplacos -h *host_ip*:4567`. Follow instruction to autorize this client. Then you will have a prompt. 
 
 Type:
+
 * `help` to list all commands supported
 * `status` to have a top level report of your system
 * `list` to have all objects and corresponding interfaces
