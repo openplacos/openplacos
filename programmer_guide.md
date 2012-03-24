@@ -35,7 +35,8 @@ This is Pin instanciation. We've have 2 kinds of pins: output and input one. The
 
 Input pins are assumed to respond to on_write and on_read methods. These methods must do answer according to its interface. Please refers to interface documentation to verify. To implement read and write, just proceed as this:
 
-`Switch.on_write do |value, option|
+```ruby
+Switch.on_write do |value, option|
   if value==1 or value==true
     @state = true
     return Raw.write(false,option)
@@ -47,7 +48,8 @@ end
 
 Switch.on_read do |option|
   return @state || false
-end`
+end
+```
 
 Raw is an Ouput pin. This objects implements read and write methods depending of its interface.
 
