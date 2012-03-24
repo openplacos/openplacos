@@ -50,7 +50,10 @@ In this first part, you will describe all components you want to use by setting 
 In this part, list some objects as you want to be your top-level system control. For example, if you want to manage a heater regulation, you want to have a thermostat being you top level control system.
 
 At this step, just list your controls such as:
+
+```YAML
 - /home/wall/temperature
+```
 
 With such export declaration, OpenplacOS will let you control and access to my system with these object temperature.
 
