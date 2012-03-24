@@ -75,7 +75,7 @@ All clients that can connect to OpenplacOS server must use OAuth2.0 to manage us
 
 OpenplacOS comes with a startup script placed in your init directory. This path depend of your distro. Usually, it is under */etc/init.d/*. Just do 
 ```
-\# /etc/init.d/openplacos start
+/etc/init.d/openplacos start
 ```
  to launch it.
 
