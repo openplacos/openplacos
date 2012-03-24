@@ -58,6 +58,7 @@ With such export declaration, OpenplacOS will let you control and access to my s
 At this last part, you will map your components and your export objects together. This mapping will reflect how you have plugged your components into themselves.
 
 To do so, just proceed as described in this example:
+
 ```YAML
 - /home/wall/temperature: /temperature/temperature
 - /temperature/raw: /arduino/Analog0
