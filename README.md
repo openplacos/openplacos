@@ -37,6 +37,7 @@ In this first part, you will describe all components you want to use by setting 
   exec: temperature_compact.rb
   method: fork
 ```
+
 * name: the name of the component. Used next to identy this component.
 * exec: path to executable to run to launch this component.
 * method: [fork/thread/debug/disable]. Use fork to run this component as an external process, thread as a thread of server. Use debug when a problem occurs when launching this component. 
