@@ -4,6 +4,14 @@ OpenplacOS is an automation software to easily control the system you build. Ope
 
 A component is something physical you plug on your system: it can be an IO card (ex: arduino, µchameleon), sensor (ex: light, temperature)), actuator (relay, pwm driver). OpenplacOS is generic at this point. A component do not have to be categorized as a sensor or an actuator to work. OpenplacOS just consider components and let you put in a "component" whatever you want. 
 
+## Installation ##
+
+OpenplacOS installation is distribution dependant. Here is a list of distros and corresponding documentation for installing it. 
+
+* ubuntu: ???
+* gentoo: ???
+* arch: ???
+
 ## Data organization ##
 
 OpenplacOS organizes ressources using *object* and *interface*. 
