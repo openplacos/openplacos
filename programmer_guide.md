@@ -18,10 +18,10 @@ Let's take an example of a basic case: a logical inverser gate. Just look at the
 
 `require "LibComponent.rb"` # gem load
 
-`component = LibComponent::Component.new(ARGV) do |c|
-  c.description  "This is openplacos component for a Normaly open Relay"
-  c.version "0.1"
-  c.default_name "relaync"
+`component = LibComponent::Component.new(ARGV) do |c|   
+  c.description  "This is openplacos component for a Normaly open Relay"   
+  c.version "0.1"   
+  c.default_name "relaync"   
 end`
 
 First, libcomponent needs to be instancianted and comes with some paramters. This is helpfull to help users understand and manage your component as if it were an application.
