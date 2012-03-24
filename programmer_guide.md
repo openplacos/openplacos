@@ -4,7 +4,7 @@ OpenplacOS has been conceived to easily extend it.
 
 ## Components ##
 
-Components communicates with openplacOS server through d-bus. DBus is an inter-process communication system. Using dbus makes you totally free of writing your component in whatever langage you want.
+Components comuunicates with openplacOS server through d-bus. DBus is an inter-process communication system. Using dbus makes you totally free of writing your component in whatever langage you want.
 
 However, if you just want to start writing your component, we've developped a Ruby library (a gem) to help you start in.
 

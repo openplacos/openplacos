@@ -31,7 +31,6 @@ In this first part, you will describe all components you want to use by setting 
 * config: this attributes is usefull to pass arguments to component. config must contains a hash.
 
 Example:
-```yaml
 - name: arduino
   exec: arduino.rb
   method: fork
@@ -41,7 +40,6 @@ Example:
 - name: temperature
   exec: temperature_compact.rb
   method: fork
-```
 
 
 ### Export list ###
