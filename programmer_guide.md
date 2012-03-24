@@ -28,8 +28,10 @@ end
 
 First, libcomponent needs to be instancianted and comes with some paramters. This is helpfull to help users understand and manage your component as if it were an application.
 
-`component << Raw = LibComponent::Output.new("/raw","digital","w")
-component << Switch = LibComponent::Input.new("/switch","digital.order.switch")`
+```ruby
+component << Raw = LibComponent::Output.new("/raw","digital","w")
+component << Switch = LibComponent::Input.new("/switch","digital.order.switch")
+```
 
 This is Pin instanciation. We've have 2 kinds of pins: output and input one. These pins are declared with a suffixe-name "/raw" and "/switch", and has an interface type "digital". Output pin needs also to need how these pin will be accessed (r, w, rw).
 
