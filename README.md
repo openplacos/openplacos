@@ -64,7 +64,7 @@ To do so, just proceed as described in this example:
 - /temperature/raw: /arduino/Analog0
 ```
 
-*/home/wall/temperature* is an export object we already declared. It is plugged on */temperature* component on its "temperature" pin. The *raw* pin of /temperature component is plugged on *Analog0* of arduino component.
+*/home/wall/temperature* is an export object we already declared. It is plugged on */temperature* component on its *temperature* pin. The *raw* pin of /temperature component is plugged on *Analog0* of */arduino* component.
 
 With this example, we have construct a config for a system that has a temperature sensor plugged on an arduino board.
 
