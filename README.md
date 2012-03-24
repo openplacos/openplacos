@@ -24,14 +24,7 @@ OpenplacOS organizes ressources using *object* and *interface*.
 OpenplacOS config file is quite easy to set up. This file is basically in yaml and is composed in 3 parts:
 
 ### Component declaration ###
-In this first part, you will describe all components you want to use by setting these attributes: 
-
-* name: the name of the component. Used next to identy this component.
-* exec: path to executable to run to launch this component.
-* method: [fork/thread/debug/disable]. Use fork to run this component as an external process, thread as a thread of server. Use debug when a problem occurs when launching this component. 
-* config: this attributes is usefull to pass arguments to component. config must contains a hash.
-
-Example:
+In this first part, you will describe all components you want to use by setting attributes like this: 
 
 ```YAML
 - name: arduino
@@ -44,6 +37,11 @@ Example:
   exec: temperature_compact.rb
   method: fork
 ```
+* name: the name of the component. Used next to identy this component.
+* exec: path to executable to run to launch this component.
+* method: [fork/thread/debug/disable]. Use fork to run this component as an external process, thread as a thread of server. Use debug when a problem occurs when launching this component. 
+* config: this attributes is usefull to pass arguments to component. config must contains a hash.
+
 
 
 ### Export list ###
