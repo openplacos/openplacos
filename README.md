@@ -16,8 +16,8 @@ OpenplacOS installation is distribution dependant. Here is a list of distros and
 
 OpenplacOS organizes ressources using *object* and *interface*. 
 
-* object: An object is a ressource identified by a *path*. This can be /home/temperature. You can group several objects in something call *room* using the same prefix. For example, /home/temperature and /home/light are in the same room: /home/. This can be usefull for permission managment. An object has several *interfaces*
-* interface: An interface is a way to access to a ressource. For example, /home/temperature can have 2 interfaces: *analog.sensor.temperature.celcuis* *analog.sensor.temperature.farenheit* depending of the unit you want to express your object. There is several kind of interfaces: to control switch, regulation; to express physical metrics, and so on. An interface can be accessed with read write functions. Interfaces can be reused in differents objects.
+* object: An object is a ressource identified by a *path*. This can be */home/temperature*. You can group several objects in something call *room* using the same prefix. For example, */home/temperature* and */home/light* are in the same room: */home/*. This can be usefull for permission managment. An object has several *interfaces*
+* interface: An interface is a way to access to a ressource. For example, */home/temperature* can have 2 interfaces: *analog.sensor.temperature.celcuis* *analog.sensor.temperature.farenheit* depending of the unit you want to express your object. There is several kind of interfaces: to control switch, regulation; to express physical metrics, and so on. An interface can be accessed with read write functions. Interfaces can be reused in differents objects.
 
 
 ## Config file ##
@@ -67,7 +67,7 @@ To do so, just proceed as described in this example:
 - /temperature/raw: /arduino/Analog0
 ```
 
-*/home/wall/temperature* is an export object we already declared. It is plugged on */temperature* component on its *temperature* pin. The *raw* pin of /temperature component is plugged on *Analog0* of */arduino* component.
+*/home/wall/temperature* is an export object we already declared. It is plugged on */temperature* component on its *temperature* pin. The *raw* pin of */temperature* component is plugged on *Analog0* of */arduino* component.
 
 With this example, we have construct a config for a system that has a temperature sensor plugged on an arduino board.
 
