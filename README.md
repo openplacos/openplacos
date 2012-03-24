@@ -73,7 +73,11 @@ All clients that can connect to OpenplacOS server must use OAuth2.0 to manage us
 
 ## Launch your server ##
 
-OpenplacOS comes with a startup script placed in your init directory. This path depend of your distro. Usually, it is under /etc/init.d/. Just do #`/etc/init.d/openplacos start` to launch it.
+OpenplacOS comes with a startup script placed in your init directory. This path depend of your distro. Usually, it is under */etc/init.d/*. Just do 
+```BASH
+#/etc/init.d/openplacos start
+```
+ to launch it.
 
 ## Start talking to OpenplacOS ##
 
@@ -81,7 +85,11 @@ There is several ways to connect to your server.
 
 ### Command-line client ###
 
-OpenplacOS comes with a command-line client. If you need to have to this client standalone installed, it will be packaged in a distinct package (not done yet). To run it, do: $`openplacos -h *host_ip*:4567`. Follow instruction to autorize this client. Then you will have a prompt. 
+OpenplacOS comes with a command-line client. If you need to have to this client standalone installed, it will be packaged in a distinct package (not done yet). To run it, do: 
+```BASH
+openplacos -h *host_ip*:4567
+```
+ Follow instruction to autorize this client. Then you will have a prompt. 
 
 Type:
 
