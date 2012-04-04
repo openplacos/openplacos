@@ -1,8 +1,41 @@
 # OpenplacOS: Home automation for your system #
 
+## Presentation ##
+
+Openplacos is an open source project for home automation, aquariophily and indoor gardens that runs on Linux. Source code is licensed under GPLv3.
+
+Openplacos is a project to make possible and easy to extend your computer to new devices. Openplacos is designed for people who want to build their own DIY home automation system. Openplacos is highly flexible and easy to configure
+
+Openplacos gives you the control of your system through a core-server. This core-server can be extended with plugins for more controbality, here is a list of features supported:
+
+* Embedded webserver: control your placos through a website
+* Extensibilty: easy to extend to new features and new devices
+* SQL support: track your placos into a database
+* commmand-line client to easily script your server
+* Automated regulations: let your placos control yours actuators to a targetted sensor value. PWM regulations are supported!
+ 
+
+### How does OpenplacOS work, what do I need to use it ? ###
+
+To use OpenplacOS for an home automation system, you will need some components:
+
+1. A computer
+
+![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=4&display&max=200)First of all, you need a *computer* to host the OpenplacOS server. You can use an old one, or buy a Single Board Computer? for a lower power consummation. This computer need to run under a GNU/linux operating system. currently, only Debian, Ubuntu and Gentoo are supported.
+
+The minimum requirement system can vary according to your GNU/Linux distribution. However we recommend you to have at least 256 Mb RAM to run openplacos properly.
 OpenplacOS is an automation software to easily control the system you build. OpenplacOS lets you configure a system that represents your system by letting you assemble components that drive your system.
 
-A component is something physical you plug on your system: it can be an IO card (ex: arduino, µchameleon), sensor (ex: light, temperature)), actuator (relay, pwm driver). OpenplacOS is generic at this point. A component do not have to be categorized as a sensor or an actuator to work. OpenplacOS just consider components and let you put in a "component" whatever you want. 
+2. An IO Board
+
+Then, you need to interface your hardware with the computer. Basically, OpenplacOS use an Input/Ouput (IO) card. The IO card will get the value of your sensors and redirect orders to your actuators. You can have name of supported IO card, for example you can use an [Arduino](http://www.arduino.cc/) card. You can also use sensors that connect directly on an USB port, for instance the Phidgets sensors
+
+3. Sensors and Actuators
+
+Finally, you need *sensors* and *actuators* to be managed. OpenplacOS is designed to be compatible with as many devices as possible. You can either buy plug&play devices, hack commercial ones or build your own. 
+
+With the high hardware abstraction layer provided by the openplacos-core server, you can access the value of your sensors and control your actuators easily and remotly.
+
 
 ## Installation ##
 
@@ -13,6 +46,11 @@ OpenplacOS installation is distribution dependant. Here is a list of distros and
 * arch: ???
 
 ## Data organization ##
+
+Let's start with some definitions:
+
+A component is something physical you plug on your system: it can be an IO card (ex: arduino, µchameleon), sensor (ex: light, temperature)), actuator (relay, pwm driver). OpenplacOS is generic at this point. A component do not have to be categorized as a sensor or an actuator to work. OpenplacOS just consider components and let you put in a "component" whatever you want. 
+
 
 OpenplacOS organizes ressources using *object* and *interface*. 
 
