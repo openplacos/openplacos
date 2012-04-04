@@ -28,14 +28,15 @@ OpenplacOS is an automation software to easily control the system you build. Ope
 
 2. An IO Board
 
-Then, you need to interface your hardware with the computer. Basically, OpenplacOS use an Input/Ouput (IO) card. The IO card will get the value of your sensors and redirect orders to your actuators. You can have name of supported IO card, for example you can use an [Arduino](http://www.arduino.cc/) card. You can also use sensors that connect directly on an USB port, for instance the Phidgets sensors
+![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=5&display&max=150)Then, you need to interface your hardware with the computer. Basically, OpenplacOS use an Input/Ouput (IO) card. The IO card will get the value of your sensors and redirect orders to your actuators. You can have name of supported IO card, for example you can use an [Arduino](http://www.arduino.cc/) card. You can also use sensors that connect directly on an USB port, for instance the Phidgets sensors
 
 3. Sensors and Actuators
 
-Finally, you need *sensors* and *actuators* to be managed. OpenplacOS is designed to be compatible with as many devices as possible. You can either buy plug&play devices, hack commercial ones or build your own. 
+![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=6&display&max=150)Finally, you need *sensors* and *actuators* to be managed. OpenplacOS is designed to be compatible with as many devices as possible. You can either buy plug&play devices, hack commercial ones or build your own. 
 
 With the high hardware abstraction layer provided by the openplacos-core server, you can access the value of your sensors and control your actuators easily and remotly.
 
+![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=7&display&max=500)
 
 ## Installation ##
 
