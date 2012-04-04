@@ -17,7 +17,7 @@ Openplacos gives you the control of your system through a core-server. This core
 
 ### How does OpenplacOS work, what do I need to start with ? ###
 
-To use OpenplacOS for an home automation system, you will need some components:
+To use OpenplacOS for an home automation system, you will need some typical hardware:
 
 #### A computer ####
 
