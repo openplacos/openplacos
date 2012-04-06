@@ -15,27 +15,28 @@ Openplacos gives you the control of your system through a core-server. This core
 * Automated regulations: let your placos control yours actuators to a targetted sensor value. PWM regulations are supported!
  
 
-### How does OpenplacOS work, what do I need to use it ? ###
+### How does OpenplacOS work, what do I need to start with ? ###
 
-To use OpenplacOS for an home automation system, you will need some components:
+To use OpenplacOS for an home automation system, you will need some typical hardware:
 
-1. A computer
+#### A computer ####
 
 ![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=4&display&max=200)First of all, you need a *computer* to host the OpenplacOS server. You can use an old one, or buy a Single Board Computer? for a lower power consummation. This computer need to run under a GNU/linux operating system. currently, only Debian, Ubuntu and Gentoo are supported.
 
 The minimum requirement system can vary according to your GNU/Linux distribution. However we recommend you to have at least 256 Mb RAM to run openplacos properly.
 OpenplacOS is an automation software to easily control the system you build. OpenplacOS lets you configure a system that represents your system by letting you assemble components that drive your system.
 
-2. An IO Board
+#### An IO Board ####
 
-Then, you need to interface your hardware with the computer. Basically, OpenplacOS use an Input/Ouput (IO) card. The IO card will get the value of your sensors and redirect orders to your actuators. You can have name of supported IO card, for example you can use an [Arduino](http://www.arduino.cc/) card. You can also use sensors that connect directly on an USB port, for instance the Phidgets sensors
+![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=5&display&max=150)Then, you need to interface your hardware with the computer. Basically, OpenplacOS use an Input/Ouput (IO) card. The IO card will get the value of your sensors and redirect orders to your actuators. You can have name of supported IO card, for example you can use an [Arduino](http://www.arduino.cc/) card. You can also use sensors that connect directly on an USB port, for instance the Phidgets sensors
 
-3. Sensors and Actuators
+#### Sensors and Actuators ####
 
-Finally, you need *sensors* and *actuators* to be managed. OpenplacOS is designed to be compatible with as many devices as possible. You can either buy plug&play devices, hack commercial ones or build your own. 
+![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=6&display&max=150)Finally, you need *sensors* and *actuators* to be managed. OpenplacOS is designed to be compatible with as many devices as possible. You can either buy plug&play devices, hack commercial ones or build your own. 
 
 With the high hardware abstraction layer provided by the openplacos-core server, you can access the value of your sensors and control your actuators easily and remotly.
 
+![](http://openplacos.tuxfamily.org/tiki-download_file.php?fileId=7&display&max=500)
 
 ## Installation ##
 
