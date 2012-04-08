@@ -1,8 +1,8 @@
 {
-  "name": "My First Extension",
-  "version": "1.0",
+  "name": "Openplacos",
+  "version": "0.1",
   "manifest_version": 2,
-  "description": "The first extension that I made.",
+  "description": "Extension for openplacos",
   "browser_action": {
     "default_icon": "icon.jpg", 
     "default_popup": "popup.html"
