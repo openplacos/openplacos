@@ -66,3 +66,58 @@ To verify and play with component, add this component to your config file in deb
 If you need to write your component in another langage than ruby, this part is made for you.
 
 OpenplacOS component is basically a process on dbus. This process is launched on dbus.
+
+## Clients ##
+
+The clients are the user-frontend. The communication between clients and the openplacos server is based on a JSON api, and the user authentication is achieve by the oauth2 protocol.
+
+### JSON api ###
+
+#### User ####
+
+    /me
+  
+return the user name
+
+ex : 
+```json
+{"username": my_user_name }
+```
+
+#### Ressourses ####
+
+    /ressources
+    
+return the list of ressources. A ressource is represented by a hash with two keys : "name" which is bassicaly the ressource identifier, and "interfaces" which contain the list of interfaces of the ressource.
+
+a ressource :
+
+```json
+{ "name" : ressource_path,
+  "interfaces" : {
+    iface_name : [ array_of_methods ]
+  }
+}
+```
+
+ex : 
+
+```json
+[
+  { "name" : "/home/temperature",
+    "interfaces" : {
+      "analog.sensor.temperature.celcuis" : ["read"],
+      "analog.sensor.temperature.farenheit" : ["read"],
+      "analog.sensor.temperature.kelvin" : ["read"]
+    }
+  },
+  { "name" : "/home/fan",
+    "interfaces" : {
+      "analog.order.dimmer" : ["read","write"],
+      "digital.order.switch" : ["read","write"]
+    }
+  }
+]
+```
+
+### OAuth2 api ###
