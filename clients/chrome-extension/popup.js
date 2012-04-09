@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+var server_url = localStorage["host_url"];
+
 var openplacos = new OAuth2('openplacos', {
-  client_id: '1skcr98ezqz080c4vf8d38dpd',
-  client_secret: 'coiqj7jp0rou1dyd35v1va8yv',
+  client_id: localStorage["client_id"],
+  client_secret: localStorage["client_secret"],
   api_scope: 'read write user'
 });
 
@@ -25,31 +27,39 @@ function clearAuthorized() {
     openplacos.clearAccessToken();
 };
 
+// read the username and put the result in the div #id
+function getUsername(id) {
+  $.ajax({
+    type: "GET",
+    url: server_url + "/me",
+    dataType: 'json',
+    success: function(msg) { $("#"+id).text( msg.username ); },
+    headers: { 
+      'Content-Type' : 'application/json',
+      'Authorization' : 'OAuth ' + openplacos.getAccessToken()
+    }
+  });
+};
+// read a ressource and put the result in the div #id
+function readRessource(name,iface,id) {
+  $.ajax({
+    type: "GET",
+    url: server_url + "/ressources/" + name,
+    data: { "iface" : iface},
+    dataType: 'json',
+    success: function(msg) { $("#"+id).text( msg.value ); },
+    headers: { 
+      'Content-Type' : 'application/json',
+      'Authorization' : 'OAuth ' + openplacos.getAccessToken()
+    }
+  });
+};
+
 openplacos.authorize(function() {
 
   // Login
-  // Make an XHR that creates the task
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function(event) {
-    if (xhr.readyState == 4) {
-      if(xhr.status == 200) {
-        // Great success: parse response with JSON
-        var parsed = JSON.parse(xhr.responseText);
-        var html = parsed.username;
-        document.querySelector('#login').innerHTML = html;
-        return;
-
-      } else {
-        // Request failure: something bad happened
-      }
-    }
-  };
-  xhr.open('GET', 'http://localhost:4567/me', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.setRequestHeader('Authorization', 'OAuth ' + openplacos.getAccessToken());
-
-  xhr.send();
-  
+  getUsername('login')
+ 
   var ressources = new XMLHttpRequest();
   ressources.onreadystatechange = function(event) {
     if (ressources.readyState == 4) {
@@ -57,8 +67,17 @@ openplacos.authorize(function() {
         // Great success: parse response with JSON
         var parsed = JSON.parse(ressources.responseText);
         var html = '';
+        var k=1;
         parsed.forEach(function(item, index) {
           html += '<li>' + item.name + '</li>';
+          html += '<ul>';
+          for (iface in item.interfaces) {
+            k=k+1;
+            var id = k;
+            html += '<li>' + iface + '<div id='+ id + '></div></li>';
+            readRessource(item.name,iface,id);
+          };
+          html += '</ul>';
         });
         document.querySelector('#ressources').innerHTML = html;
         return;
@@ -70,7 +89,7 @@ openplacos.authorize(function() {
   };
 
   // ressources
-  ressources.open('GET', 'http://localhost:4567/ressources', true);
+  ressources.open('GET', server_url + '/ressources', true);
   ressources.setRequestHeader('Content-Type', 'application/json');
   ressources.setRequestHeader('Authorization', 'OAuth ' + openplacos.getAccessToken());
   ressources.send();
