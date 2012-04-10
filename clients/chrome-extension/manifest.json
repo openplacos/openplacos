@@ -8,6 +8,10 @@
     "default_icon": "icon.jpg", 
     "default_popup": "popup.html"
   },
+  "omnibox": { "keyword" : "opos" },
+  "background": {
+    "scripts": ["background.js"]
+  },
   "content_scripts": [
     {
       "matches": ["http://localhost:4567/catch*"],
