@@ -85,7 +85,7 @@ ex :
 {"username": my_user_name }
 ```
 
-#### Ressourses ####
+#### Ressources ####
 
     /ressources
     
