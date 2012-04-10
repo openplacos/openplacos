@@ -80,6 +80,7 @@ The clients are the user-frontend. The communication between clients and the ope
 return the user name
 
 ex : 
+
 ```json
 {"username": my_user_name }
 ```
