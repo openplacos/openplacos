@@ -74,9 +74,9 @@ The clients are the user-frontend. The communication between clients and the ope
 ### JSON api ###
 
 #### User ####
-
-    /me
-  
+```http
+  GET /me
+```    
 return the user name
 
 ex : 
@@ -86,9 +86,9 @@ ex :
 ```
 
 #### Ressources ####
-
-    /ressources
-    
+```http
+  GET /ressources
+```    
 return the list of ressources. A ressource is represented by a hash with two keys : "name" which is bassicaly the ressource identifier, and "interfaces" which contain the list of interfaces of the ressource.
 
 a ressource :
@@ -119,6 +119,54 @@ ex :
     }
   }
 ]
+```
+
+```http
+  GET /ressources/ressource_path
+```    
+
+return the hash of the ressource identified by its path
+
+ex : 
+
+```json
+  GET /ressources/home/temperature
+  
+  { "name" : "/home/temperature",
+    "interfaces" : {
+      "analog.sensor.temperature.celcuis" : ["read"],
+      "analog.sensor.temperature.farenheit" : ["read"],
+      "analog.sensor.temperature.kelvin" : ["read"]
+    }
+  }
+```
+
+```http
+  GET /ressources/ressource_path?iface=iface_name
+```
+
+read the value of an iface.
+
+ex : 
+
+```json
+  GET /ressources/home/temperature?iface=analog.sensor.temperature.celcuis
+  
+  { "value" : 22.000000 } 
+```
+
+```http
+  POST /ressources/ressource_path?iface=iface_name&value=value_to_write
+```
+
+write  value_to_write to an iface. value_to_write is a string in JSON format.
+
+ex : writing 0.5 to the iface analog.order.dimmer of the ressource /home/fan
+
+```json
+  POST /ressources/home/fan?iface=analog.order.dimmer&value=[0.5]
+  
+  { "status" : 1 } 
 ```
 
 ### OAuth2 api ###
