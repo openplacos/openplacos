@@ -7,26 +7,19 @@ require "micro-optparse"
 
 module LibComponent
 
-  class Input
-    attr_reader   :name, :interface
-    attr_accessor :input, :last_iface_init
+  # Common module to Input and Output
+  module Pin
 
-    def initialize(pin_name_,iface_name_)
-      @name      = pin_name_
-      @interface = iface_name_      
-      @input     = nil
-      @last_iface_init = ""
-    end
-  
     def set_component(component_)
       @component=component_
     end
-
+    
+    # Return introspect object that can be delivered to openplacos server
     def introspect
       iface = Hash.new
       pin = Hash.new
       meth = Array.new
-
+      
       if self.respond_to?(:read)
         meth << "read"
       end
@@ -37,9 +30,73 @@ module LibComponent
       pin[@name] = iface
       return pin
     end
+
+  end
+
+  # Instanciate an input pin to your component
+  class Input
+    include Pin
+    attr_reader   :name, :interface
+    attr_accessor :input, :last_iface_init
+
+    # instaciate an input pin with its name and the interface this pin will support
+    def initialize(pin_name_,iface_name_)
+      @name      = pin_name_
+      @interface = iface_name_      
+      @input     = nil
+      @last_iface_init = ""
+    end
+
+    # read method called by dbus
+    # this method will
+    # * turning off previous interface
+    # * turn pin into input mode
+    # * initialize current interface 
+    # * and then made a read access
+    # All these steps are optionnal and are in charge of component developper.
+    def read_lib(*args)
+      set_off # set_off last iface
+      set_input_lib
+      init_iface
+      return read(*args)
+    end
+
+    # write method called by dbus
+    # this method will
+    # * turning off previous interface
+    # * turn pin into input mode
+    # * initialize current interface 
+    # * and then made a read access
+    # All these steps are optionnal and are in charge of component developper.
+    def write_lib(*args)
+      set_off # set_off last iface
+      set_output_lib
+      init_iface
+      return write(*args)
+    end
     
+    # Event style for read definition
+    # Can also be overloaded by developper
+    def on_read(&block)
+      self.singleton_class.instance_eval {
+        define_method(:read , &block)
+      }
+    end
+    
+    # Event style for write definition
+    # Can also be overloaded by developper
+    def on_write(&block)
+      self.singleton_class.instance_eval {
+        define_method(:write , &block)
+      }
+    end
+
+    private
+           
+    # Iface changed since last call, turn off previous one
+    # Please implement exit method at your end
     def set_off()
-      if (@last_iface_init != @interface) # Iface changed, turn off previous one
+      if (@last_iface_init != @interface)
         prev_iface = @component.get_input_iface(@name, @last_iface_init)
         if(prev_iface.respond_to?(:exit))
            prev_iface.exit()
@@ -47,6 +104,8 @@ module LibComponent
       end
     end
 
+    # If pin has to be set to input mode
+    # Please implement set_input method at your end
     def set_input_lib
       if (@input != 1) # 1 means input / 0 output
         if(self.respond_to?(:set_input))
@@ -57,6 +116,8 @@ module LibComponent
       @last_iface_init = @interface
     end
 
+    # If pin has to be set to output mode
+    # Please implement set_output method at your end
     def set_output_lib
       if (@input != 0) # 1 means input / 0 output
         if(self.respond_to?(:set_output))
@@ -66,6 +127,8 @@ module LibComponent
       end     
     end
 
+    # Initialize this interface
+    # Please implement init method at your end
     def init_iface
       if(@last_iface_init != @interface)
         if(self.respond_to?(:init))
@@ -74,36 +137,11 @@ module LibComponent
       end
       @component.set_last_iface_init(@name, @interface) # set last_iface_name
     end
-    
-    def read_lib(*args)
-      set_off # set_off last iface
-      set_input_lib
-      init_iface
-      return read(*args)
-    end
 
-    def write_lib(*args)
-      set_off # set_off last iface
-      set_output_lib
-      init_iface
-      return write(*args)
-    end
-
-    def on_read(&block)
-      self.singleton_class.instance_eval {
-        define_method(:read , &block)
-      }
-    end
-    
-    def on_write(&block)
-      self.singleton_class.instance_eval {
-        define_method(:write , &block)
-      }
-    end
-    
   end
 
   class Output 
+    include Pin
     attr_reader :name, :interface
     def initialize(pin_name_,iface_name_,meth_ = "rw")
       @name = pin_name_
@@ -112,31 +150,14 @@ module LibComponent
       @proxy = nil
     end
     
-    def set_component(component_)
-      @component=component_
-    end   
-
-    def introspect
-      iface = Hash.new
-      pin = Hash.new
-      meth = Array.new
-      
-      if @meth.include?("r")
-        meth << "read"
-      end
-      if @meth.include?("w")
-        meth << "write"
-      end
-      
-      iface[@interface] = meth
-      pin[@name] = iface
-      return pin
-    end
-    
+    # Make a read access on this pin
+    # Please provide arguments needed according to interface definition
     def read(*args)
       return @proxy.read(*args)[0]
     end
     
+    # Make a write access on this pin
+    # Please provide arguments needed according to interface definition
     def write(*args)
       return @proxy.write(*args)[0]
     end
@@ -147,11 +168,16 @@ module LibComponent
         LibError.quit_server(255, "The interface org.openplacos.#{@interface} is not available for pin #{self.name}")
       end
     end    
+
+    
   end
   
+
+  # Entry point of LibComponent
   class Component
     attr_reader :options, :bus ,:name, :main
 
+    # Please provide ARGV in argument
     def initialize(argv_ = ARGV)
       @argv        = argv_
       @description = ""
@@ -167,15 +193,18 @@ module LibComponent
       @name = @options[:name].downcase
     end
     
+    # provide a string describing your component  
     def description(desc_)
       @description   = desc_
       @parser.banner = desc_
     end
     
+    # Set version of your component
     def version(version_)
       @parser.version = version_
     end
     
+    # Default name for identiying your component
     def default_name(name_)
       @parser.option(:name,"Dbus name of the composant", :default => name_)
     end
@@ -184,6 +213,7 @@ module LibComponent
       @parser.option(*args_)
     end
     
+    # Push pin to component
     def <<(pin_)
       if pin_.kind_of?(Input)
         @inputs << pin_
@@ -198,12 +228,15 @@ module LibComponent
       pin_.set_component(self)
     end
     
+    # print function
+    # please use this method rather than puts
     def print_debug(arg_)
       if !@options[:introspect]
         puts arg_
       end
     end
 
+    # Let's rock!
     def run
       intro = self.introspect
       if @options[:introspect]
@@ -240,6 +273,7 @@ module LibComponent
       end
     end    
     
+    # Parse inputs and outputs to communicate with server
     def introspect
       inputs_h = Hash.new
       outputs_h = Hash.new
@@ -287,12 +321,14 @@ module LibComponent
       return nil
     end
     
+    # Event style for quit method
     def on_quit(&block)
       self.singleton_class.instance_eval {
         define_method(:quit , &block)
       }
     end
     
+    # Method called when signal "quit" from server is raised
     def quit_callback
       self.quit if self.respond_to?(:quit)
       @main.quit if !@main.nil?
@@ -312,6 +348,8 @@ module LibComponent
       super(name)
     end
     
+    # Create all dbus I/O for this pin.
+    # Called internally by component
     def self.create_dbusinputs_from_introspect(intro_,component_)
       pin = Array.new
       intro_.each { |name, definition|
@@ -355,6 +393,8 @@ module LibComponent
       super(@bus,"org.openplacos.server.internal",@name)
     end
     
+    # Create all dbus I/O for this pin.
+    # Called internally by component   
     def self.create_dbusoutputs_from_introspect(intro_,component_)
       pin = Array.new
       intro_.each { |name, definition|
@@ -429,6 +469,8 @@ module LibComponent
       opos.exit(status_, str_)
     end
     
+    # Only quit component
+    # Only use this method if component cannot connect to server
     def self.quit(status_,str_)
       $stderr.puts str_
       exit(status_)
