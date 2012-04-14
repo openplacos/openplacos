@@ -174,7 +174,7 @@ example: writing 0.5 to the iface analog.order.dimmer of the ressource /home/fan
 ```json
   POST /ressources/home/fan?iface=analog.order.dimmer&value=[0.5]
   
-  { "status" : 1 } 
+  { "status" : 0 } 
 ```
 
 ### OAuth2 api ###

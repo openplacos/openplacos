@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 
 #    This file is part of Openplacos.
 #
@@ -125,7 +126,7 @@ module Fan_pwm
     VP.fan.write(value_) if (value_>=0) and (value_ <= 1)
     VP.fan.write(0) if value_<0
     VP.fan.write(1) if value_>1
-    return 1
+    return 0
   end
 end
 
@@ -141,7 +142,7 @@ module Fan_dig
     else
       VP.fan.off
     end
-    return 1
+    return 0
   end
 end
 
@@ -186,7 +187,7 @@ A_Light.on_write do |value_,options_|
   else
     VP.light.off
   end
-  return 1
+  return 0
 end
 
 VP.run
