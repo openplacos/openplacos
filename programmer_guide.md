@@ -76,24 +76,30 @@ The clients are the user-frontend. The communication between clients and the ope
 This section will describe URI you will be able to access. Output is serialized into JSON.
 
 #### User ####
+
+To access to personal informations, just do
+
 ```http
   GET /me
 ```    
-return the user name
+It will return the current user name
 
-ex : 
+for example : 
 
 ```json
 {"username": my_user_name }
 ```
 
 #### Ressources ####
+
+All ressources that have been exported can be accessed with:
+
 ```http
   GET /ressources
 ```    
-return the list of ressources. A ressource is represented by a hash with two keys : "name" which is bassicaly the ressource identifier, and "interfaces" which contain the list of interfaces of the ressource.
+This will return the list of ressources. A ressource is represented by a hash with two keys : "name" which is bassicaly the ressource identifier, and "interfaces" which contain the list of interfaces of the ressource.
 
-a ressource :
+Formatted json syntax:
 
 ```json
 { "name" : ressource_path,
@@ -103,7 +109,7 @@ a ressource :
 }
 ```
 
-ex : 
+example: 
 
 ```json
 [
@@ -143,13 +149,13 @@ ex :
   }
 ```
 
+To access to a particular ressource on a given interface, just proceed like this:
+
 ```http
   GET /ressources/ressource_path?iface=iface_name
 ```
 
-read the value of an iface.
-
-ex : 
+example: 
 
 ```json
   GET /ressources/home/temperature?iface=analog.sensor.temperature.celcuis
@@ -161,9 +167,9 @@ ex :
   POST /ressources/ressource_path?iface=iface_name&value=value_to_write
 ```
 
-write  value_to_write to an iface. value_to_write is a string in JSON format.
+This will write "value_to_write" to an iface called "iface_name". value_to_write is a string in JSON format.
 
-ex : writing 0.5 to the iface analog.order.dimmer of the ressource /home/fan
+example: writing 0.5 to the iface analog.order.dimmer of the ressource /home/fan
 
 ```json
   POST /ressources/home/fan?iface=analog.order.dimmer&value=[0.5]
