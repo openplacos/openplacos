@@ -73,7 +73,7 @@ The clients are the user-frontend. The communication between clients and the ope
 
 ### REST api ###
 
-This section will describe URI you will be able to access. Output is serialized into JSON.
+This section will describe URI you will be able to access to connect to your openplacos server. These URI will give you back string serialzed into JSON.
 
 #### User ####
 
@@ -82,9 +82,7 @@ To access to personal informations, just do
 ```http
   GET /me
 ```    
-It will return the current user name
-
-for example : 
+This will return the current user name. Output is formatted like this:
 
 ```json
 {"username": my_user_name }
