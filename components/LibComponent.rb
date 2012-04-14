@@ -425,12 +425,12 @@ module LibComponent
       opos.introspect
       opos.default_iface = "org.openplacos.plugins"
       
-      $stderr.puts "str_"
+      $stderr.puts str_
       opos.exit(status_, str_)
     end
     
     def self.quit(status_,str_)
-      puts str_
+      $stderr.puts str_
       exit(status_)
     end
   end
