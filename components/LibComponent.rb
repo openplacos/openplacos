@@ -213,7 +213,11 @@ module LibComponent
         
         #create dbus input pins
         dbusinputs = LibComponent::DbusInput.create_dbusinputs_from_introspect(intro["input"]["pin"],self)
-        @service = @bus.request_service("org.openplacos.components.#{@name.downcase}")
+        name = "org.openplacos.components.#{@name.downcase}"
+        if (@bus.proxy.ListNames[0].member?(name))
+          LibError.quit_server(255, "#{name} already exists)")
+        end
+        @service = @bus.request_service(name)
         dbusinputs.each { |pin|
           @service.export(pin)
         }
