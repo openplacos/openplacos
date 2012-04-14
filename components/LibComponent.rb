@@ -361,8 +361,10 @@ module LibComponent
         p = self.new(component_.bus,"/#{component_.name}#{name}")
         begin
           p.introspect
+        rescue DBus::Error
+          LibError.quit(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \nOpenplacos server is probably unreachable")
         rescue 
-          LibError.quit_server(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \nOpenplacos server is probably unreachable")
+          LibError.quit_server(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \n")
         end
         definition.each_key { |iface|
           component_output = component_.get_output_iface(name,iface)
@@ -424,6 +426,11 @@ module LibComponent
       opos.default_iface = "org.openplacos.plugins"
 
       opos.exit(status_, str_)
+    end
+    
+    def self.quit(status_,str_)
+      puts str_
+      exit(status_)
     end
   end
 
