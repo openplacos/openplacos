@@ -424,7 +424,8 @@ module LibComponent
       opos      = server.object("/plugins")
       opos.introspect
       opos.default_iface = "org.openplacos.plugins"
-
+      
+      $stderr.puts "str_"
       opos.exit(status_, str_)
     end
     
