@@ -69,9 +69,11 @@ OpenplacOS component is basically a process on dbus. This process is launched on
 
 ## Clients ##
 
-The clients are the user-frontend. The communication between clients and the openplacos server is based on a JSON api, and the user authentication is achieve by the oauth2 protocol.
+The clients are the user-frontend. The communication between clients and the openplacos server is based on a REST api, and the user authentication is achieve by the oauth2 protocol.
 
-### JSON api ###
+### REST api ###
+
+This section will describe URI you will be able to access. Output is serialized into JSON.
 
 #### User ####
 ```http
