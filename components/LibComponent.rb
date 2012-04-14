@@ -215,7 +215,7 @@ module LibComponent
         dbusinputs = LibComponent::DbusInput.create_dbusinputs_from_introspect(intro["input"]["pin"],self)
         name = "org.openplacos.components.#{@name.downcase}"
         if (@bus.proxy.ListNames[0].member?(name))
-          LibError.quit_server(255, "#{name} already exists)")
+          LibError.quit_server(255, "#{name} already exists")
         end
         @service = @bus.request_service(name)
         dbusinputs.each { |pin|

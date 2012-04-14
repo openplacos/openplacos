@@ -33,7 +33,7 @@ class Event_Handler < DBus::Object
     dbus_method :print, "in level:i, in message:s" do |level, message|
       error_level = [Logger::FATAL, Logger::ERROR, Logger::WARN, Logger::INFO, Logger::DEBUG]
       if (level==0)
-        $stderr.message
+        $stderr.puts message
         STDOUT.flush
       end
 
