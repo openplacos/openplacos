@@ -119,14 +119,16 @@ class WebServer < Sinatra::Base
   end
 
   post '/oauth/login' do
-    puts "params: #{params.inspect}"
     @user = User.find_by_login(params[:login])
-    if @user.authenticate?(params[:password])
-      @oauth2 = OAuth2::Provider.parse(@user, request)
+    @oauth2 = OAuth2::Provider.parse(@user, request)
+    if @user and @user.authenticate?(params[:password]) #user exist and is authenticated
       session[:user_id] = @user.id
-      haml(@user ? :authorize : :login)
+      if @oauth2.redirect? # client already granted
+        redirect @oauth2.redirect_uri, @oauth2.response_status
+      end
+      haml :authorize   
     else
-      redirect '/oauth/authorize'
+      haml :login
     end
   end
   
