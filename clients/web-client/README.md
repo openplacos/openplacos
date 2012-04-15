@@ -1,0 +1,3 @@
+Usage
+-----------
+    rackup config.ru
