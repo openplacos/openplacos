@@ -7,10 +7,10 @@ describe Server, "#launch" do
     server.launched?.should eq(true)
   end
   
-  it "should fail without pathfinder (config 001.yaml)" do
+  it "should launch without pathfinder (config 001.yaml)" do
     server = Server.new("-f ./config/001.yaml -s")
     server.launch
-    server.launched?.should eq(false)
+    server.launched?.should eq(true)
   end
   
   it "should launch without export (config 002.yaml)" do

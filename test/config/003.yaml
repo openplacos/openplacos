@@ -6,7 +6,3 @@ export:
 - /home/humidity
 - /home/fan
 - /home/light
-
-mapping:
-- /home/fan: /home/light
-

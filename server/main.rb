@@ -98,16 +98,18 @@ class Top
     @config           =  YAML::load(File.read(config_))
     @service          = service_
     @internalservice  = internalservice_
-    @config_component = @config["component"]
-    @config_export    = @config["export"]
+    @config_component = @config["component"] || {}
+    @config_export    = @config["export"] || {}
+    @config_mapping   = @config["mapping"] || {}
+    @config_path      = @config["pathfinder"] || "../"
     @log              = log_
-    @@instance         = self
+    @@instance        = self
 
     # Event_handler creation
     @event_handler = Event_Handler.instance
     @internalservice.export(@event_handler)
 
-    Pathfinder.instance.init_pathfinder(@config["pathfinder"])
+    Pathfinder.instance.init_pathfinder(@config_path)
 
     @info = Info.new()
     @service.export(@info)
@@ -143,7 +145,7 @@ class Top
 
   def map
    disp =  Dispatcher.instance
-    @config["mapping"].each do |wire|
+    @config_mapping.each do |wire|
       disp.add_wire(wire) # Push every wire link into dispatcher
     end
   end
