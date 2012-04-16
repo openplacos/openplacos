@@ -1,3 +1,3 @@
 Usage
 -------------
-    rspec server_rspec.rb
+    rspec *_rspec.rb
