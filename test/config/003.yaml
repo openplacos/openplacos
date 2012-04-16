@@ -1,0 +1,12 @@
+pathfinder:
+- ../
+
+export:
+- /home/temperature
+- /home/humidity
+- /home/fan
+- /home/light
+
+mapping:
+- /home/fan: /home/light
+
