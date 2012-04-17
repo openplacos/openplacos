@@ -15,7 +15,7 @@
 #
 require 'Launcher.rb'
 require 'Pin.rb'
-require 'Pathfinder'
+require 'globals'
 
 class Component 
   include Launcher
@@ -40,7 +40,17 @@ class Component
   end
 
   def get_exec_path
-    @exec           = Pathfinder.instance.get_file(@filename)
+    @exec           = @filename
+    local_install   = File.dirname(__FILE__)
+    local_file      = "#{local_install}/../components/#{@filename}"
+
+    if    (File.exists?(local_file)) # installed in /components
+      @exec = File.expand_path(local_file)
+    elsif (File.exists?(@filename))  # abs_path to component
+      @exec = File.expand_path(@filename)
+    else
+      Globals.error("#{@filename} not found", 144)
+    end
   end
 
   def introspect

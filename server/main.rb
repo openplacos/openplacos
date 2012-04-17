@@ -93,7 +93,6 @@ class Top
     @config_component = @config["component"] || {}
     @config_export    = @config["export"] || {}
     @config_mapping   = @config["mapping"] || {}
-    @config_path      = @config["pathfinder"] || "../"
     @log              = log_
     @@instance        = self
 
@@ -101,7 +100,6 @@ class Top
     @event_handler = Event_Handler.instance
     @internalservice.export(@event_handler)
 
-    Pathfinder.instance.init_pathfinder(@config_path)
 
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path

@@ -9,7 +9,7 @@ class Server
   #launch the server
   def launch
     @th = Thread.new do
-      @status = system "../server/main.rb " + @arg 
+      @status = system "dbus-launch ../server/main.rb " + @arg 
     end
   end
   
