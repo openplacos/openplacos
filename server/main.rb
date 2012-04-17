@@ -109,7 +109,6 @@ class Top
     @event_handler = Event_Handler.instance
     @internalservice.export(@event_handler)
 
-    Pathfinder.instance.init_pathfinder(@config_path)
 
     @info = Info.new()
     @service.export(@info)
