@@ -101,7 +101,6 @@ class Top
     @config_component = @config["component"] || {}
     @config_export    = @config["export"] || {}
     @config_mapping   = @config["mapping"] || {}
-    @config_path      = @config["pathfinder"] || "../"
     @log              = log_
     @@instance        = self
 
