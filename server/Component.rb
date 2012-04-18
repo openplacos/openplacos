@@ -37,6 +37,8 @@ class Component
     @timeout        = component_["timeout"] || 5
 
     get_exec_path
+    generate_command_string
+
   end
 
   def get_exec_path
@@ -81,7 +83,6 @@ class Component
 
     @pins = @inputs + @outputs
 
-    generate_command_string
   end
 
   def expose()

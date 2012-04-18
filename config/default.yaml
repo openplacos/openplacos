@@ -28,7 +28,9 @@ component:
   
 - name: regulation
   exec: regulation.rb
-  method: thread      
+  method: thread
+  config:
+    type: pwm
 
 mapping:
 - /lm335/raw: /virtualplacos/Analog1
