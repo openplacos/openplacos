@@ -50,7 +50,12 @@ class Dispatcher
   end
 
   def call(pin_sender_name_, iface_, method_, *args_) 
-    return @binding[pin_sender_name_][0].method_exec(iface_, method_, *args_)
+    @binding[pin_sender_name_].each { |pin|
+      if pin.interfaces.include?(pin.get_iface(iface_))
+        return pin.method_exec(iface_, method_, *args_)
+      end
+    }
+    nil
   end
 
   def get_plug(dbus_name_) #return an array of plugged pin
