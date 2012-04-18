@@ -42,6 +42,14 @@ module Openplacos
       end
 
     end
-
+    
+    module Regul
+      include Digital
+      
+      module Switch
+        include Order::Switch
+      end
+    end
+    
   end
 end
