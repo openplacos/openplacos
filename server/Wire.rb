@@ -15,6 +15,7 @@
 #
 
 require 'globals.rb'
+require 'Pin.rb'
 
 class Wire
   attr_reader :pin0, :pin1
@@ -42,5 +43,19 @@ class Wire
     if @pin1.nil? 
       Globals.error("#{@pin_name1} not found")
     end
+
+    if @pin0.is_a?(Pin_input)
+      if !@pin1.is_a?(Pin_output)
+        Globals.error("Mapping incorrect between #{@pin_name0} #{@pin_name1}")
+      end
+    end
+
+    if @pin0.is_a?(Pin_output)
+      if !@pin1.is_a?(Pin_input)
+        Globals.error("Mapping incorrect between #{@pin_name0} #{@pin_name1}")
+      end
+    end
+
+
   end
 end

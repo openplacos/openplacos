@@ -103,7 +103,6 @@ class Pin_export  < DBus::Object
     dis = Dispatcher.instance
     pin_plugs = dis.get_plug(@dbus_name)
     pin_plugs.each do |pin|
-      puts pin.interfaces
       pin.config.each do |iface, meths|
         self.singleton_class.instance_eval do
           dbus_interface "org.openplacos.#{iface}" do
