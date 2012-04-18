@@ -151,23 +151,27 @@ module LibComponent
       
       # introspect is defined according to read and write methods
       if @meth.include?("r")
-        self.class_eval("alias :read :read_out")
+        instance_eval { self.extend(Read) }
       end
       if @meth.include?("w")
-        self.class_eval("alias :write :write_out")
+        instance_eval { self.extend(Write) }
       end
     end
     
-    # Make a read access on this pin
-    # Please provide arguments needed according to interface definition
-    def read_out(*args)
-      return @proxy.read(*args)[0]
+    module Read
+      # Make a read access on this pin
+      # Please provide arguments needed according to interface definition
+      def read(*args)
+        return @proxy.read(*args)[0]
+      end
     end
     
+    module Write
     # Make a write access on this pin
     # Please provide arguments needed according to interface definition
-    def write_out(*args)
-      return @proxy.write(*args)[0]
+      def write(*args)
+        return @proxy.write(*args)[0]
+      end
     end
     
     def connect(proxy_)
