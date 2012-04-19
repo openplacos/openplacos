@@ -5,6 +5,15 @@ We use CMake-arduino for the build process : https://github.com/queezythegreat/a
 
 Do not use the arduino IDE, it will be unable to find the librairies.
 
+Dependencies
+--------------------------
+* cmake
+* gcc-avr
+* binutils-avr 
+* avr-libc 
+* avrdude
+* arduino SDK
+
 Usage
 ---------------------------
 * Install dependencies :
