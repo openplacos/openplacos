@@ -20,9 +20,10 @@ class Dispatcher
   include Singleton
 
   def init_dispatcher # act as a constructor
-    @wires   = Array.new
-    @pins    = Array.new
-    @binding = Hash.new
+    @wires         = Array.new
+    @pins          = Array.new
+    @binding       = Hash.new
+    @iface_inherit = Hash.new
   end
   
   def add_wire(wire_config_)
@@ -44,13 +45,20 @@ class Dispatcher
   def check_all_pin # Check that every wire has to 2 pins
      @wires.each do |wire|
       wire.check_pins 
-      @binding[wire.pin0.dbus_name] << wire.pin1
-      @binding[wire.pin1.dbus_name] << wire.pin0
+      @binding[wire.pin0.dbus_name]       << wire.pin1
+      @iface_inherit[wire.pin0.dbus_name] = wire.pin1.match_iface(wire.pin0) # push here iface to use
+      @binding[wire.pin1.dbus_name]       << wire.pin0
+      @iface_inherit[wire.pin1.dbus_name] = wire.pin0.match_iface(wire.pin1) # push here iface to use
     end
   end
 
   def call(pin_sender_name_, iface_, method_, *args_) 
-    return @binding[pin_sender_name_][0].method_exec(iface_, method_, *args_)
+    if(@iface_inherit[pin_sender_name_][iface_] != "")
+      iface = iface_
+    else
+      iface = @iface_inherit[in_sender_name_][iface_]
+    end
+    return @binding[pin_sender_name_][0].method_exec(iface, method_, *args_)
   end
 
   def get_plug(dbus_name_) #return an array of plugged pin

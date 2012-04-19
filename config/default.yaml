@@ -27,7 +27,7 @@ component:
   method: thread      
 
 mapping:
-- /lm335/raw: /virtualplacos/Analog1
+- /lm335/raw: /virtualplacos/Analog1#toto
 - /hih3610/raw: /virtualplacos/Analog2
 - /hih3610/temperature: /lm335/temperature
 - /home/temperature: /lm335/temperature

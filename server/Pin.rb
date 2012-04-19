@@ -24,6 +24,9 @@ module Pin
     dis = Dispatcher.instance
     dis.register_pin(self)
   end
+
+  def match_iface(pin_)
+  end
   
 end
 
@@ -50,11 +53,34 @@ class Pin_input < DBus::ProxyObject
   def method_exec(iface_, method_, *args_) 
     return self[get_iface(iface_)].send(method_, *args_)
   end
+
+  def match_iface(pin_)
+    match = {}
+    candidate = nil
+    if pin_.is_a?(Pin_output)
+      pin_.config.keys.each { |iface|
+        num_candidate = 0
+        @config.keys.each{ |i|
+          if iface.include?(i)
+            candidate = i
+            num_candidate +=1
+          end
+        }
+        if num_candidate != 1
+          Globals.error("Can't determine how to plug #{pin_.name} with #{@name}", 2)
+        else
+          match[iface] = candidate
+        end
+      }
+    end 
+    match
+  end
+ 
 end
 
 class Pin_output < DBus::Object
   include Pin
-  attr_reader :name, :dbus_name
+  attr_reader :name, :dbus_name, :config
 
   def initialize(name_, config_, component_, method_)
     @config    = config_ # config from component introspect
