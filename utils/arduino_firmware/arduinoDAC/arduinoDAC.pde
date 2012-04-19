@@ -1,13 +1,16 @@
-#include "Messenger.h"
-#include "RCSwitch.h"
-#include "dht11.h"
+#include <CmdMessenger.h>
+#include <RCSwitch.h>
+#include <dht11.h>
+#include <Streaming.h>
+#include <Base64.h>
 
 dht11 DHT11;
 RCSwitch mySwitch = RCSwitch();
 char tristate[13]; 
+char field_separator = ' ';
+char command_separator = ';';
 // Instantiate Messenger object with the default separator (the space character)
-Messenger message = Messenger(); 
-
+CmdMessenger message = CmdMessenger(Serial,field_separator,command_separator); 
 
 // Create the callback function
 void messageReady() {
@@ -35,11 +38,11 @@ void messageReady() {
    }
    if (message.checkString("state")) {  // pin #pinnumber state
      int val = digitalRead(pin);
-     Serial.print("pin ");
-     Serial.print(pin);
-     Serial.print(" ");
-     Serial.print(val);
-     Serial.print("\n");
+     message.sendCmd(0,"pin ");
+     message.sendCmd(0,(char*)pin);
+     message.sendCmd(0," ");
+     message.sendCmd(0,(char*)val);
+     message.sendCmd(0,"\n");
      return;
    }
    
@@ -89,7 +92,7 @@ void messageReady() {
  }      
 
 }
-
+ 
 
 void setup() {
   // Initiate Serial Communication
@@ -101,18 +104,19 @@ void setup() {
 
 void loop() {
   // The following line is the most effective way of using Serial and Messenger's callback
-  while ( Serial.available() )  message.process(Serial.read () );
+  message.feedinSerialData();
+
 }
 
 void dht11readCallback(int pin) {
   int chk = DHT11.read(pin);
 
-   Serial.print("dht11 ");
-   Serial.print(pin);
-   Serial.print(" ");
-   Serial.print((float)DHT11.humidity, 2);
-   Serial.print(" ");
-   Serial.println((float)DHT11.temperature, 2);
+   message.sendCmd(0,"dht11 ");
+   message.sendCmd(0,(char*)pin);
+   message.sendCmd(0," ");
+   message.sendCmd(0,(char*) ((float)DHT11.humidity, 2));
+   message.sendCmd(0," ");
+   message.sendCmd(0,(char*) ((float)DHT11.temperature, 2));
 }
 
 void analogReadCallback(int pin) {
@@ -120,8 +124,8 @@ void analogReadCallback(int pin) {
    for (int i=1;i<100;i++) {
       val += analogRead(pin);
    }
-   Serial.print("adc ");
-   Serial.print(pin);
-   Serial.print(" ");
-   Serial.println((float)val / 100.0);
+   message.sendCmd(0,"adc ");
+   message.sendCmd(0,(char*)pin);
+   message.sendCmd(0," ");
+   message.sendCmd(0,(char*)(((float)val,2)/100));
 }

@@ -1,6 +1,6 @@
 //
 //    FILE: dht11.cpp
-// VERSION: 0.3.2
+// VERSION: 0.4.0
 // PURPOSE: DHT11 Temperature & Humidity Sensor library for Arduino
 // LICENSE: GPL v3 (http://www.gnu.org/licenses/gpl.html)
 //
@@ -13,6 +13,8 @@
 // + added comments
 // + removed all non DHT11 specific code
 // + added references
+// Mod by Rob Tillaart - Version 0.4 (17/03/2012)
+// + added 1.0 support
 //
 
 #include "dht11.h"
@@ -83,4 +85,3 @@ int dht11::read(int pin)
 //
 // END OF FILE
 //
-
