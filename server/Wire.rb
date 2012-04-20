@@ -39,9 +39,11 @@ class Wire
   def push_pin(pin_)
     if    (pin_.dbus_name == @pin_name0)
       @pin0 = pin_
+      @pin0.set_prefered_iface(@iface0)
     elsif (pin_.dbus_name == @pin_name1)
       @pin1 = pin_
-    end
+      @pin1.set_prefered_iface(@iface1)
+   end
   end
 
   def check_pins

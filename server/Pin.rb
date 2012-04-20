@@ -28,6 +28,14 @@ module Pin
   def match_iface(pin_)
   end
   
+  # this method set iface to a prefered one when an undertimnation is raised
+  # this method is called by wire since the prefered iface is declared in mapping config
+  def set_prefered_iface(iface_) 
+    @prefered_iface = iface_
+  end
+
+
+
 end
 
 class Pin_input < DBus::ProxyObject
@@ -35,12 +43,13 @@ class Pin_input < DBus::ProxyObject
   attr_reader :name, :dbus_name, :config
 
   def initialize(name_, config_, component_, method_)
-    @config     = config_ # config from component introspect
-    @name       = name_
-    @component  = component_
-    @method     = method_
-    @dispatcher = Dispatcher.instance
-    @dbus_name  = "/#{@component.name}#{@name}"
+    @config         = config_ # config from component introspect
+    @name           = name_
+    @component      = component_
+    @method         = method_
+    @dispatcher     = Dispatcher.instance
+    @dbus_name      = "/#{@component.name}#{@name}"
+    @prefered_iface = ""
 
     register
     super(InternalBus, "org.openplacos.components.#{@component.name}", @name)
@@ -67,6 +76,10 @@ class Pin_input < DBus::ProxyObject
           end
         }
         if num_candidate != 1
+          if @prefered_iface != "" && iface.include?(@prefered_iface)
+            match[iface] = @prefered_iface
+            next
+          end
           Globals.error("Can't determine how to plug #{pin_.name} with #{@name}", 2)
         else
           match[iface] = candidate
