@@ -36,12 +36,15 @@ switch_state = false
 Dimmer.on_write do |value, option|
   if value<0
     dimmer_state = 0
+    switch_state = false
     return Raw.write(0,option)
   elsif value>1
     dimmer_state = 1
+    switch_state = true
     return Raw.write(1,option)
   else 
     dimmer_state = value
+    switch_state = true
     return Raw.write(value,option)
   end
 end
@@ -53,10 +56,12 @@ end
 Switch.on_write do |value, option|
   if value==1 or value==true
     switch_state = true
-    return Raw.write(0,option)
+    dimmer_state = 1
+    return Raw.write(1,option)
   elsif value==0 or value==false
     switch_state = false
-    return Raw.write(1,option)
+    dimmer_state = 0
+    return Raw.write(0,option)
   end
 end
 

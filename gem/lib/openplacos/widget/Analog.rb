@@ -33,6 +33,10 @@ module Openplacos
      write(arg_.to_f, {})
     end
   end
+  
+  module Analog::Regul
+    include Analog::Order
+  end
 
   module  Analog::Sensor
     include Analog

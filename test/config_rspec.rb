@@ -1,12 +1,13 @@
 require './server.rb'
 
+
 def run_one_test(config_)
   server = Server.new("-f #{config_} -s")
   server.launch
   server.launched?.should eq(true)
 end
 
-describe Server, "#launch" do
+describe Server, "#config" do
   it "should launch with the default config file" do
     run_one_test("../config/default.yaml")
   end

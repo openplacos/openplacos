@@ -20,7 +20,7 @@ require 'Dbus_proxy_thread'
 module Launcher
 
   def launch_introspect()
-    return `#{@exec} --introspect`
+    return `#{@command_string} --introspect `
   end
 
   def launch_component() # TODO TODO TODO launch_component in a thread/fork module TODO TODO TODO

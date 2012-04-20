@@ -148,18 +148,30 @@ module LibComponent
       @interface = iface_name_ 
       @meth = meth_
       @proxy = nil
+      
+      # introspect is defined according to read and write methods
+      if @meth.include?("r")
+        instance_eval { self.extend(Read) }
+      end
+      if @meth.include?("w")
+        instance_eval { self.extend(Write) }
+      end
     end
     
-    # Make a read access on this pin
-    # Please provide arguments needed according to interface definition
-    def read(*args)
-      return @proxy.read(*args)[0]
+    module Read
+      # Make a read access on this pin
+      # Please provide arguments needed according to interface definition
+      def read(*args)
+        return @proxy.read(*args)[0]
+      end
     end
     
+    module Write
     # Make a write access on this pin
     # Please provide arguments needed according to interface definition
-    def write(*args)
-      return @proxy.write(*args)[0]
+      def write(*args)
+        return @proxy.write(*args)[0]
+      end
     end
     
     def connect(proxy_)

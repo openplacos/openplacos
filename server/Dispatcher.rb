@@ -53,12 +53,18 @@ class Dispatcher
   end
 
   def call(pin_sender_name_, iface_, method_, *args_) 
+    # Set iface to mapping inherited iface  
     if(@iface_inherit[pin_sender_name_][iface_] != "")
       iface = iface_
     else
       iface = @iface_inherit[in_sender_name_][iface_]
     end
-    return @binding[pin_sender_name_][0].method_exec(iface, method_, *args_)
+    @binding[pin_sender_name_].each { |pin|
+      if pin.interfaces.include?(pin.get_iface(iface_))
+        return pin.method_exec(iface, method_, *args_)
+      end
+    }
+    nil # Should never be there --> raise an error ?
   end
 
   def get_plug(dbus_name_) #return an array of plugged pin
