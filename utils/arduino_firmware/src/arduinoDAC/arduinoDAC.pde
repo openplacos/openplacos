@@ -70,10 +70,8 @@ void digital_read() {
 
   int val = digitalRead(pin);
   
-  Serial.print("6 ");
-  Serial.print(pin);
-  Serial.print(" ");
-  Serial.println(val);
+  Serial << "6 " << pin << " " << val << endl;
+
   return;
 
 }
@@ -84,10 +82,8 @@ void analog_read() {
   for (int i=1;i<100;i++) {
     val += analogRead(pin);
   }
-  Serial.print("7 ");
-  Serial.print(pin);
-  Serial.print(" ");
-  Serial.println(((float)val)/100);
+  Serial << "7 " << pin << " " << ((float)val)/100 << endl;
+
   return; 
 }
 
@@ -112,13 +108,8 @@ void dht11_read() {
   int pin = message.readInt();
   int chk = DHT11.read(pin);
 
-   Serial.print("10 ");
-   Serial.print(pin);
-   Serial.print(" ");
-   Serial.print((float)DHT11.humidity);
-   Serial.print(" ");
-   Serial.println((float)DHT11.temperature);
- 
+  Serial << "10 " << pin << " " << (float)DHT11.humidity << " " << (float)DHT11.temperature << endl;
+
   return;  
 } 
 // Create the callback function
