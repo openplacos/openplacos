@@ -68,7 +68,7 @@ module Pwm
     end
     
      @arduino.write("8 #{@number} #{value}")
-     return 0
+     return LibComponent::ACK
   end
 
 end
@@ -106,11 +106,11 @@ module Digital
 
     if (value_.class==TrueClass or value_==1)
        @arduino.write("5 #{@number} 1")  
-      return 0
+      return LibComponent::ACK
     end
     if (value_.class==FalseClass or value_==0)
        @arduino.write("5 #{@number} 0")  
-      return 0
+      return LibComponent::ACK
     end
   end
 
@@ -120,7 +120,7 @@ module Pt2262
 
   def write(value_,option_)
     @arduino.write("9 #{@number} #{value_}")
-    return 0
+    return LibComponent::ACK
   end
 
 end

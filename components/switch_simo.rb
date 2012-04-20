@@ -24,16 +24,16 @@ Switch.on_write do |value, option|
     Raw.each { |out|
       ret << out.write(true,option)
     }
-    return 0 if ret.inject{|sum,x| sum + x }==0 # sum
-    return 1 
+    return LibComponent::ACK if ret.inject{|sum,x| sum + x }==0 # sum
+    return LibComponent::Error
   elsif value==0 or value==false
     @state = false
     ret = Array.new
     Raw.each { |out|
       ret << out.write(false,option)
     }
-    return 0 if ret.inject{|sum,x| sum + x }==0
-    return 1 
+    return LibComponent::ACK if ret.inject{|sum,x| sum + x }==0
+    return LibComponent::Error
   end
 end
 

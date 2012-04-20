@@ -47,7 +47,7 @@ class DHT11
       @H = ret["humidity"]
       @T = ret["temperature"]
     end
-    return 0
+    return nil
   end
 end
 
