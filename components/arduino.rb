@@ -11,7 +11,7 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.option :Board , 'The kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"
   c.option :baup , 'The bauprate' , :default => 115200 
   c.option :port , 'The serial port', :default => "/dev/arduino"
-  c.option :voltage, 'The true regulated voltage' => 5.0
+  c.option :voltage, 'The true regulated voltage', :default => 5.0
 end
 
 class Serial_Arduino
@@ -68,6 +68,7 @@ module Pwm
     end
     
      @arduino.write("8 #{@number} #{value}")
+     return 0
   end
 
 end
@@ -105,11 +106,11 @@ module Digital
 
     if (value_.class==TrueClass or value_==1)
        @arduino.write("5 #{@number} 1")  
-      return true
+      return 0
     end
     if (value_.class==FalseClass or value_==0)
        @arduino.write("5 #{@number} 0")  
-      return true
+      return 0
     end
   end
 
@@ -119,7 +120,7 @@ module Pt2262
 
   def write(value_,option_)
     @arduino.write("9 #{@number} #{value_}")
-    return true
+    return 0
   end
 
 end
