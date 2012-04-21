@@ -47,7 +47,7 @@ Read a HIGH or a LOW value from a digital pin.
 * **id** : 6
 * **parameters** : pin
   * **pin** : the pin number
-* return : 6 pin value
+* **return** : 6 pin value
 
 *example : Read a high value on pin 13*
 
@@ -62,7 +62,7 @@ The returned value is a float with a two digit precision (we use a 100 oversampl
 * **id** : 7
 * **parameters** : pin
   * **pin** : the pin number
-* return : 7 pin value
+* **return** : 7 pin value
 
 *example : Read an analog value on pin 2*
 
@@ -77,7 +77,7 @@ Writes an analog value (PWM wave) to a pin
 * **parameters** : pin value
   * **pin** : the pin number
   * **value** : the value to write (from 0 to 255)
-* return : nothing
+* **return** : nothing
 
 *example : Write a 102 on pin 3*
 
@@ -93,7 +93,7 @@ Writes an tri-state code on a pin according to the rcswitch library
 * **parameters** : pin code
   * **pin** : the pin number
   * **code** : tri-state code
-* return : nothing
+* **return** : nothing
 
 *example : Write a FFFFF0FFFF0F on pin 11*
 
@@ -106,7 +106,7 @@ Read a value on a dht11 sensor
 * **id** : 10
 * **parameters** : pin
   * **pin** : the pin number
-* return : 10 pin humidity temperature
+* **return** : 10 pin humidity temperature
 
 *example : Write a 102 on pin 3*
 
