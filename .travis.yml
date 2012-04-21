@@ -2,4 +2,4 @@ language: ruby
 rvm:
   - 1.9.3
 # uncomment this line if your project needs to run something other than `rake`:
-script: bundle exec rspec test/config_rspec.rb
+script: dbus-launch bundle exec rspec test/config_rspec.rb
