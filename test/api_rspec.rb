@@ -1,7 +1,7 @@
 require 'yaml'
 require './server.rb'
 
-CONFIG_FILE = "../config/default.yaml"
+CONFIG_FILE =  File.dirname(__FILE__)+"/../config/default.yaml"
 
 describe Server, "#api" do
   
