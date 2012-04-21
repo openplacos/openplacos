@@ -6,7 +6,9 @@ require 'yaml'
 require "micro-optparse"
 
 module LibComponent
-
+  
+  ACK = 0
+  Error = 1
   # Common module to Input and Output
   module Pin
 

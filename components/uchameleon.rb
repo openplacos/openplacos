@@ -41,7 +41,7 @@ class Serial_uCham
     return @sp.gets
   end
  
-def print_debug(string_)
+  def print_debug(string_)
     if ENV['DEBUG_UCHAM']
       puts string_
     end    
@@ -74,6 +74,7 @@ module Pwm
     value = value.to_i
 
     @ucham.write("pwm #{@number} width #{value}")
+    return LibComponent::ACK
   end
 
 end
@@ -97,13 +98,13 @@ module Digital
   def write(value_,option_)
     if (value_.class==TrueClass or value_==1)
       @ucham.write("pin #{@number} high")  
-      return true
+      return LibComponent::ACK
     end
     if (value_.class==FalseClass or value_==0)
       @ucham.write("pin #{@number} low")  
-      return true
+      return LibComponent::ACK
     end
-    return false  # Should never be there
+    return LibComponent::Error  # Should never be there
   end
 
 end

@@ -54,7 +54,7 @@ class Regulation
   
   def unset
     @is_regul_on = false
-    return 0
+    return LibComponent::ACK
   end
   
   # Boolean regulation :
@@ -131,7 +131,7 @@ case component.options[:type]
     
     Hysteresis.on_write do |value, option|
       Regul.hysteresis = value
-      return 0
+      return LibComponent::ACK
     end
 
     Hysteresis.on_read do |option|
@@ -155,7 +155,7 @@ Switch.on_write do |value, option|
   elsif value==0 or value==false
     Regul.unset
   end
-  return 0
+  return LibComponent::ACK
 end
 
 Switch.on_read do |option|
@@ -164,7 +164,7 @@ end
 
 Threshold.on_write do |value, option|
   Regul.threshold = value
-  return 0
+  return LibComponent::ACK
 end
 
 Threshold.on_read do |option|
@@ -173,7 +173,7 @@ end
 
 Frequency.on_write do |value, option|
   Regul.frequency = value
-  return 0
+  return LibComponent::ACK
 end
 
 Frequency.on_read do |option|
