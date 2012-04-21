@@ -15,12 +15,13 @@ component = LibComponent::Component.new(ARGV) do |c|
 end
 
 class Serial_Arduino
+
+  attr_reader :voltage
   
   def initialize(port_,baup_,voltage_)
     @voltage = voltage_
     begin
       @sp = SerialPort.new port_, baup_
-      puts @sp.gets
     rescue
       LibComponent::LibError.quit_server(10, "From arduino component: #{port_} did not opened correctly")
     end
@@ -32,7 +33,7 @@ class Serial_Arduino
   
   def write_and_read(string_)
     write(string_)
-    val = @sp.gets.split.reverse[0]
+    val = @sp.gets.split(" ").reverse[0]
     return val
   end
 

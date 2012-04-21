@@ -11,7 +11,7 @@ module LibComponent
   Error = 1
   # Common module to Input and Output
   module Pin
-
+    
     def set_component(component_)
       @component=component_
     end
@@ -32,7 +32,30 @@ module LibComponent
       pin[@name] = iface
       return pin
     end
+    
+    def buffer=(time_)
+      self.extend(Buffer)
+      @buffer_time = time_
+      @buffer_last_value = Time.new(0)
+    end
 
+  end
+
+  module Buffer
+        
+    #get the value from the buffer
+    def get_buffer_value
+      if Time.now - @buffer_last_value < @buffer_time
+        return @buffer_value
+      else 
+        return nil
+      end
+    end
+    
+    def set_buffer_value(value_)
+      @buffer_value = value_
+      @buffer_last_value = Time.now
+    end
   end
 
   # Instanciate an input pin to your component
@@ -164,8 +187,23 @@ module LibComponent
       # Make a read access on this pin
       # Please provide arguments needed according to interface definition
       def read(*args)
-        return @proxy.read(*args)[0]
+        if self.respond_to?(:get_buffer_value)
+          buf = get_buffer_value()
+          ret = buf || read_on_proxy(*args)
+        else
+          ret = read_on_proxy(*args)
+        end
+        return ret
       end
+      
+      private
+      
+      def read_on_proxy(*args)
+        val = @proxy.read(*args)[0]
+        set_buffer_value(val) if self.respond_to?(:set_buffer_value)
+        return val
+      end
+      
     end
     
     module Write

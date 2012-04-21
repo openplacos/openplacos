@@ -112,6 +112,7 @@ void dht11_read() {
 
   return;  
 } 
+
 // Create the callback function
 
  //if ( message.checkString("led") ) {
@@ -149,12 +150,6 @@ void dht11_read() {
 
 // ------------------ D E F A U L T  C A L L B A C K S -----------------------
 
-void arduino_ready()
-{
-  // In response to ping. We just send a throw-away Acknowledgement to say "im alive"
-  message.sendCmd(kACK,(char*) "Arduino ready");
-}
-
 void unknownCmd()
 {
   // Default response for unknown commands and corrupt messages
@@ -180,13 +175,11 @@ void setup() {
   // Attach the callback function to the Messenger
   message.print_LF_CR();   // Make output more readable whilst debugging in Arduino Serial Monitor
   // Attach default / generic callback methods
-  message.attach(kARDUINO_READY, arduino_ready);
+  //  message.attach(kARDUINO_READY, arduino_ready);
   message.attach(unknownCmd);
 
   // Attach my application's user-defined callback methods
   attach_callbacks(messengerCallbacks);
-
-  arduino_ready();
 
 }
 

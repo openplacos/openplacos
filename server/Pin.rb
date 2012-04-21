@@ -80,7 +80,7 @@ class Pin_input < DBus::ProxyObject
               end
             }
           end
-          Globals.error("Can't determine how to plug #{pin_.name} with #{@name}", 2)
+          Globals.error("Can't determine how to plug #{pin_.dbus_name} with #{@dbus_name}", 2)
         else
           match[iface] = candidate
         end

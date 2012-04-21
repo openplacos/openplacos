@@ -33,34 +33,14 @@ component << K_temp = LibComponent::Input.new("/temperature","analog.sensor.temp
 
 component << Hum = LibComponent::Input.new("/humidity","analog.sensor.humidity.rh")
 
-class DHT11
-  attr_reader :H , :T
-  def initialize
-    @T = nil
-    @H = nil
-    @last_call = Time.new(0)
-  end
-  
-  def read(*args)
-    if Time.now - @last_call > 0.5
-      ret = Raw.read(*args)
-      @H = ret["humidity"]
-      @T = ret["temperature"]
-    end
-    return nil
-  end
-end
-
-dht11 = DHT11.new
+Raw.buffer = 0.5
 
 Hum.on_read do |*args|
-  dht11.read(*args)
-  return dht11.H
+  Raw.read(*args)["humidity"]
 end
   
 C_temp.on_read do |*args|
-  dht11.read(*args)
-  return dht11.T
+  Raw.read(*args)["temperature"]
 end
 
 F_temp.on_read do |*args|
