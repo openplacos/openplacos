@@ -193,6 +193,10 @@ private
 
     attr_accessor :config, :objects, :service, :sensors, :actuators, :rooms,  :reguls, :initial_room
     
+    # Initialize a connection to server with OAuth2 in a automatic way
+    # Please provide url server, application name, permission needed for application
+    # Set connection_type to auth_code to use with oauth2 flow
+    # Access to proxyfied objects with .objects attribute
     def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
       @objects = Hash.new
       case connection_type

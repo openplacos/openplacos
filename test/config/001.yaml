@@ -24,13 +24,7 @@ component:
   
 - name: relayno
   exec: relayno.rb
-  method: thread
-  
-- name: regulation
-  exec: regulation.rb
-  method: thread
-  config:
-    type: pwm
+  method: thread      
 
 mapping:
 - /lm335/raw: /virtualplacos/Analog1
@@ -42,6 +36,3 @@ mapping:
 - /pwmdimmer/raw: /virtualplacos/Fan
 - /home/light: /relayno/switch
 - /relayno/raw: /virtualplacos/Light
-- /home/temperature: /regulation/regul
-- /regulation/sensor: /lm335/temperature#analog.sensor.temperature.celcuis
-- /regulation/actuator: /pwmdimmer/dimmer

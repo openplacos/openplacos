@@ -69,15 +69,8 @@ if options[:session]
 end
 
 #DBus
-if(ENV['DEBUG_OPOS'] ) ## Stand for debug
-  Bus = DBus::SessionBus.instance
-  $INSTALL_PATH = File.dirname(__FILE__) + "/"
-else
-  Bus = DBus::SystemBus.instance
-end
 InternalBus = DBus::ASessionBus.new
 
-service = Bus.request_service("org.openplacos.server")
 internalservice = InternalBus.request_service("org.openplacos.server.internal")
 internalservice.threaded = true
 
@@ -93,24 +86,20 @@ class Top
   # Dbus session reference
   # Internal Dbus
   # Logguer instance
-  def initialize (config_, service_, internalservice_, log_)
+  def initialize (config_, internalservice_, log_)
     # Parse yaml
     @config           =  YAML::load(File.read(config_))
-    @service          = service_
     @internalservice  = internalservice_
-    @config_component = @config["component"]
-    @config_export    = @config["export"]
+    @config_component = @config["component"] || {}
+    @config_export    = @config["export"] || {}
+    @config_mapping   = @config["mapping"] || {}
     @log              = log_
-    @@instance         = self
+    @@instance        = self
 
     # Event_handler creation
     @event_handler = Event_Handler.instance
     @internalservice.export(@event_handler)
 
-    Pathfinder.instance.init_pathfinder(@config["pathfinder"])
-
-    @info = Info.new()
-    @service.export(@info)
 
     # Hash of available dbus objects (measures, actuators..)
     # the hash key is the dbus path
@@ -143,7 +132,7 @@ class Top
 
   def map
    disp =  Dispatcher.instance
-    @config["mapping"].each do |wire|
+    @config_mapping.each do |wire|
       disp.add_wire(wire) # Push every wire link into dispatcher
     end
   end
@@ -179,10 +168,9 @@ class Top
   
 end # End of Top
 
-def quit(top_, internalmain_, main_)
+def quit(top_, internalmain_)
   top_.quit
   internalmain_.quit
-  main_.quit
 end
 
 # Config file basic verification
@@ -207,7 +195,7 @@ end
 Dispatcher.instance.init_dispatcher 
 
 # Construct Top
-top = Top.new(file, service, internalservice, log)
+top = Top.new(file, internalservice, log)
 top.map
 top.inspect_components
 top.expose_component
@@ -224,29 +212,20 @@ top.launch_components
 
 # create the webserver
 server = ThinServer.new('0.0.0.0', options[:port])
-# start the WebServer
-# Threaded server should be removed when main dbus will be removed
-
-Thread.new{
-  server.start!
-}
-
-# Let's Dbus have execution control
-main = DBus::Main.new
-main << Bus
 
 # quit the plugins when server quit
 Signal.trap('TERM') do 
   server.stop!
-  quit(top, internalmain, main)
+  quit(top, internalmain)
 end
 
 Signal.trap('INT') do 
   server.stop!
-  quit(top, internalmain, main)
+  quit(top, internalmain)
 end
 
-main.run
+# start the WebServer
+server.start!
 
 top.components.each { |c|
   if !c.thread.nil?

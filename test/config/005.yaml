@@ -1,3 +1,6 @@
+pathfinder:
+- ../
+
 export:
 - /home/temperature
 - /home/humidity
@@ -8,29 +11,24 @@ component:
 
 - name: virtualplacos
   exec: virtualplacos.rb
-  method: thread
+  method: fork
+  timeout: 10
   
 - name: lm335
   exec: lm335.rb
-  method: thread
+  method: fork
   
 - name: hih3610
   exec: hih3610.rb
-  method: thread
+  method: fork
   
 - name: pwmdimmer
   exec: pwm_dimmer.rb
-  method: thread
+  method: fork
   
 - name: relayno
   exec: relayno.rb
-  method: thread
-  
-- name: regulation
-  exec: regulation.rb
-  method: thread
-  config:
-    type: pwm
+  method: fork      
 
 mapping:
 - /lm335/raw: /virtualplacos/Analog1
@@ -42,6 +40,3 @@ mapping:
 - /pwmdimmer/raw: /virtualplacos/Fan
 - /home/light: /relayno/switch
 - /relayno/raw: /virtualplacos/Light
-- /home/temperature: /regulation/regul
-- /regulation/sensor: /lm335/temperature#analog.sensor.temperature.celcuis
-- /regulation/actuator: /pwmdimmer/dimmer

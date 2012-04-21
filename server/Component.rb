@@ -15,7 +15,7 @@
 #
 require 'Launcher.rb'
 require 'Pin.rb'
-require 'Pathfinder'
+require 'globals'
 
 class Component 
   include Launcher
@@ -34,12 +34,25 @@ class Component
     @outputs        = Array.new
     @thread         = nil # Launcher attribute init
     @filename       = component_["exec"]
+    @timeout        = component_["timeout"] || 5
 
     get_exec_path
+    generate_command_string
+
   end
 
   def get_exec_path
-    @exec           = Pathfinder.instance.get_file(@filename)
+    @exec           = @filename
+    local_install   = File.dirname(__FILE__)
+    local_file      = "#{local_install}/../components/#{@filename}"
+
+    if    (File.exists?(local_file)) # installed in /components
+      @exec = File.expand_path(local_file)
+    elsif (File.exists?(@filename))  # abs_path to component
+      @exec = File.expand_path(@filename)
+    else
+      Globals.error("#{@filename} not found", 144)
+    end
   end
 
   def introspect
@@ -70,7 +83,6 @@ class Component
 
     @pins = @inputs + @outputs
 
-    generate_command_string
   end
 
   def expose()

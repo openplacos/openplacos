@@ -15,14 +15,23 @@
 #
 
 require 'globals.rb'
+require 'Pin.rb'
 
 class Wire
-  attr_reader :pin0, :pin1
+  attr_reader :pin0, :pin1, :iface0, :iface1
 
   def initialize(config_)
     @config     = config_
     @pin_name0  = @config.to_a[0][0]
     @pin_name1  = @config.to_a[0][1]
+    @iface0     = ""
+    @iface1     = ""
+    if @pin_name0.include?('#')
+      @pin_name0, @iface0 = @pin_name0.split('#')
+    end
+    if @pin_name1.include?('#')
+      @pin_name1, @iface1 = @pin_name1.split('#')
+    end
     @pin0       = nil
     @pin1       = nil
   end
@@ -30,9 +39,11 @@ class Wire
   def push_pin(pin_)
     if    (pin_.dbus_name == @pin_name0)
       @pin0 = pin_
+      @pin0.set_prefered_iface(@iface0)
     elsif (pin_.dbus_name == @pin_name1)
       @pin1 = pin_
-    end
+      @pin1.set_prefered_iface(@iface1)
+   end
   end
 
   def check_pins
@@ -42,5 +53,20 @@ class Wire
     if @pin1.nil? 
       Globals.error("#{@pin_name1} not found")
     end
+
+    if @pin0.is_a?(Pin_input)
+      if @pin1.is_a?(Pin_input)
+        Globals.error("Mapping incorrect between #{@pin_name0} #{@pin_name1}")
+      end
+    end
+
+    if @pin0.is_a?(Pin_output)
+      if @pin1.is_a?(Pin_output)
+        Globals.error("Mapping incorrect between #{@pin_name0} #{@pin_name1}")
+      end
+   end
   end
+  
+  
+
 end

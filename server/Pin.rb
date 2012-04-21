@@ -24,7 +24,18 @@ module Pin
     dis = Dispatcher.instance
     dis.register_pin(self)
   end
+
+  def match_iface(pin_)
+  end
   
+  # this method set iface to a prefered one when an undertimnation is raised
+  # this method is called by wire since the prefered iface is declared in mapping config
+  def set_prefered_iface(iface_) 
+    @prefered_iface = iface_
+  end
+
+
+
 end
 
 class Pin_input < DBus::ProxyObject
@@ -32,12 +43,13 @@ class Pin_input < DBus::ProxyObject
   attr_reader :name, :dbus_name, :config
 
   def initialize(name_, config_, component_, method_)
-    @config     = config_ # config from component introspect
-    @name       = name_
-    @component  = component_
-    @method     = method_
-    @dispatcher = Dispatcher.instance
-    @dbus_name  = "/#{@component.name}#{@name}"
+    @config         = config_ # config from component introspect
+    @name           = name_
+    @component      = component_
+    @method         = method_
+    @dispatcher     = Dispatcher.instance
+    @dbus_name      = "/#{@component.name}#{@name}"
+    @prefered_iface = ""
 
     register
     super(InternalBus, "org.openplacos.components.#{@component.name}", @name)
@@ -47,14 +59,46 @@ class Pin_input < DBus::ProxyObject
     return "org.openplacos.#{iface_}"
   end
 
+  def match_iface(pin_)
+    match = {}
+    candidate = nil
+    if pin_.is_a?(Pin_output)
+      pin_.config.keys.each { |iface|
+        num_candidate = 0
+        @config.keys.each{ |i|
+          if i.include?(iface)
+            candidate = i
+            num_candidate +=1
+          end
+        }
+        if num_candidate != 1
+          if @prefered_iface != "" 
+            @config.keys.each{ |i| # first one matching, first OK
+              if i.include?(@prefered_iface)
+                match[iface] = i
+                return match # first one matching, first OK
+              end
+            }
+          end
+          Globals.error("Can't determine how to plug #{pin_.dbus_name} with #{@dbus_name}", 2)
+        else
+          match[iface] = candidate
+        end
+      }
+    end 
+    match
+  end
+
   def method_exec(iface_, method_, *args_) 
     return self[get_iface(iface_)].send(method_, *args_)
   end
+
+
 end
 
 class Pin_output < DBus::Object
   include Pin
-  attr_reader :name, :dbus_name
+  attr_reader :name, :dbus_name, :config
 
   def initialize(name_, config_, component_, method_)
     @config    = config_ # config from component introspect
@@ -66,7 +110,6 @@ class Pin_output < DBus::Object
     register
     super(@dbus_name)
   end
-
   
   def expose_on_dbus()
     dis = Dispatcher.instance
@@ -103,7 +146,6 @@ class Pin_export  < DBus::Object
     dis = Dispatcher.instance
     pin_plugs = dis.get_plug(@dbus_name)
     pin_plugs.each do |pin|
-      puts pin.interfaces
       pin.config.each do |iface, meths|
         self.singleton_class.instance_eval do
           dbus_interface "org.openplacos.#{iface}" do

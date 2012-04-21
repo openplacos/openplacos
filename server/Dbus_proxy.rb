@@ -23,8 +23,7 @@ module Dbus_proxy  # output
   def wait_for_component()  # check component started
     # fork/thread specific ?
     @path_dbus = "org.openplacos.components." + @name.downcase
-    @timeout = 5
-
+   
     begin
       Timeout::timeout(@timeout) { # allow a maximum time of #timeout second for the driver launch
         begin
@@ -40,7 +39,7 @@ module Dbus_proxy  # output
         @component_proxy = component_service.object("/component")        
       }
     rescue Timeout::Error 
-      Globals.error("Autolaunch of  #{@name}, component #{@path_dbus} failed")
+      Globals.error("Autolaunch of  #{@name}, component #{@path_dbus} failed\nCheck the component in debug mode or increase the Timeout")
     end
     
     @inputs.each do |input|
