@@ -1,5 +1,5 @@
 require 'yaml'
-require './server.rb'
+require File.dirname(__FILE__)+'/server.rb'
 
 CONFIG_FILE =  File.dirname(__FILE__)+"/../config/default.yaml"
 
