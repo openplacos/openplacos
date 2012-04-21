@@ -15,6 +15,7 @@ gem 'sqlite3'
 gem 'sinatra'
 gem 'thin'
 gem 'haml'
+gem 'sinatra-content-for'
 
 #for clients
 gem "oauth2"
