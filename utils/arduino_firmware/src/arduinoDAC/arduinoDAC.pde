@@ -4,6 +4,14 @@
 #include <Streaming.h>
 #include <Base64.h>
 
+#define PINMODE       4 
+#define DIGITALWRITE  5
+#define DIGITALREAD   6
+#define ANALOGREAD    7
+#define PWMWRITE      8
+#define RCSWITCH      9
+#define DHT11READ    10
+
 dht11 DHT11;
 RCSwitch mySwitch = RCSwitch();
 char tristate[13]; 
@@ -26,6 +34,7 @@ enum
 
   kSEND_CMDS_END, // Mustnt delete this line
 };
+
 
 messengerCallbackFunction messengerCallbacks[] = 
 {
@@ -70,7 +79,7 @@ void digital_read() {
 
   int val = digitalRead(pin);
   
-  Serial << "6 " << pin << " " << val << endl;
+  Serial << DIGITALREAD << " " << pin << " " << val << endl;
 
   return;
 
@@ -82,7 +91,7 @@ void analog_read() {
   for (int i=1;i<100;i++) {
     val += analogRead(pin);
   }
-  Serial << "7 " << pin << " " << ((float)val)/100 << endl;
+  Serial << ANALOGREAD << " " << pin << " " << ((float)val)/100 << endl;
 
   return; 
 }
@@ -108,7 +117,7 @@ void dht11_read() {
   int pin = message.readInt();
   int chk = DHT11.read(pin);
 
-  Serial << "10 " << pin << " " << (float)DHT11.humidity << " " << (float)DHT11.temperature << endl;
+  Serial << DHT11READ << " " << pin << " " << (float)DHT11.humidity << " " << (float)DHT11.temperature << endl;
 
   return;  
 } 
@@ -187,7 +196,6 @@ void setup() {
 void loop() {
   // The following line is the most effective way of using Serial and Messenger's callback
   message.feedinSerialData();
-
 }
 
 
