@@ -56,6 +56,7 @@ options = Parser.new do |p|
   p.option :session, "client bus on user session bus"
   p.option :port, "port of the webserver", :default => 4567
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
+  p.option :deamon, "run the server as a deamon"
 end.process!
 
 $DEBUG = options[:debug]
@@ -225,7 +226,12 @@ Signal.trap('INT') do
 end
 
 # start the WebServer
+if options[:deamon]
+  server.daemonize()
+end
+
 server.start!
+
 
 top.components.each { |c|
   if !c.thread.nil?

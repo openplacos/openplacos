@@ -3,8 +3,9 @@ require File.dirname(__FILE__)+'/server.rb'
 
 def run_one_test(config_)
   server = Server.new("-f #{config_} -s -l #{File.dirname(__FILE__)}/opos.log")
-  server.launch
-  server.launched?.should eq(true)
+  status = server.launch
+  status.should eq(true)
+  server.kill
 end
 
 describe Server, "#config" do
