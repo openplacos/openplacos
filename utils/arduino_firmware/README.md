@@ -11,6 +11,20 @@ Command List
 --------------------------
 ### Principle
 Basically, a command contains two fields, an integer which represents the kind of command, and a string containing all the required aguments. The end of the command is given by the char ";"
+
+### Abstract
+
+|    Command    |     id      |  Parameters  |     Return   |       Example           |
+|:-------------:|------------:|:------------:|:------------:|:-----------------------:|
+| Set pin Mode  | 4           | pin mode     | nothing      | ```4 13 out;```         |
+| Digital write | 5           | pin value    | nothing      | ```5 13 high;```        |
+| Digital read  | 6           | pin          | 6 pin value  | ```6 13; =>  6 13 1```  |
+| Analog Read   | 7           | pin          | 7 pin value  | ```7 2; =>  7 2 456.00``` |
+| Pwm Write     | 8           | pin value    | nothing      | ```8 3 102;```            |
+| RCswitch write| 9           | pin code     | nothing      | ```9 11 FFFFF0FFFF0F;```  |
+| DHt11 Read    | 10          | pin          | 10 pin humidity temperature  | ```10 3; => 10 3 68.00 22.00``` |
+
+
 ### Set pin mode
 Configures the specified pin to behave either as an input or an output.
 
