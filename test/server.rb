@@ -11,7 +11,7 @@ class Server
   def launch
     @th = Thread.new do
       
-      @status = system "dbus-launch  #{File.dirname(__FILE__)}/../server/main.rb " + @arg 
+      @status = system "#{File.dirname(__FILE__)}/../server/main.rb " + @arg 
     end
   end
   
