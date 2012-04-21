@@ -4,11 +4,27 @@ require File.dirname(__FILE__)+'/server.rb'
 def run_one_test(config_)
   server = Server.new("-f #{config_} -s -l #{File.dirname(__FILE__)}/opos.log")
   status = server.launch
-  status.should eq(true)
   server.kill
+  status.should eq(true)
+end
+
+def kill_server
+    if File.exist?("#{File.dirname(__FILE__)}/../server/opos-deamon.pid")
+      Process.kill("INT",File.read("#{File.dirname(__FILE__)}/../server/opos-deamon.pid").to_i)
+    end
+    sleep 0.5 # wait the server is down
 end
 
 describe Server, "#config" do
+
+  after(:each) do
+    kill_server
+  end
+  
+  after(:all) do
+    kill_server
+  end
+  
   it "should launch with the default config file" do
     run_one_test(File.dirname(__FILE__)+"/../config/default.yaml")
   end

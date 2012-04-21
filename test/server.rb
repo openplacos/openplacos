@@ -10,11 +10,15 @@ class Server
   # Launch the server
   def launch
     @status = system "#{File.dirname(__FILE__)}/../server/main.rb --deamon " + @arg 
+    sleep 0.5
+    return @status
   end
   
   # Kill the server
   def kill
-    Process.kill("SIGINT",File.read("/tmp/opos-deamon.pid").to_i)
+    if File.exist?("#{File.dirname(__FILE__)}/../server/opos-deamon.pid")
+      Process.kill("INT",File.read("#{File.dirname(__FILE__)}/../server/opos-deamon.pid").to_i)
+    end
   end
   
   def get(url)

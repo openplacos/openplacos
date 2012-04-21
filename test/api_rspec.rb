@@ -8,7 +8,7 @@ describe Server, "#api" do
   before(:all) do
     @server = Server.new("-f #{CONFIG_FILE} -s")
     @server.launch
-   
+    sleep 0.5
     @config = YAML::load(File.read(CONFIG_FILE))
   end
   

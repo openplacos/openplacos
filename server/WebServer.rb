@@ -196,8 +196,8 @@ end
 class ThinServer < Thin::Server
 
   def initialize(bind,port)
-    @pid_file = "/tmp/opos-deamon.pid"
-    @log_file = "/tmp/opos-deamon.log"
+    @pid_file = "#{File.dirname(__FILE__)}/opos-deamon.pid"
+    @log_file = "#{File.dirname(__FILE__)}/opos-deamon.log"
     super(bind,port, :signals => false) do
       use Rack::CommonLogger
       use Rack::ShowExceptions
