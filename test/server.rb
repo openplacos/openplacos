@@ -2,6 +2,7 @@ require 'net/http'
 require 'json'
 
 class Server
+  DAEMON_FILE = "#{File.dirname(__FILE__)}/../server/opos-daemon.pid"
   def initialize(str_)
     @arg = str_
     @status = false
@@ -16,8 +17,8 @@ class Server
   
   # Kill the server
   def kill
-    if File.exist?("#{File.dirname(__FILE__)}/../server/opos-deamon.pid")
-      Process.kill("INT",File.read("#{File.dirname(__FILE__)}/../server/opos-deamon.pid").to_i)
+    if File.exist?(DAEMON_FILE)
+      Process.kill("INT",File.read(DAEMON_FILE).to_i)
     end
   end
   

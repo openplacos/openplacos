@@ -1,4 +1,5 @@
-# OpenplacOS: Home automation for your system #
+# OpenplacOS: Home automation for your system # [![Build Status](https://secure.travis-ci.org/openplacos/openplacos.png?branch=unstable)](http://travis-ci.org/openplacos/openplacos)
+
 
 ## Presentation ##
 

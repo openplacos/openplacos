@@ -9,8 +9,8 @@ def run_one_test(config_)
 end
 
 def kill_server
-    if File.exist?("#{File.dirname(__FILE__)}/../server/opos-deamon.pid")
-      Process.kill("INT",File.read("#{File.dirname(__FILE__)}/../server/opos-deamon.pid").to_i)
+    if File.exist?("#{File.dirname(__FILE__)}/../server/opos-daemon.pid")
+      Process.kill("INT",File.read("#{File.dirname(__FILE__)}/../server/opos-daemon.pid").to_i)
     end
     sleep 0.5 # wait the server is down
 end

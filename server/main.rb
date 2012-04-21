@@ -227,15 +227,15 @@ end
 
 # start the WebServer
 if options[:deamon]
-  server.daemonize()
+  server.daemonize
 end
 
 server.start!
-
 
 top.components.each { |c|
   if !c.thread.nil?
     c.thread.join
   end
 }
+
 
