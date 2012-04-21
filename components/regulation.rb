@@ -141,7 +141,7 @@ case component.options[:type]
     component << actuator = LibComponent::Output.new("/actuator","analog.order.dimmer","rw")
 end
 
-component << sensor = LibComponent::Output.new("/sensor","analog.sensor.temperature.celcuis","r")
+component << sensor = LibComponent::Output.new("/sensor","analog","r")
 
 component << Switch = LibComponent::Input.new("/regul","digital.regul.switch")
 component << Threshold = LibComponent::Input.new("/regul","analog.regul.threshold")

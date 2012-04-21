@@ -59,10 +59,6 @@ class Pin_input < DBus::ProxyObject
     return "org.openplacos.#{iface_}"
   end
 
-  def method_exec(iface_, method_, *args_) 
-    return self[get_iface(iface_)].send(method_, *args_)
-  end
-
   def match_iface(pin_)
     match = {}
     candidate = nil
@@ -70,15 +66,19 @@ class Pin_input < DBus::ProxyObject
       pin_.config.keys.each { |iface|
         num_candidate = 0
         @config.keys.each{ |i|
-          if iface.include?(i)
+          if i.include?(iface)
             candidate = i
             num_candidate +=1
           end
         }
         if num_candidate != 1
-          if @prefered_iface != "" && iface.include?(@prefered_iface)
-            match[iface] = @prefered_iface
-            next
+          if @prefered_iface != "" 
+            @config.keys.each{ |i| # first one matching, first OK
+              if i.include?(@prefered_iface)
+                match[iface] = i
+                return match # first one matching, first OK
+              end
+            }
           end
           Globals.error("Can't determine how to plug #{pin_.name} with #{@name}", 2)
         else
@@ -88,7 +88,12 @@ class Pin_input < DBus::ProxyObject
     end 
     match
   end
- 
+
+  def method_exec(iface_, method_, *args_) 
+    return self[get_iface(iface_)].send(method_, *args_)
+  end
+
+
 end
 
 class Pin_output < DBus::Object
@@ -105,7 +110,6 @@ class Pin_output < DBus::Object
     register
     super(@dbus_name)
   end
-
   
   def expose_on_dbus()
     dis = Dispatcher.instance

@@ -54,17 +54,18 @@ class Dispatcher
 
   def call(pin_sender_name_, iface_, method_, *args_) 
     # Set iface to mapping inherited iface  
-    if(@iface_inherit[pin_sender_name_][iface_] != "")
+    if(@iface_inherit[pin_sender_name_][iface_].nil?)
       iface = iface_
     else
-      iface = @iface_inherit[in_sender_name_][iface_]
+      iface = @iface_inherit[pin_sender_name_][iface_]
     end
+
     @binding[pin_sender_name_].each { |pin|
-      if pin.interfaces.include?(pin.get_iface(iface_))
+      if pin.interfaces.include?(pin.get_iface(iface))
         return pin.method_exec(iface, method_, *args_)
       end
     }
-    nil # Should never be there --> raise an error ?
+    Globals.error("No mapping found at runtime", 42)
   end
 
   def get_plug(dbus_name_) #return an array of plugged pin
