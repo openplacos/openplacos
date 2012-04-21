@@ -21,5 +21,4 @@ gem "oauth2"
 gem "rink"
 
 # for testing
-gem 'rake'
 gem 'rspec'
