@@ -22,3 +22,4 @@ gem "rink"
 
 # for testing
 gem 'rake'
+gem 'rspec'
