@@ -20,15 +20,28 @@ describe Server, "#api" do
   end
   
   it "temperature should equal to 22" do
-    @server.get("/ressources/home/temperature?iface=analog.sensor.temperature.celcuis")["value"].to_i.should eq(22)
+    params = {"iface" => "analog.sensor.temperature.celcuis"}
+    @server.get("/ressources/home/temperature",params)["value"].to_i.should eq(22)
   end
   
   it "light should be off" do
-    @server.get("/ressources/home/light?iface=digital.order.switch")["value"].should eq(false)
+    params = {"iface" => "digital.order.switch"}
+    @server.get("/ressources/home/light",params)["value"].should eq(false)
   end
   
   it "pwm fan should be 0" do
-    @server.get("/ressources/home/fan?iface=analog.order.dimmer")["value"].should eq(0.0)
+    params = {"iface" => "analog.order.dimmer"}
+    @server.get("/ressources/home/fan",params)["value"].should eq(0.0)
+  end
+  
+  it "write light should return 0" do
+    params = {"iface" => "digital.order.switch", "value" => JSON.unparse([true])}
+    @server.post("/ressources/home/light",params)["status"].should eq(0)
+  end
+   
+  it "light should be on" do
+    params = {"iface" => "digital.order.switch"}
+    @server.get("/ressources/home/light",params)["value"].should eq(true)
   end
    
 end

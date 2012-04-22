@@ -12,9 +12,10 @@ class Server
   def launch
     if File.exist?(DAEMON_FILE)
       Process.kill("INT",File.read(DAEMON_FILE).to_i)
+      sleep 1 # maybee the deamon need mode time to quit
     end
     @status = system "#{File.dirname(__FILE__)}/../server/main.rb --deamon " + @arg 
-    wait_launch if @status==true
+    @status = wait_launch if @status==true
     return @status
   end
   
@@ -25,8 +26,14 @@ class Server
     end
   end
   
-  def get(url)
-    JSON.parse Net::HTTP.get(URI.parse("http://localhost:4567#{url}"))
+  def get(url,params = {})
+    uri = URI("http://localhost:4567#{url}")
+    uri.query = URI.encode_www_form(params)
+    JSON.parse Net::HTTP.get(uri)
+  end
+  
+  def post(url,params)
+    JSON.parse Net::HTTP.post_form(URI.parse("http://localhost:4567#{url}"),params).body
   end
   
   def ressources
@@ -46,6 +53,7 @@ class Server
       res = Net::HTTP.start(url.host, url.port) 
     rescue Errno::ECONNREFUSED
       sleep 1
+      return false if !File.exist?(DAEMON_FILE) #Error after deamonize
       retry
     end
     return true

@@ -1,0 +1,47 @@
+export:
+- /home/temperature
+- /home/humidity
+- /home/fan
+- /home/light
+
+component:
+
+- name: virtualplacos
+  exec: virtualplacos.rb
+  method: thread
+  
+- name: lm335
+  exec: lm335.rb
+  method: thread
+  
+- name: hih3610
+  exec: hih3610.rb
+  method: thread
+  
+- name: pwmdimmer
+  exec: pwm_dimmer.rb
+  method: thread
+  
+- name: relayno
+  exec: relayno.rb
+  method: thread
+  
+- name: regulation
+  exec: regulation.rb
+  method: thread
+  config:
+    type: pwm
+
+mapping:
+- /lm335/raw: /virtualplacos/Analog1
+- /hih3610/raw: /virtualplacos/Analog2
+- /hih3610/temperature: /lm335/temperature
+- /home/temperature: /lm335/temperature
+- /home/humidity: /hih3610/humidity
+- /home/fan: /pwmdimmer/dimmer
+- /pwmdimmer/raw: /virtualplacos/Fan
+- /home/light: /relayno/switch
+- /relayno/raw: /virtualplacos/Light
+- /home/temperature: /regulation/regul
+- /regulation/sensor: /lm335/temperature#analog.sensor.temperature.celcui
+- /regulation/actuator: /pwmdimmer/dimmer
