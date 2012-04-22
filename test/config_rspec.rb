@@ -69,5 +69,13 @@ describe Server, "#config" do
     run_one_test(File.dirname(__FILE__)+"/config/009.yaml").should eq(false)
   end
 
+  it "shouldn't launch with incorrect mapping : 2 output (config 010.yaml)" do
+    run_one_test(File.dirname(__FILE__)+"/config/010.yaml").should eq(false)
+  end
+
+  it "shouldn't launch with incorrect mapping : 2 input (config 011.yaml)" do
+    run_one_test(File.dirname(__FILE__)+"/config/011.yaml").should eq(false)
+  end
+
 end
 

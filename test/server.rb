@@ -10,9 +10,13 @@ class Server
   
   # Launch the server
   def launch
-    if File.exist?(DAEMON_FILE)
-      Process.kill("INT",File.read(DAEMON_FILE).to_i)
-      sleep 1 # maybee the deamon need mode time to quit
+    while File.exist?(DAEMON_FILE)
+      begin 
+        Process.kill("INT",File.read(DAEMON_FILE).to_i)
+      rescue
+        raise "pid file is here but no process with this pid"
+      end
+      sleep 0.5 # maybee the deamon need mode time to quit
     end
     @status = system "#{File.dirname(__FILE__)}/../server/main.rb --deamon " + @arg 
     @status = wait_launch if @status==true
