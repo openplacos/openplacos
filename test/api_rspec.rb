@@ -8,8 +8,11 @@ describe Server, "#api" do
   before(:all) do
     @server = Server.new("-f #{CONFIG_FILE} ")
     @server.launch
-    sleep 0.5
     @config = YAML::load(File.read(CONFIG_FILE))
+  end
+  
+  after(:all) do
+    @server.kill
   end
   
   it "ressources names should equal to thoses declared in config file" do
@@ -27,11 +30,7 @@ describe Server, "#api" do
   it "pwm fan should be 0" do
     @server.get("/ressources/home/fan?iface=analog.order.dimmer")["value"].should eq(0.0)
   end
-  
-  after(:all) do
-    @server.kill
-  end
-  
+   
 end
 
 

@@ -10,6 +10,9 @@ class Server
   
   # Launch the server
   def launch
+    if File.exist?(DAEMON_FILE)
+      Process.kill("INT",File.read(DAEMON_FILE).to_i)
+    end
     @status = system "#{File.dirname(__FILE__)}/../server/main.rb --deamon " + @arg 
     wait_launch if @status==true
     return @status
