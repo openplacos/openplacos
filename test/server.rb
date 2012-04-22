@@ -11,7 +11,7 @@ class Server
   # Launch the server
   def launch
     @status = system "#{File.dirname(__FILE__)}/../server/main.rb --deamon " + @arg 
-    sleep 0.5
+    wait_launch if @status==true
     return @status
   end
   
@@ -33,6 +33,19 @@ class Server
       ressources[res["name"]] = res
     end
     return ressources
+  end
+  
+  private 
+   # wait for the complete launch of the server
+  def wait_launch
+    begin
+      url = URI.parse('http://localhost:4567')
+      res = Net::HTTP.start(url.host, url.port) 
+    rescue Errno::ECONNREFUSED
+      sleep 1
+      retry
+    end
+    return true
   end
   
 end

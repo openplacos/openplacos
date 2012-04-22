@@ -27,7 +27,6 @@ ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
 require 'bundler/setup'
 require 'json'
 require 'yaml' 
-require 'rubygems'
 require 'dbus-openplacos'
 require 'micro-optparse'
 require 'thin'
@@ -47,13 +46,13 @@ require 'Dispatcher.rb'
 require 'Export.rb'
 require 'Info.rb'
 require 'WebServer.rb'
+require 'Top.rb'
 
 options = Parser.new do |p|
   p.banner = "The openplacos server"
   p.version = "0.0.1"
   p.option :file   , "the config file", :default => "/etc/default/openplacos"
   p.option :debug  , "activate the ruby-dbus debug flag"
-  p.option :session, "client bus on user session bus"
   p.option :port, "port of the webserver", :default => 4567
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
   p.option :deamon, "run the server as a deamon"
@@ -65,8 +64,14 @@ $DEBUG = options[:debug]
 # monthly round-robin
 log = Logger.new( options[:log], shift_age = 'monthly')
 
-if options[:session]
-  ENV['DEBUG_OPOS'] = "1"
+# create the webserver
+server = ThinServer.new('0.0.0.0', options[:port])
+
+# deamonize if requested
+# should be done before dbus
+# deamonize fork the process so the pid is different
+if options[:deamon]
+  server.daemonize
 end
 
 #DBus
@@ -75,103 +80,10 @@ InternalBus = DBus::ASessionBus.new
 internalservice = InternalBus.request_service("org.openplacos.server.internal")
 internalservice.threaded = true
 
-class Top
-
-  attr_reader :components, :config_export, :exports, :log
-    
-  def self.instance
-    @@instance
-  end
-  
-  # Config file path
-  # Dbus session reference
-  # Internal Dbus
-  # Logguer instance
-  def initialize (config_, internalservice_, log_)
-    # Parse yaml
-    @config           =  YAML::load(File.read(config_))
-    @internalservice  = internalservice_
-    @config_component = @config["component"] || {}
-    @config_export    = @config["export"] || {}
-    @config_mapping   = @config["mapping"] || {}
-    @log              = log_
-    @@instance        = self
-
-    # Event_handler creation
-    @event_handler = Event_Handler.instance
-    @internalservice.export(@event_handler)
-
-
-    # Hash of available dbus objects (measures, actuators..)
-    # the hash key is the dbus path
-    @components = Array.new
-    @exports    = Hash.new
-
-  end
-
-  def inspect_components
-    @config_component.each do |component|
-      @components << Component.new(component) # Create a component object
-    end 
-    
-    # introspect phase
-    @components.each  do |component|
-      component.introspect   # Get informations from component -- threaded
-    end
-
-    # analyse phase => creation of Pins
-    @components.each  do |component|
-      component.analyse   # Create pin objects according to introspect
-    end
-  end
-
-  def  create_exported_object
-    @config_export.each do |export|
-      @exports[export] = Export.new(export)
-    end
-  end
-
-  def map
-   disp =  Dispatcher.instance
-    @config_mapping.each do |wire|
-      disp.add_wire(wire) # Push every wire link into dispatcher
-    end
-  end
-
-  def expose_component
-  @components.each  do |component|
-      component.expose()   # Exposes on dbus interface service
-      component.outputs.each do |p|
-        @internalservice.export(p)
-      end
-    end
-  end
-
-  def launch_components
-    @components.each  do |component|
-      component.launch # Launch every component -- threaded
-    end
-
-    @components.each  do |component|
-       component.wait_for # verify component has been launched 
-    end
-  end
-  
-  def update_exported_ifaces 
-    @exports.each_value do |export|
-      export.update_ifaces
-    end
-  end
-  
-  def quit
-    @event_handler.quit
-  end
-  
-end # End of Top
-
-def quit(top_, internalmain_)
+def quit(top_, internalmain_,server_)
   top_.quit
   internalmain_.quit
+  server_.stop
 end
 
 # Config file basic verification
@@ -211,26 +123,17 @@ Thread.new { internalmain.run }
 #launch components
 top.launch_components
 
-# create the webserver
-server = ThinServer.new('0.0.0.0', options[:port])
-
 # quit the plugins when server quit
 Signal.trap('TERM') do 
-  server.stop!
-  quit(top, internalmain)
+  quit(top, internalmain,server)
 end
 
 Signal.trap('INT') do 
-  server.stop!
-  quit(top, internalmain)
+  quit(top, internalmain,server)
 end
 
 # start the WebServer
-if options[:deamon]
-  server.daemonize
-end
-
-server.start!
+server.start
 
 top.components.each { |c|
   if !c.thread.nil?

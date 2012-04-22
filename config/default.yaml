@@ -12,7 +12,7 @@ component:
   
 - name: lm335
   exec: lm335.rb
-  method: thread
+  method: fork
   
 - name: hih3610
   exec: hih3610.rb
