@@ -29,6 +29,7 @@ require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
   p.option :host, "host server url", :default => "http://localhost:4567"
+  p.option :type, "OAuth2 grant type (auth_code, password)", :default => "auth_code", :value_in_set => ["auth_code","password"]
 end.process!
 
 if options[:session]
@@ -38,7 +39,7 @@ end
 host=options[:host]
 
 
-Opos = Openplacos::Client.new(host, "truc", ["read", "user"], "auth_code") # Beurk -- Constant acting as a global variable
+Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type]) # Beurk -- Constant acting as a global variable
 
 
 class OpenplacOS_Console < Rink::Console
