@@ -40,24 +40,28 @@ end
 module Openplacos
 
   module String
-   def get_max_const
-     array = self.split("::")
-     out = Kernel
-     array.each { |mod|
-       if out.const_defined?(mod)
-         out = out.const_get(mod)
-       else
-         return out
-       end
-     }
-     return out #Should never be here
-   end
-  end
 
+    # this method extend string module. 
+    # this module find out a module instance from it's name (=string)
+    # ( "Openplacos::Analog" (=string) => Oenplacos::Analog (= module)  
+    def get_max_const
+      array = self.split("::")
+      out = Kernel
+      array.each { |mod|
+        if out.const_defined?(mod)
+          out = out.const_get(mod)
+        else
+          return out
+        end
+      }
+      return out #Should never be here
+    end
+  end
+  
   module Connection
 
+    # register the client (automatic way)
     def register( )
-      # register the client (automatic way)
       postData = Net::HTTP.post_form(URI.parse("#{@url}/oauth/apps"), 
                                      { 'name'        =>"#{@name}",
                                        'redirect_uri'=>@redirect_uri,
@@ -88,6 +92,8 @@ module Openplacos
       @client.auth_code.authorize_url(:redirect_uri => @redirect_uri, :scope => @scope.join(" "))
     end
 
+    # save config with token, client_id and secret into a userspace directory
+    # needed to not regrant client every connection
     def save_config
       @token_params[@url]                 = @token.to_hash
       @token_params[@url][:client_id]     = @client_id
@@ -98,6 +104,7 @@ module Openplacos
       end
     end
 
+    # restore config 
     def load_config
       if File.exists?(@file_config)
         @token_params  = YAML::load(File.read(@file_config))
@@ -165,6 +172,14 @@ module Openplacos
   class Connection_auth_code
     include Connection
     attr_reader :token
+
+    # Open a connection to openplacos server
+    # Please give:
+    # * opos url
+    # * an application name that identify the client oath2 talking
+    # * a scope, typically ["read", "write", "user"] 
+    # * an optionnal id, to manage several clients
+    # * port of openplacos server
     def initialize(url_, name_, scope_, id_, port_)
       @url = url_
       @name = name_
@@ -177,6 +192,7 @@ module Openplacos
         Dir.mkdir(dir_config)
       end
 
+      # config saved to avoir re-grant at each connection
       @file_config = "#{dir_config}/#{@name}-#{id_}.yaml"
       
       load_config
@@ -193,11 +209,13 @@ module Openplacos
     end
 
 private
+    # display a message indicating url for grant
+    # this method can be overloaded by client depending it's interface with user
     def grant ()
       go_to_url  = get_grant_url("code")
 
       puts "***************"
-      puts "please open your webBrowser and got to :"
+      puts "Please open your web browser and got to :"
       puts go_to_url
       puts "***************"
 
@@ -241,8 +259,17 @@ private
     # Initialize a connection to server with OAuth2 in a automatic way
     # Please provide url server, application name, permission needed for application
     # Set connection_type to auth_code to use with oauth2 flow
-    # Access to proxyfied objects with .objects attribute
-    def initialize(url_, name_, scope_, connection_type_, id_ = "0", opt_={})
+    # You can access to proxyfied objects with .objects attribute
+    # Please give:
+    # * opos url
+    # * an application name that identify the client oath2 talking
+    # * a scope, typically ["read", "write", "user"] 
+    # * a connection_type, set it to "auth_code" to use oauth2 with classic flow (recommanded)
+    # or with "password" to use with password flow 
+    # * an optionnal id, to manage several clients
+    # * an optionnal option hash, in which you can specify openplacos port { :port => 5454 }
+    def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
+
       @objects = Hash.new
       @connection_type = connection_type_
       case @connection_type
@@ -284,13 +311,17 @@ private
         end
       }
     end
-
+    
+    # Extend an object to a ruby module according to iface_name_
+    # if iface_name_ is "org.openplacos.analog.order"
+    # => object will inherit Openplacos::Analog::Order
     def extend_iface(iface_name_,obj_ )
       mod = "Openplacos::"+ construct_module_name(iface_name_)
       mod.extend(Openplacos::String)
       obj_.extend(mod.get_max_const)
     end
-    
+
+    # transform iface_name to a module name that obj will inherit
     def construct_module_name(iface_name_)
       iface_heritage = iface_name_.sub(/org.openplacos./, '').split('.')
       iface_heritage.each { |s|
@@ -303,8 +334,7 @@ private
     def me
       JSON.parse(@connection.token.get("/me").body)["username"]
     end
-
-    
+   
   end
 
 
