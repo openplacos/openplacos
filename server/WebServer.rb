@@ -59,7 +59,7 @@ class WebServer < Sinatra::Base
 
   helpers ::WebServerHelpers
 
-  # oauth2 configuration
+  # OAuth2 Permission configuration
   PERMISSIONS = {
     'read' => 'Read  access',
     'write' => 'Write access',
@@ -67,9 +67,10 @@ class WebServer < Sinatra::Base
     'user' => 'User info'
   }
   
+  # Create oauth2 provider
   OAuth2::Provider.realm = 'Opos oauth2 provider'
  
-  # password credential method
+  # Password credential method
   OAuth2::Provider.handle_passwords do |client, login, password|
     user = User.find_by_login(login)
     if !user.nil? && user.authenticate?(password)
@@ -79,12 +80,13 @@ class WebServer < Sinatra::Base
     end
   end
  
-  # for register client
+  # For register client (User point of view)
   get '/oauth/apps/new' do
     @client = OAuth2::Model::Client.new
     haml :new_client
   end
 
+  # Post method for register a client
   post '/oauth/apps.?:format?' do
     @client = OAuth2::Model::Client.new(params)
     if params[:format]=="json"
@@ -96,56 +98,93 @@ class WebServer < Sinatra::Base
   end
 
   
-  # oauth2 api
+  ## OAuth2 API
+  # Denpending to the credential, the flow can be different.
+  # The auth_code flow is 4 step :
+  # * The client request authorisation (get) to the oauth endpoint (/oauth/authorize)
+  # * The client is redirected to the login form
+  # * The user grand the client
+  # * The autorization code is given to the client
+  #
+  # The client exchange the auth_code for a token (post on /oauth/authorize)
+  
+  # Access token and authoririsation end point
   [:get, :post].each do |method|
     __send__ method, '/oauth/authorize' do
+      
+      # find the user by its login (nil if not logged)
       @owner  = User.find_by_id(session[:user_id])
+      
+      # parse the OAuth request (like grant_type etc)
+      # return a Authorisation object
       @oauth2 = OAuth2::Provider.parse(@owner, request)
       
-      
-      if @oauth2.redirect?
-        redirect @oauth2.redirect_uri, @oauth2.response_status
-      end
+      # Client already autorized ?
+      # Redirect to client if already granted.
+      # User must be logged 
+      redirect @oauth2.redirect_uri, @oauth2.response_status  if @oauth2.redirect? 
 
+      # Set the header and the status of the response
       headers @oauth2.response_headers
       status  @oauth2.response_status
 
+      # render the login view if there is no error
+      # login view will post on /oauth/login
       @oauth2.response_body || haml(:login)
     end
   end
   
+  # Recieve the login post form
+  post '/oauth/login' do
+    
+    # Find the user by it's login
+    @user = User.find_by_login(params[:login])
+    
+    # Parse the request
+    @oauth2 = OAuth2::Provider.parse(@user, request)
+    
+    #verify if the password is ok, else render the login form
+    haml :login if !@user.authenticate?(params[:password])
+    
+    # Store the userid in the session
+    session[:user_id] = @user.id
+    
+    #redirect to the client if already granted
+    redirect @oauth2.redirect_uri, @oauth2.response_status if @oauth2.redirect? 
+      
+    # render the grant view
+    # grant view will post on /oauth/allow
+    haml :authorize
+          
+  end
+  
+  # Grant end point
   post '/oauth/allow' do
+  
+    # User should be logged now
     @user = User.find_by_id(session[:user_id])
+    
+    #create the authorization
     @auth = OAuth2::Provider::Authorization.new(@user, params)
 
+    #grand or deny acces, according to the post params
     if params['allow'] == '1'
-      puts "acces granted"
       @auth.grant_access!
     else
-      puts "acces denied"
       @auth.deny_access!
     end
+    
+    # redirect to the client
     redirect @auth.redirect_uri, @auth.response_status
   end
 
-  post '/oauth/login' do
-    puts "params: #{params.inspect}"
-    @user = User.find_by_login(params[:login])
-    if @user.authenticate?(params[:password])
-      @oauth2 = OAuth2::Provider.parse(@user, request)
-      session[:user_id] = @user.id
-      haml(@user ? :authorize : :login)
-    else
-      redirect '/oauth/authorize'
-    end
-  end
-  
-  # user creation
+  # user creation view
   get '/users/new' do
     @user = User.new
     haml :new_user
   end
 
+  # Post method for user creation
   post '/users/create' do
     @user = User.create(params)
     if @user.save
