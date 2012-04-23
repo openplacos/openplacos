@@ -268,7 +268,7 @@ private
     # or with "password" to use with password flow 
     # * an optionnal id, to manage several clients
     # * an optionnal option hash, in which you can specify openplacos port { :port => 5454 }
-    def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
+    def initialize(url_, name_, scope_, connection_type_, id_ = "0", opt_={})
 
       @objects = Hash.new
       @connection_type = connection_type_
