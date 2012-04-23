@@ -261,6 +261,7 @@ module LibComponent
       @parser.option(:name,"Dbus name of the composant", :default => name_)
     end
     
+    # define an option in command line (micro-optparse syntaxe)
     def option(*args_)
       @parser.option(*args_)
     end
@@ -288,9 +289,9 @@ module LibComponent
       end
     end
 
-    # Let's rock!
+    # Let's rock! Run the component
     def run
-      intro = self.introspect
+      intro = introspect
       if @options[:introspect]
         print intro.to_yaml
       else
@@ -323,6 +324,13 @@ module LibComponent
         @main << @bus
         @main.run
       end
+    end
+    
+    # Event style for quit method
+    def on_quit(&block)
+      self.singleton_class.instance_eval {
+        define_method(:quit , &block)
+      }
     end    
     
     # Parse inputs and outputs to communicate with server
@@ -371,13 +379,6 @@ module LibComponent
         return output if (output.name==object_name_) and (output.interface == iface_name_)
       }
       return nil
-    end
-    
-    # Event style for quit method
-    def on_quit(&block)
-      self.singleton_class.instance_eval {
-        define_method(:quit , &block)
-      }
     end
     
     # Method called when signal "quit" from server is raised

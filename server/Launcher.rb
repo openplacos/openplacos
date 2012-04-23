@@ -88,11 +88,11 @@ module Launcher
       # Double fork method
       # http://stackoverflow.com/questions/1740308/create-a-daemon-with-double-fork-in-ruby
       raise 'First fork failed' if (pid = fork) == -1
-      exit unless pid.nil?
+      exit! unless pid.nil? # exit without signal (otherwise signal will be trapped by the deamon)
 
       Process.setsid
       raise 'Second fork failed' if (pid = fork) == -1
-      exit unless pid.nil?
+      exit! unless pid.nil? # exit without signal (otherwise signal will be trapped by the deamon)
       
       Dir.chdir '/'
       File.umask 0000

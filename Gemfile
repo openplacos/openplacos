@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source "http://rubygems.org"
 
 gem "serialport", "~> 1.0.4"
 gem "micro-optparse", "~> 1.1.5"

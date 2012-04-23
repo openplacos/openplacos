@@ -1,4 +1,7 @@
-# OpenplacOS: Home automation for your system #
+# OpenplacOS: Home automation for your system 
+
+[![Build Status](https://secure.travis-ci.org/openplacos/openplacos.png?branch=unstable)](http://travis-ci.org/openplacos/openplacos)
+
 
 ## Presentation ##
 
@@ -143,3 +146,19 @@ Type:
 * `list` to have all objects and corresponding interfaces
 * `get <object> <iface>` to make a read access on specified object and interface
 * `set <object> <iface> <value>` to set an interface of an object to a specified value.
+
+
+# How to contribute 
+
+* **report an issue on github** : https://github.com/openplacos/openplacos/issues
+
+or 
+
+* **Submit a patch** :
+ * Fork the repository
+ * Submit a pull request 
+
+# Troubleshooting
+
+* Ask a question on our forum : http://openplacos.tuxfamily.org/tiki-forums.php
+* Contact us on the mailing list : openplacos@lists.tuxfamily.org

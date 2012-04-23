@@ -1,5 +1,4 @@
-#!/usr/bin/ruby
-
+#!/usr/bin/env ruby
 #    This file is part of Openplacos.
 #
 #    Openplacos is free software: you can redistribute it and/or modify
@@ -30,6 +29,7 @@ require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
 options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
   p.option :host, "host server url", :default => "http://localhost:4567"
+  p.option :type, "OAuth2 grant type (auth_code, password)", :default => "auth_code", :value_in_set => ["auth_code","password"]
 end.process!
 
 if options[:session]
@@ -39,7 +39,7 @@ end
 host=options[:host]
 
 
-Opos = Openplacos::Client.new(host, "truc", ["read", "user"], "auth_code") # Beurk -- Constant acting as a global variable
+Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type]) # Beurk -- Constant acting as a global variable
 
 
 class OpenplacOS_Console < Rink::Console
@@ -47,6 +47,10 @@ class OpenplacOS_Console < Rink::Console
     usage
   end
 
+  command :me do
+    puts Opos.me
+  end
+  
   command :usage do 
     usage
   end
@@ -107,6 +111,7 @@ class OpenplacOS_Console < Rink::Console
   def usage()
 
     puts "Usage: "
+    puts "me                               # Return the username"
     puts "list                             # Return sensor and actuator list and corresponding interface "
     puts "status                           # Return a status of your placos"
     puts "get  <object>  <iface>           # Make a read access on this object"
@@ -126,7 +131,7 @@ class OpenplacOS_Console < Rink::Console
       end
     }
   end
-
+  
   def list
     objects = Opos.objects
     objects.each_pair{ |key, obj|

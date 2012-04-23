@@ -2,6 +2,7 @@ require 'net/http'
 require 'json'
 
 class Server
+  DAEMON_FILE = "#{File.dirname(__FILE__)}/../server/opos-daemon.pid"
   def initialize(str_)
     @arg = str_
     @status = false
@@ -9,41 +10,34 @@ class Server
   
   # Launch the server
   def launch
-    @th = Thread.new do
-      
-      @status = system "#{File.dirname(__FILE__)}/../server/main.rb " + @arg 
+    while File.exist?(DAEMON_FILE)
+      begin 
+        Process.kill("INT",File.read(DAEMON_FILE).to_i)
+      rescue
+        raise "pid file is here but no process with this pid"
+      end
+      sleep 0.5 # maybee the deamon need mode time to quit
     end
+    @status = system "#{File.dirname(__FILE__)}/../server/main.rb --deamon " + @arg 
+    @status = wait_launch if @status==true
+    return @status
   end
   
   # Kill the server
   def kill
-    system "pkill main.rb"        
+    if File.exist?(DAEMON_FILE)
+      Process.kill("INT",File.read(DAEMON_FILE).to_i)
+    end
   end
   
-  # wait for the complete launch of the server
-  def wait_launch
-    begin
-      url = URI.parse('http://localhost:4567')
-      res = Net::HTTP.start(url.host, url.port) 
-    rescue Errno::ECONNREFUSED
-      sleep 1
-      retry
-    end
-    return true
-  end
-
-  # check if the server is launched by trying to connect and kill it
-  def launched?
-    th = Thread.new do
-      wait_launch
-      kill
-    end
-    @th.join
-    return @status
+  def get(url,params = {})
+    uri = URI("http://localhost:4567#{url}")
+    uri.query = URI.encode_www_form(params)
+    JSON.parse Net::HTTP.get(uri)
   end
   
-  def get(url)
-    JSON.parse Net::HTTP.get(URI.parse("http://localhost:4567#{url}"))
+  def post(url,params)
+    JSON.parse Net::HTTP.post_form(URI.parse("http://localhost:4567#{url}"),params).body
   end
   
   def ressources
@@ -53,6 +47,20 @@ class Server
       ressources[res["name"]] = res
     end
     return ressources
+  end
+  
+  private 
+   # wait for the complete launch of the server
+  def wait_launch
+    begin
+      url = URI.parse('http://localhost:4567')
+      res = Net::HTTP.start(url.host, url.port) 
+    rescue Errno::ECONNREFUSED
+      sleep 1
+      return false if !File.exist?(DAEMON_FILE) #Error after deamonize
+      retry
+    end
+    return true
   end
   
 end
