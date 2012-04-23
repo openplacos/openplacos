@@ -19,7 +19,7 @@ require 'net/http'
 require 'json'
 require 'oauth2'
 require 'yaml'
-
+require 'highline/import'
 
 require File.dirname(__FILE__) + "/widget/modules.rb"
 
@@ -89,7 +89,7 @@ module Openplacos
     end
 
     def get_grant_url(type_)
-	  @client.auth_code.authorize_url(:redirect_uri => @redirect_uri, :scope => @scope.join(" "))
+      @client.auth_code.authorize_url(:redirect_uri => @redirect_uri, :scope => @scope.join(" "))
     end
 
     # save config with token, client_id and secret into a userspace directory
@@ -123,6 +123,51 @@ module Openplacos
 
   end
 
+  class Connection_password
+    include Connection
+    attr_reader :token
+    def initialize(url_, name_, scope_, id_, port_)
+      @url = url_
+      @name = name_
+      @scope = scope_
+      @id = id_
+      @redirect_uri = "http://0.0.0.0:#{port_}"
+      @port = port_
+      
+      dir_config = "#{ENV['HOME']}/.openplacos"
+      if !Dir.exists?(dir_config)
+        Dir.mkdir(dir_config)
+      end
+
+      @file_config = "#{dir_config}/#{@name}-#{id_}.yaml"
+      
+      load_config
+      if @token_params[@url].nil? #create -- first time
+        register 
+        create_client
+        save_config
+      else        # persistant mode
+        create_client
+      end
+      
+      get_token 
+           
+    end
+    
+    private 
+    
+    def get_token
+      begin
+        username = ask("Enter your username:  ") { |q| q.echo = true }
+        password = ask("Enter your password:  ") { |q| q.echo = "*" }
+        @token = @client.password.get_token(username, password, {:redirect_uri => @redirect_uri},{:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"})
+      rescue => e
+       puts e
+       retry
+      end
+    end
+    
+  end
 
   class Connection_auth_code
     include Connection
@@ -223,10 +268,16 @@ private
     # * an optionnal id, to manage several clients
     # * an optionnal option hash, in which you can specify openplacos port { :port => 5454 }
     def initialize(url_, name_, scope_, connection_type, id_ = "0", opt_={})
+
       @objects = Hash.new
-      case connection_type
+      @connection_type = connection_type_
+      case @connection_type
       when "auth_code" then
         @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
+      when "password" then
+        @connection = Connection_password.new(url_, name_, scope_, id_, opt_[:port] || 2000)
+      else
+        raise "UnKnow Grand type"
       end
       introspect
       extend_objects

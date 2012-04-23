@@ -69,6 +69,16 @@ class WebServer < Sinatra::Base
   
   OAuth2::Provider.realm = 'Opos oauth2 provider'
  
+  # password credential method
+  OAuth2::Provider.handle_passwords do |client, login, password|
+    user = User.find_by_login(login)
+    if !user.nil? && user.authenticate?(password)
+      user.grant_access!(client)
+    else
+      nil
+    end
+  end
+ 
   # for register client
   get '/oauth/apps/new' do
     @client = OAuth2::Model::Client.new
