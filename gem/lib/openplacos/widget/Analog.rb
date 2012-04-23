@@ -15,11 +15,20 @@
 
 
 module Openplacos
+
+  # Namespace for Analog signals.
   module Analog
+
+    # convert an analog value to a string
+    # supposed to be generic to all clients
+    # can be easily overloaded if needed
     def to_s
       read({}).round(2).to_s
     end
 
+    # render method is supposed to be overlaoded
+    # this method is like a view 
+    # this method returns a string formatted as needed for the client to express an analog value
     def render
       return to_s
     end
