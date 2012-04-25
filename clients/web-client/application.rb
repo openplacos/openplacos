@@ -31,7 +31,7 @@ end
 class WebClient < Sinatra::Base
    
 
-  helpers Sinatra::ContentFor
+  helpers Sinatra::ContentFor2
   # sinatra configuration
   set :static, true
   set :public_forder, File.join(File.dirname(__FILE__),'public')

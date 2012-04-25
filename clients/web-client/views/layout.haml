@@ -12,6 +12,6 @@
             %a{:href=>"/"} Openplacos
         =yield_content :menu_top
       #main
-        #menu_left= yield_content :menu_left
+        #menu_left= yield_content("menu_left")
         #frame= yield
     #footer
