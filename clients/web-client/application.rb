@@ -2,8 +2,8 @@
 
 class WebClient < Sinatra::Base
 
-  CLIENT_ID = '7kxowc6fe28i6v7k7msmet4h6'
-  CLIENT_SECRET = '9w9bmekloab64fmbp4u244g8l'
+  CLIENT_ID = '7olsiabevyxnp7c33crmrkbqb'
+  CLIENT_SECRET = 'c04d6719rqwkuy0o7juicudr5'
   REDIRECT_URI = 'http://localhost:9292/oauth2/callback'
   DEFAULT_OPTS = {:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"}
   SITE_URL = 'http://localhost:4567'
