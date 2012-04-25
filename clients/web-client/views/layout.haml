@@ -1,0 +1,17 @@
+!!!
+%html
+  %head
+    %meta{ 'http-equiv'=>"Content-type", :content=>"text/html; charset=utf-8"}
+    %title OpenplacOS Web Client
+    %link{:rel=>"stylesheet", :href=>"/style.css"}
+  %body
+    #page
+      #menu
+        #header
+          #logo_div
+            %a{:href=>"/"} Openplacos
+        =yield_content :menu_top
+      #main
+        #menu_left= yield_content :menu_left
+        #frame= yield
+    #footer
