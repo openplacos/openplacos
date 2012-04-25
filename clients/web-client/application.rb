@@ -7,12 +7,14 @@ class Connect
   include Openplacos::Connection
 
   attr_reader :client, :redirect_uri
+  attr_accessor :token
 
   def init
     @file_config = File.dirname(__FILE__) + "/connect.yaml"
     @url          = 'http://localhost:4567'
     @name         = 'web-client'
     @redirect_uri = 'http://localhost:9292/oauth2/callback'
+    @token = {}
     load_config
     
     if @token_params[@url].nil? #get token -- first time
@@ -28,7 +30,6 @@ end
 
 class WebClient < Sinatra::Base
    
-  Token = Hash.new
 
   helpers Sinatra::ContentFor
   # sinatra configuration
@@ -57,7 +58,7 @@ class WebClient < Sinatra::Base
   get '/oauth2/callback' do
     token = ::Connect.instance.client.auth_code.get_token(params[:code], {:redirect_uri => ::Connect.instance.redirect_uri}, DEFAULT_OPTS)
     session[:token] = token.token
-    Token[token.token] = token
+    ::Connect.instance.token[token.token] = token
     redirect "/"
   end
 
@@ -74,7 +75,7 @@ class WebClient < Sinatra::Base
   end
    
   def oposRequest(url)
-    token  = Token[session[:token]]
+    token  = ::Connect.instance.token[session[:token]]
     if !token.nil?
       resp = token.get(url)
       return JSON.parse(resp.body)
