@@ -1,15 +1,33 @@
+require 'singleton'
+
+DEFAULT_OPTS = {:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"}
+
+class Connect
+  include Singleton
+  include Openplacos::Connection
+
+  attr_reader :client, :redirect_uri
+
+  def init
+    @file_config = File.dirname(__FILE__) + "/connect.yaml"
+    @url          = 'http://localhost:4567'
+    @name         = 'web-client'
+    @redirect_uri = 'http://localhost:9292/oauth2/callback'
+    load_config
+    
+    if @token_params[@url].nil? #get token -- first time
+      
+      register()
+      save_config
+    end
+    create_client()
+  end
+  
+end
 
 
 class WebClient < Sinatra::Base
-
-  CLIENT_ID = '7olsiabevyxnp7c33crmrkbqb'
-  CLIENT_SECRET = 'c04d6719rqwkuy0o7juicudr5'
-  REDIRECT_URI = 'http://localhost:9292/oauth2/callback'
-  DEFAULT_OPTS = {:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"}
-  SITE_URL = 'http://localhost:4567'
-
-  Client = OAuth2::Client.new(CLIENT_ID,CLIENT_SECRET, {:site => SITE_URL, :token_url => '/oauth/authorize'})
-
+   
   Token = Hash.new
 
   helpers Sinatra::ContentFor
@@ -24,7 +42,7 @@ class WebClient < Sinatra::Base
   
  
   get '/' do
-  
+
     content_for :menu_left do
       "salut"
     end
@@ -37,7 +55,7 @@ class WebClient < Sinatra::Base
   end
   
   get '/oauth2/callback' do
-    token = Client.auth_code.get_token(params[:code], {:redirect_uri => REDIRECT_URI}, DEFAULT_OPTS)
+    token = ::Connect.instance.client.auth_code.get_token(params[:code], {:redirect_uri => ::Connect.instance.redirect_uri}, DEFAULT_OPTS)
     session[:token] = token.token
     Token[token.token] = token
     redirect "/"
@@ -45,7 +63,7 @@ class WebClient < Sinatra::Base
 
   get '/login' do 
     if session[:token].nil?
-      redirect Client.auth_code.authorize_url({:redirect_uri =>  REDIRECT_URI, :scope => "user read write"})
+      redirect ::Connect.instance.client.auth_code.authorize_url({:redirect_uri => ::Connect.instance.redirect_uri, :scope => "user read write"})
     end
     redirect "/"
   end

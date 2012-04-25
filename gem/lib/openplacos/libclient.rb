@@ -85,7 +85,7 @@ module Openplacos
                                    {:site => "#{@url}", 
                                      :token_url => '/oauth/authorize'
                                    }
-                                   )      
+                                   ) 
     end
 
     def get_grant_url(type_)
@@ -95,7 +95,7 @@ module Openplacos
     # save config with token, client_id and secret into a userspace directory
     # needed to not regrant client every connection
     def save_config
-      @token_params[@url]                 = @token.to_hash
+      @token_params[@url]                 = @token ? @token.to_hash : {}
       @token_params[@url][:client_id]     = @client_id
       @token_params[@url][:client_secret] = @client_secret
 
