@@ -1,5 +1,5 @@
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "test.db", :pool => 25)
-ActiveRecord::Base.logger = Logger.new('test.log')
+ActiveRecord::Base.logger = nil
 
 module WebServerHelpers
   
