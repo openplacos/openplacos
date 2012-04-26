@@ -21,5 +21,6 @@ install:
 	@cp -R server $(DESTDIR)/$(INSTALLDIR)
 	@cp -R clients $(DESTDIR)/$(INSTALLDIR)
 	@cp -R components $(DESTDIR)/$(INSTALLDIR)
+	@cp -R config $(DESTDIR)/$(INSTALLDIR)
 	@cp -R setup_files $(DESTDIR)/$(INSTALLDIR)
 	@cp -R utils $(DESTDIR)/$(INSTALLDIR)
