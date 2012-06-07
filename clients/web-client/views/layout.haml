@@ -1,17 +1,37 @@
 !!!
 %html
   %head
-    %meta{ 'http-equiv'=>"Content-type", :content=>"text/html; charset=utf-8"}
-    %title OpenplacOS Web Client
-    %link{:rel=>"stylesheet", :href=>"/style.css"}
-  %body
-    #page
-      #menu
-        #header
-          #logo_div
-            %a{:href=>"/"} Openplacos
-        =yield_content :menu_top
-      #main
-        #menu_left= yield_content :menu_left
-        #frame= yield
-    #footer
+    %title Sinatra + Twitter Bootstrap
+    %script{:src => "/lib/jquery-1.7.min.js", :type => "text/javascript"}
+    %script{:src => "/lib/bootstrap/js/bootstrap.min.js"}
+    %link{:href => "/lib/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
+  %body{:style => "padding-top: 50px;"}
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{:href => "#"}
+            Openplacos web client
+          %ul.nav
+            %li
+              %a{:href => "/"} Home
+            %li
+              %a{:href => "/secure/place"} Secret
+          %ul.nav.pull-right
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                toto
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  %a{:href => "/login"} Login
+                %li
+                  %a{:href => "/logout"} Logout
+    .container
+      .row
+        .span3
+          .well
+            = haml :menu_left
+        .span9
+          - if @error then
+            .alert.alert-error= @error
+          = yield

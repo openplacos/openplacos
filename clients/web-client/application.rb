@@ -2,6 +2,21 @@ require 'singleton'
 
 DEFAULT_OPTS = {:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"}
 
+module Help
+  def showroom
+    roomlist = Hash.new
+    oposRequest('/ressources').each do |mod|
+      room = mod["name"].split("/")
+      room.pop
+      room.delete("")
+      (roomlist[room.join('/')] || roomlist[room.join(' / ')] = [] )<< mod
+    end 
+    roomlist
+  end 
+
+end 
+
+
 class Connect
   include Singleton
   include Openplacos::Connection
@@ -29,9 +44,10 @@ end
 
 
 class WebClient < Sinatra::Base
-   
 
   helpers Sinatra::ContentFor
+  helpers Help
+  
   # sinatra configuration
   set :static, true
   set :public_forder, File.join(File.dirname(__FILE__),'public')
@@ -43,15 +59,6 @@ class WebClient < Sinatra::Base
   
  
   get '/' do
-
-    content_for :menu_left do
-      "salut"
-    end
-    
-    content_for :menu_top do
-      haml :menu_top
-    end
-    
     haml :home
   end
   
@@ -79,7 +86,9 @@ class WebClient < Sinatra::Base
     if !token.nil?
       resp = token.get(url)
       return JSON.parse(resp.body)
-    end
+    else
+      redirect '/login'
+    end 
     return {"Error" => "No token"}
   end
 
