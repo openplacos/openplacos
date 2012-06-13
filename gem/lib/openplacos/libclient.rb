@@ -19,7 +19,6 @@ require 'net/http'
 require 'json'
 require 'oauth2'
 require 'yaml'
-require 'highline/import'
 
 require File.dirname(__FILE__) + "/widget/modules.rb"
 
@@ -126,13 +125,16 @@ module Openplacos
   class Connection_password
     include Connection
     attr_reader :token
-    def initialize(url_, name_, scope_, id_, port_)
-      @url = url_
-      @name = name_
-      @scope = scope_
-      @id = id_
+    def initialize(url_, name_, scope_, id_, port_, username_, password_)
+      @url          = url_
+      @name         = name_
+      @scope        = scope_
+      @id           = id_
       @redirect_uri = "http://0.0.0.0:#{port_}"
-      @port = port_
+      @port         = port_
+      @username     = username_
+      @password     = password_
+      
       
       dir_config = "#{ENV['HOME']}/.openplacos"
       if !Dir.exists?(dir_config)
@@ -149,18 +151,15 @@ module Openplacos
       else        # persistant mode
         create_client
       end
-      
       get_token 
-           
+
     end
     
     private 
     
     def get_token
       begin
-        username = ask("Enter your username:  ") { |q| q.echo = true }
-        password = ask("Enter your password:  ") { |q| q.echo = "*" }
-        @token = @client.password.get_token(username, password, {:redirect_uri => @redirect_uri},{:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"})
+        @token = @client.password.get_token(@username, @password, {:redirect_uri => @redirect_uri},{:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"})
       rescue => e
        puts e
        retry
@@ -279,7 +278,7 @@ private
         when "auth_code" then
           @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
         when "password" then
-          @connection = Connection_password.new(url_, name_, scope_, id_, opt_[:port] || 2000)
+          @connection = Connection_password.new(url_, name_, scope_, id_, opt_[:port] || 2000, opt_[:username], opt_[:password])
         else
           raise "unknow grant type"
         end

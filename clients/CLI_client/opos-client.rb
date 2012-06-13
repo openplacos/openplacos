@@ -30,6 +30,8 @@ options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
   p.option :host, "host server url", :default => "http://localhost:4567"
   p.option :type, "OAuth2 grant type (auth_code, password)", :default => "auth_code", :value_in_set => ["auth_code","password"]
+  p.option :username, "If password Oauth2 flow selected, provide username (optional)", :default => ""
+  p.option :password, "If password Oauth2 flow selected, provide password (optional)", :default => ""
 end.process!
 
 if options[:session]
@@ -38,8 +40,22 @@ end
 
 host=options[:host]
 
+if options[:type]=="password"
+  if options[:username]!=""
+    username = options[:username]
+  else
+    require 'highline/import' # interactive
+    username =  ask("Enter your username:  ") { |q| q.echo = true }
+  end
+  if options[:password]!=""
+    password = options[:password]
+  else
+    require 'highline/import' # interactive
+    password =  ask("Enter your password:  ") { |q| q.echo = "*" }
+  end
+end
 
-Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type]) # Beurk -- Constant acting as a global variable
+Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type], 0,{:username => username, :password=>password} ) # Beurk -- Constant acting as a global variable
 
 
 class OpenplacOS_Console < Rink::Console
@@ -105,13 +121,10 @@ class OpenplacOS_Console < Rink::Console
     
   end
 
-
-
-
   def usage()
 
     puts "Usage: "
-    puts "me                               # Return the username"
+    puts "me                               # Return username"
     puts "list                             # Return sensor and actuator list and corresponding interface "
     puts "status                           # Return a status of your placos"
     puts "get  <object>  <iface>           # Make a read access on this object"
