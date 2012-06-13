@@ -68,7 +68,7 @@ class WebClient < Sinatra::Base
     token = ::Connect.instance.client.auth_code.get_token(params[:code], {:redirect_uri => ::Connect.instance.redirect_uri}, DEFAULT_OPTS)
     session[:token] = token.token
     ::Connect.instance.token[token.token]   = token
-    ::Connect.instance.clients[token.token] = Openplacos::Client.new(nil, nil, nil, nil, nil, {:connection => self})
+    ::Connect.instance.clients[token.token] = Openplacos::Client.new(nil, nil, nil, nil, nil, {:token => token })
 
 
     redirect "/"
