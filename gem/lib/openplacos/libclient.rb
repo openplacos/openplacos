@@ -268,17 +268,24 @@ private
     # or with "password" to use with password flow 
     # * an optionnal id, to manage several clients
     # * an optionnal option hash, in which you can specify openplacos port { :port => 5454 }
+    # * You can also pass a connection object through opt[:connection] that must implement
+    # * a 'token' object that is an oauth2 object. 
     def initialize(url_, name_, scope_, connection_type_, id_ = "0", opt_={})
 
       @objects = Hash.new
       @connection_type = connection_type_
-      case @connection_type
-      when "auth_code" then
-        @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
-      when "password" then
-        @connection = Connection_password.new(url_, name_, scope_, id_, opt_[:port] || 2000)
+      if opt_[:connection].nil?
+        case @connection_type
+        when "auth_code" then
+          @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
+        when "password" then
+          @connection = Connection_password.new(url_, name_, scope_, id_, opt_[:port] || 2000)
+        else
+          raise "unknow grant type"
+        end
       else
-        raise "UnKnow Grand type"
+        @connection = opt_[:connection]
+        puts @connection.token.class
       end
       introspect
       extend_objects
