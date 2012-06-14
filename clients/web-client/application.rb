@@ -1,3 +1,4 @@
+
 require 'singleton'
 
 DEFAULT_OPTS = {:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"}
@@ -14,6 +15,15 @@ module Help
     roomlist
   end 
 
+  def get_username
+    user = oposRequest('/me')
+    if user.has_key?("Error")
+      puts user.inspect
+      return "Not connected"
+    else
+      return user["username"]
+    end
+  end
 end 
 
 
@@ -22,14 +32,15 @@ class Connect
   include Openplacos::Connection
 
   attr_reader :client, :redirect_uri
-  attr_accessor :token
+  attr_accessor :token, :clients
 
   def init
     @file_config = File.dirname(__FILE__) + "/connect.yaml"
     @url          = 'http://localhost:4567'
     @name         = 'web-client'
     @redirect_uri = 'http://localhost:9292/oauth2/callback'
-    @token = {}
+    @token        = {} # token persistant collection index with token id
+    @clients      = {} # client persistant collection index with token id
     load_config
     
     if @token_params[@url].nil? #get token -- first time
@@ -65,8 +76,11 @@ class WebClient < Sinatra::Base
   get '/oauth2/callback' do
     token = ::Connect.instance.client.auth_code.get_token(params[:code], {:redirect_uri => ::Connect.instance.redirect_uri}, DEFAULT_OPTS)
     session[:token] = token.token
-    ::Connect.instance.token[token.token] = token
-    redirect '/'
+    ::Connect.instance.token[token.token]   = token
+    ::Connect.instance.clients[token.token] = Openplacos::Client.new(nil, nil, nil, nil, nil, {:token => token })
+
+
+    redirect "/"
   end
 
   get '/login' do 
