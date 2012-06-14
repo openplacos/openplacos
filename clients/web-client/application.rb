@@ -1,4 +1,3 @@
-
 require 'singleton'
 
 DEFAULT_OPTS = {:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"}
@@ -18,7 +17,6 @@ module Help
   def get_username
     user = oposRequest('/me')
     if user.has_key?("Error")
-      puts user.inspect
       return "Not connected"
     else
       return user["username"]
