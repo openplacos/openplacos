@@ -15,6 +15,15 @@ module Help
     roomlist
   end 
 
+  def get_username
+    user = oposRequest('/me')
+    if user.has_key?("Error")
+      puts user.inspect
+      return "Not connected"
+    else
+      return user["username"]
+    end
+  end
 end 
 
 
