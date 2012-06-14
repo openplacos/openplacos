@@ -66,7 +66,7 @@ class WebClient < Sinatra::Base
     token = ::Connect.instance.client.auth_code.get_token(params[:code], {:redirect_uri => ::Connect.instance.redirect_uri}, DEFAULT_OPTS)
     session[:token] = token.token
     ::Connect.instance.token[token.token] = token
-    redirect "/"
+    redirect '/'
   end
 
   get '/login' do 
@@ -80,11 +80,25 @@ class WebClient < Sinatra::Base
     @user = oposRequest("/me")
     haml :user
   end
+  
+  get '/ressources/*' do
+    path = "/"+params[:splat][0]
+    @resp = oposRequest('/ressources'+path)
+    if !@resp["Error"].nil?
+      @error = "No ressource found under " + path
+    end
+      
+    haml :view_resource
+  end
    
-  def oposRequest(url)
+  def oposRequest(url,parameters= {})
     token  = ::Connect.instance.token[session[:token]]
     if !token.nil?
-      resp = token.get(url)
+      begin
+        resp = token.get(url,:params => parameters)
+      rescue
+        return {"Error" => "404"}
+      end
       return JSON.parse(resp.body)
     else
       redirect '/login'

@@ -1,0 +1,12 @@
+- if !@error
+  %table.table.table-striped
+    %thead
+      %tr
+        %th interface
+        %th value
+    %tbody
+      -@resp["interfaces"].each do |iface|
+        %tr
+          %td
+            %span.label= iface[0]
+          %td= oposRequest(request.path_info,{"iface" => iface[0]})['value']

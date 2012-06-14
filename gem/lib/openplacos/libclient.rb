@@ -265,7 +265,8 @@ private
     # * an application name that identify the client oath2 talking
     # * a scope, typically ["read", "write", "user"] 
     # * a connection_type, set it to "auth_code" to use oauth2 with classic flow (recommanded)
-    # or with "password" to use with password flow 
+    # or with "password" to use with password flow. Set to "inception" to pass a connection
+    # object through opt{:connection} 
     # * an optionnal id, to manage several clients
     # * an optionnal option hash, in which you can specify openplacos port { :port => 5454 }
     def initialize(url_, name_, scope_, connection_type_, id_ = "0", opt_={})
@@ -277,6 +278,8 @@ private
         @connection =  Connection_auth_code.new(url_, name_, scope_, id_, opt_[:port] || 2000)
       when "password" then
         @connection = Connection_password.new(url_, name_, scope_, id_, opt_[:port] || 2000)
+      when "inception" then
+        @connection = opt{:connection}
       else
         raise "UnKnow Grand type"
       end

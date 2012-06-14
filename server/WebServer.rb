@@ -224,6 +224,7 @@ class WebServer < Sinatra::Base
         object_introspect(path).to_json
       end
     else
+      status 404
       {"Error" => "#{path} is not an object"}
     end
   end
@@ -234,6 +235,7 @@ class WebServer < Sinatra::Base
     if is_an_object? and params[:iface]
         {"status" => write(path,params[:iface])}.to_json
     else
+      status 404
       {"Error" => "#{path} is not an object"}
     end
   end
