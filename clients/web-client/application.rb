@@ -36,9 +36,9 @@ class Connect
 
   def init
     @file_config = File.dirname(__FILE__) + "/connect.yaml"
-    @url          = 'http://localhost:4567'
+    @url          = 'http://192.168.1.81:4567'
     @name         = 'web-client'
-    @redirect_uri = 'http://localhost:9292/oauth2/callback'
+    @redirect_uri = 'http://192.168.1.81:9292/oauth2/callback'
     @token        = {} # token persistant collection index with token id
     @clients      = {} # client persistant collection index with token id
     load_config
@@ -95,6 +95,24 @@ class WebClient < Sinatra::Base
     haml :user
   end
    
+  get '/opos/*' do
+    device_requested = request.url.sub(request.base_url, "").sub(/opos/, "").sub("//", "/") # the last sub is learned from experiment ;-)
+    if (::Connect.instance.clients[session[:token]].nil?)
+      redirect "/"
+    end
+    objects  = ::Connect.instance.clients[session[:token]].objects
+
+    obj_name = device_requested
+    if (!objects.include?(obj_name))
+      return "Object #{obj_name} does not exist"
+    end    
+    
+    # pass object to view
+    @obj_name = obj_name
+    @object   = objects[obj_name]
+    haml :view_object
+  end
+
   def oposRequest(url)
     token  = ::Connect.instance.token[session[:token]]
     if !token.nil?
