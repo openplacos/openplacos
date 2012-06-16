@@ -1,5 +1,9 @@
+$INSTALL_PATH = File.dirname(__FILE__) + "/"
+$LOAD_PATH << $INSTALL_PATH 
 
 require 'singleton'
+require 'widget/modules.rb'
+
 
 DEFAULT_OPTS = {:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"}
 
@@ -96,7 +100,7 @@ class WebClient < Sinatra::Base
   end
    
   get '/opos/*' do
-    device_requested = request.url.sub(request.base_url, "").sub(/opos/, "").sub("//", "/") # the last sub is learned from experiment ;-)
+    device_requested = request.url.sub(request.base_url, "").sub(/opos/, "").sub("//", "/") # the last sub works by experience ;-)
     if (::Connect.instance.clients[session[:token]].nil?)
       redirect "/"
     end

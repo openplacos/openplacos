@@ -4,5 +4,4 @@
     - @object.interfaces.each do |interface|
       %tr
         %td=interface
-        %td=@object[interface].inspect
-    
+        %td=@object[interface].render.to_s
