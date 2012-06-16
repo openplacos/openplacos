@@ -23,7 +23,9 @@ module Openplacos
         
         def render
           ret = super
-          ret
+          html = <<FIN
+  <input id="magic" class="jquery-checkbox" type=\"checkbox\" #{ret.to_s=="true"?"checked":"uncheked"}> </input> 
+FIN
         end
       end
       
