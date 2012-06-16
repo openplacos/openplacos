@@ -271,7 +271,8 @@ private
     # * an application name that identify the client oath2 talking
     # * a scope, typically ["read", "write", "user"] 
     # * a connection_type, set it to "auth_code" to use oauth2 with classic flow (recommanded)
-    # or with "password" to use with password flow 
+    # or with "password" to use with password flow. Set to "inception" to pass a connection
+    # object through opt{:connection} 
     # * an optionnal id, to manage several clients
     # * an optionnal option hash, in which you can specify openplacos port { :port => 5454 }
     # * You can also pass a token object through opt[:token] that is an oauth2 object. 

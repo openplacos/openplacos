@@ -22,7 +22,6 @@ module Help
   def get_username
     user = oposRequest('/me')
     if user.has_key?("Error")
-      puts user.inspect
       return "Not connected"
     else
       return user["username"]
@@ -98,6 +97,16 @@ class WebClient < Sinatra::Base
     @user = oposRequest("/me")
     haml :user
   end
+  
+  get '/ressources/*' do
+    path = "/"+params[:splat][0]
+    @resp = oposRequest('/ressources'+path)
+    if !@resp["Error"].nil?
+      @error = "No ressource found under " + path
+    end
+      
+    haml :view_resource
+  end
    
   get '/opos/*' do
     device_requested = request.url.sub(request.base_url, "").sub(/opos/, "").sub("//", "/") # the last sub works by experience ;-)
@@ -117,10 +126,14 @@ class WebClient < Sinatra::Base
     haml :view_object
   end
 
-  def oposRequest(url)
+  def oposRequest(url,parameters= {})
     token  = ::Connect.instance.token[session[:token]]
     if !token.nil?
-      resp = token.get(url)
+      begin
+        resp = token.get(url,:params => parameters)
+      rescue
+        return {"Error" => "404"}
+      end
       return JSON.parse(resp.body)
     else
       redirect '/login'
