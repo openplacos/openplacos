@@ -115,7 +115,7 @@ class WebClient < Sinatra::Base
     end
     objects  = ::Connect.instance.clients[session[:token]].objects
 
-    obj_name = device_requested
+    obj_name = device_requested.split('?').first
     if (!objects.include?(obj_name))
       return "Object #{obj_name} does not exist"
     end    
@@ -123,7 +123,13 @@ class WebClient < Sinatra::Base
     # pass object to view
     @obj_name = obj_name
     @object   = objects[obj_name]
-    haml :view_object
+
+    if params.has_key?("interface") # special rendering for iface
+      @interface = params[:interface]
+      haml :view_interface
+    else
+      haml :view_object
+    end
   end
 
   def oposRequest(url,parameters= {})
