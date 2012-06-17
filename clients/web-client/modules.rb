@@ -13,31 +13,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
-module Openplacos
-  module Digital
-    module Order
-      include Digital
 
-      module Switch
-        include Order
-        
-        def render
-          ret = super
-          html = <<FIN
-  <input id="magic" class="jquery-checkbox" type=\"checkbox\" #{ret.to_s=="true"?"checked":"uncheked"}> </input> 
-<script type="text/javascript">
-$(document).ready(function() {
-  // ":not([safari])" is desirable but not necessary selector
-  $('input:checkbox:not([safari])').checkbox();
-  $('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
-  $('input:radio').checkbox();
-});
-</script>
-FIN
-        end
-      end
-      
-    end
-  end
+require  File.dirname(__FILE__) + "/" + 'Analog.rb'
+require  File.dirname(__FILE__) + "/" + 'Digital.rb'
 
-end

@@ -23,17 +23,11 @@ module Openplacos
         
         def render
           ret = super
-          html = <<FIN
-  <input id="magic" class="jquery-checkbox" type=\"checkbox\" #{ret.to_s=="true"?"checked":"uncheked"}> </input> 
-<script type="text/javascript">
-$(document).ready(function() {
-  // ":not([safari])" is desirable but not necessary selector
-  $('input:checkbox:not([safari])').checkbox();
-  $('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
-  $('input:radio').checkbox();
-});
-</script>
-FIN
+          if ret
+            "\033[42m #{ret} \033[0m"
+          else
+            "\033[41m #{ret} \033[0m"
+          end
         end
       end
       
