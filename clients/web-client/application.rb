@@ -38,8 +38,19 @@ class Connect
   attr_accessor :token, :clients
 
   def init
-    @file_config = File.dirname(__FILE__) + "/connect.yaml"
-    @url          = 'http://localhost:4567'
+    @file_config  = File.dirname(__FILE__) + "/connect.yaml"
+    @opos_config  = File.dirname(__FILE__) + "/config.yaml"
+    
+    if (File.exists?( @opos_config))
+      @config       = YAML::load( File.read(@opos_config))
+      ip            = @config["ip"]
+      port          = @config["port"]
+    else
+      ip            = "localhost"
+      port          = "4567"
+    end
+
+    @url          = "http://#{ip}:#{port}"
     @name         = 'web-client'
     @redirect_uri = 'http://localhost:9292/oauth2/callback'
     @token        = {} # token persistant collection index with token id
