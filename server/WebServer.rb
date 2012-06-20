@@ -3,6 +3,10 @@ ActiveRecord::Base.logger = Logger.new('test.log')
 
 module WebServerHelpers
   
+  def set_header
+    headers({"Access-Control-Allow-Headers" => "*", "Access-Control-Allow-Origin" => "*"})
+  end
+  
   ERROR_RESPONSE = JSON.unparse('Error' => "Invalid token")
 
   def is_an_object?
@@ -210,11 +214,13 @@ class WebServer < Sinatra::Base
   
  
   get '/ressources' do
+    set_header
     content_type :json
     introspect.to_json
   end
   
   get '/ressources/*' do
+    set_header
     content_type :json
     path = "/"+params[:splat][0]
     if is_an_object?
@@ -230,6 +236,7 @@ class WebServer < Sinatra::Base
   end
   
   post '/ressources/*' do
+    set_header
     content_type :json
     path = "/"+params[:splat][0]
     if is_an_object? and params[:iface]
@@ -243,10 +250,17 @@ class WebServer < Sinatra::Base
   # user api
   
   get '/me' do
+    set_header
     content_type :json
     verify_access "user" do |token|
       JSON.unparse('username' => token.owner.login)
     end
+  end
+  
+  options '*' do
+    response['Access-Control-Allow-Origin' ] = '*'
+    response["Access-Control-Allow-Headers"] = 'origin, authorization, content-type, accept'
+    response['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
   end
 
 end
