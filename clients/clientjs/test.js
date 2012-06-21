@@ -12,4 +12,17 @@ opos.ressources(
   }
 );
 
-opos.write('/home/light','digital.order.switch',true, function(msg) { alert(msg);})
+function refresh(){
+    opos.read('/home/temperature','analog.sensor.temperature.celcuis', function(msg) { $('.temperature').html(msg.value + '<br>');});
+};
+
+function light(value){
+  opos.write('/home/light','digital.order.switch',value, function(msg) { alert(msg.status);});
+};
+function fan(value){
+  opos.write('/home/fan','digital.order.switch',value, function(msg) { alert(msg.status);});
+};
+
+$(document).ready(function() {
+    setInterval('refresh();',1000);
+});

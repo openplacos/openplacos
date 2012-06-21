@@ -12,13 +12,11 @@
 <div class="ressources"></div>
 
 <h2>Test Autorefresh</h2>
-<div class "/home/temperature"></div>
+<div class="temperature"></div>
 
-<script type="text/javascript"> 
-window.setInterval( 
-  opos.read('/home/temperature','analog.sensor.temperature.celcuis', function(msg) { $('.ressources').load(msg.value);}),
-  5000 
-);
-</script>
-
-
+<h2>Light</h2>
+<button type='button' onclick="JavaScript: light(true)">Light On</button>
+<button type='button' onclick="JavaScript: light(false)">Light OFF</button>
+<br>
+<button type='button' onclick="JavaScript: fan(true)">Fan On</button>
+<button type='button' onclick="JavaScript: fan(false)">Fan OFF</button>
