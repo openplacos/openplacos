@@ -3,5 +3,6 @@
   %tbody
     - @object.interfaces.each do |interface|
       %tr
-        %td=interface
+        %td
+          %a{:href => "/opos"+@obj_name+"?interface="+ interface}=interface
         %td=@object[interface].render.to_s

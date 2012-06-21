@@ -89,6 +89,7 @@ OposClient.prototype.ressources = function(callback) {
 };
 
 /**
+<<<<<<< HEAD
  * Read a ressource
  * 
  *  @ params  {function}  callback  : execute the callback if success
@@ -114,4 +115,17 @@ OposClient.prototype.write = function(name,iface,value,callback) {
             };
   this.post('/ressources' + name,parameters,callback)
 };
+
+
+/**
+ * Access to a ressource
+ * 
+ *  @ params {function} callback : execute the callback if success
+ */
+ /*
+OposClient.prototype.read = function(ressource, callback, params) {
+    params = params || {};
+    this.get('/ressources/' + ressource,params,callback);
+};
+*/
 
