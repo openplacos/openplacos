@@ -89,3 +89,13 @@ OposClient.prototype.me = function(callback) {
 OposClient.prototype.ressources = function(callback) {
   this.get('/ressources',{},callback)
 };
+
+/**
+ * Access to a ressource
+ * 
+ *  @ params {function} callback : execute the callback if success
+ */
+OposClient.prototype.read = function(ressource, callback, params) {
+    params = params || {};
+    this.get('/ressources/' + ressource,params,callback);
+};
