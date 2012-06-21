@@ -8,7 +8,17 @@
 <script src="OposClient.js" type='text/javascript'></script>
 <script src="test.js" type='text/javascript'></script>
 
-<div class="container">
-  <div class="inner"></div>
-</div>
+<h2>Ressources list</h2>
+<div class="ressources"></div>
+
+<h2>Test Autorefresh</h2>
+<div class "/home/temperature"></div>
+
+<script type="text/javascript"> 
+window.setInterval( 
+  opos.read('/home/temperature','analog.sensor.temperature.celcuis', function(msg) { $('.ressources').load(msg.value);}),
+  5000 
+);
+</script>
+
 

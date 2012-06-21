@@ -6,8 +6,10 @@ opos.ressources(
   function(msg) { 
     msg.forEach(
       function(item, index) {
-        $('.inner').append('<li>' + item.name + '</li>'); 
+        $('.ressources').append('<li>' + item.name + '</li>'); 
       }
     );
   }
 );
+
+opos.write('/home/light','digital.order.switch',true, function(msg) { alert(msg);})
