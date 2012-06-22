@@ -34,7 +34,7 @@ class Connect
   include Singleton
   include Openplacos::Connection
 
-  attr_reader :client, :redirect_uri
+  attr_reader :client, :redirect_uri, :url
   attr_accessor :token, :clients
 
   def init
