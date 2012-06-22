@@ -62,3 +62,12 @@ OposClient.prototype.post = function(url_,data_,callback_) {
     }
   });
 };
+
+/**
+ * Set the token 
+ * 
+ *  @ params {String} token : The token string
+ */
+OposClient.prototype.set_token = function(token) {
+  this.token = token;
+};
