@@ -34,7 +34,6 @@ OposClient.prototype.get = function(url_,data_,callback_) {
     dataType: 'json',
     success: callback_,
     headers: { 
-      'Content-Type' : 'application/json',
       'Authorization' : 'OAuth ' + this.token
     }
   });
@@ -51,7 +50,6 @@ OposClient.prototype.post = function(url_,data_,callback_) {
     dataType: 'json',
     success: callback_,
     headers: { 
-      'Content-Type' : 'application/json',
       'Authorization' : 'OAuth ' + this.token
     }
   });
@@ -89,3 +87,45 @@ OposClient.prototype.me = function(callback) {
 OposClient.prototype.ressources = function(callback) {
   this.get('/ressources',{},callback)
 };
+
+/**
+<<<<<<< HEAD
+ * Read a ressource
+ * 
+ *  @ params  {function}  callback  : execute the callback if success
+ *            {String}    name      : the name of the ressource
+ *            {String}    iface     : the name of the iface
+ */
+OposClient.prototype.read = function(name,iface,callback) {
+  this.get('/ressources' + name,{'iface' : iface},callback)
+};
+
+/**
+ * Write a value on a ressource
+ * 
+ *  @ params  {function}  callback  : execute the callback if success
+ *            {String}    name      : the name of the ressource
+ *            {String}    iface     : the name of the iface
+ *            {Hash}      value     : the value to write
+ */
+OposClient.prototype.write = function(name,iface,value,callback) {
+  parameters = {
+            'iface' : iface,
+            'value' : JSON.stringify([value])
+            };
+  this.post('/ressources' + name,parameters,callback)
+};
+
+
+/**
+ * Access to a ressource
+ * 
+ *  @ params {function} callback : execute the callback if success
+ */
+ /*
+OposClient.prototype.read = function(ressource, callback, params) {
+    params = params || {};
+    this.get('/ressources/' + ressource,params,callback);
+};
+*/
+
