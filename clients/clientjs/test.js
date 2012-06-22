@@ -13,14 +13,14 @@ opos.ressources(
 );
 
 function refresh(){
-    opos.read('/home/temperature','analog.sensor.temperature.celcuis', function(msg) { $('.temperature').html(msg.value + '<br>');});
+    opos.get('/ressources/home/temperature',{'iface' :'analog.sensor.temperature.celcuis'}, function(msg) { $('.temperature').html(msg.value + '<br>');});
 };
 
 function light(value){
-  opos.write('/home/light','digital.order.switch',value, function(msg) { alert(msg.status);});
+    opos.post('/ressources/home/light',{'iface' :'digital.order.switch', 'value':JSON.stringify([value])}, function(msg) { alert(msg.status);});
 };
 function fan(value){
-  opos.write('/home/fan','digital.order.switch',value, function(msg) { alert(msg.status);});
+    opos.post('/ressources/home/fan',{'iface' :'digital.order.switch', 'value':JSON.stringify([value])}, function(msg) { alert(msg.status);});
 };
 
 $(document).ready(function() {

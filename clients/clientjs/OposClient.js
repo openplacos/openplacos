@@ -25,7 +25,12 @@ OposClient.prototype.register = function() {
   });  
 };
 
-// Get method (with correct oauth2 header)
+/**
+ * Post method (with correct oauth2 header)
+ * @params {String}   url     : url of opos server
+ * @params {String}   data    : params to pass to ressource (according to OpenplacOS REST api)
+ * @params {function} callback: callback method if request succeed
+ */
 OposClient.prototype.get = function(url_,data_,callback_) {
   $.ajax({
     type: "GET",
@@ -41,6 +46,9 @@ OposClient.prototype.get = function(url_,data_,callback_) {
 
 /**
  * Post method (with correct oauth2 header)
+ * @params {String}   url     : url of opos server
+ * @params {String}   data    : params to pass to ressource (according to OpenplacOS REST api)
+ * @params {function} callback: callback method if request succeed
  */
 OposClient.prototype.post = function(url_,data_,callback_) {
   $.ajax({
@@ -54,78 +62,3 @@ OposClient.prototype.post = function(url_,data_,callback_) {
     }
   });
 };
-
-/***********************************
- *
- * PUBLIC API
- *
- ***********************************/
-
-/**
- * Set the token 
- * 
- *  @ params {String} token : The token string
- */
-OposClient.prototype.set_token = function(token) {
-  this.token = token;
-};
-
-/**
- * Return the username
- * 
- *  @ params {function} callback : execute the callback if success
- */
-OposClient.prototype.me = function(callback) {
-  this.get('/me',{},function(msg) { callback(msg.username); } )
-};
-
-/**
- * Return the ressources list
- * 
- *  @ params {function} callback : execute the callback if success
- */
-OposClient.prototype.ressources = function(callback) {
-  this.get('/ressources',{},callback)
-};
-
-/**
-<<<<<<< HEAD
- * Read a ressource
- * 
- *  @ params  {function}  callback  : execute the callback if success
- *            {String}    name      : the name of the ressource
- *            {String}    iface     : the name of the iface
- */
-OposClient.prototype.read = function(name,iface,callback) {
-  this.get('/ressources' + name,{'iface' : iface},callback)
-};
-
-/**
- * Write a value on a ressource
- * 
- *  @ params  {function}  callback  : execute the callback if success
- *            {String}    name      : the name of the ressource
- *            {String}    iface     : the name of the iface
- *            {Hash}      value     : the value to write
- */
-OposClient.prototype.write = function(name,iface,value,callback) {
-  parameters = {
-            'iface' : iface,
-            'value' : JSON.stringify([value])
-            };
-  this.post('/ressources' + name,parameters,callback)
-};
-
-
-/**
- * Access to a ressource
- * 
- *  @ params {function} callback : execute the callback if success
- */
- /*
-OposClient.prototype.read = function(ressource, callback, params) {
-    params = params || {};
-    this.get('/ressources/' + ressource,params,callback);
-};
-*/
-
