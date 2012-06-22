@@ -61,6 +61,9 @@ class WebServer < Sinatra::Base
   enable :sessions
   enable :logging
 
+  # disable this protection for rest api
+  set :protection, :except => [:json_csrf, :remote_token, :frame_options]
+
   helpers ::WebServerHelpers
 
   # OAuth2 Permission configuration
