@@ -1,3 +1,31 @@
 %h1= @obj_name 
 %h2= @interface
 #container{:style => "height: 500px"}
+:javascript
+  $(function() {
+    $.getJSON("http://localhost:4567/ressources#{@obj_name}?iface=#{@interface}&start_time=", function(data) {
+      // Create the chart
+      window.chart = new Highcharts.StockChart({
+          chart: {
+              renderTo: 'container'
+          },
+
+          rangeSelector: {
+              selected: 1
+          },
+
+          title: {
+              text: "#{@obj_name}"
+          },
+          
+          series: [{
+              name: "#{@obj_name}",
+              data: data,
+              type: 'spline',
+              tooltip: {
+                valueDecimals: 2
+              }
+          }]
+      });
+    });
+  });

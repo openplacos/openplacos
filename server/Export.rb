@@ -17,16 +17,28 @@
 require 'Pin.rb'
 
 class Export
-    attr_reader :pin_web, :dbus_name, :ifaces
+    attr_reader :pin_web, :dbus_name, :ifaces, :model
 
   def initialize(config_)
     @config     = config_
     @dbus_name  = @config
     @pin_web = Pin_web.new(config_)
+    
+    # create or retrieve model in DB
+    @model = Resource.find_by_name(@dbus_name)
+    if !@model
+      @model = Resource.create({:name => @dbus_name})
+    end
   end
   
   def update_ifaces # plugged ifaces will be mine
     @pin_web.update_ifaces
+    @pin_web.ifaces.each do |iface|
+      ifacedb = @model.interfaces.find_by_name(iface)
+      if !ifacedb.nil?
+        @model.interfaces.create({:name => iface})
+      end
+    end
   end
 
  end

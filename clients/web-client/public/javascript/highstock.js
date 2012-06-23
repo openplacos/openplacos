@@ -1,5 +1,5 @@
 $(function() {
-	$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function(data) {
+	$.getJSON('http://localhost:4567/ressources/home/temperature?iface=analog.sensor.temperature.celcuis&start_time=', function(data) {
 		// Create the chart
 		window.chart = new Highcharts.StockChart({
 		    chart: {

@@ -33,6 +33,12 @@ module WebServerHelpers
     Dispatcher.instance.call(path_,iface_, :read,JSON.parse(params[:options] || "{}"))[0]
   end
   
+  def read_history(path_,iface_,start_,end_)
+    Resource.find_by_name(path_).interfaces.find_by_name(iface_).reads.collect do |r|
+      [r.created_at.to_i*1000, r.value]
+    end
+  end
+  
   def write(path_,iface_)
     Dispatcher.instance.call(path_,iface_, :write,JSON.parse(params[:value])[0],JSON.parse(params[:options] || "{}"))[0]
   end
@@ -228,7 +234,11 @@ class WebServer < Sinatra::Base
     path = "/"+params[:splat][0]
     if is_an_object?
       if params[:iface]
-        {"value" => read(path,params[:iface])}.to_json
+        if params[:start_time]
+          read_history(path,params[:iface],params[:start_time],params[:end_time]).to_json
+        else
+          {"value" => read(path,params[:iface])}.to_json
+        end
       else
         object_introspect(path).to_json
       end

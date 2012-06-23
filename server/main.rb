@@ -40,6 +40,8 @@ require 'haml'
 # List of local include
 require 'globals.rb'
 require 'User.rb'
+require 'Models.rb'
+require 'Tracker.rb'
 require 'Component.rb'
 require 'Event_handler.rb'
 require 'Dispatcher.rb'
@@ -132,6 +134,8 @@ Signal.trap('INT') do
   quit(top, internalmain,server)
 end
 
+tracker = Tracker.new(top,10)
+tracker.track
 # start the WebServer
 server.start
 
