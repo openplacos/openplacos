@@ -1,0 +1,21 @@
+<input id="inner_check_#{interface.gsub(/\./, '')}" class="jquery-checkbox" type="checkbox"> </input> 
+<script type="text/javascript">
+$(document).ready(function() {
+// ":not([safari])" is desirable but not necessary selector
+$('input:checkbox:not([safari])').checkbox();
+$('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
+$('input:radio').checkbox();
+});
+var opos_#{interface.gsub(/\./, '')} = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
+opos_#{interface.gsub(/\./, '')}.set_token(" ");
+
+function refresh_#{interface.gsub(/\./, '')}(){
+opos_#{interface.gsub(/\./, '')}.get( '/ressources#{@obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
+$("#inner_check_#{interface.gsub(/\./, '')}").attr('checked',msg.value); 
+});
+};
+refresh_#{interface.gsub(/\./, '')}();
+$(document).ready(function() {
+setInterval('refresh_#{interface.gsub(/\./, '')}();',1000);
+});
+</script>

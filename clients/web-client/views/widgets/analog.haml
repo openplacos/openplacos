@@ -1,0 +1,14 @@
+%div{:class => "inner_iface_#{interface.gsub(/\./, '-')}"}
+<script type="text/javascript">
+
+var opos_#{interface.gsub(/\./, '')} = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
+opos_#{interface.gsub(/\./, '')}.set_token(" ");
+
+function refresh_#{interface.gsub(/\./, '')}(){
+opos_#{interface.gsub(/\./, '')}.get( '/ressources#{@obj_name}' ,{'iface' :'#{interface}'}, function(msg) { $(".inner_iface_#{interface.gsub(/\./, '-')}").html(msg.value ); });
+};
+refresh_#{interface.gsub(/\./, '')}();
+$(document).ready(function() {
+setInterval('refresh_#{interface.gsub(/\./, '')}();',1000);
+});
+</script>
