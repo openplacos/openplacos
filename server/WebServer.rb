@@ -242,8 +242,13 @@ class WebServer < Sinatra::Base
     set_header
     content_type :json
     path = "/"+params[:splat][0]
-    if is_an_object? and params[:iface]
+    if is_an_object?
+      if params[:iface]
         {"status" => write(path,params[:iface])}.to_json
+      else
+        status 404
+        {"Error" => "An iface is required"}
+      end
     else
       status 404
       {"Error" => "#{path} is not an object"}

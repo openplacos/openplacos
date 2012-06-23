@@ -5,4 +5,8 @@
       %tr
         %td
           %a{:href => "/opos"+@obj_name+"?interface="+ interface}=interface
-        %td=@object[interface].render.to_s
+        %td
+          - if interface.start_with?("analog")  
+            != haml :"widgets/analog" , :locals => {:interface => interface}
+          - if interface.start_with?("digital")  
+            != haml :"widgets/digital", :locals => {:interface => interface}
