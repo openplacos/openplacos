@@ -3,7 +3,11 @@
 #container{:style => "height: 500px"}
 :javascript
   $(function() {
-    $.getJSON("http://localhost:4567/ressources#{@obj_name}?iface=#{@interface}&start_time=", function(data) {
+     var opos = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
+     opos.set_token(" ");
+
+     opos.get( '/ressources#{@obj_name}' ,{'iface' :'#{@interface}', 'start_time' : ''}, function(data) { 
+
       // Create the chart
       window.chart = new Highcharts.StockChart({
           chart: {
