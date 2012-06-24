@@ -21,7 +21,7 @@ $LOAD_PATH << $INSTALL_PATH
 $INSTALL_PATH = '/usr/lib/ruby/openplacos/server/'
 $LOAD_PATH << $INSTALL_PATH 
 ENV["DBUS_THREADED_ACCESS"] = "1" #activate threaded dbus
-
+SERVER_PATH = File.dirname(__FILE__) + "/"
 
 # List of library include
 require 'bundler/setup'
@@ -63,9 +63,9 @@ end.process!
 $DEBUG = options[:debug]
 
 #Database connexion
-ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "test.db", :pool => 25)
-ActiveRecord::Base.logger = Logger.new('test.log')
-ActiveRecord::Migrator.migrate('db')
+ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}test.db", :pool => 25)
+ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}test.log")
+ActiveRecord::Migrator.migrate("#{SERVER_PATH}db")
 
 # log file
 # monthly round-robin
