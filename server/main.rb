@@ -62,6 +62,11 @@ end.process!
 
 $DEBUG = options[:debug]
 
+#Database connexion
+ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "test.db", :pool => 25)
+ActiveRecord::Base.logger = Logger.new('test.log')
+ActiveRecord::Migrator.migrate('db')
+
 # log file
 # monthly round-robin
 log = Logger.new( options[:log], shift_age = 'monthly')
