@@ -62,11 +62,6 @@ end.process!
 
 $DEBUG = options[:debug]
 
-#Database connexion
-ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}test.db", :pool => 25)
-ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}test.log")
-ActiveRecord::Migrator.migrate("#{SERVER_PATH}db")
-
 # log file
 # monthly round-robin
 log = Logger.new( options[:log], shift_age = 'monthly')
@@ -80,6 +75,12 @@ server = ThinServer.new('0.0.0.0', options[:port])
 if options[:deamon]
   server.daemonize
 end
+
+#Database connexion
+ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}test.db", :pool => 25)
+ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}test.log")
+ActiveRecord::Migrator.migrate("#{SERVER_PATH}db")
+
 
 #DBus
 InternalBus = DBus::ASessionBus.new
