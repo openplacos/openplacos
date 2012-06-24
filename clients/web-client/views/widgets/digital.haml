@@ -21,7 +21,9 @@ setInterval('refresh_#{interface.gsub(/\./, '')}();',1000);
 
 function set_#{interface.gsub(/\./, '')}(){
 var value = $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked')?false:true;
-opos_#{interface.gsub(/\./, '')}.post( '/ressources#{@obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {}
+opos_#{interface.gsub(/\./, '')}.post( '/ressources#{@obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {
+refresh_#{interface.gsub(/\./, '')};
+}
 );
 };
 </script>
