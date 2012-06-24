@@ -35,7 +35,7 @@ class Export
     @pin_web.update_ifaces
     @pin_web.ifaces.each do |iface|
       ifacedb = @model.interfaces.find_by_name(iface)
-      if !ifacedb.nil?
+      if ifacedb.nil?
         @model.interfaces.create({:name => iface})
       end
     end
