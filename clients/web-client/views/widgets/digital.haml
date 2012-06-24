@@ -1,27 +1,30 @@
 <input id="inner_check_#{interface.gsub(/\./, '')}" class="jquery-checkbox" type="checkbox" onclick="set_#{interface.gsub(/\./, '')}();"> </input> 
-<script type="text/javascript">
-$(document).ready(function() {
-// ":not([safari])" is desirable but not necessary selector
-$('input:checkbox:not([safari])').checkbox();
-$('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
-$('input:radio').checkbox();
-});
-var opos_#{interface.gsub(/\./, '')} = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
-opos_#{interface.gsub(/\./, '')}.set_token(" ");
+:javascript
+  $(document).ready(function() {
+    // ":not([safari])" is desirable but not necessary selector
+    $('input:checkbox:not([safari])').checkbox();
+    $('input[safari]:checkbox').checkbox({cls:'jquery-safari-checkbox'});
+    $('input:radio').checkbox();
+  });
 
-function refresh_#{interface.gsub(/\./, '')}(){
-opos_#{interface.gsub(/\./, '')}.get( '/ressources#{@obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
-$("#inner_check_#{interface.gsub(/\./, '')}").attr('checked',msg.value); 
-});
-};
-refresh_#{interface.gsub(/\./, '')}();
-$(document).ready(function() {
-setInterval('refresh_#{interface.gsub(/\./, '')}();',1000);
-});
+  var opos_#{interface.gsub(/\./, '')} = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
+    opos_#{interface.gsub(/\./, '')}.set_token(" ");
 
-function set_#{interface.gsub(/\./, '')}(){
-var value = $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked')?false:true;
-opos_#{interface.gsub(/\./, '')}.post( '/ressources#{@obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {}
-);
-};
-</script>
+    function refresh_#{interface.gsub(/\./, '')}(){
+      opos_#{interface.gsub(/\./, '')}.get( '/ressources#{@obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
+        $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked',msg.value); 
+      });
+    };
+    refresh_#{interface.gsub(/\./, '')}();
+
+    $(document).ready(function() {
+      setInterval('refresh_#{interface.gsub(/\./, '')}();',1000);
+    });
+
+    function set_#{interface.gsub(/\./, '')}(){
+       var value = $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked')?false:true;
+       opos_#{interface.gsub(/\./, '')}.post( '/ressources#{@obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {
+          refresh_#{interface.gsub(/\./, '')};
+         }
+        );
+     };
