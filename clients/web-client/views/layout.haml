@@ -21,12 +21,10 @@
             Openplacos web client
           %ul.nav
             %li
-              %a{:href => "/"} Home
-            %li
-              %a{:href => "/secure/place"} Secret
+              %a{:href => "/user"} My account
           %ul.nav.pull-right
             %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "/user"}
                 = get_username
                 %b.caret
               %ul.dropdown-menu
