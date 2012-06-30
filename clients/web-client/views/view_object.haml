@@ -3,9 +3,9 @@
   %tbody
     - @object.interfaces.each do |interface|
       %tr
-        %td
+        %td{:class => "object_key"}
           %a{:href => "/opos"+@obj_name+"?interface="+ interface}=interface
-        %td
+        %td{:class => "object_value"}
           - if interface.start_with?("analog")  
             != haml :"widgets/analog" , :locals => {:interface => interface}
           - if interface.start_with?("digital")  
