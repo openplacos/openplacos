@@ -8,9 +8,9 @@ install:
 
 	install -d $(DESTDIR)/$(INSTALLDIR)
 	install -d $(DESTDIR)/$(DBUSCONFDIR)
-	install -d $(DESTDIR)/$(INITDIR)/
-	install -d $(DESTDIR)/$(UDEVDIR)/
-	install -d $(DESTDIR)/$(BINDIR)/
+	install -d $(DESTDIR)/$(INITDIR)
+	install -d $(DESTDIR)/$(UDEVDIR)
+	install -d $(DESTDIR)/$(BINDIR)
 
 
 	@cp setup_files/openplacos $(DESTDIR)/$(INITDIR)/openplacos

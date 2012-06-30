@@ -1,8 +1,8 @@
 OS=$(shell uname)
 DESTDIR=
 INSTALLDIR=/usr/lib/ruby/openplacos
-INITDIR=/etc/init.d/
-UDEVDIR=/etc/udev/rules.d/
-DBUSCONFDIR=/etc/dbus-1/system.d/
-DEFAULTCONFDIR=/etc/default/
+INITDIR=/etc/init.d
+UDEVDIR=/etc/udev/rules.d
+DBUSCONFDIR=/etc/dbus-1/system.d
+DEFAULTCONFDIR=/etc/default
 BINDIR=/usr/bin
