@@ -28,7 +28,6 @@ install:
 	@cp -R config $(DESTDIR)/$(INSTALLDIR)
 	@cp -R setup_files $(DESTDIR)/$(INSTALLDIR)
 	@cp -R utils $(DESTDIR)/$(INSTALLDIR)
-	@cp -R gem $(DESTDIR)/$(INSTALLDIR)
 
 	@cp    config/default.yaml $(DESTDIR)/$(DEFAULTCONFDIR)/openplacos
 	@cp    setup_files/openplacos-server $(DESTDIR)/$(BINDIR)/openplacos-server
