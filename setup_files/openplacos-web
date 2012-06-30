@@ -1,4 +1,4 @@
 #!/bin/bash
 
 export BUNDLE_GEMFILE=/usr/lib/ruby/openplacos/Gemfile 
-rackup /usr/lib/ruby/openplacos/clients/webclient/config.ru $*
+rackup /usr/lib/ruby/openplacos/clients/web-client/config.ru $*

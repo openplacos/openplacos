@@ -38,7 +38,7 @@ class Connect
   attr_accessor :token, :clients
 
   def init
-    @file_config  = File.dirname(__FILE__) + "/connect.yaml"
+    @file_config  = File.dirname(__FILE__) + "/tmp/connect.yaml"
     @opos_config  = File.dirname(__FILE__) + "/config.yaml"
     
     if (File.exists?( @opos_config))
