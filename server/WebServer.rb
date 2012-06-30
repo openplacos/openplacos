@@ -1,4 +1,3 @@
-
 module WebServerHelpers
   
   def set_header
