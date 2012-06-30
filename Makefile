@@ -33,4 +33,6 @@ install:
 	@cp    setup_files/openplacos-server $(DESTDIR)/$(BINDIR)/openplacos-server
 	@cp    setup_files/openplacos-cli $(DESTDIR)/$(BINDIR)/openplacos-cli
 	@cp    setup_files/openplacos-web $(DESTDIR)/$(BINDIR)/openplacos-web
+	
+	install -m a+w -d $(DESTDIR)/$(INSTALLDIR)/clients/web-client/tmp
 
