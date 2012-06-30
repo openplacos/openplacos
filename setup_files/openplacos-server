@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export BUNDLE_GEMFILE=/usr/lib/ruby/openplacos/Gemfile 
+/usr/lib/ruby/openplacos/server/main.rb $*
