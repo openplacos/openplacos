@@ -5,7 +5,6 @@ gem "micro-optparse", "~> 1.1.5"
 gem "choice", "~> 0.1.4"
 gem "file-find", "~> 0.3.5"
 
-#gem "openplacos", "~> 0.0.9"
 gem "ruby-dbus-openplacos", "~> 0.7.0"
 
 # for webserver
@@ -18,8 +17,7 @@ gem 'haml'
 gem 'sinatra-content-for'
 
 #for clients
-gem "oauth2"
-gem "rink"
+gem "openplacos", "~> 0.0.9"
 
 # for testing
 gem 'rspec'

@@ -45,10 +45,13 @@ GEM
       httpauth (~> 0.1)
       multi_json (~> 1.0)
       rack (~> 1.4)
+    openplacos (0.0.9)
+      json (~> 1.7.0)
+      oauth2 (~> 0.7.1)
+      ruby-dbus-openplacos (~> 0.7.0)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
-    rink (1.0.2)
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
@@ -83,9 +86,8 @@ DEPENDENCIES
   file-find (~> 0.3.5)
   haml
   micro-optparse (~> 1.1.5)
-  oauth2
   oauth2-provider!
-  rink
+  openplacos (~> 0.0.9)
   rspec
   ruby-dbus-openplacos (~> 0.7.0)
   serialport (~> 1.0.4)

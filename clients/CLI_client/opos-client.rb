@@ -14,17 +14,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 
+THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 
-$LIB_PATH = File.expand_path(File.dirname(__FILE__)) + "/"
-$LOAD_PATH << $LIB_PATH 
-
-require File.dirname(__FILE__) + "/../../gem/lib/openplacos/libclient.rb"
-
-#require 'openplacos'
+require "openplacos/libclient"
 
 require 'rink'
 require 'micro-optparse'
-require File.expand_path(File.dirname(__FILE__)) + "/widget/modules.rb"
+require File.expand_path(File.dirname(THIS_FILE)) + "/widget/modules.rb"
 
 options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
