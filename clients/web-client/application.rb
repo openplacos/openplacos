@@ -109,7 +109,7 @@ class WebClient < Sinatra::Base
     haml :user
   end
   
-  get '/ressources/*' do
+  get '/resources/*' do
     path = "/"+params[:splat][0]
     @resp = oposRequest('/ressources'+path)
     if !@resp["Error"].nil?
@@ -130,16 +130,11 @@ class WebClient < Sinatra::Base
     if (!objects.include?(obj_name))
       return "Object #{obj_name} does not exist"
     end    
-    
-    # pass object to view
-    @obj_name = obj_name
-    @object   = objects[obj_name]
 
     if params.has_key?("interface") # special rendering for iface
-      @interface = params[:interface]
-      haml :view_interface
+      haml :view_interface, :locals => {:obj_name => obj_name, :object => objects[obj_name], :interface =>  params[:interface]}
     else
-      haml :view_object
+      haml :view_object, :locals => {:obj_name => obj_name, :object => objects[obj_name]}
     end
   end
 

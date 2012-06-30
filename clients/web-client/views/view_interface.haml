@@ -6,7 +6,7 @@
      var opos = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
      opos.set_token(" ");
 
-     opos.get( '/ressources#{@obj_name}' ,{'iface' :'#{@interface}', 'start_time' : ''}, function(data) { 
+     opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : ''}, function(data) { 
 
       // Create the chart
       window.chart = new Highcharts.StockChart({
@@ -19,11 +19,11 @@
           },
 
           title: {
-              text: "#{@obj_name}"
+              text: "#{obj_name}"
           },
           
           series: [{
-              name: "#{@obj_name}",
+              name: "#{obj_name}",
               data: data,
               type: 'spline',
               tooltip: {

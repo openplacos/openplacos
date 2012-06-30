@@ -11,7 +11,7 @@
     opos_#{interface.gsub(/\./, '')}.set_token(" ");
 
     function refresh_#{interface.gsub(/\./, '')}(){
-      opos_#{interface.gsub(/\./, '')}.get( '/ressources#{@obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
+      opos_#{interface.gsub(/\./, '')}.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
         $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked',msg.value); 
       });
     };
@@ -23,7 +23,7 @@
 
     function set_#{interface.gsub(/\./, '')}(){
        var value = $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked')?false:true;
-       opos_#{interface.gsub(/\./, '')}.post( '/ressources#{@obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {
+       opos_#{interface.gsub(/\./, '')}.post( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {
           refresh_#{interface.gsub(/\./, '')};
          }
         );

@@ -1,12 +1,12 @@
-%h1= @obj_name 
+%h1= obj_name 
 %table.table-striped
   %tbody
-    - @object.interfaces.each do |interface|
+    - object.interfaces.each do |interface|
       %tr
         %td{:class => "object_key"}
-          %a{:href => "/opos"+@obj_name+"?interface="+ interface}=interface
+          %a{:href => "/opos"+obj_name+"?interface="+ interface}=interface
         %td{:class => "object_value"}
           - if interface.start_with?("analog")  
-            != haml :"widgets/analog" , :locals => {:interface => interface}
+            != haml :"widgets/analog" , :locals => {:obj_name => obj_name, :object => object, :interface => interface}
           - if interface.start_with?("digital")  
-            != haml :"widgets/digital", :locals => {:interface => interface}
+            != haml :"widgets/digital", :locals => {:obj_name => obj_name, :object => object, :interface => interface}
