@@ -6,6 +6,7 @@ require 'sinatra'
 require 'sinatra/content_for'
 require "openplacos/libclient"
 require 'micro-optparse'
+require 'haml'
 
 THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 

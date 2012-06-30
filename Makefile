@@ -7,7 +7,6 @@ install:
 	@echo "Start installing OpenplacOS"
 
 	install -d $(DESTDIR)/$(INSTALLDIR)
-	install -d $(DESTDIR)/$(DBUSCONFDIR)
 	install -d $(DESTDIR)/$(DEFAULTCONFDIR)
 	install -d $(DESTDIR)/$(INITDIR)
 	install -d $(DESTDIR)/$(UDEVDIR)
@@ -30,7 +29,8 @@ install:
 	@cp -R utils $(DESTDIR)/$(INSTALLDIR)
 
 	@cp    config/default.yaml $(DESTDIR)/$(DEFAULTCONFDIR)/openplacos
+	
 	@cp    setup_files/openplacos-server $(DESTDIR)/$(BINDIR)/openplacos-server
+	@cp    setup_files/openplacos-cli $(DESTDIR)/$(BINDIR)/openplacos-cli
+	@cp    setup_files/openplacos-web $(DESTDIR)/$(BINDIR)/openplacos-web
 
-	@ln -s -f $(INSTALLDIR)/clients/CLI_client/opos-client.rb $(DESTDIR)/$(BINDIR)/openplacos
-	@ln -s -f $(INSTALLDIR)/clients/web-client/opos-web.sh $(DESTDIR)/$(BINDIR)/openplacos-web
