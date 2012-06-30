@@ -8,6 +8,7 @@ install:
 
 	install -d $(DESTDIR)/$(INSTALLDIR)
 	install -d $(DESTDIR)/$(DBUSCONFDIR)
+	install -d $(DESTDIR)/$(DEFAULTCONFDIR)
 	install -d $(DESTDIR)/$(INITDIR)
 	install -d $(DESTDIR)/$(UDEVDIR)
 	install -d $(DESTDIR)/$(BINDIR)
