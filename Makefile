@@ -19,6 +19,7 @@ install:
 	@cp COPYING $(DESTDIR)/$(INSTALLDIR)/COPYING
 	@cp README $(DESTDIR)/$(INSTALLDIR)/README
 	@cp Gemfile $(DESTDIR)/$(INSTALLDIR)/Gemfile
+	@cp Gemfile.lock $(DESTDIR)/$(INSTALLDIR)/Gemfile.lock
 
 	@cp -R server $(DESTDIR)/$(INSTALLDIR)
 	@cp -R clients $(DESTDIR)/$(INSTALLDIR)
