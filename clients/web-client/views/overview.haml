@@ -1,0 +1,3 @@
+%h1 OpenplacOS overview
+- objects.each_pair do |obj_name, object|
+   != haml :"view_object",  :locals => {:obj_name => obj_name, :object => object}
