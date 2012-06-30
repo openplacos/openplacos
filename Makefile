@@ -10,6 +10,8 @@ install:
 	install -d $(DESTDIR)/$(DBUSCONFDIR)
 	install -d $(DESTDIR)/$(INITDIR)/
 	install -d $(DESTDIR)/$(UDEVDIR)/
+	install -d $(DESTDIR)/$(BINDIR)/
+
 
 	@cp setup_files/openplacos $(DESTDIR)/$(INITDIR)/openplacos
 	@cp setup_files/10-openplacos.rules $(DESTDIR)/$(UDEVDIR)/10-openplacos.rules
@@ -25,6 +27,6 @@ install:
 	@cp -R setup_files $(DESTDIR)/$(INSTALLDIR)
 	@cp -R utils $(DESTDIR)/$(INSTALLDIR)
 	@cp    config/default.yaml $(DESTDIR)/$(DEFAULTCONFDIR)/openplacos
-	@cp    setup_files/openplacos-server $(BINDIR)/openplacos-server
+	@cp    setup_files/openplacos-server $(DESTDIR)/$(BINDIR)/openplacos-server
 
-	@ln -s -f $(DESTDIR)/$(INSTALLDIR)/clients/CLI_client/opos-client.rb $(BINDIR)/openplacos
+	@ln -s -f $(DESTDIR)/$(INSTALLDIR)/clients/CLI_client/opos-client.rb $(DESTDIR)/$(BINDIR)/openplacos
