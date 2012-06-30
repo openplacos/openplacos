@@ -25,6 +25,6 @@ install:
 	@cp -R setup_files $(DESTDIR)/$(INSTALLDIR)
 	@cp -R utils $(DESTDIR)/$(INSTALLDIR)
 	@cp    config/default.yaml $(DESTDIR)/$(DEFAULTCONFDIR)/openplacos
-	@cp    setup_files/openplacos-server /usr/bin/openplacos-server
+	@cp    setup_files/openplacos-server $(BINDIR)/openplacos-server
 
-	@ln -s -f $(DESTDIR)/$(INSTALLDIR)/clients/CLI_client/opos-client.rb /usr/bin/openplacos
+	@ln -s -f $(DESTDIR)/$(INSTALLDIR)/clients/CLI_client/opos-client.rb $(BINDIR)/openplacos
