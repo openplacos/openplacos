@@ -1,4 +1,4 @@
-<input id="inner_check_#{interface.gsub(/\./, '')}" class="jquery-checkbox" type="checkbox" onclick="set_#{interface.gsub(/\./, '')}();"> </input> 
+<input id="inner_check_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}" class="jquery-checkbox" type="checkbox" onclick="set_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}();"> </input> 
 :javascript
   $(document).ready(function() {
     // ":not([safari])" is desirable but not necessary selector
@@ -7,24 +7,24 @@
     $('input:radio').checkbox();
   });
 
-  var opos_#{interface.gsub(/\./, '')} = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
-    opos_#{interface.gsub(/\./, '')}.set_token(" ");
+  var opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')} = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
+    opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}.set_token(" ");
 
-    function refresh_#{interface.gsub(/\./, '')}(){
-      opos_#{interface.gsub(/\./, '')}.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
-        $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked',msg.value); 
+    function refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}(){
+      opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
+        $("#inner_check_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}").attr('checked',msg.value); 
       });
     };
-    refresh_#{interface.gsub(/\./, '')}();
+    refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}();
 
     $(document).ready(function() {
-      setInterval('refresh_#{interface.gsub(/\./, '')}();',1000);
+      setInterval('refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}();',1000);
     });
 
-    function set_#{interface.gsub(/\./, '')}(){
-       var value = $("#inner_check_#{interface.gsub(/\./, '')}").attr('checked')?false:true;
-       opos_#{interface.gsub(/\./, '')}.post( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {
-          refresh_#{interface.gsub(/\./, '')};
+    function set_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}(){
+       var value = $("#inner_check_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}").attr('checked')?false:true;
+       opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}.post( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {
+          refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')};
          }
         );
      };
