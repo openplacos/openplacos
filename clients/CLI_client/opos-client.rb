@@ -16,8 +16,10 @@
 
 THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
 
-require "openplacos/libclient"
+require "bundler"
+Bundler.setup(:clients, :cliclient)
 
+require "openplacos/libclient"
 require 'rink'
 require 'micro-optparse'
 require File.expand_path(File.dirname(THIS_FILE)) + "/widget/modules.rb"

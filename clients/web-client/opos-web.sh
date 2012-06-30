@@ -1,3 +1,4 @@
 #!/bin/sh
+path=`dirname $0`
 
-rackup config.ru
+rackup $path/config.ru
