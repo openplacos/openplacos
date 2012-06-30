@@ -85,6 +85,16 @@ class WebClient < Sinatra::Base
  
   get '/' do
     haml :home
+
+  end
+
+  get '/overview' do
+    if (::Connect.instance.clients[session[:token]].nil?)
+      redirect "/"
+    end    
+    objects  = ::Connect.instance.clients[session[:token]].objects
+    
+    haml :overview,  :locals => {:objects => objects}
   end
   
   get '/oauth2/callback' do
