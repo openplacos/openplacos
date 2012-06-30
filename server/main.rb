@@ -77,8 +77,8 @@ if options[:deamon]
 end
 
 #Database connexion
-ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}test.db", :pool => 25)
-ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}test.log")
+ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}/tmp/database.db", :pool => 25)
+ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}/tmp/database.log")
 ActiveRecord::Migrator.migrate("#{SERVER_PATH}db")
 
 
