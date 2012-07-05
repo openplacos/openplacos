@@ -243,6 +243,9 @@ module LibComponent
       yield self if block_given?      
       @options = @parser.process!(@argv)
       @name = @options[:name].downcase
+      if @options[:debug]
+        LibError.in_debug_mode
+      end
     end
     
     # provide a string describing your component  
@@ -509,17 +512,24 @@ module LibComponent
   end
   
   class LibError
-
+    
+    def self.in_debug_mode
+      @debug_mode = true
+    end
     # Print an error message and make the server quit
     def self.quit_server(status_, str_)
-      bus       = DBus::ASessionBus.new
-      server    = bus.service("org.openplacos.server.internal")
-      opos      = server.object("/plugins")
-      opos.introspect
-      opos.default_iface = "org.openplacos.plugins"
-      
-      $stderr.puts str_
-      opos.exit(status_, str_)
+      if not @debug_mode
+        bus       = DBus::ASessionBus.new
+        server    = bus.service("org.openplacos.server.internal")
+        opos      = server.object("/plugins")
+        opos.introspect
+        opos.default_iface = "org.openplacos.plugins"
+        
+        $stderr.puts str_
+        opos.exit(status_, str_)
+      else
+        self.quit(status_,str_)
+      end
     end
     
     # Only quit component
