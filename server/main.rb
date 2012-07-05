@@ -91,7 +91,7 @@ internalservice.threaded = true
 def quit(top_, internalmain_,server_)
   top_.quit
   internalmain_.quit
-  server_.stop
+  server_.stop!
 end
 
 # Config file basic verification
