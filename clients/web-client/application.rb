@@ -45,14 +45,18 @@ class Connect
       @config       = YAML::load( File.read(@opos_config))
       ip            = @config["ip"]
       port          = @config["port"]
+      localhost     = @config["localhost"] || "localhost"
+      localport     = @config["localport"] || "9292"
     else
       ip            = "localhost"
       port          = "4567"
+      localhost     = "localhost"
+      localport     = "9292"
     end
 
     @url          = "http://#{ip}:#{port}"
     @name         = 'web-client'
-    @redirect_uri = 'http://localhost:9292/oauth2/callback'
+    @redirect_uri = "http://#{localhost}:#{localport}/oauth2/callback"
     @token        = {} # token persistant collection index with token id
     @clients      = {} # client persistant collection index with token id
     load_config
