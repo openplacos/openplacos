@@ -29,7 +29,6 @@ class Serial_Arduino
   end
   
   def write(string_)
-    puts string_
     @sp.write(string_+ ";")
   end
   
