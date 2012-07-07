@@ -22,15 +22,15 @@ Usage
 
 * to build :
 
-    ./build.sh <BOARD>
+    ./build.sh BOARD
 
-  * with <BOARD> = Uno, mega, mega2560
+  * with BOARD = Uno, MEGA1280, MEGA2560
   
 * to build and upload :
 
-    ./build_and_upload.sh <BOARD>
+    ./build_and_upload.sh BOARD
   
-  * with <BOARD> = Uno, mega, mega2560
+  * with BOARD = Uno, MEGA1280, MEGA2560
     
 * to generate all the binaries and copy them into the binaries folder
 
