@@ -243,9 +243,6 @@ module LibComponent
       yield self if block_given?      
       @options = @parser.process!(@argv)
       @name = @options[:name].downcase
-      if @options[:debug]
-        LibError.in_debug_mode
-      end
     end
     
     # provide a string describing your component  
