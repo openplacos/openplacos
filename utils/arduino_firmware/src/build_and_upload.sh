@@ -3,5 +3,7 @@
 mkdir build
 cd build
 cmake ..
-make
-make arduinoDAC-upload
+make $1
+make $1-upload
+cd ..
+rm -rf build
