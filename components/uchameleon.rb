@@ -17,11 +17,12 @@ end
 
 class Serial_uCham
 
-  def initialize(port_,baup_)
+  def initialize(component, port_,baup_)
+    @component = component
     begin
       @sp = SerialPort.new port_, baup_
     rescue
-      LibComponent::LibError.quit_server(10, "From µChameleon component: #{port_} did not opened correctly")
+      @component.quit_server(10, "From µChameleon component: #{port_} did not opened correctly")
     end   
   end
   
@@ -137,7 +138,7 @@ NB_PWM_PIN     = (9..12).to_a
 
 
 if !component.options[:introspect]
-  ucham = Serial_uCham.new(SERIAL_PORT,BAUPRATE)
+  ucham = Serial_uCham.new(component, SERIAL_PORT,BAUPRATE)
   component.on_quit do
     ucham.quit
   end
