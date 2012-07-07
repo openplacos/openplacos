@@ -9,7 +9,7 @@ component = LibComponent::Component.new(ARGV) do |c|
 end
 
 component << Raw = LibComponent::Output.new("/raw","digital")
-component << Switch = LibComponent::Input.new("/switch","actuator.order.switch")
+component << Switch = LibComponent::Input.new("/switch","digital.order.switch")
 
 Switch.on_write do |value, option|
   if value==1 or value==true
