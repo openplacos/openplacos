@@ -217,7 +217,7 @@ module LibComponent
     def connect(proxy_)
       @proxy = proxy_["org.openplacos.#{@interface}"]
       if @proxy.nil?
-        LibError.quit_server(255, "The interface org.openplacos.#{@interface} is not available for pin #{self.name}")
+        quit_server(255, "The interface org.openplacos.#{@interface} is not available for pin #{self.name}")
       end
     end    
 
@@ -243,9 +243,6 @@ module LibComponent
       yield self if block_given?      
       @options = @parser.process!(@argv)
       @name = @options[:name].downcase
-      if @options[:debug]
-        LibError.in_debug_mode
-      end
     end
     
     # provide a string describing your component  
@@ -304,7 +301,7 @@ module LibComponent
         dbusinputs = LibComponent::DbusInput.create_dbusinputs_from_introspect(intro["input"]["pin"],self)
         name = "org.openplacos.components.#{@name.downcase}"
         if (@bus.proxy.ListNames[0].member?(name))
-          LibError.quit_server(255, "#{name} already exists")
+          quit_server(255, "#{name} already exists")
         end
         @service = @bus.request_service(name)
         dbusinputs.each { |pin|
@@ -389,6 +386,30 @@ module LibComponent
       self.quit if self.respond_to?(:quit)
       @main.quit if !@main.nil?
     end
+
+    
+    # Print an error message and make the server quit
+    def quit_server(status_, str_)
+      $stderr.puts str_
+      if (!@options.nil?) && !@options[:debug]
+        bus       = DBus::ASessionBus.new
+        server    = bus.service("org.openplacos.server.internal")
+        opos      = server.object("/plugins")
+        opos.introspect
+        opos.default_iface = "org.openplacos.plugins"
+        opos.exit(status_, str_)
+      else
+        Process.exit 1
+      end
+      
+    end
+    
+    # Only quit component
+    # Only use this method if component cannot connect to server
+    def self.quit(status_,str_)
+      $stderr.puts str_
+      exit(status_)
+    end
     
     private
     
@@ -458,9 +479,9 @@ module LibComponent
         begin
           p.introspect
         rescue DBus::Error
-          LibError.quit(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \nOpenplacos server is probably unreachable")
+          quit(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \nOpenplacos server is probably unreachable")
         rescue 
-          LibError.quit_server(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \n")
+          quit_server(255, "From #{component_.name}: Introspect of pin /#{component_.name}#{name} failed \n")
         end
         definition.each_key { |iface|
           component_output = component_.get_output_iface(name,iface)
@@ -508,37 +529,9 @@ module LibComponent
       puts "Write on #{self.name} : #{args.inspect}"
       return [0]
     end
-    
+
   end
-  
-  class LibError
-    
-    def self.in_debug_mode
-      @debug_mode = true
-    end
-    # Print an error message and make the server quit
-    def self.quit_server(status_, str_)
-      if not @debug_mode
-        bus       = DBus::ASessionBus.new
-        server    = bus.service("org.openplacos.server.internal")
-        opos      = server.object("/plugins")
-        opos.introspect
-        opos.default_iface = "org.openplacos.plugins"
-        
-        $stderr.puts str_
-        opos.exit(status_, str_)
-      else
-        self.quit(status_,str_)
-      end
-    end
-    
-    # Only quit component
-    # Only use this method if component cannot connect to server
-    def self.quit(status_,str_)
-      $stderr.puts str_
-      exit(status_)
-    end
-  end
+
 
   class Servicesignal 
     

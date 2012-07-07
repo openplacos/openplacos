@@ -18,16 +18,18 @@ class Serial_Arduino
 
   attr_reader :voltage
   
-  def initialize(port_,baup_,voltage_)
-    @voltage = voltage_
+  def initialize(component_, port_,baup_,voltage_)
+    @voltage   = voltage_
+    @component = component_
     begin
       @sp = SerialPort.new port_, baup_
     rescue
-      LibComponent::LibError.quit_server(10, "From arduino component: #{port_} did not opened correctly")
+      @component.quit_server(10, "From arduino component: #{port_} did not opened correctly")
     end
   end
   
   def write(string_)
+    puts string_
     @sp.write(string_+ ";")
   end
   
@@ -146,9 +148,9 @@ end
 #
 
 SERIAL_PORT = component.options[:port]
-BAUPRATE = component.options[:baup]
-BOARD = component.options[:Board]
-VOLTAGE = component.options[:voltage]
+BAUPRATE    = component.options[:baup]
+BOARD       = component.options[:Board]
+VOLTAGE     = component.options[:voltage]
 # create a various number of pin according to the board
 case BOARD
 
@@ -168,7 +170,7 @@ case BOARD
 end
 
 if !component.options[:introspect]
-  arduino = Serial_Arduino.new(SERIAL_PORT,BAUPRATE,VOLTAGE)
+  arduino = Serial_Arduino.new(component, SERIAL_PORT,BAUPRATE,VOLTAGE)
   component.on_quit do
     arduino.quit
   end
