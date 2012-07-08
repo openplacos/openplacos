@@ -1,7 +1,8 @@
 class Top
 
   attr_reader :components, :config_export, :exports, :log
-    
+  attr_accessor :debug_mode_activated
+
   def self.instance
     @@instance
   end
@@ -23,6 +24,9 @@ class Top
     # Event_handler creation
     @event_handler = Event_Handler.instance
     @internalservice.export(@event_handler)
+
+    # Any component in debug mode ?
+    @debug_mode_activated = 0
 
 
     # Hash of available dbus objects (measures, actuators..)

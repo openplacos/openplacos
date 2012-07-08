@@ -140,8 +140,12 @@ Signal.trap('INT') do
   quit(top, internalmain,server)
 end
 
-tracker = Tracker.new(top,10)
-tracker.track
+if (top.debug_mode_activated)
+  Globals.trace("At least one component is under debug, no tracker activated", Logger::WARN)
+else
+  tracker = Tracker.new(top,10)
+  tracker.track
+end
 # start the WebServer
 server.start
 

@@ -25,6 +25,7 @@ module Launcher
 
   def launch_component() # TODO TODO TODO launch_component in a thread/fork module TODO TODO TODO
     if (@method == "debug")
+      Top.instance.debug_mode_activated = 1 # at least this component is in debug
       puts @command_string
       return
     end
