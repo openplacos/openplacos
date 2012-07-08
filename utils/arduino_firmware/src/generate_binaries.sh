@@ -3,7 +3,7 @@
 mkdir build
 cd build
 cmake ..
-make $1
-make $1-upload
+make
+cp -f *.hex ../../binaries/
 cd ..
 rm -rf build

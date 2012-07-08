@@ -22,12 +22,26 @@ set(${FIRMWARE_NAME}_SKETCH  ${CMAKE_SOURCE_DIR}/arduinoDAC) # Path to sketch di
 
 link_directories(${CMAKE_SOURCE_DIR}/arduinoDAC/libraries)
 
-set(${FIRMWARE_NAME}_BOARD uno)               # Arduino Target board
-
-set(${FIRMWARE_NAME}_PORT /dev/ttyACM0)            # Serial upload port
+set(ARDUINO_DEFAULT_BOARD uno) # Default Board ID, when not specified
+set(ARDUINO_DEFAULT_PORT /dev/ttyACM0) # Default Port, when not specified
 
 
 #====================================================================#
 #  Target generation                                                 #
 #====================================================================#
-generate_arduino_firmware(${FIRMWARE_NAME})
+#generate_arduino_firmware(${FIRMWARE_NAME})
+generate_arduino_firmware(Uno
+  SKETCH ${CMAKE_SOURCE_DIR}/arduinoDAC 
+  BOARD uno
+  PORT /dev/ttyACM0)
+  
+generate_arduino_firmware(MEGA1280
+  SKETCH ${CMAKE_SOURCE_DIR}/arduinoDAC 
+  BOARD mega
+  PORT /dev/ttyUSB0)
+
+generate_arduino_firmware(MEGA2560
+  SKETCH ${CMAKE_SOURCE_DIR}/arduinoDAC 
+  BOARD mega2560
+  PORT /dev/ttyUSB0)  
+
