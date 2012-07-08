@@ -93,7 +93,7 @@ end
 module Digital
   
   def read(option_)
-    return @ucham.write_and_read("pin #{@number} state")    
+    return @ucham.write_and_read("pin #{@number} state").to_i  
   end
   
   def write(value_,option_)

@@ -101,7 +101,7 @@ end
 module Digital
   
   def read(option_)
-    return @arduino.write_and_read("6 #{@number}")    
+    return @arduino.write_and_read("6 #{@number}").to_i
   end
   
   def write(value_,option_)
