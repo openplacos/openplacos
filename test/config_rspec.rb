@@ -25,8 +25,9 @@ describe Server, "#config" do
     kill_server
   end
   
-  ## Server should launch
-  
+  # true means server should launch
+  # false means server shouldn't launch
+
   it "should launch with the default config file" do
     run_one_test(File.dirname(__FILE__)+"/../config/default.yaml").should eq(true)
   end
@@ -51,8 +52,6 @@ describe Server, "#config" do
     run_one_test(File.dirname(__FILE__)+"/config/005.yaml").should eq(true)
   end
   
-  ## Server shouldn't launch
-
   it "shouldn't launch with an iface indetermination (config 006.yaml)" do
     run_one_test(File.dirname(__FILE__)+"/config/006.yaml").should eq(false)
   end
@@ -75,6 +74,10 @@ describe Server, "#config" do
 
   it "shouldn't launch with incorrect mapping : 2 input (config 011.yaml)" do
     run_one_test(File.dirname(__FILE__)+"/config/011.yaml").should eq(false)
+  end
+
+  it "should launch in debug mode" do
+    run_one_test(File.dirname(__FILE__)+"/config/012.yaml").should eq(true)
   end
 
 end
