@@ -6,9 +6,11 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.description  "This is openplacos component for regulation"
   c.version "0.1"
   c.default_name "regulation"
-  c.option :type , 'the kind of regulation (bool / boolinv / pwm / pid)', :default => "bool"
-  c.option :frequency, 'the default frequency', :default => 1
+  c.option :type , 'Kind of regulation (bool / boolinv / pwm / pid)', :default => "bool"
+  c.option :frequency, 'Default frequency', :default => 1
+  c.option :threshold, 'Default threshold', :default => 0 
 end
+
 
 
 class Regulation
