@@ -7,42 +7,72 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.version "0.1"
   c.default_name "waituntil"
   c.option :frequency, 'Default frequency', :default => 1
-  c.option :threshold, 'Default threshold', :default => 0
+  c.option :threshold, 'Default threshold', :default => 0.0
   c.option :type , 'Kind of regulation (bool / boolinv / analog / analoginv)', :default => "bool"
 #  c.frequency "Pulling frequency in second"
 end
 
-component << Sensor   = LibComponent::Output.new("/sensor","digital")
-component << Actuator = LibComponent::Output.new("/actuator","digital")
-component << Switch   = LibComponent::Input.new("/switch","digital.order.switch")
+module SwitchModule
 
-Switch.on_startup do 
-  @state = false
-end
-
-Switch.on_write do |value, option|
-  if value==1 or value==true
-    @state = true
-    @thread = Thread.new {
-      while Sensor.read({}) == 0 do
-        Actuator.write(true,option)
-        sleep component.options[:frequency]
-      end
-      Actuator.write(false,option)
-      @state.false
-    }
-    return 0
-  elsif value==0 or value==false
+  def start
     @state = false
-    if @thread.alive?
-      @thread.kill
+  end
+  
+  def set_options(options,sensor,actuator)
+    @options = options
+    @sensor = sensor
+    @actuator = actuator
+  end
+  
+  def read(option)
+    return @state || false
+  end
+
+  def write(value,option)
+    if value==1 or value==true
+      @state = true
+      @thread = Thread.new {
+        while compare(@sensor.read({}),@options[:threshold]) do
+          
+          @actuator.write(true,option)
+          sleep @options[:frequency]
+        end
+        @actuator.write(false,option)
+        @state = false
+      }
+      return 0
+    elsif value==0 or value==false
+      @state = false
+      if @thread.alive?
+        @thread.kill
+      end
+      return @actuator.write(false,option)
     end
-    return Raw.write(false,option)
+  end
+  
+  def compare(value,threshold)
+    if @options[:type] == "bool"
+      return value == threshold
+    elsif @options[:type] == "boolinv"
+      return value != threshold
+    elsif @options[:type] == "analog"
+      return value < threshold  
+    elsif @options[:type] == "analoginv"
+      return value > threshold  
+    end
   end
 end
 
-Switch.on_read do |option|
-  return @state || false
+
+if ["analog", "analoginv"].include?(component.options[:type])
+  component << sensor   = LibComponent::Output.new("/sensor","analog")
+else
+  component << sensor   = LibComponent::Output.new("/sensor","digital")
 end
+component << actuator = LibComponent::Output.new("/actuator","digital")
+component << switch   = LibComponent::Input.new("/switch","digital.order.switch").extend(SwitchModule)
+
+switch.set_options(component.options,sensor,actuator)
+
 
 component.run
