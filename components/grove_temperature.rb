@@ -16,7 +16,8 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-#    Grove temperature sensor component
+#     Grove temperature sensor component
+#     URL : http://www.seeedstudio.com/wiki/index.php?title=Project_Seven_-_Temperature
 
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
