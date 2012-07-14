@@ -23,6 +23,7 @@ require File.dirname(__FILE__) << "/LibComponent.rb"
 
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "grove moisture sensor"
+  c.category "Sensor"
   c.version "0.1"
   c.default_name "grovemoisture"
   c.option :threshold, 'Threshold for digital output', :default => 2.5

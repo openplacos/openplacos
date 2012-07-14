@@ -233,6 +233,7 @@ module LibComponent
     def initialize(argv_ = ARGV)
       @argv        = argv_
       @description = ""
+      @category    = ""
       @bus         = nil
       @main        = nil
       @inputs      = Array.new
@@ -249,6 +250,11 @@ module LibComponent
     def description(desc_)
       @description   = desc_
       @parser.banner = desc_
+    end
+    
+    # provide a string for the category of the component
+    def category(cat_)
+      @category = cat_
     end
     
     # Set version of your component
@@ -350,6 +356,20 @@ module LibComponent
       res = Hash.new
       res["input"] = {"pin" => inputs_h}
       res["output"] = {"pin" => outputs_h}
+      
+      # component options
+      opt = @options.dup
+      opt.delete(:introspect)
+      opt.delete(:debug)
+      optmod = Hash.new
+      opt.each_pair do |key,value|
+        optmod[key.to_s] = value
+      end
+      res["component"] ={"options" => optmod}
+      
+      # component description
+      res["component"]["description"] = @description
+      res["component"]["category"] = @category
       return res
     end
     

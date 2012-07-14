@@ -25,6 +25,7 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.description  "grove temperature sensor"
   c.version "0.1"
   c.default_name "grovetemperature"
+  c.category "Sensor"
 end
 
 component << Raw = LibComponent::Output.new("/raw","analog","r")
