@@ -16,6 +16,13 @@ module LibComponent
       @component=component_
     end
     
+    # define a start method which will be executed on startup
+    def on_startup(&block)
+      self.singleton_class.instance_eval {
+        define_method(:start , &block)
+      }
+    end
+    
     # Return introspect object that can be delivered to openplacos server
     def introspect
       iface = Hash.new
@@ -181,6 +188,8 @@ module LibComponent
       if @meth.include?("w")
         instance_eval { self.extend(Write) }
       end
+      
+      init if self.respond_to? :init
     end
     
     module Read
@@ -297,6 +306,14 @@ module LibComponent
 
     # Let's rock! Run the component
     def run
+      # execute startup methods
+      @inputs.each do |inp|
+        inp.start if inp.respond_to?(:start)
+      end
+      @outputs.each do |outp|
+        outp.start if outp.respond_to?(:start)
+      end
+      
       intro = introspect
       if @options[:introspect]
         print intro.to_yaml
