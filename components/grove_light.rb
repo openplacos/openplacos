@@ -43,7 +43,7 @@ Luminance.on_read do |*args|
   r = Resistance.read(*args)
   l0 = 10.0
   r0 = 15.0
-  l = l0*(r/r0)^(-0.7)
+  l = l0*((r/r0)**(-0.7))
   return l
 end
 
