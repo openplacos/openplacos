@@ -40,4 +40,13 @@ class Globals
     Top.instance.quit # not suffisant but enough for quitting forked components
     Process.exit code_
   end
+  
+  # Error before top was created
+  def self.error_before_start(string_,log_,code_ = 255)
+    puts "Error:: " + string_
+    STDOUT.flush
+    
+    log_.add(Logger::FATAL, string_)
+    Process.exit code_
+  end
 end

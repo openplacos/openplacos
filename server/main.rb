@@ -98,12 +98,12 @@ end
 file = options[:file]
 
 if (! File.exist?(file))
-  log.error("Config file #{file} doesn't exist")
+  Globals.error_before_start("Config file #{file} doesn't exist",log)
 end
 
 
 if (! File.readable?(file))
-  log.error("Config file #{file} not readable")
+  Globals.error_before_start("Config file #{file} not readable",log)
 end
 
 # Where am I ?
