@@ -13,7 +13,11 @@ class Top
   # Logguer instance
   def initialize (config_, internalservice_, log_)
     # Parse yaml
-    @config           =  YAML::load(File.read(config_))
+    begin
+      @config           =  YAML::load(File.read(config_))
+    rescue Psych::SyntaxError
+      Globals.error_before_start("Config file #{config_} can't be parsed, please check the syntax",log_)
+    end
     @internalservice  = internalservice_
     @config_component = @config["component"] || {}
     @config_export    = @config["export"] || {}
