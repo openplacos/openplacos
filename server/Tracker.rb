@@ -4,6 +4,7 @@ class Tracker
     @top = top_
     @frequency = frequency_
     @ifacetoread = list_of_iface_to_read
+    puts "Tracker initialized"
   end
   
   def create_thread

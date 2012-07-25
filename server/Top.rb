@@ -30,7 +30,7 @@ class Top
     @internalservice.export(@event_handler)
 
     # Any component in debug mode ?
-    @debug_mode_activated = 0
+    @debug_mode_activated = false
 
 
     # Hash of available dbus objects (measures, actuators..)
@@ -70,7 +70,7 @@ class Top
   end
 
   def expose_component
-  @components.each  do |component|
+    @components.each  do |component|
       component.expose()   # Exposes on dbus interface service
       component.outputs.each do |p|
         @internalservice.export(p)
