@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 require File.dirname(__FILE__) << "/LibComponent.rb"
 require 'serialport'
+require 'timeout'
 
 # arg declaration -- Needed to generate --introspect phase
 
@@ -26,6 +27,25 @@ class Serial_Arduino
     rescue
       @component.quit_server(10, "From arduino component: #{port_} did not opened correctly")
     end
+    # try to etablish connection with firmware
+    begin
+      Timeout::timeout(3) do # allow a maximum of 1s for response
+        begin
+          # Try to send a command and wait for response
+          # For some reason, arduino need time after etablishing the connection
+          # repeate until response
+          Timeout::timeout(0.2) do
+            write_and_read("255")
+          end
+        rescue Timeout::Error 
+          retry
+        rescue
+          @component.quit_server(10, "Communication with arduino board failed")
+        end
+      end
+    rescue Timeout::Error 
+      @component.quit_server(10, "Arduino board did not respond in time")
+    end
   end
   
   def write(string_)
@@ -33,9 +53,13 @@ class Serial_Arduino
   end
   
   def write_and_read(string_)
-    write(string_)
-    val = @sp.gets.split(" ").reverse[0]
-    return val
+    # allow a maximum of 1s for response
+    # if fail, dbus will return the error
+    Timeout::timeout(1) do 
+      write(string_)
+      val = @sp.gets.split(" ").reverse[0]
+      return val
+    end
   end
 
   def read

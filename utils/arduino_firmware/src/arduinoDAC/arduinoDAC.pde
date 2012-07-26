@@ -3,6 +3,7 @@
 #include <dht11.h>
 #include <Streaming.h>
 #include <Base64.h>
+#include <avr/wdt.h>
 
 #define PINMODE       4 
 #define DIGITALWRITE  5
@@ -189,13 +190,18 @@ void setup() {
 
   // Attach my application's user-defined callback methods
   attach_callbacks(messengerCallbacks);
-
+  
+  // enable Watchdog (2 second)
+  wdt_enable(WDTO_2S);
 }
 
 
 void loop() {
   // The following line is the most effective way of using Serial and Messenger's callback
   message.feedinSerialData();
+  
+  // reset watchdog
+  wdt_reset();
 }
 
 
