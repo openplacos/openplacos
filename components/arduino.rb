@@ -142,6 +142,14 @@ module Digital
 
 end
 
+module Frequency
+
+  def read(option_)
+    return @arduino.write_and_read("11").to_i
+  end
+
+end
+
 module Pt2262
 
   def write(value_,option_)
@@ -222,4 +230,10 @@ NB_ANALOG_PIN.each { |number|
   p.push_arduino_and_number(arduino, number)
   component << p
 }
+
+#Frequency, pin 5
+p = LibComponent::Input.new("/Digital5","analog.sensor.frequency.hertz").extend(Frequency,Common)
+p.push_arduino_and_number(arduino, 5)
+component << p
+
 component.run

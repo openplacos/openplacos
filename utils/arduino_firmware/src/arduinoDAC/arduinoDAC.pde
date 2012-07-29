@@ -4,6 +4,7 @@
 #include <Streaming.h>
 #include <Base64.h>
 #include <avr/wdt.h>
+#include <FreqCounter.h>
 
 #define PINMODE       4 
 #define DIGITALWRITE  5
@@ -12,6 +13,7 @@
 #define PWMWRITE      8
 #define RCSWITCH      9
 #define DHT11READ    10
+#define FREQREAD     11
 
 dht11 DHT11;
 RCSwitch mySwitch = RCSwitch();
@@ -46,6 +48,7 @@ messengerCallbackFunction messengerCallbacks[] =
   pwm_write,
   rcswitch,
   dht11_read,
+  freq_read,
   NULL
 };
 
@@ -119,6 +122,19 @@ void dht11_read() {
   int chk = DHT11.read(pin);
 
   Serial << DHT11READ << " " << pin << " " << (float)DHT11.humidity << " " << (float)DHT11.temperature << endl;
+
+  return;  
+} 
+
+// 11
+void freq_read() {
+  long int frq;
+  FreqCounter::f_comp= 8;             // Set compensation to 12
+  FreqCounter::start(100);            // Start counting with gatetime of 100ms
+  while (FreqCounter::f_ready == 0)         // wait until counter ready
+ 
+  frq=(FreqCounter::f_freq)*10;            // read result
+  Serial << FREQREAD << " " << (float)frq << endl;
 
   return;  
 } 
