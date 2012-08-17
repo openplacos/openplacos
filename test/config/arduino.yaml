@@ -1,0 +1,21 @@
+export:
+- /home/temperature
+- /home/light
+
+component:
+
+- name: arduino
+  exec: arduino.rb
+  method: thread
+  config:
+    port: /tmp/arduino
+    fifo: 
+
+- name: filter
+  exec: digital.rb
+
+
+mapping:
+- /home/temperature: /arduino/Analog0
+- /home/light: /filter/input
+- /filter/raw: /arduino/Digital0
