@@ -53,7 +53,11 @@ module Launcher
     @command_string = "#{@exec}"
     if  !@config.nil?
       @config.each { |key, value|
-        @command_string << " --#{key}=#{value}"
+        if value != nil
+          @command_string << " --#{key}=#{value}"
+        else
+          @command_string << " --#{key}"
+        end
       }
     end
   end
@@ -66,7 +70,11 @@ module Launcher
       @argv_string = "ARGV = ["
       if  !@config.nil?
         @config.each { |key, value|
-          @argv_string << "\"--#{key}=#{value}\", "
+           if value != nil
+             @argv_string << "\"--#{key}=#{value}\", "
+           else
+             @argv_string << "\"--#{key}\", "
+           end
         }
       end
       @argv_string << "]\n"
