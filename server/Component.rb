@@ -34,7 +34,7 @@ class Component
     @outputs        = Array.new
     @thread         = nil # Launcher attribute init
     @filename       = component_["exec"]
-    @timeout        = component_["timeout"] || 5
+    @timeout        = component_["timeout"] || 30
 
     get_exec_path
     generate_command_string
