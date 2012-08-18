@@ -1,14 +1,14 @@
 require 'yaml'
 require File.dirname(__FILE__)+'/server.rb'
 
-CONFIG_FILE =  File.dirname(__FILE__)+"/../config/default.yaml"
 
 describe Server, "#api" do
   
   before(:all) do
-    @server = Server.new("-f #{CONFIG_FILE} ")
+    @config =  File.dirname(__FILE__)+"/../config/default.yaml"
+    @server = Server.new("-f #{@config} ")
     @server.launch
-    @config = YAML::load(File.read(CONFIG_FILE))
+    @config = YAML::load(File.read(@config))
   end
   
   after(:all) do

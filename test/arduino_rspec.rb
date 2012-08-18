@@ -3,17 +3,16 @@ require "mkfifo"
 
 require File.dirname(__FILE__)+'/server.rb'
 
-CONFIG_FILE =  File.dirname(__FILE__)+"/config/arduino.yaml"
-
 describe Server, "#arduino" do
   
   before(:all) do
     File.mkfifo('/tmp/arduino_in')
     File.mkfifo('/tmp/arduino_out')
-   system(File.dirname(__FILE__)+"/arduino_emulator.rb &")
-    @server = Server.new("-f #{CONFIG_FILE} ")
+    system(File.dirname(__FILE__)+"/arduino_emulator.rb &")
+    @config = "#{File.dirname(__FILE__)}/config/arduino.yaml"
+    @server = Server.new("-f #{@config}")
     @server.launch
-    @config = YAML::load(File.read(CONFIG_FILE))
+    @config = YAML::load(File.read(@config))
   end
   
   after(:all) do
