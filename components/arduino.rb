@@ -7,12 +7,12 @@ require 'timeout'
 # arg declaration -- Needed to generate --introspect phase
 
 component = LibComponent::Component.new(ARGV) do |c|
-  c.description  "The arduino drivers"
+  c.description  "Arduino driver"
   c.default_name "arduino"
-  c.option :Board , 'The kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"
-  c.option :baup , 'The bauprate' , :default => 115200 
-  c.option :port , 'The serial port', :default => "/dev/arduino"
-  c.option :voltage, 'The true regulated voltage', :default => 5.0
+  c.option :Board , 'Kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"
+  c.option :baup , 'Bauprate' , :default => 115200 
+  c.option :port , 'Serial port', :default => "/dev/arduino"
+  c.option :voltage, 'Real regulated voltage', :default => 5.0
 end
 
 class Serial_Arduino
