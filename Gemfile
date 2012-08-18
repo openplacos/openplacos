@@ -37,5 +37,3 @@ end
 
 # for testing
 gem 'rspec'
-gem 'ruby-fifo'
-gem 'mkfifo'

@@ -3,18 +3,16 @@
 require File.dirname(__FILE__) << "/LibComponent.rb"
 require 'serialport'
 require 'timeout'
-require 'fifo.rb'
 
 # arg declaration -- Needed to generate --introspect phase
 
 component = LibComponent::Component.new(ARGV) do |c|
-  c.description  "Arduino driver"
+  c.description  "The arduino drivers"
   c.default_name "arduino"
-  c.option :Board , 'Kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"
-  c.option :baup , 'Bauprate' , :default => 115200 
-  c.option :port , 'Serial port', :default => "/dev/arduino"
-  c.option :voltage, 'True regulated voltage', :default => 5.0
-  c.option :fifo, 'True regulated voltageMade request on fifo -- only for non reg', :default => false
+  c.option :Board , 'The kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"
+  c.option :baup , 'The bauprate' , :default => 115200 
+  c.option :port , 'The serial port', :default => "/dev/arduino"
+  c.option :voltage, 'The true regulated voltage', :default => 5.0
 end
 
 class Serial_Arduino
@@ -25,22 +23,17 @@ class Serial_Arduino
     @voltage   = voltage_
     @component = component_
     begin
-      if !FIFO
-        @sp = SerialPort.new port_, baup_
-      else
-        @sp_in  = Fifo.new(port_+"_in")
-        @sp_out = Fifo.new(port_+"_out")
-      end
+      @sp = SerialPort.new port_, baup_
     rescue
       @component.quit_server(10, "From arduino component: #{port_} did not opened correctly")
     end
     # try to etablish connection with firmware
     begin
-      Timeout::timeout(3) do # allow a maximum of 3s for response
+      Timeout::timeout(3) do # allow a maximum of 1s for response
         begin
           # Try to send a command and wait for response
           # For some reason, arduino need time after etablishing the connection
-          # repeat until response
+          # repeate until response
           Timeout::timeout(0.2) do
             write_and_read("255")
           end
@@ -54,46 +47,27 @@ class Serial_Arduino
       @component.quit_server(10, "Arduino board did not respond in time")
     end
   end
-
-  def get_sp(io)
-    if (!@sp.nil?)
-      return @sp
-    else
-      if(io == "read")
-        return @sp_out
-      else 
-        return @sp_in
-      end
-    end
-  end
   
   def write(string_)
-    get_sp("write").write(string_+ "; \n")
+    @sp.write(string_+ ";")
   end
   
   def write_and_read(string_)
     # allow a maximum of 1s for response
-    # if fail, dbus will return an error
+    # if fail, dbus will return the error
     Timeout::timeout(1) do 
       write(string_)
-      line = get_sp("read").gets
-      puts line
-      val = line.split(" ").reverse[0]
+      val = @sp.gets.split(" ").reverse[0]
       return val
     end
   end
 
   def read
-    return get_sp("read").gets
+    return @sp.gets
   end
   
   def quit
-    if !@sp.nil?
-      @sp.close
-    else
-      @sp_in.close
-      @sp_out.close
-    end
+    @sp.close
   end
 
 end
@@ -208,7 +182,6 @@ SERIAL_PORT = component.options[:port]
 BAUPRATE    = component.options[:baup]
 BOARD       = component.options[:Board]
 VOLTAGE     = component.options[:voltage]
-FIFO        = component.options[:fifo]
 # create a various number of pin according to the board
 case BOARD
 
