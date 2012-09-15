@@ -6,6 +6,7 @@ gem "choice", "~> 0.1.4"
 gem "file-find", "~> 0.3.5"
 
 gem "ruby-dbus-openplacos", "~> 0.7.0"
+gem "rb-pid-controller", "~> 0.0.1"
 
 # for webserver
 group :webserver do

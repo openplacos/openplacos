@@ -23,7 +23,7 @@ module Dbus_proxy  # output
   def wait_for_component()  # check component started
     # fork/thread specific ?
     @path_dbus = "org.openplacos.components." + @name.downcase
-   
+
     begin
       Timeout::timeout(@timeout) { # allow a maximum time of #timeout second for the driver launch
         begin
