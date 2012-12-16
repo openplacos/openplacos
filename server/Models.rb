@@ -16,3 +16,6 @@ class Read < ActiveRecord::Base
   belongs_to :interface
   
 end
+
+class Introspect <  ActiveRecord::Base
+end
