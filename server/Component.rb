@@ -76,12 +76,12 @@ class Component
     if (!@introspect_thread.nil?) && @introspect_thread.join # wait for threaded introspect
       
       # Fill cache
-      ttl = Time.now+ 60
-      if @cache.nil?
+      ttl = Time.now+ @introspect["component"]["ttl"]
+      if @cache.nil? # first time
         Introspect.create({ :command_string => @command_string, 
                             :ttl_date       => ttl,
                             :cached_data    => @stout})
-      else
+      else # update cache
         @cache[:ttl_date]    = ttl
         @cache[:cached_data] = @stout
         @cache.save

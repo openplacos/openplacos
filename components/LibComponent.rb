@@ -245,6 +245,7 @@ module LibComponent
       @category    = ""
       @bus         = nil
       @main        = nil
+      @ttl         ||= 60*60*24*31
       @inputs      = Array.new
       @outputs     = Array.new
       @parser      = Parser.new
@@ -274,6 +275,12 @@ module LibComponent
     # Default name for identiying your component
     def default_name(name_)
       @parser.option(:name,"Dbus name of the composant", :default => name_)
+    end
+    
+    # Cache time-to-live value for introspect. 
+    # If your Pin IN/OUT is not static, please set this to 0
+    def ttl(ttl_)
+      @ttl = ttl_
     end
     
     # define an option in command line (micro-optparse syntaxe)
@@ -386,7 +393,8 @@ module LibComponent
       
       # component description
       res["component"]["description"] = @description
-      res["component"]["category"] = @category
+      res["component"]["category"]    = @category
+      res["component"]["ttl"]         = @ttl
       return res
     end
     

@@ -24,6 +24,7 @@ require File.dirname(__FILE__) << "/LibComponent.rb"
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "A virtual placos for testing purpose"
   c.version "0.1"
+  c.ttl  180     # testing purpose
   c.default_name "virtualplacos"
 end
 
