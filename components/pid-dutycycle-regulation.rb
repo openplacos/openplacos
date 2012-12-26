@@ -10,8 +10,8 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.option :actuator , 'Kind of actuator (bool / boolinv (ie active low) / pwm )', :default => "pwm"
   c.option :frequency, 'Default frequency: bool period must be very low (> 10 min), pwm frequency can be high (< 1 sec)', :default => 1
   c.option :proportional, 'Proportional gain', :default => 0.1
-  c.option :differential, 'Differential gain', :default => 0.1
-  c.option :integrative, 'Integrative gain'  , :default => 0.1
+  c.option :differential, 'Differential gain', :default => 0.05
+  c.option :integrative, 'Integrative gain'  , :default => 0.05
 end
 
 
@@ -38,7 +38,7 @@ class Regulation
     @command = 0
 
     # pid controller creation
-    @pidcontroller = PIDController::PID.new(@kp,@ki,@kd)
+    @pidcontroller = PIDController::PID.new(@kp,@ki,@kd, 5)
 
     @thread = Thread.new{
       Thread.current.abort_on_exception = true
