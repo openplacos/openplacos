@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/flagos/rb-pid-controller
+  revision: d439fbe6e902be824792bbd5db6483048225aef0
+  specs:
+    rb-pid-controller (0.0.1)
+
+GIT
   remote: git://github.com/songkick/oauth2-provider
   revision: 11a45851ce6adfa469f043b06dc50a6228967893
   specs:
@@ -55,7 +61,6 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rb-pid-controller (0.0.1)
     rink (1.0.2)
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
@@ -100,7 +105,7 @@ DEPENDENCIES
   micro-optparse (~> 1.1.5)
   oauth2-provider!
   openplacos (~> 0.0.9)
-  rb-pid-controller (~> 0.0.1)
+  rb-pid-controller (~> 0.0.1)!
   rink
   rspec
   ruby-dbus-openplacos (~> 0.7.0)
