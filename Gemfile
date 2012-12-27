@@ -27,6 +27,7 @@ end
 
 group :cliclient do
   gem "rink"
+  gem "highline"
 end
 
 group :webclient do
