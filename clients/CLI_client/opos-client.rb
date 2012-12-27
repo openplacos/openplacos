@@ -27,7 +27,7 @@ require File.expand_path(File.dirname(THIS_FILE)) + "/widget/modules.rb"
 options = Parser.new do |p|
   p.banner = "OpenplacOS CLI"
   p.option :host, "host server url", :default => "http://localhost:4567"
-  p.option :type, "OAuth2 grant type (auth_code, password)", :default => "auth_code", :value_in_set => ["auth_code","password"]
+  p.option :type, "OAuth2 grant type (auth_code, password)", :default => "password", :value_in_set => ["auth_code","password"]
   p.option :username, "If password Oauth2 flow selected, provide username (optional)", :default => ""
   p.option :password, "If password Oauth2 flow selected, provide password (optional)", :default => ""
 end.process!
