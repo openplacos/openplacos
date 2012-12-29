@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby 
 # -*- coding: utf-8 -*-
-#require "rb-pid-controller"
-require File.dirname(__FILE__) << "/pid.rb"
+require "rb-pid-controller"
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
 component = LibComponent::Component.new(ARGV) do |c|
