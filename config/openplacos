@@ -16,7 +16,6 @@ component:
 
 - name: rcswitch
   exec: rcswitch_emw201rf.rb
-  method: debug
 
 - name: regule
   exec: pid-dutycycle-regulation.rb

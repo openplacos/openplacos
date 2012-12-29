@@ -10,9 +10,9 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.default_name "pid-dutycycle-regulation"
   c.option :actuator , 'Kind of actuator (bool / boolinv (ie active low) / pwm )', :default => "pwm"
   c.option :frequency, 'Default frequency: bool period must be very low (> 10 min), pwm frequency can be high (< 1 sec)', :default => 1
-  c.option :proportional, 'Proportional gain', :default => 0.05
-  c.option :differential, 'Differential gain', :default => 0.01
-  c.option :integrative, 'Integrative gain'  , :default => 0.01
+  c.option :proportional, 'Proportional gain', :default => 0.01
+  c.option :differential, 'Differential gain', :default => 0.005
+  c.option :integrative, 'Integrative gain'  , :default => 0.005
 end
 
 
@@ -85,9 +85,13 @@ class Regulation
   def bool
     pid
     Thread.new{ # PWM emulator on bool actuator
-      write_actuator(true)
-      sleep(@command*@frequency)
-      write_actuator(false)
+      if (@command !=0)
+        write_actuator(true)
+        sleep(@command*@frequency)
+      end
+      if (@command !=1)
+        write_actuator(false)
+      end
     }
   end
   
