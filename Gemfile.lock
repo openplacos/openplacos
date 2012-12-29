@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/flagos/rb-pid-controller
-  revision: d439fbe6e902be824792bbd5db6483048225aef0
+  revision: 8947989da672228318dcf7dc6305cf20dcbf8b89
   specs:
     rb-pid-controller (0.0.1)
 
