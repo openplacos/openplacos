@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby 
 # -*- coding: utf-8 -*-
-require "rb-pid-controller"
+#require "rb-pid-controller"
+require File.dirname(__FILE__) << "/pid.rb"
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
 component = LibComponent::Component.new(ARGV) do |c|
@@ -9,9 +10,9 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.default_name "pid-dutycycle-regulation"
   c.option :actuator , 'Kind of actuator (bool / boolinv (ie active low) / pwm )', :default => "pwm"
   c.option :frequency, 'Default frequency: bool period must be very low (> 10 min), pwm frequency can be high (< 1 sec)', :default => 1
-  c.option :proportional, 'Proportional gain', :default => 0.1
-  c.option :differential, 'Differential gain', :default => 0.05
-  c.option :integrative, 'Integrative gain'  , :default => 0.05
+  c.option :proportional, 'Proportional gain', :default => 0.05
+  c.option :differential, 'Differential gain', :default => 0.01
+  c.option :integrative, 'Integrative gain'  , :default => 0.01
 end
 
 
