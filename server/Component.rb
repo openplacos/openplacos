@@ -29,7 +29,7 @@ class Component
     @config         = component_["config"] || Hash.new
     @name           = component_["name"]
     @config["name"] = @name
-    @method         = component_["method"]
+    @method         = component_["method"] || "thread"
     @inputs         = Array.new
                             @outputs        = Array.new
     @thread         = nil # Launcher attribute init
