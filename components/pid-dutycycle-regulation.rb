@@ -86,7 +86,7 @@ class Regulation
     Thread.new{ # PWM emulator on bool actuator
       if (@command !=0)
         write_actuator(true)
-        sleep(@command*@frequency)
+        sleep([@command*@frequency, 1].max)
       end
       if (@command !=1)
         write_actuator(false)
@@ -97,9 +97,13 @@ class Regulation
   def boolinv
     pid
     Thread.new{
-      write_actuator(false)
-      sleep(@command*@frequency)
-      write_actuator(true)
+      if (@command !=0)
+        write_actuator(false)
+        sleep([@command*@frequency, 1].max)
+      end
+      if (@command !=1)
+        write_actuator(true)
+      end
     }
   end  
   
