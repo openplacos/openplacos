@@ -35,7 +35,6 @@ require "active_record"
 require "oauth2/provider"
 require 'logger'
 require 'haml'
-require 'pidfile'
 
 
 # List of local include
@@ -69,7 +68,7 @@ $DEBUG = options[:debug]
 log = Logger.new( options[:log], shift_age = 'monthly')
 
 # create the webserver
-server = ThinServer.new('0.0.0.0', options[:port])
+server = ThinServer.new('0.0.0.0', options[:port], options[:pid_dir])
 
 # deamonize if requested
 # should be done before dbus
@@ -78,10 +77,6 @@ if options[:deamon]
   server.daemonize
 end
 
-# pid file
-if options[:pid_dir] != ""
-  PidFile.new(:piddir => options[:pid_dir], :pidfile => "openplacos.pid")
-end
 
 #Database connexion
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}/tmp/database.db", :pool => 25)

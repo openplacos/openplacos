@@ -282,8 +282,8 @@ end
 
 class ThinServer < Thin::Server
 
-  def initialize(bind,port)
-    @pid_file = "#{File.dirname(__FILE__)}/opos-daemon.pid"
+  def initialize(bind,port, pid_dir_)
+    @pid_file = "#{pid_dir_}/openplacos.pid"
     @log_file = "#{File.dirname(__FILE__)}/opos-daemon.log"
     super(bind,port, :signals => false) do
       use Rack::CommonLogger
