@@ -24,6 +24,7 @@ input.on_write do |value, option|
   end
   output.each { |out|
     out.write(@state,option)
+    sleep 0.2
   }
   return LibComponent::ACK
 end

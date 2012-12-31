@@ -35,6 +35,7 @@ require "active_record"
 require "oauth2/provider"
 require 'logger'
 require 'haml'
+require 'pidfile'
 
 
 # List of local include
@@ -58,6 +59,7 @@ options = Parser.new do |p|
   p.option :port, "port of the webserver", :default => 4567
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
   p.option :deamon, "run the server as a deamon"
+  p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => ""
 end.process!
 
 $DEBUG = options[:debug]
@@ -74,6 +76,11 @@ server = ThinServer.new('0.0.0.0', options[:port])
 # deamonize fork the process so the pid is different
 if options[:deamon]
   server.daemonize
+end
+
+# pid file
+if options[:pid_dir] != ""
+  PidFile.new(:piddir => options[:pid_dir], :pidfile => "openplacos.pid")
 end
 
 #Database connexion
