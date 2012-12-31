@@ -58,7 +58,7 @@ options = Parser.new do |p|
   p.option :port, "port of webserver", :default => 4567
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
   p.option :deamon, "run server as a deamon"
-  p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => File.dirname(__FILE__)
+  p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => ""
 end.process!
 
 $DEBUG = options[:debug]
