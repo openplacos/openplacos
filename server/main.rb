@@ -58,7 +58,7 @@ options = Parser.new do |p|
   p.option :port, "port of webserver", :default => 4567
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
   p.option :deamon, "run server as a deamon"
-  p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => ""
+  p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => File.dirname(__FILE__)
 end.process!
 
 $DEBUG = options[:debug]
@@ -68,7 +68,8 @@ $DEBUG = options[:debug]
 log = Logger.new( options[:log], shift_age = 'monthly')
 
 # create the webserver
-server = ThinServer.new('0.0.0.0', options[:port], options[:pid_dir])
+pid_dir =  options[:pid_dir]
+server = ThinServer.new('0.0.0.0', options[:port], pid_dir)
 
 # deamonize if requested
 # should be done before dbus
