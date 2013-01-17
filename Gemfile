@@ -6,7 +6,7 @@ gem "choice", "~> 0.1.4"
 gem "file-find", "~> 0.3.5"
 
 gem "ruby-dbus-openplacos", "~> 0.7.0"
-gem "rb-pid-controller", "~> 0.0.1"
+gem "rb-pid-controller", "~> 0.0.1", :git => 'git://github.com/flagos/rb-pid-controller'
 
 # for webserver
 group :webserver do
@@ -27,6 +27,7 @@ end
 
 group :cliclient do
   gem "rink"
+  gem "highline"
 end
 
 group :webclient do

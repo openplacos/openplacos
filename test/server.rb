@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 
 class Server
-  DAEMON_FILE = "#{File.dirname(__FILE__)}/../server/opos-daemon.pid"
+  DAEMON_FILE = "#{File.dirname(__FILE__)}/../server/openplacos.pid"
   def initialize(str_)
     @arg = str_
     @status = false

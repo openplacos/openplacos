@@ -1,1 +1,1 @@
-folder for database and logs
+for database

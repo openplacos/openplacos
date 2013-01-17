@@ -1,0 +1,32 @@
+export:
+- /home/pH
+- /home/pH_regul
+
+component:
+
+- name: arduino
+  exec: arduino.rb
+  method: thread
+
+- name: ph_calib
+  exec: linear_sensor.rb
+  method: fork
+  config:
+    file: /usr/share/openplacos/calib_ph.csv  
+
+- name: rcswitch
+  exec: rcswitch_emw201rf.rb
+
+- name: regule
+  exec: pid-dutycycle-regulation.rb
+  method: debug
+  config:
+    actuator: bool
+
+mapping:
+- /ph_calib/raw: /arduino/Analog0
+- /home/pH: /ph_calib/sensor
+- /regule/actuator: /rcswitch/groupA/switch2
+- /regule/sensor: /ph_calib/sensor
+- /rcswitch/transmitter: /arduino/Digital7
+- /home/pH_regul: /regule/regul

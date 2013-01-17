@@ -29,9 +29,9 @@ class Component
     @config         = component_["config"] || Hash.new
     @name           = component_["name"]
     @config["name"] = @name
-    @method         = component_["method"]
+    @method         = component_["method"] || "thread"
     @inputs         = Array.new
-    @outputs        = Array.new
+                            @outputs        = Array.new
     @thread         = nil # Launcher attribute init
     @filename       = component_["exec"]
     @timeout        = component_["timeout"] || 30
@@ -56,14 +56,37 @@ class Component
   end
 
   def introspect
-    @introspect_thread = Thread.new {
-    stout = launch_introspect
-    @introspect = YAML::load( stout)
-    }
+    @cache = Introspect.where(:command_string => @command_string ).first
+    
+    if ((!@cache.nil?) && @cache[:ttl_date] > DateTime.now )
+      # cache hit
+      @is_cached = true
+      @introspect = YAML::load(@cache[:cached_data])
+    else 
+      # cache missed
+      @is_cached = false
+      @introspect_thread = Thread.new {
+        @stout = launch_introspect
+        @introspect = YAML::load( @stout)
+      }
+    end
   end
 
   def analyse
-    @introspect_thread.join # wait for threaded introspect
+    if (!@introspect_thread.nil?) && @introspect_thread.join # wait for threaded introspect
+      
+      # Fill cache
+      ttl = Time.now+ @introspect["component"]["ttl"]
+      if @cache.nil? # first time
+        Introspect.create({ :command_string => @command_string, 
+                            :ttl_date       => ttl,
+                            :cached_data    => @stout})
+      else # update cache
+        @cache[:ttl_date]    = ttl
+        @cache[:cached_data] = @stout
+        @cache.save
+      end
+    end
 
     if (!@introspect["input"].nil?) 
       if (! @introspect["input"]["pin"].nil?)

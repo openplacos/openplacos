@@ -51,13 +51,14 @@ require 'WebServer.rb'
 require 'Top.rb'
 
 options = Parser.new do |p|
-  p.banner = "The openplacos server"
-  p.version = "0.0.1"
-  p.option :file   , "the config file", :default => "/etc/default/openplacos"
+  p.banner = "Openplacos server"
+  p.version = "0.4"
+  p.option :file   , "config file", :default => "/etc/default/openplacos"
   p.option :debug  , "activate the ruby-dbus debug flag"
-  p.option :port, "port of the webserver", :default => 4567
+  p.option :port, "port of webserver", :default => 4567
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
-  p.option :deamon, "run the server as a deamon"
+  p.option :deamon, "run server as a deamon"
+  p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => ""
 end.process!
 
 $DEBUG = options[:debug]
@@ -67,7 +68,8 @@ $DEBUG = options[:debug]
 log = Logger.new( options[:log], shift_age = 'monthly')
 
 # create the webserver
-server = ThinServer.new('0.0.0.0', options[:port])
+pid_dir =  options[:pid_dir]
+server = ThinServer.new('0.0.0.0', options[:port], pid_dir)
 
 # deamonize if requested
 # should be done before dbus
@@ -75,6 +77,7 @@ server = ThinServer.new('0.0.0.0', options[:port])
 if options[:deamon]
   server.daemonize
 end
+
 
 #Database connexion
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}/tmp/database.db", :pool => 25)
