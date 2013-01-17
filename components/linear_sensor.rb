@@ -66,8 +66,7 @@ if File.exist?(component.options[:file])
   alpha, beta = regression(x,y,component.options[:degree])
   
 else
-  alpha = 1
-  beta = 0
+  component.quit_server(10, "File #{component.options[:file]} does not exist")
 end
 
 Sensor.on_read do |*args|
