@@ -70,6 +70,14 @@ module WebServerHelpers
     "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
   end
 
+  def introspect2objects(introspect)
+    obj = {}
+    introspect.each { |o|
+      obj[o["name"]] = o
+    }
+    obj
+  end
+
 end
 
 
@@ -297,13 +305,33 @@ class WebServer < Sinatra::Base
   ####           User application         ####
   ############################################
   get '/' do
-    haml :home
+    redirect ('/overview')
   end
   
   get '/overview' do
     haml :overview,  :locals => {:objects => introspect}
   end
-    
+  
+  get '/opos/*' do
+    device_requested = request.url.sub(request.base_url, "").sub(/opos/, "").sub("//", "/") # the last sub works by experience ;-)
+
+    objects  = introspect2objects(introspect)
+    obj_name = device_requested.split('?').first
+
+    if (!objects.include?(obj_name))
+      return "Object #{obj_name} does not exist"
+    end    
+
+    if params.has_key?("interface") # special rendering for iface
+      haml :view_interface, :locals => {
+        :obj_name => obj_name, 
+        :object => objects[obj_name], 
+        :interface =>  params[:interface]}
+    else
+      haml :view_object, :locals => {:obj_name => obj_name, :object => objects[obj_name]}
+    end
+  end
+
   
 
 end

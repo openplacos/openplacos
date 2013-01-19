@@ -1,5 +1,4 @@
 %h1 OpenplacOS overview
-= base_url
 - objects.each do | object|
   != haml :"view_object",  :locals => {:obj_name => object["name"], :object => object}
  

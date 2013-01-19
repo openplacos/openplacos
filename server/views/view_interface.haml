@@ -3,7 +3,7 @@
 #container{:style => "height: 500px"}
 :javascript
   $(function() {
-     var opos = new OposClient("#{ Connect.instance.url}","salut",['read','write']);
+     var opos = new OposClient("#{base_url }","salut",['read','write']);
      opos.set_token(" ");
 
      opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : ''}, function(data) { 
