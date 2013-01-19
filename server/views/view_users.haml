@@ -3,6 +3,8 @@
 %table.table-striped
   %tbody
     - users.each do |user|
-      = user.login
+      %tr
+        %td
+          = user.login
 
 %a#add_user.btn.btn-primary.btn-large{:href =>"/users/new"}  Add user
