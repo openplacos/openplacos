@@ -222,7 +222,10 @@ class WebServer < Sinatra::Base
 
   ## User api
   
-  
+  get '/users' do
+    haml :view_users, :locals => {:users => User.all}
+  end
+
   # user creation view
   get '/users/new' do
     @user = User.new

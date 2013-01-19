@@ -12,3 +12,12 @@ h2 {
     margin-top: 20px;
     margin-bottom: 4px;
 }
+
+#add_user {
+    margin-top: 60px;
+}
+
+#new_user {
+    margin-bottom: 10px;
+    margin-top: 20px
+}
