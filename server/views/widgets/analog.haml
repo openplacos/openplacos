@@ -1,0 +1,46 @@
+- if interface.start_with?("analog.regul") || interface.start_with?("analog.order")   
+  %div{:class => "inner_iface_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '-')}", :onClick => "input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}();"}
+- else
+  %div{:class => "inner_iface_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '-')}"} 
+
+:javascript
+  var opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')} = new OposClient("#{base_url}","salut",['read','write']);
+  var is_input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')} = 0;
+  opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}.set_token(" ");
+
+  function refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}(){
+    if (!is_input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}) {
+       opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}'}, function(msg) { 
+       $(".inner_iface_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '-')}").html(msg.value ); });
+    
+     }   
+    };
+
+  refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}();
+  $(document).ready(function() {
+    setInterval('refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}();',1000);
+    }
+  );
+
+  function input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}(){
+    if (!is_input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}) {
+      is_input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')} = 1;
+      $(".inner_iface_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '-')}").html("<input name=\"input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '-')}\" onblur=\"post_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}()\" onkeydown=\"is_enter_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}(event)\" > </input>");
+    }     
+  };
+
+  function post_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}(){
+    var value = parseFloat(document.getElementsByName("input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '-')}")[0].value)
+
+    opos_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}.post( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'value':JSON.stringify([value])},function(msg) {
+       is_input_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')} = 0;
+       refresh_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')};
+       }
+     );
+  };
+
+  function is_enter_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}(e) {
+     if (e.keyCode == 13) {
+       post_#{obj_name.gsub(/\//, '')}_#{interface.gsub(/\./, '')}();
+     }
+  };	

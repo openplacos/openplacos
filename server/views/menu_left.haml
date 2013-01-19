@@ -1,0 +1,7 @@
+%ul.nav.nav-list
+  - showroom.each_pair do |room, objs|
+    %li.nav-header= room.split('/').join(' / ')
+    
+    - objs.each do |obj|
+      %li 
+        %a{:href =>  "/opos"+obj["name"]}= obj["name"].split('/').last

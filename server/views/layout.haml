@@ -1,12 +1,45 @@
 !!!
 %html
   %head
-    %meta{ 'http-equiv'=>"Content-type", :content=>"text/html; charset=utf-8"}
-    %title OpenplacOS server
-    %link{:rel=>"stylesheet", :href=>"/style.css"}
-  %body
-    .header
-      .sub
-        %h1 OpenplacOS Server
-    .content
-      .sub= yield
+    %title OpenplacOS webclient
+    %script{:src => "/lib/jquery-1.7.min.js"}
+    %script{:src => "/lib/bootstrap/js/bootstrap.min.js", :type => "text/javascript"}
+    %script{:src => "/lib/checkbox/jquery.checkbox.min.js", :type => "text/javascript"}
+    %script{:src => "/lib/highstock/js/highstock.js", :type => "text/javascript"}
+    %script{:src => "/lib/highstock/js/modules/exporting.js", :type => "text/javascript"}
+    %script{:src => "/lib/oposclient/OposClient.js", :type => "text/javascript"}  
+    %link{:href => "/lib/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}
+    %link{:href => "/lib/checkbox/jquery.checkbox.css", :rel => "stylesheet"}
+    %link{:href => "/twitter_bootstrap.css", :rel => "stylesheet"}
+
+  
+  %body{:style => "padding-top: 50px;"}
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{:href => "/"}
+            Openplacos web client
+          %ul.nav
+            %li
+              %a{:href => "/overview"} Overview
+            %li
+              %a{:href => "/user"} My account
+          %ul.nav.pull-right
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "/user"}
+                toto
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  %a{:href => "/login"} Login
+                %li
+                  %a{:href => "/logout"} Logout
+    .container
+      .row
+        .span3
+          .well
+            = haml :menu_left
+        .span9
+          - if @error then
+            .alert.alert-error= @error
+          = yield

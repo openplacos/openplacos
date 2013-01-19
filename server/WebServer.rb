@@ -1,3 +1,6 @@
+require "openplacos/libclient"
+
+
 module WebServerHelpers
   
   def set_header
@@ -51,7 +54,24 @@ module WebServerHelpers
     yield token
   end
 
+  # helpers for website part
+  def showroom
+    roomlist = Hash.new
+    introspect.each do |mod|
+      room = mod["name"].split("/")
+      room.pop
+      room.delete("")
+      (roomlist[room.join('/')] || roomlist[room.join(' / ')] = [] )<< mod
+    end 
+    roomlist
+  end
+
+  def base_url
+    "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
+  end
+
 end
+
 
 class WebServer < Sinatra::Base
   
@@ -213,12 +233,6 @@ class WebServer < Sinatra::Base
   
   
   # Opos api
-  
-  get '/' do
-    haml :home
-  end
-  
- 
   get '/ressources' do
     set_header
     content_type :json
@@ -278,6 +292,20 @@ class WebServer < Sinatra::Base
     response['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
   end
 
+
+  ############################################
+  ####           User application         ####
+  ############################################
+  get '/' do
+    haml :home
+  end
+  
+  get '/overview' do
+    haml :overview,  :locals => {:objects => introspect}
+  end
+    
+  
+
 end
 
 class ThinServer < Thin::Server
@@ -290,6 +318,7 @@ class ThinServer < Thin::Server
     end
     @pid_file = "#{pid_dir}/openplacos.pid"
     @log_file = "#{File.dirname(__FILE__)}/opos-daemon.log"
+
     super(bind,port, :signals => false) do
       use Rack::CommonLogger
       use Rack::ShowExceptions
