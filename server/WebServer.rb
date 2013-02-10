@@ -347,8 +347,7 @@ class ThinServer < Thin::Server
     else
       pid_dir = pid_dir_
     end
-    PidFile.new(:piddir => pid_dir, :pidfile => "openplacos.pid")
-    @pid_file="/tmp/opos.pid"
+    @pid_file="#{pid_dir}/openplacos.pid"
     @log_file = "#{File.dirname(__FILE__)}/opos-daemon.log"
 
     super(bind,port, :signals => false) do
