@@ -18,7 +18,7 @@ class Server
       end
       sleep 0.5 # maybee the deamon need mode time to quit
     end
-    @status = system "#{File.dirname(__FILE__)}/../server/main.rb --deamon " + @arg 
+    @status = system "#{File.dirname(__FILE__)}/../server/main.rb --daemon " + @arg 
     @status = wait_launch if @status==true
     return @status
   end

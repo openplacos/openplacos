@@ -57,7 +57,7 @@ options = Parser.new do |p|
   p.option :debug  , "activate the ruby-dbus debug flag"
   p.option :port, "port of webserver", :default => 4567
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
-  p.option :deamon, "run server as a deamon"
+  p.option :daemon, "run server as a daemon"
   p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => ""
 end.process!
 
@@ -71,10 +71,10 @@ log = Logger.new( options[:log], shift_age = 'monthly')
 pid_dir =  options[:pid_dir]
 server = ThinServer.new('0.0.0.0', options[:port], pid_dir)
 
-# deamonize if requested
+# daemonize if requested
 # should be done before dbus
-# deamonize fork the process so the pid is different
-if options[:deamon]
+# daemonize fork the process so the pid is different
+if options[:daemon]
   server.daemonize
 end
 
