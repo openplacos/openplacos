@@ -17,7 +17,6 @@ group :webserver do
   gem 'thin', "~> 1.3.1"
   gem 'haml'
   gem 'sinatra-content-for'
-  gem "pidfile", "~> 0.3.0"
 end
 
 #for clients

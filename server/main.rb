@@ -49,7 +49,6 @@ require 'Export.rb'
 require 'Info.rb'
 require 'WebServer.rb'
 require 'Top.rb'
-require 'pidfile'
 
 options = Parser.new do |p|
   p.banner = "Openplacos server"
