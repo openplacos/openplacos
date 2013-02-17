@@ -78,8 +78,6 @@ if options[:daemon]
   server.daemonize
 end
 
-puts options[:pid_dir]
-puts options[:daemon]
 if options[:pid_dir]!="" && !options[:daemon]
   puts "It doesn't any sense to set a directory for pid and to not run into daemon mode"
   puts "Please use daemon option to do so"
