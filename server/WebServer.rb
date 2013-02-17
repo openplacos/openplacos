@@ -234,7 +234,9 @@ class WebServer < Sinatra::Base
 
   # Post method for user creation
   post '/users/create' do
-    @user = User.create(params)
+    @user = User.create(:login     => params[:login],
+                        :password => params[:password].crypt('opos')
+                        )
     if @user.save
       haml :create_user
     else
