@@ -22,6 +22,7 @@ class Serial_Arduino
   def initialize(component_, port_,baup_,voltage_)
     @voltage   = voltage_
     @component = component_
+    Thread.current.priority = 5 # begin test, need CPU priority
     begin
       @sp = SerialPort.new port_, baup_
     rescue
@@ -46,6 +47,7 @@ class Serial_Arduino
     rescue Timeout::Error 
       @component.quit_server(10, "Arduino board did not respond in time")
     end
+    Thread.current.priority = 0
   end
   
   def write(string_)
