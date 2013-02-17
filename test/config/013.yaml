@@ -1,0 +1,12 @@
+export:
+- /Fan
+
+component:
+
+- name: virtualplacos
+  exec: virtualplacos.rb
+  method: thread
+  
+
+mapping:
+- /Fan: /virtualplacos/Fan
