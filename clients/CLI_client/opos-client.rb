@@ -49,7 +49,7 @@ if options[:type]=="password"
     password = options[:password]
   else
     require 'highline/import' # interactive
-    password =  ask("Enter your password:  ") { |q| q.echo = "*" }
+    password =  ask("Enter your password:  ") { |q| q.echo = false }
   end
 end
 
