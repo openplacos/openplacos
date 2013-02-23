@@ -158,12 +158,7 @@ module Openplacos
     private 
     
     def get_token
-      begin
         @token = @client.password.get_token(@username, @password, {:redirect_uri => @redirect_uri},{:mode=>:header, :header_format=>"OAuth %s", :param_name=>"oauth_token"})
-      rescue => e
-       puts e
-       retry
-      end
     end
     
   end
