@@ -79,6 +79,10 @@ describe Server, "#config" do
   it "should launch in debug mode" do
     run_one_test(File.dirname(__FILE__)+"/config/012.yaml").should eq(true)
   end
-
+ 
+  it "should not launch if an exported object is not mapped" do
+    run_one_test(File.dirname(__FILE__)+"/config/013.yaml").should eq(false)
+  end
+ 
 end
 

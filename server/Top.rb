@@ -90,6 +90,9 @@ class Top
   
   def update_exported_ifaces 
     @exports.each_value do |export|
+      if !Dispatcher.instance.is_bind?(export.dbus_name)
+        Globals.error("#{export.dbus_name} is not map", 43)
+      end
       export.update_ifaces
     end
   end
