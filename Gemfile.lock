@@ -5,6 +5,15 @@ GIT
     rb-pid-controller (0.0.1)
 
 GIT
+  remote: git://github.com/openplacos/openplacos-libclient
+  revision: c3f6f0f7b191817df5e4655c5b408ba1ff633641
+  specs:
+    openplacos (0.0.9)
+      json (~> 1.7.0)
+      oauth2 (~> 0.7.1)
+      ruby-dbus-openplacos (~> 0.7.0)
+
+GIT
   remote: git://github.com/songkick/oauth2-provider
   revision: 11a45851ce6adfa469f043b06dc50a6228967893
   specs:
@@ -36,27 +45,23 @@ GEM
     daemons (1.1.8)
     diff-lcs (1.1.3)
     eventmachine (0.12.10)
-    faraday (0.8.0)
+    faraday (0.8.6)
       multipart-post (~> 1.1)
     file-find (0.3.5)
       sys-admin (>= 1.5.2)
     haml (3.1.4)
     highline (1.6.15)
-    httpauth (0.1)
+    httpauth (0.2.0)
     i18n (0.6.0)
     json (1.7.0)
     micro-optparse (1.1.5)
     multi_json (1.3.4)
-    multipart-post (1.1.5)
+    multipart-post (1.2.0)
     oauth2 (0.7.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
       multi_json (~> 1.0)
       rack (~> 1.4)
-    openplacos (0.0.9)
-      json (~> 1.7.0)
-      oauth2 (~> 0.7.1)
-      ruby-dbus-openplacos (~> 0.7.0)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
@@ -106,7 +111,7 @@ DEPENDENCIES
   highline
   micro-optparse (~> 1.1.5)
   oauth2-provider!
-  openplacos (~> 0.0.9)
+  openplacos!
   rb-pid-controller (~> 0.0.1)!
   rink
   rspec

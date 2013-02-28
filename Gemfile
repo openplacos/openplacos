@@ -21,7 +21,7 @@ end
 
 #for clients
 group :clients do
-  gem "openplacos", "~> 0.0.9"
+  gem "openplacos", :git => 'git://github.com/openplacos/openplacos-libclient'
   gem "micro-optparse", "~> 1.1.5"
 end
 
