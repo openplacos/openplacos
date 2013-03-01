@@ -48,7 +48,9 @@ require 'Dispatcher.rb'
 require 'Export.rb'
 require 'Info.rb'
 require 'WebServer.rb'
+require 'Memory_profiler.rb'
 require 'Top.rb'
+
 
 options = Parser.new do |p|
   p.banner = "Openplacos server"
@@ -154,6 +156,13 @@ else
   tracker = Tracker.new(top,10)
   tracker.track
 end
+
+# memory profiler
+MEM_PROFIL = false # please keep it desactivated by default
+if (MEM_PROFIL)
+  MemoryProfiler.start(:delay => 20)
+end
+
 # start the WebServer
 server.start
 
