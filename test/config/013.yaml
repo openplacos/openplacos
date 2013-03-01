@@ -1,10 +1,6 @@
 export:
-<<<<<<< HEAD
-- /Fan
-=======
 - /TOTO
 -  /home/temperature
->>>>>>> b49a758548b8b7c88d3cb0fa5c42ed052f282dd9
 
 component:
 
@@ -12,11 +8,6 @@ component:
   exec: virtualplacos.rb
   method: thread
   
-<<<<<<< HEAD
-
-mapping:
-- /Fan: /virtualplacos/Fan
-=======
 - name: lm335
   exec: lm335.rb
   method: thread
@@ -24,4 +15,3 @@ mapping:
 mapping:
 - /lm335/raw: /virtualplacos/Analog1
 - /home/temperature: /lm335/temperature
->>>>>>> b49a758548b8b7c88d3cb0fa5c42ed052f282dd9
