@@ -1,5 +1,3 @@
-pathfinder:
-- ../
 
 export:
 - /home/temperature
