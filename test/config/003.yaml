@@ -1,6 +1,0 @@
-
-export:
-- /home/temperature
-- /home/humidity
-- /home/fan
-- /home/light

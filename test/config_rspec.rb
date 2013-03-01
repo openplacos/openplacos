@@ -40,14 +40,6 @@ describe Server, "#config" do
     run_one_test(File.dirname(__FILE__)+"/config/002.yaml").should eq(true)
   end
   
-  it "should launch without components (config 003.yaml)" do
-    run_one_test(File.dirname(__FILE__)+"/config/003.yaml").should eq(true)
-  end
-  
-  it "should launch without mapping (config 004.yaml)" do
-    run_one_test(File.dirname(__FILE__)+"/config/004.yaml").should eq(true)
-  end
-  
   it "should launch with all components in fork (config 005.yaml)" do
     run_one_test(File.dirname(__FILE__)+"/config/005.yaml").should eq(true)
   end
