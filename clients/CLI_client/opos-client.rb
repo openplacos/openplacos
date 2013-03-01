@@ -53,8 +53,12 @@ if options[:type]=="password"
   end
 end
 
-Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type], 0,{:username => username, :password=>password} ) # Beurk -- Constant acting as a global variable
-
+begin
+  Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type], 0,{:username => username, :password=>password} ) # Beurk -- Constant acting as a global variable
+rescue
+  puts "Authentification failure"
+  Process.exit 255
+end
 
 class OpenplacOS_Console < Rink::Console
   command :help do 

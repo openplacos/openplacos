@@ -52,6 +52,11 @@ class Dispatcher
     end
   end
 
+  # return true if pin_name is bind 
+  def is_bind?(pin_name)
+    @binding.has_key?(pin_name) &&  !@binding[pin_name].empty?
+  end
+
   def call(pin_sender_name_, iface_, method_, *args_) 
     # Set iface to mapping inherited iface  
     if(@iface_inherit[pin_sender_name_][iface_].nil?)
