@@ -99,8 +99,8 @@ internalservice = InternalBus.request_service("org.openplacos.server.internal")
 internalservice.threaded = true
 
 def quit(top_, internalmain_,server_)
-  top_.quit
-  internalmain_.quit
+  #top_.quit
+  #internalmain_.quit
   server_.stop!
 end
 
@@ -165,6 +165,9 @@ end
 
 # start the WebServer
 server.start
+
+top.quit
+internalmain.quit
 
 top.components.each { |c|
   if !c.thread.nil?
