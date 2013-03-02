@@ -5,3 +5,4 @@ rvm:
   - 2.0.0
 # uncomment this line if your project needs to run something other than `rake`:
 script: dbus-launch bundle exec rspec test/*_rspec.rb
+after_script:  cat server/opos-daemon.log
