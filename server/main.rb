@@ -147,6 +147,7 @@ Signal.trap('TERM') do
 end
 
 Signal.trap('INT') do 
+ OUT=1
   quit(top, internalmain,server)
 end
 
@@ -162,9 +163,19 @@ MEM_PROFIL = false # please keep it desactivated by default
 if (MEM_PROFIL)
   MemoryProfiler.start(:delay => 20)
 end
-
+OUT = 0
 # start the WebServer
-server.start
+# server.start
+dis = Dispatcher.instance
+while 1 do
+  top.exports.each do |e|
+    dis.call(e[0], e[1].pin_web.ifaces[0], "read", [])
+  end
+  sleep 0.1
+  if OUT==1
+    break
+  end
+end
 
 top.quit
 internalmain.quit
