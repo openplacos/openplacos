@@ -5,7 +5,7 @@ gem "micro-optparse", "~> 1.1.5"
 gem "choice", "~> 0.1.4"
 gem "file-find", "~> 0.3.5"
 
-gem "ruby-dbus-openplacos", "~> 0.7.0"
+gem "ruby-dbus-openplacos", "~> 0.7.2.2"
 gem "rb-pid-controller", :git => 'git://github.com/flagos/rb-pid-controller'
 
 # for webserver
