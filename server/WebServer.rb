@@ -120,13 +120,13 @@ class WebServer < Sinatra::Base
  
   # For register client (User point of view)
   get '/oauth/apps/new' do
-    @client = OAuth2::Model::Client.new
+    @client = Songkick::OAuth2::Model::Client.new
     haml :new_client
   end
 
   # Post method for register a client
   post '/oauth/apps.?:format?' do
-    @client = OAuth2::Model::Client.new(params)
+    @client = Songkick::OAuth2::Model::Client.new(params)
     if params[:format]=="json"
       content_type :json
       @client.save ? {"client_id" => @client.client_id, "client_secret" => @client.client_secret}.to_json : @client.errors.full_messages.to_json
