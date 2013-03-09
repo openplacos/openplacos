@@ -1,16 +1,16 @@
 source "http://rubygems.org"
 
-gem "serialport", "~> 1.0.4"
+gem "serialport", "~> 1.1.0"
 gem "micro-optparse", "~> 1.1.5"
 gem "choice", "~> 0.1.4"
 gem "file-find", "~> 0.3.5"
 
-gem "ruby-dbus-openplacos", "~> 0.7.0"
-gem "rb-pid-controller", "~> 0.0.1", :git => 'git://github.com/flagos/rb-pid-controller'
+gem "ruby-dbus-openplacos", "~> 0.7.2.2"
+gem "rb-pid-controller", :git => 'git://github.com/flagos/rb-pid-controller'
 
 # for webserver
 group :webserver do
-  gem 'oauth2-provider', :require => 'oauth2/provider', :git => 'git://github.com/songkick/oauth2-provider'
+  gem 'songkick-oauth2-provider', :require => 'oauth2/provider', :git => 'git://github.com/songkick/oauth2-provider'
   gem "activerecord"
   gem 'sqlite3'
   gem 'sinatra', "~> 1.3.2"
@@ -21,7 +21,7 @@ end
 
 #for clients
 group :clients do
-  gem "openplacos", "~> 0.0.9"
+  gem "openplacos", :git => 'git://github.com/openplacos/openplacos-libclient'
   gem "micro-optparse", "~> 1.1.5"
 end
 

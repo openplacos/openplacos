@@ -32,7 +32,7 @@ require 'micro-optparse'
 require 'thin'
 require 'sinatra/base'
 require "active_record"
-require "oauth2/provider"
+require "songkick/oauth2/provider"
 require 'logger'
 require 'haml'
 
@@ -48,7 +48,9 @@ require 'Dispatcher.rb'
 require 'Export.rb'
 require 'Info.rb'
 require 'WebServer.rb'
+require 'Memory_profiler.rb'
 require 'Top.rb'
+
 
 options = Parser.new do |p|
   p.banner = "Openplacos server"
@@ -78,8 +80,6 @@ if options[:daemon]
   server.daemonize
 end
 
-puts options[:pid_dir]
-puts options[:daemon]
 if options[:pid_dir]!="" && !options[:daemon]
   puts "It doesn't any sense to set a directory for pid and to not run into daemon mode"
   puts "Please use daemon option to do so"
@@ -99,8 +99,8 @@ internalservice = InternalBus.request_service("org.openplacos.server.internal")
 internalservice.threaded = true
 
 def quit(top_, internalmain_,server_)
-  top_.quit
-  internalmain_.quit
+  #top_.quit
+  #internalmain_.quit
   server_.stop!
 end
 
@@ -156,8 +156,18 @@ else
   tracker = Tracker.new(top,10)
   tracker.track
 end
+
+# memory profiler
+MEM_PROFIL = false # please keep it desactivated by default
+if (MEM_PROFIL)
+  MemoryProfiler.start(:delay => 20)
+end
+
 # start the WebServer
 server.start
+
+top.quit
+internalmain.quit
 
 top.components.each { |c|
   if !c.thread.nil?

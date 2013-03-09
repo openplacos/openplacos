@@ -1,0 +1,17 @@
+export:
+- /TOTO
+-  /home/temperature
+
+component:
+
+- name: virtualplacos
+  exec: virtualplacos.rb
+  method: thread
+  
+- name: lm335
+  exec: lm335.rb
+  method: thread
+
+mapping:
+- /lm335/raw: /virtualplacos/Analog1
+- /home/temperature: /lm335/temperature

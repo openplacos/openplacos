@@ -1,14 +1,23 @@
 GIT
   remote: git://github.com/flagos/rb-pid-controller
-  revision: 8947989da672228318dcf7dc6305cf20dcbf8b89
+  revision: b911c86a1055a63fcca051f3e4a63975d49ae57f
   specs:
     rb-pid-controller (0.0.1)
 
 GIT
-  remote: git://github.com/songkick/oauth2-provider
-  revision: 11a45851ce6adfa469f043b06dc50a6228967893
+  remote: git://github.com/openplacos/openplacos-libclient
+  revision: e9bcbbbd61822231f09d3c9ea5da849298a1cedb
   specs:
-    oauth2-provider (0.1.0)
+    openplacos (0.0.9)
+      json (~> 1.7.0)
+      oauth2 (~> 0.7.1)
+      ruby-dbus-openplacos (~> 0.7.0)
+
+GIT
+  remote: git://github.com/songkick/oauth2-provider
+  revision: 34e65c6b75d570632cf18236d0b68154d56fc5a0
+  specs:
+    songkick-oauth2-provider (0.10.2)
       activerecord
       bcrypt-ruby
       json
@@ -17,83 +26,82 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    activemodel (3.2.3)
-      activesupport (= 3.2.3)
+    activemodel (3.2.12)
+      activesupport (= 3.2.12)
       builder (~> 3.0.0)
-    activerecord (3.2.3)
-      activemodel (= 3.2.3)
-      activesupport (= 3.2.3)
+    activerecord (3.2.12)
+      activemodel (= 3.2.12)
+      activesupport (= 3.2.12)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activesupport (3.2.3)
+    activesupport (3.2.12)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
-    backports (2.6.1)
+    backports (3.0.3)
     bcrypt-ruby (3.0.1)
-    builder (3.0.0)
+    builder (3.0.4)
     choice (0.1.6)
-    daemons (1.1.8)
-    diff-lcs (1.1.3)
-    eventmachine (0.12.10)
-    faraday (0.8.0)
+    daemons (1.1.9)
+    diff-lcs (1.2.1)
+    eventmachine (1.0.1)
+    faraday (0.8.6)
       multipart-post (~> 1.1)
+    ffi (1.4.0)
     file-find (0.3.5)
       sys-admin (>= 1.5.2)
-    haml (3.1.4)
+    haml (4.0.0)
+      tilt
     highline (1.6.15)
-    httpauth (0.1)
-    i18n (0.6.0)
-    json (1.7.0)
+    httpauth (0.2.0)
+    i18n (0.6.4)
+    json (1.7.7)
     micro-optparse (1.1.5)
-    multi_json (1.3.4)
-    multipart-post (1.1.5)
+    multi_json (1.6.1)
+    multipart-post (1.2.0)
     oauth2 (0.7.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
       multi_json (~> 1.0)
       rack (~> 1.4)
-    openplacos (0.0.9)
-      json (~> 1.7.0)
-      oauth2 (~> 0.7.1)
-      ruby-dbus-openplacos (~> 0.7.0)
-    rack (1.4.1)
-    rack-protection (1.2.0)
+    rack (1.5.2)
+    rack-protection (1.4.0)
       rack
-    rack-test (0.6.1)
+    rack-test (0.6.2)
       rack (>= 1.0)
     rink (1.0.2)
-    rspec (2.9.0)
-      rspec-core (~> 2.9.0)
-      rspec-expectations (~> 2.9.0)
-      rspec-mocks (~> 2.9.0)
-    rspec-core (2.9.0)
-    rspec-expectations (2.9.1)
-      diff-lcs (~> 1.1.3)
-    rspec-mocks (2.9.0)
-    ruby-dbus-openplacos (0.7.2.1)
-    serialport (1.0.4)
-    sinatra (1.3.2)
-      rack (~> 1.3, >= 1.3.6)
-      rack-protection (~> 1.2)
+    rspec (2.13.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
+    rspec-core (2.13.0)
+    rspec-expectations (2.13.0)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.13.0)
+    ruby-dbus-openplacos (0.7.2.2)
+    serialport (1.1.0)
+    sinatra (1.3.5)
+      rack (~> 1.4)
+      rack-protection (~> 1.3)
       tilt (~> 1.3, >= 1.3.3)
     sinatra-content-for (0.1)
       sinatra
-    sinatra-contrib (1.3.1)
+    sinatra-contrib (1.3.2)
       backports (>= 2.0)
       eventmachine
       rack-protection
       rack-test
       sinatra (~> 1.3.0)
       tilt (~> 1.3)
-    sqlite3 (1.3.6)
-    sys-admin (1.5.6)
+    sqlite3 (1.3.7)
+    sys-admin (1.6.0)
+      ffi (>= 1.1.0)
     thin (1.3.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
-    tilt (1.3.3)
-    tzinfo (0.3.33)
+    tilt (1.3.4)
+    tzinfo (0.3.35)
 
 PLATFORMS
   ruby
@@ -105,15 +113,15 @@ DEPENDENCIES
   haml
   highline
   micro-optparse (~> 1.1.5)
-  oauth2-provider!
-  openplacos (~> 0.0.9)
-  rb-pid-controller (~> 0.0.1)!
+  openplacos!
+  rb-pid-controller!
   rink
   rspec
-  ruby-dbus-openplacos (~> 0.7.0)
-  serialport (~> 1.0.4)
+  ruby-dbus-openplacos (~> 0.7.2.2)
+  serialport (~> 1.1.0)
   sinatra (~> 1.3.2)
   sinatra-content-for
   sinatra-contrib (~> 1.3.1)
+  songkick-oauth2-provider!
   sqlite3
   thin (~> 1.3.1)

@@ -44,7 +44,7 @@ module WebServerHelpers
   end
 
   def verify_access(scope)
-    token = OAuth2::Provider.access_token(nil, [scope.to_s], request)
+    token = Songkick::OAuth2::Provider.access_token(nil, [scope.to_s], request)
     
     headers token.response_headers
     status  token.response_status
@@ -106,10 +106,10 @@ class WebServer < Sinatra::Base
   }
   
   # Create oauth2 provider
-  OAuth2::Provider.realm = 'Opos oauth2 provider'
+  Songkick::OAuth2::Provider.realm = 'Opos oauth2 provider'
  
   # Password credential method
-  OAuth2::Provider.handle_passwords do |client, login, password|
+  Songkick::OAuth2::Provider.handle_passwords do |client, login, password|
     user = User.find_by_login(login)
     if !user.nil? && user.authenticate?(password)
       user.grant_access!(client)
@@ -120,13 +120,13 @@ class WebServer < Sinatra::Base
  
   # For register client (User point of view)
   get '/oauth/apps/new' do
-    @client = OAuth2::Model::Client.new
+    @client = Songkick::OAuth2::Model::Client.new
     haml :new_client
   end
 
   # Post method for register a client
   post '/oauth/apps.?:format?' do
-    @client = OAuth2::Model::Client.new(params)
+    @client = Songkick::OAuth2::Model::Client.new(params)
     if params[:format]=="json"
       content_type :json
       @client.save ? {"client_id" => @client.client_id, "client_secret" => @client.client_secret}.to_json : @client.errors.full_messages.to_json
@@ -155,7 +155,7 @@ class WebServer < Sinatra::Base
       
       # parse the OAuth request (like grant_type etc)
       # return a Authorisation object
-      @oauth2 = OAuth2::Provider.parse(@owner, request)
+      @oauth2 = Songkick::OAuth2::Provider.parse(@owner, request)
       
       # Client already autorized ?
       # Redirect to client if already granted.
@@ -179,7 +179,7 @@ class WebServer < Sinatra::Base
     @user = User.find_by_login(params[:login])
     
     # Parse the request
-    @oauth2 = OAuth2::Provider.parse(@user, request)
+    @oauth2 = Songkick::OAuth2::Provider.parse(@user, request)
     
     #verify if the password is ok, else render the login form
     if @user and @user.authenticate?(params[:password])
@@ -206,7 +206,7 @@ class WebServer < Sinatra::Base
     @user = User.find_by_id(session[:user_id])
     
     #create the authorization
-    @auth = OAuth2::Provider::Authorization.new(@user, params)
+    @auth = Songkick::OAuth2::Provider::Authorization.new(@user, params)
 
     #grand or deny acces, according to the post params
     if params['allow'] == '1'
@@ -234,7 +234,9 @@ class WebServer < Sinatra::Base
 
   # Post method for user creation
   post '/users/create' do
-    @user = User.create(params)
+    @user = User.create(:login     => params[:login],
+                        :password => params[:password].crypt('opos')
+                        )
     if @user.save
       haml :create_user
     else
@@ -347,7 +349,7 @@ class ThinServer < Thin::Server
     else
       pid_dir = pid_dir_
     end
-    @pid_file="#{pid_dir}/openplacos.pid"
+    @pid_file = "#{pid_dir}/openplacos.pid"
     @log_file = "#{File.dirname(__FILE__)}/opos-daemon.log"
 
     super(bind,port, :signals => false) do

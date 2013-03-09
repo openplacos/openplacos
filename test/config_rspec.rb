@@ -40,14 +40,6 @@ describe Server, "#config" do
     run_one_test(File.dirname(__FILE__)+"/config/002.yaml").should eq(true)
   end
   
-  it "should launch without components (config 003.yaml)" do
-    run_one_test(File.dirname(__FILE__)+"/config/003.yaml").should eq(true)
-  end
-  
-  it "should launch without mapping (config 004.yaml)" do
-    run_one_test(File.dirname(__FILE__)+"/config/004.yaml").should eq(true)
-  end
-  
   it "should launch with all components in fork (config 005.yaml)" do
     run_one_test(File.dirname(__FILE__)+"/config/005.yaml").should eq(true)
   end
@@ -79,6 +71,10 @@ describe Server, "#config" do
   it "should launch in debug mode" do
     run_one_test(File.dirname(__FILE__)+"/config/012.yaml").should eq(true)
   end
-
+ 
+  it "should not launch if an exported object is not mapped" do
+    run_one_test(File.dirname(__FILE__)+"/config/013.yaml").should eq(false)
+  end
+ 
 end
 
