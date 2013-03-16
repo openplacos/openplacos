@@ -61,6 +61,7 @@ options = Parser.new do |p|
   p.option :log, "path to logfile", :default => "/tmp/opos.log"
   p.option :daemon, "run server as a daemon"
   p.option :pid_dir, "directory for pid file. PID file will be named openplacos.pid", :default => ""
+  p.option :db_path, "path for sqlite db", :default => "#{SERVER_PATH}/tmp/database.db"
 end.process!
 
 $DEBUG = options[:debug]
@@ -87,7 +88,7 @@ if options[:pid_dir]!="" && !options[:daemon]
 end
 
 #Database connexion
-ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}/tmp/database.db", :pool => 25)
+ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => options[:db_path], :pool => 25)
 ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}/tmp/database.log")
 ActiveRecord::Migrator.migrate("#{SERVER_PATH}db")
 
