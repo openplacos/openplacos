@@ -3,7 +3,7 @@ Description=OpenplacOS
 Wants=dbus.service
 
 [Service]                                         
-ExecStart= /bin/sh -c "dbus-launch /usr/bin/openplacos-server -a -i /var/run/ -f /etc/openplacos.conf &"
+ExecStart= /bin/sh -c "dbus-launch /usr/bin/openplacos-server -a -i /var/run/ -f /etc/openplacos.conf --db-path /usr/share/openplacos/database.db &"
 Type=forking
 PIDFile=/var/run/openplacos.pid
 User=openplacos
