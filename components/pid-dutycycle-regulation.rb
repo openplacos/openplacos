@@ -12,6 +12,8 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.option :proportional, 'Proportional gain', :default => 0.01
   c.option :differential, 'Differential gain', :default => 0.005
   c.option :integrative, 'Integrative gain'  , :default => 0.005
+  c.option :dividor, 'Gain dividor. Divide all gains by this factor since cant pass float'  , :default => 1
+  c.option :initial_value, 'Set regulation active on start and set consign to this value' 
 end
 
 
@@ -21,7 +23,7 @@ class Regulation
   attr_accessor  :frequency, :threshold ,:hysteresis, :pidcontroller
   attr_reader :is_regul_on
   
-  def initialize(type_,frequency_,sensor_,actuator_, kp_, ki_, kd_)
+  def initialize(type_,frequency_,sensor_,actuator_, kp_, ki_, kd_, dividor_)
       
     @is_regul_on  = false
     @threshold    = nil 
@@ -31,9 +33,9 @@ class Regulation
     @sensor       = sensor_
     @actuator     = actuator_
     
-    @kp = kp_ # Proportional gain
-    @ki = ki_ # Integrative gain
-    @kd = kd_ # Derivative gain
+    @kp = kp_/dividor_ # Proportional gain
+    @ki = ki_/dividor_ # Integrative gain
+    @kd = kd_/dividor_ # Derivative gain
 
     @command = 0
 
@@ -124,7 +126,6 @@ class Regulation
   end
   
   def write_actuator(value)
-    puts "write: " + value.to_s
     @actuator.write(value,{}) if @actuator.read({}) != value
   end
 
@@ -143,8 +144,19 @@ component << switch    = LibComponent::Input.new("/regul","digital.regul.switch"
 component << consign   = LibComponent::Input.new("/regul","analog.regul.consign")
 component << frequency = LibComponent::Input.new("/regul","analog.regul.frequency")
 
-regul = Regulation.new(component.options[:actuator], component.options[:frequency], sensor,actuator, component.options[:proportional], component.options[:integrative], component.options[:differential] )
-regul.pidcontroller.set_consign(0)
+regul = Regulation.new(component.options[:actuator], 
+                       component.options[:frequency], 
+                       sensor,
+                       actuator, 
+                       component.options[:proportional], 
+                       component.options[:integrative], 
+                       component.options[:differential], 
+                       component.options[:dividor] )
+
+regul.pidcontroller.set_consign(component.options[:initial_value] || 0)
+if (!component.options[:initial_value].nil?)
+  regul.set
+end
 
 switch.on_write do |value, option|
   if value==1 or value==true
