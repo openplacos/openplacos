@@ -11,10 +11,12 @@ class Tracker
       Thread.current.abort_on_exception = true
       loop do
         sleep @frequency
+        reads = Array.new
         @ifacetoread.each do |iface|
             value = Dispatcher.instance.call(iface["name"],iface["iface"], :read,{})[0]
-            iface["model"].reads.create({:value => value})
+            reads << {:value => value,:interface_id => iface["model"].id}
         end
+        Read.create(reads)
       end
     end
   end
