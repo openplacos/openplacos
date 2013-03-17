@@ -5,7 +5,7 @@ Wants=dbus.service
 [Service]                                         
 ExecStart= /bin/sh -c "dbus-launch /usr/bin/openplacos-server -a -i /var/run/openplacos/ -f /etc/openplacos.conf --db-path /usr/share/openplacos/database.db &"
 Type=forking
-PIDFile=/var/run/openplacos.pid
+PIDFile=/var/run/openplacos/openplacos.pid
 User=openplacos
 
 [Install]                                       
