@@ -13,7 +13,8 @@ component = LibComponent::Component.new(ARGV) do |c|
   c.option :differential, 'Differential gain', :default => 0.005
   c.option :integrative, 'Integrative gain'  , :default => 0.005
   c.option :dividor, 'Gain dividor. Divide all gains by this factor since cant pass float'  , :default => 1
-  c.option :initial_value, 'Set regulation active on start and set consign to this value' 
+  c.option :initial_value, 'Set regulation active on start and set consign to this value'
+  c.option :start_at_startup, 'Start regulation at startup', :default => false
 end
 
 
@@ -154,7 +155,7 @@ regul = Regulation.new(component.options[:actuator],
                        component.options[:dividor] )
 
 regul.pidcontroller.set_consign(component.options[:initial_value] || 0)
-if (!component.options[:initial_value].nil?)
+if (component.options[:start_at_startup])
   regul.set
 end
 
