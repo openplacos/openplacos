@@ -86,10 +86,15 @@ if options[:pid_dir]!="" && !options[:daemon]
   Process.exit 1
 end
 
+#Set timezone to UTC
+Time.zone = "UTC"
+
 #Database connexion
+ActiveRecord::Base.default_timezone = :utc
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => "#{SERVER_PATH}/tmp/database.db", :pool => 25)
 ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}/tmp/database.log")
 ActiveRecord::Migrator.migrate("#{SERVER_PATH}db")
+
 
 
 #DBus
@@ -153,7 +158,7 @@ end
 if (top.debug_mode_activated)
   Globals.trace("At least one component is under debug, no tracker activated", Logger::WARN)
 else
-  tracker = Tracker.new(top,10)
+  tracker = Tracker.new(top,60)
   tracker.track
 end
 

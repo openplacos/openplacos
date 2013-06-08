@@ -7,7 +7,11 @@
      opos.set_token(" ");
 
      opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : '', 'end_time' : ''}, function(data) { 
-
+      Highcharts.setOptions({                                            // This is for all plots, change Date axis to local timezone
+               global : {
+                   useUTC : false
+               }
+           });
       // Create the chart
       $('#container').highcharts('StockChart', {
         chart : {
@@ -33,8 +37,7 @@
           xAxis : {
             events : {
               afterSetExtremes : afterSetExtremes
-            },
-            minRange: 120 * 1000 // one hour
+            }
           },          
           series: [{
               name: "#{obj_name}",
