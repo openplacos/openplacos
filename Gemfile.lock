@@ -1,11 +1,11 @@
 GIT
-  remote: git://github.com/flagos/rb-pid-controller
+  remote: https://github.com/flagos/rb-pid-controller.git
   revision: b911c86a1055a63fcca051f3e4a63975d49ae57f
   specs:
     rb-pid-controller (0.0.1)
 
 GIT
-  remote: git://github.com/openplacos/openplacos-libclient
+  remote: https://github.com/openplacos/openplacos-libclient.git
   revision: e9bcbbbd61822231f09d3c9ea5da849298a1cedb
   specs:
     openplacos (0.0.9)
@@ -14,8 +14,8 @@ GIT
       ruby-dbus-openplacos (~> 0.7.0)
 
 GIT
-  remote: git://github.com/songkick/oauth2-provider
-  revision: 34e65c6b75d570632cf18236d0b68154d56fc5a0
+  remote: https://github.com/songkick/oauth2-provider.git
+  revision: d39e5735543b6ea33fff2582d4041276c62da627
   specs:
     songkick-oauth2-provider (0.10.2)
       activerecord
@@ -45,7 +45,7 @@ GEM
     daemons (1.1.9)
     diff-lcs (1.2.1)
     eventmachine (1.0.1)
-    faraday (0.8.6)
+    faraday (0.8.7)
       multipart-post (~> 1.1)
     ffi (1.4.0)
     file-find (0.3.5)
@@ -96,7 +96,7 @@ GEM
     sqlite3 (1.3.7)
     sys-admin (1.6.0)
       ffi (>= 1.1.0)
-    thin (1.3.1)
+    thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
@@ -124,4 +124,4 @@ DEPENDENCIES
   sinatra-contrib (~> 1.3.1)
   songkick-oauth2-provider!
   sqlite3
-  thin (~> 1.3.1)
+  thin (~> 1.5.1)

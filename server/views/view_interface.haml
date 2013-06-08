@@ -6,22 +6,36 @@
      var opos = new OposClient("#{base_url }","salut",['read','write']);
      opos.set_token(" ");
 
-     opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : ''}, function(data) { 
+     opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : '', 'end_time' : ''}, function(data) { 
 
       // Create the chart
-      window.chart = new Highcharts.StockChart({
-          chart: {
-              renderTo: 'container'
-          },
+      $('#container').highcharts('StockChart', {
+        chart : {
+          zoomType: 'x'
+        },
 
           rangeSelector: {
               selected: 1
           },
+          navigator : {
+            adaptToUpdatedData: false,
+            series : {
+              data : data
+            }
+          },
 
+          scrollbar: {
+            liveRedraw: false
+          },
           title: {
               text: "#{obj_name}"
           },
-          
+          xAxis : {
+            events : {
+              afterSetExtremes : afterSetExtremes
+            },
+            minRange: 120 * 1000 // one hour
+          },          
           series: [{
               name: "#{obj_name}",
               data: data,
@@ -33,3 +47,20 @@
       });
     });
   });
+  /**
+   * Load new data depending on the selected min and max
+   */
+  function afterSetExtremes(e) {
+    var opos = new OposClient("#{base_url }","salut",['read','write']);
+    opos.set_token(" ");
+    var url,
+    currentExtremes = this.getExtremes(),
+    range = e.max - e.min;
+    var chart = $('#container').highcharts();
+    chart.showLoading('Loading data from server...');
+    opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : Math.round(e.min), 'end_time' : Math.round(e.max) }, function(data) {       
+      chart.series[0].setData(data);
+      chart.hideLoading();
+    });
+    
+  }
