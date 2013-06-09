@@ -7,6 +7,7 @@
      opos.set_token(" ");
 
      opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : '', 'end_time' : ''}, function(data) { 
+      data = [].concat(data, [[Date.now(),null]]);
       Highcharts.setOptions({                                            // This is for all plots, change Date axis to local timezone
                global : {
                    useUTC : false
@@ -15,11 +16,32 @@
       // Create the chart
       $('#container').highcharts('StockChart', {
         chart : {
-          zoomType: 'x'
+          zoomType: 'xy'
         },
 
-          rangeSelector: {
-              selected: 1
+          rangeSelector : {
+            buttons: [{
+              type: 'hour',
+              count: 1,
+              text: '1h'
+            }, {
+              type: 'day',
+              count: 1,
+              text: '1d'
+            }, {
+              type: 'month',
+              count: 1,
+              text: '1m'
+            }, {
+              type: 'year',
+              count: 1,
+              text: '1y'
+            }, {
+              type: 'all',
+              text: 'All'
+            }],
+            inputEnabled: false, // it supports only days
+            selected : 4 // all
           },
           navigator : {
             adaptToUpdatedData: false,
@@ -61,7 +83,7 @@
     range = e.max - e.min;
     var chart = $('#container').highcharts();
     chart.showLoading('Loading data from server...');
-    opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : Math.round(e.min), 'end_time' : Math.round(e.max) }, function(data) {       
+    opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : (e.min), 'end_time' : (e.max) }, function(data) {       
       chart.series[0].setData(data);
       chart.hideLoading();
     });
