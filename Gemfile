@@ -15,6 +15,7 @@ group :webserver do
   gem 'sqlite3'
   gem 'sinatra', "~> 1.3.2"
   gem 'thin', "~> 1.5.1"
+  gem 'eventmachine-le'
   gem 'haml'
   gem 'sinatra-content-for'
 end

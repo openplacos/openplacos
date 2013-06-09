@@ -36,7 +36,6 @@ require "songkick/oauth2/provider"
 require 'logger'
 require 'haml'
 
-
 # List of local include
 require 'globals.rb'
 require 'User.rb'
@@ -71,7 +70,7 @@ log = Logger.new( options[:log], shift_age = 'monthly')
 
 # create the webserver
 pid_dir =  options[:pid_dir]
-server = ThinServer.new('0.0.0.0', options[:port], pid_dir)
+server = ThinServer.new('::', options[:port], pid_dir)
 
 # daemonize if requested
 # should be done before dbus
