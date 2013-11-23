@@ -157,7 +157,7 @@ end
 if (top.debug_mode_activated)
   Globals.trace("At least one component is under debug, no tracker activated", Logger::WARN)
 else
-  tracker = Tracker.new(top,60)
+  tracker = Tracker.new(top,10)
   tracker.track
 end
 

@@ -16,35 +16,43 @@
 #    along with Openplacos.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-#    LM335 temperature sensor component
+#     PT100 temperature sensor
 
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
-# Component initialisation
 component = LibComponent::Component.new(ARGV) do |c|
-  c.description  "LM335 temperature sensor"
+  c.description  "PT100 sensor"
   c.version "0.1"
-  c.default_name "lm335"
+  c.default_name "pt100"
+  c.category "Sensor"
 end
 
-
-# Inputs / Outputs declaration
 component << Raw = LibComponent::Output.new("/raw","analog","r")
 component << C_temp = LibComponent::Input.new("/temperature","analog.sensor.temperature.celcuis")
-component << F_temp = LibComponent::Input.new("/temperature","analog.sensor.temperature.farenheit")
-component << K_temp = LibComponent::Input.new("/temperature","analog.sensor.temperature.kelvin")
 
-# Read Event
+Raw.buffer = 0.5
+
+# PT100 constant
+A = 3.9083e-3
+B = -5.775e-7
+Rnom = 100.0
+
+# Amplifier constant
+Vref = 5.02
+R2 = 4.58e3
+R3 = 4.57e3
+R4 = 97.7
+R5 = 9.86e3
+R6 = 0.995e6
+
 C_temp.on_read do |*args|
-  return (Raw.read(*args)-2.73)/0.01
+  a = Raw.read(*args) # read the raw value
+  
+  u = a/(1.0 + R6/R5) + Vref*(R4/(R3+R4)) #inverte the amplification chain
+  resistance = u*R2/(Vref-u) - 0.5 # estimate the resistance of the PT100 an suppress measured wire resistance
+  temperature = (- A +  Math.sqrt( A**2 - 4*B*(1-resistance/Rnom)))/(2*B) ## http://aviatechno.net/thermo/rtd03.php
+  return temperature
 end
 
-F_temp.on_read do |*args|
-  return 9.0/5.0*C_temp.read(*args) + 32 
-end
-
-K_temp.on_read do |*args|
-  return C_temp.read(*args) + 273
-end
 
 component.run

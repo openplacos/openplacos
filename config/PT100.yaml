@@ -1,0 +1,35 @@
+export:
+- /cuve/temperature
+- /cuve/chauffage
+component:
+
+- name: arduino
+  exec: arduino.rb
+  method: thread
+  config:
+    port: /dev/ttyACM0
+    voltage: 5.02
+    board: UNO
+    
+- name: pt100
+  exec: pt100.rb
+  method: thread
+
+- name: pwmdimmer
+  exec: pwm_dimmer.rb
+  method: thread
+  
+- name: regulation
+  exec: pidchauffage.rb
+  method: thread
+  config:
+    actuator: pwminv
+  
+mapping:
+- /cuve/temperature: /pt100/temperature
+- /cuve/temperature: /regulation/regul
+- /cuve/chauffage: /pwmdimmer/dimmer
+- /pt100/raw: /arduino/Analog0
+- /pwmdimmer/raw: /arduino/Digital6
+- /regulation/sensor: /pt100/temperature#analog.sensor.temperature.celcuis
+- /regulation/actuator: /pwmdimmer/dimmer

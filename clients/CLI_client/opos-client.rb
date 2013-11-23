@@ -54,7 +54,7 @@ if options[:type]=="password"
 end
 
 begin
-  Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type], 0,{:username => username, :password=>password} ) # Beurk -- Constant acting as a global variable
+  Opos = Openplacos::Client.new(host, "truc", ["read", "user"], options[:type], 0,{:username => username, :password=>password.crypt('opos')} ) # Beurk -- Constant acting as a global variable
 rescue
   puts "Authentification failure"
   Process.exit 255

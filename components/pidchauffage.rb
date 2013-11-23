@@ -1,19 +1,121 @@
 #!/usr/bin/env ruby 
 # -*- coding: utf-8 -*-
-require "rb-pid-controller"
 require File.dirname(__FILE__) << "/LibComponent.rb"
 
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "This component is a PID regulator"
   c.version "0.1"
-  c.default_name "pid-dutycycle-regulation"
-  c.option :actuator , 'Kind of actuator (bool / boolinv (ie active low) / pwm / pwminv)', :default => "pwm"
-  c.option :frequency, 'Default frequency: bool period must be very low (> 10 min), pwm frequency can be high (< 1 sec)', :default => 1
-  c.option :proportional, 'Proportional gain', :default => 6.0
-  c.option :differential, 'Differential gain', :default => 220.0
-  c.option :integrative, 'Integrative gain'  , :default => 0.0
+  c.default_name "pidchauffage"
+  c.option :actuator , 'Kind of actuator (bool / boolinv (ie active low) / pwm / pwminv)', :default => "pwminv"
+  c.option :frequency, 'Default frequency: bool period must be very low (> 10 min), pwm frequency can be high (< 1 sec)', :default => 10
+  c.option :proportional, 'Proportional gain', :default => 0.3
+  c.option :differential, 'Differential gain', :default => 10.0
+  c.option :integrative, 'Integrative gain'  , :default => 0.00001
 end
 
+module PIDController
+
+  class PID
+
+    attr_accessor :kp, :ki, :kd, :consign
+    
+    def initialize(kp = 1 ,ki = 1,kd = 1, history_depth_=-1)
+      # save pid coefficient
+      @kp            = kp.to_f
+      @ki            = ki.to_f
+      @kd            = kd.to_f
+      @history_depth = history_depth_
+      @consign       = nil
+      @history       = Array.new
+
+      self.reset 
+      
+    end
+    
+    #Public methods
+    public
+    
+    def set_consign(consign)
+      @consign = consign.to_f
+    end
+    
+    def <<(value)
+      e,dt = error(value)
+
+      out = proportional(e) + integrative(e,dt) + derivative(e,dt)
+      @previous_error = e
+      
+      return out
+    end
+    
+    def reset
+      @previous_error = 0.0
+      @integrative = 0.0
+      @last_time = nil
+    end
+    
+    #Private methods
+    private 
+    
+    def error(value)
+      out = @consign -value
+      
+      t = Time.now.to_i
+      if @last_time.nil?
+        dt = 1.0
+      else
+        dt = (t - @last_time).to_f
+      end
+      @last_time = t
+      return out,dt
+    end
+    
+    # compute the proportional term
+    def proportional(error)
+      return @kp*error
+    end
+    
+    # compute the derivative term
+    def derivative(error,dt)
+      return @kd*(error - @previous_error)/dt
+    end
+    
+    # compute the integrative term
+    def integrative(error,dt)
+      # classic mode
+      @integrative = @integrative + error*dt
+
+      # window mode
+      if(@history_depth != -1)
+        @history << error*dt                     # push last sample
+        @history = @history.last(@history_depth) # keep the last one
+        @integrative =  0
+        @history.each { |e|
+          @integrative +=e
+        }
+        @integrative /= @history_depth          # normalize
+      end
+
+      return @ki*@integrative
+    end
+    
+
+
+  end
+
+  class PD < PID
+    def initialize(kp,kd)
+      super(kp,0,kd)
+    end
+  end
+
+  class PI < PID
+    def initialize(kp,ki)
+      super(kp,ki,0)
+    end
+  end
+
+end
 
 
 class Regulation
@@ -70,52 +172,18 @@ class Regulation
   
   def pid
     @command  =  @pidcontroller << read_sensor
+  end
+
+  def pwminv
+    pid
+    puts @command
     if @command > 1
       @command = 1
     end
     if @command < 0
       @command = 0
     end
-
-  end
-
-  # Boolean regulation :
-  # Will work like PWM pid at very low frequency level
-  def bool
-    pid
-    Thread.new{ # PWM emulator on bool actuator
-      if (@command !=0)
-        write_actuator(true)
-        sleep([@command*@frequency, 1].max)
-      end
-      if (@command !=1)
-        write_actuator(false)
-      end
-    }
-  end
-  
-  def boolinv
-    pid
-    Thread.new{
-      if (@command !=0)
-        write_actuator(false)
-        sleep([@command*@frequency, 1].max)
-      end
-      if (@command !=1)
-        write_actuator(true)
-      end
-    }
-  end  
-  
-
-  def pwm
-    pid
     write_actuator(@command)    
-  end
-  
-  def pwminv
-    pid
-    write_actuator(1.0-@command)    
   end
 
   private
@@ -135,12 +203,8 @@ class Regulation
 
 end
 
-case component.options[:actuator] 
-  when "bool", "boolinv"
-    component << actuator = LibComponent::Output.new("/actuator","digital.order.switch","rw")
-  when "pwm", "pwminv"
-    component << actuator = LibComponent::Output.new("/actuator","analog.order.dimmer","rw")
-end
+component << actuator = LibComponent::Output.new("/actuator","analog.order.dimmer","rw")
+
 
 component << sensor    = LibComponent::Output.new("/sensor","analog","r")
 
