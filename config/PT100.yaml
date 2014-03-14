@@ -1,6 +1,8 @@
 export:
 - /cuve/temperature
 - /cuve/chauffage
+- /cuve/mash
+
 component:
 
 - name: arduino
@@ -24,6 +26,13 @@ component:
   method: thread
   config:
     actuator: pwminv
+
+- name: mashcontroller
+  exec: mash_controller.rb
+  method: thread
+  config:
+    recipe: http://www.brewtoad.com/recipes/bitter-93
+    frequency: 30
   
 mapping:
 - /cuve/temperature: /pt100/temperature
@@ -33,3 +42,6 @@ mapping:
 - /pwmdimmer/raw: /arduino/Digital6
 - /regulation/sensor: /pt100/temperature#analog.sensor.temperature.celcuis
 - /regulation/actuator: /pwmdimmer/dimmer
+- /mashcontroller/regul: /regulation/regul
+- /mashcontroller/temperature:  /pt100/temperature
+- /cuve/mash :  /mashcontroller/mash
