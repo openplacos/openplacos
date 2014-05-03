@@ -6,22 +6,61 @@
      var opos = new OposClient("#{base_url }","salut",['read','write']);
      opos.set_token(" ");
 
-     opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : ''}, function(data) { 
-
+     opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : '', 'end_time' : ''}, function(data) { 
+      data = [].concat(data, [[Date.now(),null]]);
+      Highcharts.setOptions({                                            // This is for all plots, change Date axis to local timezone
+               global : {
+                   useUTC : false
+               }
+           });
       // Create the chart
-      window.chart = new Highcharts.StockChart({
-          chart: {
-              renderTo: 'container'
+      $('#container').highcharts('StockChart', {
+        chart : {
+          zoomType: 'xy'
+        },
+
+          rangeSelector : {
+            buttons: [{
+              type: 'hour',
+              count: 1,
+              text: '1h'
+            }, {
+              type: 'day',
+              count: 1,
+              text: '1d'
+            }, {
+              type: 'month',
+              count: 1,
+              text: '1m'
+            }, {
+              type: 'year',
+              count: 1,
+              text: '1y'
+            }, {
+              type: 'all',
+              text: 'All'
+            }],
+            inputEnabled: false, // it supports only days
+            selected : 4 // all
+          },
+          navigator : {
+            adaptToUpdatedData: false,
+            series : {
+              data : data
+            }
           },
 
-          rangeSelector: {
-              selected: 1
+          scrollbar: {
+            liveRedraw: false
           },
-
           title: {
               text: "#{obj_name}"
           },
-          
+          xAxis : {
+            events : {
+              afterSetExtremes : afterSetExtremes
+            }
+          },          
           series: [{
               name: "#{obj_name}",
               data: data,
@@ -32,4 +71,106 @@
           }]
       });
     });
+  });
+  /**
+   * Load new data depending on the selected min and max
+   */
+  function afterSetExtremes(e) {
+    var opos = new OposClient("#{base_url }","salut",['read','write']);
+    opos.set_token(" ");
+    var url,
+    currentExtremes = this.getExtremes(),
+    range = e.max - e.min;
+    var chart = $('#container').highcharts();
+    chart.showLoading('Loading data from server...');
+    opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}', 'start_time' : (e.min), 'end_time' : (e.max) }, function(data) {       
+      chart.series[0].setData(data);
+      chart.hideLoading();
+    });
+    
+  }
+#container2{:style => "height: 500px"}
+:javascript
+  $(function () {
+      var opos = new OposClient("#{base_url }","salut",['read','write']);
+      opos.set_token(" ");
+
+      $(document).ready(function() {
+          Highcharts.setOptions({
+              global: {
+                  useUTC: false
+              }
+          });
+      
+          var chart;
+          $('#container2').highcharts({
+              chart: {
+                  type: 'spline',
+                  animation: Highcharts.svg, // don't animate in old IE
+                  marginRight: 10,
+                  events: {
+                      load: function() {
+      
+                          // set up the updating of the chart each second
+                          var series = this.series[0];
+                          setInterval(function() {
+                              opos.get( '/ressources#{obj_name}' ,{'iface' :'#{interface}'}, function(data) {  
+                                  var x = (new Date()).getTime(), // current time
+                                  y = data['value'];
+                                  series.addPoint([x, y], true, true);
+                                });
+                          }, 1000);
+                      }
+                  }
+              },
+              title: {
+                  text: 'Live data'
+              },
+              xAxis: {
+                  type: 'datetime',
+                  tickPixelInterval: 150
+              },
+              yAxis: {
+                  title: {
+                      text: 'Value'
+                  },
+                  plotLines: [{
+                      value: 0,
+                      width: 1,
+                      color: '#808080'
+                  }]
+              },
+              tooltip: {
+                  formatter: function() {
+                          return '<b>'+ this.series.name +'</b><br/>'+
+                          Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br/>'+
+                          Highcharts.numberFormat(this.y, 2);
+                  }
+              },
+              legend: {
+                  enabled: false
+              },
+              exporting: {
+                  enabled: false
+              },
+              series: [{
+                  name: 'Random data',
+                  data: (function() {
+                      // generate an array of random data
+                      var data = [],
+                          time = (new Date()).getTime(),
+                          i;
+      
+                      for (i = -59; i <= 0; i++) {
+                          data.push({
+                              x: time + i * 1000,
+                              y: null
+                          });
+                      }
+                      return data;
+                  })()
+              }]
+          });
+      });
+      
   });

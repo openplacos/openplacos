@@ -11,10 +11,10 @@
 
  Requires: rgbcolor.js - http://www.phpied.com/rgb-color-parser-in-javascript/
 
- Highstock JS v1.1.6 (2012-06-08)
+ Highstock JS v1.3.2 (2013-06-05)
  CanVGRenderer Extension module
 
- (c) 2011-2012 Torstein H?nsi, Erik Olsson
+ (c) 2011-2012 Torstein Hønsi, Erik Olsson
 
  License: www.highcharts.com/license
 */

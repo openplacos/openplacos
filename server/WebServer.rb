@@ -34,7 +34,20 @@ module WebServerHelpers
   end
   
   def read_history(path_,iface_,start_,end_)
-    Resource.find_by_name(path_).interfaces.find_by_name(iface_).reads.collect do |r|
+    ifaceModel = Resource.find_by_name(path_).interfaces.find_by_name(iface_)
+    if (end_.empty? or start_.empty?)
+      end_ = Time.now.to_i*1000
+      start_ = Read.find(:first, :conditions =>{:interface_id => ifaceModel.id}).created_at.to_i*1000
+    end
+    range = (end_.to_i - start_.to_i)/1000
+    if range < 1.day
+      reads = Read.where(:created_at => Time.at(start_.to_i/1000)..Time.at(end_.to_i/1000),:interface_id => ifaceModel.id)
+    elsif range < 7.day
+      reads = Readhour.where(:created_at => Time.at(start_.to_i/1000)..Time.at(end_.to_i/1000),:interface_id => ifaceModel.id)
+    else
+      reads = Readday.where(:created_at => Time.at(start_.to_i/1000)..Time.at(end_.to_i/1000),:interface_id => ifaceModel.id)
+    end    
+    reads.collect do |r|
       [r.created_at.to_i*1000, r.value]
     end
   end

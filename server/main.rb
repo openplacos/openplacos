@@ -36,7 +36,6 @@ require "songkick/oauth2/provider"
 require 'logger'
 require 'haml'
 
-
 # List of local include
 require 'globals.rb'
 require 'User.rb'
@@ -72,7 +71,7 @@ log = Logger.new( options[:log], shift_age = 'monthly')
 
 # create the webserver
 pid_dir =  options[:pid_dir]
-server = ThinServer.new('0.0.0.0', options[:port], pid_dir)
+server = ThinServer.new('::', options[:port], pid_dir)
 
 # daemonize if requested
 # should be done before dbus
@@ -87,10 +86,15 @@ if options[:pid_dir]!="" && !options[:daemon]
   Process.exit 1
 end
 
+#Set timezone to UTC
+Time.zone = "UTC"
+
 #Database connexion
+ActiveRecord::Base.default_timezone = :utc
 ActiveRecord::Base.establish_connection(:adapter => 'sqlite3', :database => options[:db_path], :pool => 25)
 ActiveRecord::Base.logger = Logger.new("#{SERVER_PATH}/tmp/database.log")
 ActiveRecord::Migrator.migrate("#{SERVER_PATH}db")
+
 
 
 #DBus
@@ -154,7 +158,7 @@ end
 if (top.debug_mode_activated)
   Globals.trace("At least one component is under debug, no tracker activated", Logger::WARN)
 else
-  tracker = Tracker.new(top,10)
+  tracker = Tracker.new(top,60)
   tracker.track
 end
 
