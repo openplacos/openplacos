@@ -9,7 +9,7 @@ require 'timeout'
 component = LibComponent::Component.new(ARGV) do |c|
   c.description  "Arduino driver"
   c.default_name "arduino"
-  c.option :Board , 'Kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"
+  c.option :board , 'Kind of board: UNO, MEGA, NANO (default UNO)' , :default => "UNO"
   c.option :baup , 'Bauprate' , :default => 115200 
   c.option :port , 'Serial port', :default => "/dev/arduino"
   c.option :voltage, 'Real regulated voltage', :default => 5.0
@@ -182,7 +182,7 @@ end
 
 SERIAL_PORT = component.options[:port]
 BAUPRATE    = component.options[:baup]
-BOARD       = component.options[:Board]
+BOARD       = component.options[:board]
 VOLTAGE     = component.options[:voltage]
 # create a various number of pin according to the board
 case BOARD
