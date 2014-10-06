@@ -31,7 +31,7 @@ component:
   exec: mash_controller.rb
   method: thread
   config:
-    recipe: http://www.brewtoad.com/recipes/bitter-93
+    recipe: https://www.brewtoad.com/recipes/new-world-apa
     frequency: 30
   
 mapping:
