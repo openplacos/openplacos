@@ -1,0 +1,45 @@
+export:
+- /hotliquortank
+- /mashtun
+- /boilkettle
+- /rims
+- /hotliquortank/FillValve
+- /mashtun/FillValve
+- /hotliquortank/heater
+- /boilkettle/heater
+- /rims/heater
+
+component:
+
+- name: virtualpico
+  exec: virtualpico.rb
+  method: thread
+  
+- name: hltdimmer
+  exec: pwm_dimmer.rb
+  method: thread
+  
+- name: bkdimmer
+  exec: pwm_dimmer.rb
+  method: thread
+  
+- name: rimsdimmer
+  exec: pwm_dimmer.rb
+  method: thread
+
+mapping:
+- /hotliquortank: /virtualpico/HotLiquorTank/temperature
+- /hotliquortank: /virtualpico/HotLiquorTank/volume
+- /hotliquortank/FillValve: /virtualpico/ChauffeEau_To_HotLiquorTank
+- /mashtun/FillValve: /virtualpico/HotLiquorTank_To_MashTun
+- /mashtun: /virtualpico/MashTun/temperature
+- /mashtun: /virtualpico/MashTun/volume
+- /boilkettle: /virtualpico/BoilKettle/temperature
+- /boilkettle: /virtualpico/BoilKettle/volume
+- /hotliquortank/heater: /hltdimmer/dimmer
+- /hltdimmer/raw: /virtualpico/HotLiquorTank/Heater
+- /boilkettle/heater: /bkdimmer/dimmer
+- /bkdimmer/raw: /virtualpico/BoilKettle/Heater
+- /rims : /virtualpico/Rims/temperature
+- /rims/heater: /rimsdimmer/dimmer
+- /rimsdimmer/raw: /virtualpico/Rims/Heater
