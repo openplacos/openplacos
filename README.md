@@ -49,6 +49,11 @@ OpenplacOS installation is distribution dependant. Here is a list of distros and
 * gentoo: ???
 * arch: ???
 
+Once it is done, for the first time, please copy the default configuration file:
+```
+$ cp /usr/lib/ruby/openplacos/config/default.yaml /etc/default/openplacos
+```
+
 ## Data organization ##
 
 Let's start with some definitions:
