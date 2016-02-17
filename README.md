@@ -45,9 +45,9 @@ With the high hardware abstraction layer provided by the openplacos-core server,
 
 OpenplacOS installation is distribution dependant. Here is a list of distros and corresponding documentation for installing it. 
 
-* ubuntu: ???
+* ubuntu:  ppa:openplacos/ppa package: openplacos
 * gentoo: ???
-* arch: ???
+* arch: https://github.com/openplacos/archlinux-openplacos
 
 Once it is done, for the first time, please copy the default configuration file:
 ```
