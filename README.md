@@ -64,7 +64,8 @@ OpenplacOS organizes ressources using *object* and *interface*.
 
 ## Config file ##
 
-OpenplacOS config file is quite easy to set up. This file is basically in yaml and is composed in 3 parts:
+OpenplacOS config file, located in */etc/default/openplacos* on ubuntu (the path is distro-dependant), is quite easy to set up. This file is basically in yaml and is composed in 3 parts:
+
 
 ### Component declaration ###
 In this first part, you will describe all components you want to use by setting attributes like this: 
